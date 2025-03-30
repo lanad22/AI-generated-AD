@@ -27,6 +27,11 @@ class QueryModel(BaseModel):
     current_time: str
     video_id: str
 
+class NarrationBotRequest(BaseModel):
+    youtube_id: str
+    user_id: str
+    ai_user_id: str
+
 async def run_query_script(command):
     """
     Run the video query script as a subprocess
@@ -120,6 +125,20 @@ async def receive_data(data: QueryModel):
         logger.error(f"Error running script: {str(e)}")
         return {"status": "error", "message": f"Error: {str(e)}"}
 
+@app.post("/api/narration-bot")
+async def narration_bot(data: NarrationBotRequest):
+    logger.info(f"Received narration bot request: {data}")
+    try:
+        response_message = f"Narration bot processing for YouTube ID: {data.youtube_id}, User ID: {data.user_id}, AI User ID: {data.ai_user_id}"
+        logger.info(response_message)
+        
+        return {
+            "status": "success",
+            "message": response_message
+        }
+    except Exception as e:
+        logger.error(f"Error in narration bot endpoint: {str(e)}")
+        return {"status": "error", "message": f"Error: {str(e)}"}
 if __name__ == "__main__":
 
     logger.info("Starting Info Bot API server")
