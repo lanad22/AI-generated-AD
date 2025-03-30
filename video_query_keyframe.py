@@ -2,15 +2,10 @@ import os
 import argparse
 import json
 import cv2
-import numpy as np
 import base64
 import shutil
 from openai import OpenAI
 from dotenv import load_dotenv
-import subprocess
-import glob
-import torch
-from PIL import Image
 
 load_dotenv()
 
