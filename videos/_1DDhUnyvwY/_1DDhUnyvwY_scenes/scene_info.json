@@ -1,0 +1,406 @@
+[
+    {
+        "scene_number": 1,
+        "start_frame": 0,
+        "end_frame": 323,
+        "start_time": 0.0,
+        "end_time": 12.92,
+        "duration": 12.92,
+        "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_001.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 2.0,
+                "type": "visual",
+                "text": "A rotating globe is shown, highlighting the continent of Africa."
+            },
+            {
+                "start_time": 5.0,
+                "type": "visual",
+                "text": "The camera zooms in on a specific region of Africa, focusing on a detailed landscape."
+            },
+            {
+                "start_time": 8.0,
+                "type": "visual",
+                "text": "The view transitions to a close-up of a lush, green mountainous area near a coastline."
+            }
+        ]
+    },
+    {
+        "scene_number": 2,
+        "start_frame": 324,
+        "end_frame": 698,
+        "start_time": 12.96,
+        "end_time": 27.92,
+        "duration": 14.96,
+        "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_002.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "visual",
+                "text": "Sunlight filters through dense green foliage, creating a dappled light effect on the forest floor."
+            },
+            {
+                "start_time": 3.5,
+                "type": "text",
+                "text": "GOMBE NATIONAL PARK TANZANIA"
+            },
+            {
+                "start_time": 8.2,
+                "type": "visual",
+                "text": "A close-up shot of moss-covered rocks with small plants growing out of them is shown."
+            },
+            {
+                "start_time": 10.7,
+                "type": "text",
+                "text": "With words and narration by Jane Goodall"
+            }
+        ]
+    },
+    {
+        "scene_number": 3,
+        "start_frame": 699,
+        "end_frame": 989,
+        "start_time": 27.96,
+        "end_time": 39.56,
+        "duration": 11.600000000000001,
+        "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_003.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "visual",
+                "text": "A large tree stands prominently in the forest, surrounded by dense green foliage."
+            },
+            {
+                "start_time": 3.5,
+                "type": "visual",
+                "text": "A stream flows gently through the forest floor, with sunlight reflecting off the water."
+            },
+            {
+                "start_time": 6.8,
+                "type": "visual",
+                "text": "A butterfly rests on the ground among fallen leaves, its wings spread wide."
+            },
+            {
+                "start_time": 9.2,
+                "type": "visual",
+                "text": "A spider web is illuminated by sunlight, hanging delicately between branches."
+            }
+        ]
+    },
+    {
+        "scene_number": 4,
+        "start_frame": 990,
+        "end_frame": 1248,
+        "start_time": 39.6,
+        "end_time": 49.92,
+        "duration": 10.32,
+        "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_004.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "visual",
+                "text": "A large tree with sprawling branches and dense green leaves fills the frame, viewed from below."
+            },
+            {
+                "start_time": 5.0,
+                "type": "visual",
+                "text": "The camera shifts slightly to reveal more of the tree's canopy, with sunlight filtering through the leaves."
+            }
+        ]
+    },
+    {
+        "scene_number": 5,
+        "start_frame": 1249,
+        "end_frame": 1623,
+        "start_time": 49.96,
+        "end_time": 64.92,
+        "duration": 14.96,
+        "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_005.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "visual",
+                "text": "A vast forested hillside under a partly cloudy sky."
+            },
+            {
+                "start_time": 5.0,
+                "type": "visual",
+                "text": "Leaves and branches of a tree with small flying insects around."
+            },
+            {
+                "start_time": 9.0,
+                "type": "visual",
+                "text": "A chimpanzee appears in the foliage, moving through the leaves."
+            }
+        ]
+    },
+    {
+        "scene_number": 6,
+        "start_frame": 1624,
+        "end_frame": 1976,
+        "start_time": 64.96,
+        "end_time": 79.04,
+        "duration": 14.080000000000013,
+        "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_006.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "visual",
+                "text": "A chimpanzee is perched atop a tree, surrounded by lush green leaves and small flying insects."
+            },
+            {
+                "start_time": 2.5,
+                "type": "visual",
+                "text": "The chimpanzee raises its arms wide open, appearing to interact with the environment around it."
+            },
+            {
+                "start_time": 7.0,
+                "type": "visual",
+                "text": "The camera shifts to a close-up of the chimpanzee's face as it looks directly towards the viewer, mouth slightly open."
+            }
+        ]
+    },
+    {
+        "scene_number": 7,
+        "start_frame": 1977,
+        "end_frame": 2283,
+        "start_time": 79.08,
+        "end_time": 91.32,
+        "duration": 12.239999999999995,
+        "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_007.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "visual",
+                "text": "A chimpanzee mother sits on the forest floor with her baby lying beside her, both looking around."
+            },
+            {
+                "start_time": 6.12,
+                "type": "visual",
+                "text": "The mother chimpanzee opens her mouth as if vocalizing or yawning."
+            },
+            {
+                "start_time": 8.52,
+                "type": "visual",
+                "text": "Another chimpanzee is seen climbing a tree in the dense forest."
+            }
+        ]
+    },
+    {
+        "scene_number": 8,
+        "start_frame": 2284,
+        "end_frame": 2544,
+        "start_time": 91.36,
+        "end_time": 101.76,
+        "duration": 10.400000000000006,
+        "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_008.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "visual",
+                "text": "A baboon walks through a forest, looking around cautiously."
+            },
+            {
+                "start_time": 5.2,
+                "type": "visual",
+                "text": "The camera shifts to show the towering branches of a large tree against the sky."
+            },
+            {
+                "start_time": 8.6,
+                "type": "visual",
+                "text": "A close-up of a yellow insect resting on a leaf is shown."
+            }
+        ]
+    },
+    {
+        "scene_number": 9,
+        "start_frame": 2545,
+        "end_frame": 2840,
+        "start_time": 101.8,
+        "end_time": 113.6,
+        "duration": 11.799999999999997,
+        "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_009.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "visual",
+                "text": "A green snake slithers along a moss-covered tree branch."
+            },
+            {
+                "start_time": 4.5,
+                "type": "visual",
+                "text": "Water cascades down a rocky waterfall surrounded by lush greenery."
+            },
+            {
+                "start_time": 7.8,
+                "type": "visual",
+                "text": "A bright green caterpillar hangs from a thin strand of silk against a soft yellow background."
+            },
+            {
+                "start_time": 9.2,
+                "type": "visual",
+                "text": "Two butterflies with black and white wings flutter among vibrant green leaves."
+            }
+        ]
+    },
+    {
+        "scene_number": 10,
+        "start_frame": 2841,
+        "end_frame": 3090,
+        "start_time": 113.64,
+        "end_time": 123.6,
+        "duration": 9.959999999999994,
+        "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_010.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "visual",
+                "text": "A vast landscape with rolling hills covered in lush greenery and a body of water reflecting sunlight."
+            },
+            {
+                "start_time": 2.5,
+                "type": "visual",
+                "text": "Two birds soar gracefully across the sky above the hills."
+            },
+            {
+                "start_time": 4.8,
+                "type": "visual",
+                "text": "The camera shifts to show dense foliage with trees having thick, twisting branches."
+            },
+            {
+                "start_time": 7.3,
+                "type": "visual",
+                "text": "A chimpanzee appears among the leaves, gripping a tree branch with its hand."
+            }
+        ]
+    },
+    {
+        "scene_number": 11,
+        "start_frame": 3091,
+        "end_frame": 3379,
+        "start_time": 123.64,
+        "end_time": 135.16,
+        "duration": 11.519999999999996,
+        "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_011.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "visual",
+                "text": "A close-up of two baboons, one gently touching the other's face."
+            },
+            {
+                "start_time": 3.5,
+                "type": "visual",
+                "text": "A white insect with fluffy appendages crawls on a green leaf."
+            },
+            {
+                "start_time": 6.2,
+                "type": "visual",
+                "text": "A bird soars gracefully through the air above dense palm trees."
+            },
+            {
+                "start_time": 9.8,
+                "type": "visual",
+                "text": "The ocean stretches out under a cloudy sky, appearing calm yet vast."
+            }
+        ]
+    },
+    {
+        "scene_number": 12,
+        "start_frame": 3380,
+        "end_frame": 3656,
+        "start_time": 135.2,
+        "end_time": 146.24,
+        "duration": 11.04000000000002,
+        "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_012.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "visual",
+                "text": "Aerial view of a coastline with lush green hills and mountains extending into the distance."
+            },
+            {
+                "start_time": 4.5,
+                "type": "visual",
+                "text": "The camera transitions to a dense forest, showcasing tall trees with thick foliage."
+            },
+            {
+                "start_time": 8.2,
+                "type": "visual",
+                "text": "Sunlight filters through the tree canopy, creating a bright and vibrant scene."
+            }
+        ]
+    },
+    {
+        "scene_number": 13,
+        "start_frame": 3657,
+        "end_frame": 4064,
+        "start_time": 146.28,
+        "end_time": 162.6,
+        "duration": 16.319999999999993,
+        "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_013.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "text",
+                "text": "Hello Gombe."
+            },
+            {
+                "start_time": 4.0,
+                "type": "text",
+                "text": "Hello world."
+            },
+            {
+                "start_time": 8.0,
+                "type": "text",
+                "text": "Google Maps"
+            },
+            {
+                "start_time": 10.0,
+                "type": "text",
+                "text": "Explore Gombe at g.co/treks"
+            },
+            {
+                "start_time": 12.0,
+                "type": "text",
+                "text": "Created in partnership with the Jane Goodall Institute\nLearn more at JaneGoodall.org"
+            },
+            {
+                "start_time": 14.0,
+                "type": "text",
+                "text": "Audio read by Jane Goodall\nfrom Reason for Hope: A Spiritual Journey\nby Jane Goodall with Phillip Berman"
+            },
+            {
+                "start_time": 16.0,
+                "type": "text",
+                "text": "Copyright \u00a9 1999 by Soko Publications Ltd. and Phillip Berman. Used by permission of Hachette Audio. All rights reserved worldwide."
+            }
+        ]
+    }
+]

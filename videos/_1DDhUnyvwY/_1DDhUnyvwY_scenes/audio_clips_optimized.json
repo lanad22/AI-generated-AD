@@ -1,0 +1,178 @@
+[
+  {
+    "scene_number": 1,
+    "start_time": 0.0,
+    "duration": 10.776,
+    "end_time": 10.776,
+    "type": "visual",
+    "text": "\"A rotating globe highlights Africa, then zooms into a detailed landscape, transitioning to a lush, green mountainous area near a coastline.\""
+  },
+  {
+    "scene_number": 2,
+    "start_time": 12.96,
+    "duration": 4.992,
+    "end_time": 17.952,
+    "type": "visual",
+    "text": "\"Sunlight filters through leaves, casting shadows on the forest floor.\""
+  },
+  {
+    "scene_number": 2,
+    "start_time": 16.46,
+    "duration": 2.448,
+    "end_time": 18.908,
+    "type": "text",
+    "text": "GOMBE NATIONAL PARK TANZANIA"
+  },
+  {
+    "scene_number": 2,
+    "start_time": 18.908,
+    "duration": 4.752,
+    "end_time": 23.66,
+    "type": "visual",
+    "text": "\"Close-up of moss-covered rocks with plants sprouting from crevices.\""
+  },
+  {
+    "scene_number": 2,
+    "start_time": 23.66,
+    "duration": 2.952,
+    "end_time": 26.612000000000002,
+    "type": "text",
+    "text": "With words and narration by Jane Goodall"
+  },
+  {
+    "scene_number": 3,
+    "start_time": 27.96,
+    "duration": 11.784,
+    "end_time": 39.744,
+    "type": "visual",
+    "text": "\"A large tree stands in the forest, surrounded by dense foliage. A stream flows nearby, reflecting sunlight, while a butterfly rests on fallen leaves.\""
+  },
+  {
+    "scene_number": 4,
+    "start_time": 39.6,
+    "duration": 9.624,
+    "end_time": 49.224000000000004,
+    "type": "visual",
+    "text": "\"A large tree with sprawling branches and dense green leaves fills the frame, viewed from below, with sunlight filtering through the canopy.\""
+  },
+  {
+    "scene_number": 5,
+    "start_time": 49.96,
+    "duration": 12.984,
+    "end_time": 62.944,
+    "type": "visual",
+    "text": "\"A vast forested hillside under a partly cloudy sky transitions to leaves and branches of a tree with small flying insects, followed by a chimpanzee moving through the foliage.\""
+  },
+  {
+    "scene_number": 6,
+    "start_time": 64.96,
+    "duration": 14.328,
+    "end_time": 79.288,
+    "type": "visual",
+    "text": "\"A chimpanzee atop a tree, surrounded by green leaves, raises its arms wide. The camera shifts to a close-up of the chimpanzee's face, looking directly at the viewer with its mouth slightly open.\""
+  },
+  {
+    "scene_number": 7,
+    "start_time": 79.08,
+    "duration": 12.552,
+    "end_time": 91.632,
+    "type": "visual",
+    "text": "\"A chimpanzee mother sits on the forest floor with her baby beside her; she opens her mouth, perhaps vocalizing or yawning, as another chimpanzee climbs a nearby tree.\""
+  },
+  {
+    "scene_number": 8,
+    "start_time": 91.36,
+    "duration": 10.584,
+    "end_time": 101.944,
+    "type": "visual",
+    "text": "\"A baboon navigates a dense forest, eyes darting. The camera pans up to towering tree branches, then shows a yellow insect on a leaf.\""
+  },
+  {
+    "scene_number": 9,
+    "start_time": 101.8,
+    "duration": 9.96,
+    "end_time": 111.75999999999999,
+    "type": "visual",
+    "text": "\"A green snake slithers across a mossy tree branch, while water cascades down a nearby rocky waterfall surrounded by lush greenery.\""
+  },
+  {
+    "scene_number": 10,
+    "start_time": 113.64,
+    "duration": 9.936,
+    "end_time": 123.576,
+    "type": "visual",
+    "text": "\"Rolling hills, lush greenery, water reflecting sunlight, birds soaring, dense foliage, chimpanzee gripping branch.\""
+  },
+  {
+    "scene_number": 11,
+    "start_time": 123.64,
+    "duration": 11.16,
+    "end_time": 134.8,
+    "type": "visual",
+    "text": "\"Close-up of two baboons touching faces, a fluffy insect on a green leaf, a bird soaring over palm trees, and the calm ocean under clouds.\""
+  },
+  {
+    "scene_number": 12,
+    "start_time": 135.2,
+    "duration": 10.536,
+    "end_time": 145.736,
+    "type": "visual",
+    "text": "\"Aerial view of a coastline with lush green hills and mountains, transitioning to a dense forest with tall trees and sunlight filtering through the canopy.\""
+  },
+  {
+    "scene_number": 13,
+    "start_time": 146.28,
+    "duration": 1.464,
+    "end_time": 147.744,
+    "type": "text",
+    "text": "Hello Gombe."
+  },
+  {
+    "scene_number": 13,
+    "start_time": 150.28,
+    "duration": 1.296,
+    "end_time": 151.576,
+    "type": "text",
+    "text": "Hello world."
+  },
+  {
+    "scene_number": 13,
+    "start_time": 154.28,
+    "duration": 1.32,
+    "end_time": 155.6,
+    "type": "text",
+    "text": "Google Maps"
+  },
+  {
+    "scene_number": 13,
+    "start_time": 156.28,
+    "duration": 4.056,
+    "end_time": 160.336,
+    "type": "text",
+    "text": "Explore Gombe at g.co/treks"
+  },
+  {
+    "scene_number": 13,
+    "start_time": 158.28,
+    "duration": 6.216,
+    "end_time": 164.496,
+    "type": "text",
+    "text": "Created in partnership with the Jane Goodall Institute\nLearn more at JaneGoodall.org"
+  },
+  {
+    "scene_number": 13,
+    "start_time": 160.28,
+    "duration": 8.16,
+    "end_time": 168.44,
+    "type": "text",
+    "text": "Audio read by Jane Goodall\nfrom Reason for Hope: A Spiritual Journey\nby Jane Goodall with Phillip Berman"
+  },
+  {
+    "scene_number": 13,
+    "start_time": 162.28,
+    "duration": 11.76,
+    "end_time": 174.04,
+    "type": "text",
+    "text": "Copyright \u00a9 1999 by Soko Publications Ltd. and Phillip Berman. Used by permission of Hachette Audio. All rights reserved worldwide."
+  }
+]
