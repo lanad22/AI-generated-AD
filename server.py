@@ -8,6 +8,7 @@ import os
 import asyncio
 import logging
 import uvicorn
+import sys
 
 # Set up logging
 logging.basicConfig(
@@ -104,25 +105,6 @@ async def receive_data(data: QueryModel):
         logger.error(f"Error running script: {str(e)}")
         return {"status": "error", "message": f"Error: {str(e)}"}
 
-def run_pipeline(video_id: str) -> bool:
-    pipeline_commands = [
-        f"python youtube_downloaded.py {video_id}",
-        f"python keyframe_scene_detector.py videos/{video_id}",
-        f"python transcribe_scene.py videos/{video_id}",
-        f"python video_caption_api.py videos/{video_id}",
-        f"python description_optimize.py videos/{video_id}",
-        f"python prepare_final_data.py --video_id {video_id}"
-    ]
-    
-    for command in pipeline_commands:
-        logger.info(f"Running command: {command}")
-        result = subprocess.run(command, shell=True, capture_output=True, text=True)
-        logger.info(result.stdout)
-        if result.returncode != 0:
-            logger.error(f"Command failed: {command}\nError: {result.stderr}")
-            return False
-    return True
-
 @app.post("/api/narration-bot")
 async def narration_bot(data: NarrationBotRequest):
     logger.info(f"Received narration bot request: {data}")
@@ -131,18 +113,24 @@ async def narration_bot(data: NarrationBotRequest):
         final_data_path = os.path.join("videos", video_id, "final_data.json")
         
         if not os.path.exists(final_data_path):
-            logger.info("final_data.json not found. Running pipeline...")
-            if not run_pipeline(video_id):
+            logger.info("final_data.json not found. Running pipeline via test_pipeline.py...")
+            # Call test_pipeline.py using subprocess.
+            command = f"python test_pipeline.py --video_id {video_id}"
+            result = subprocess.run(
+                command,
+                shell=True,
+                stdout=sys.stdout, 
+                stderr=sys.stderr,
+                text=True
+            )
+            if result.returncode != 0:
+                logger.error("Pipeline failed to generate final_data.json")
                 return {"status": "error", "message": "Pipeline failed to generate final_data.json"}
         
-        # Load the final_data.json file
         with open(final_data_path, "r") as f:
             final_data = json.load(f)
         
-        # Write the ai_user_id into final_data.json
         final_data["aiUserId"] = data.ai_user_id
-        
-        # Save the updated final_data.json back to disk
         with open(final_data_path, "w") as f:
             json.dump(final_data, f, indent=2, ensure_ascii=False)
         
@@ -153,7 +141,6 @@ async def narration_bot(data: NarrationBotRequest):
     except Exception as e:
         logger.error(f"Error in narration bot endpoint: {str(e)}")
         return {"status": "error", "message": f"Error: {str(e)}"}
-    
     
 if __name__ == "__main__":
     logger.info("Starting Info Bot API server")

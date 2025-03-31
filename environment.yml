@@ -1,4 +1,3 @@
-name: video_describe
 channels:
   - pytorch
   - conda-forge
