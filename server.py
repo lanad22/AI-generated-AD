@@ -33,15 +33,6 @@ class NarrationBotRequest(BaseModel):
     ai_user_id: str
 
 async def run_query_script(command):
-    """
-    Run the video query script as a subprocess
-    
-    Args:
-        command (list): Command and arguments to run
-        
-    Returns:
-        dict: Dictionary containing returncode, stdout, and stderr
-    """
     process = await asyncio.create_subprocess_exec(
         *command,
         stdout=asyncio.subprocess.PIPE,
@@ -56,15 +47,6 @@ async def run_query_script(command):
     }
 
 async def get_response_from_file(file_path):
-    """
-    Read response from the output file
-    
-    Args:
-        file_path (str): Path to the response file
-        
-    Returns:
-        str or None: File content or None if file doesn't exist
-    """
     if os.path.exists(file_path):
         with open(file_path, "r") as f:
             return f.read()
@@ -72,9 +54,6 @@ async def get_response_from_file(file_path):
 
 @app.post("/api/info-bot")
 async def receive_data(data: QueryModel):
-    """
-    FastAPI endpoint that receives query data and calls the separate video_query.py script
-    """
     logger.info(f"Received request: {data}")
 
     if data.question is None:
@@ -125,21 +104,57 @@ async def receive_data(data: QueryModel):
         logger.error(f"Error running script: {str(e)}")
         return {"status": "error", "message": f"Error: {str(e)}"}
 
+def run_pipeline(video_id: str) -> bool:
+    pipeline_commands = [
+        f"python youtube_downloaded.py {video_id}",
+        f"python keyframe_scene_detector.py videos/{video_id}",
+        f"python transcribe_scene.py videos/{video_id}",
+        f"python video_caption_api.py videos/{video_id}",
+        f"python description_optimize.py videos/{video_id}",
+        f"python prepare_final_data.py --video_id {video_id}"
+    ]
+    
+    for command in pipeline_commands:
+        logger.info(f"Running command: {command}")
+        result = subprocess.run(command, shell=True, capture_output=True, text=True)
+        logger.info(result.stdout)
+        if result.returncode != 0:
+            logger.error(f"Command failed: {command}\nError: {result.stderr}")
+            return False
+    return True
+
 @app.post("/api/narration-bot")
 async def narration_bot(data: NarrationBotRequest):
     logger.info(f"Received narration bot request: {data}")
     try:
-        response_message = f"Narration bot processing for YouTube ID: {data.youtube_id}, User ID: {data.user_id}, AI User ID: {data.ai_user_id}"
+        video_id = data.youtube_id
+        final_data_path = os.path.join("videos", video_id, "final_data.json")
+        
+        if not os.path.exists(final_data_path):
+            logger.info("final_data.json not found. Running pipeline...")
+            if not run_pipeline(video_id):
+                return {"status": "error", "message": "Pipeline failed to generate final_data.json"}
+        
+        # Load the final_data.json file
+        with open(final_data_path, "r") as f:
+            final_data = json.load(f)
+        
+        # Write the ai_user_id into final_data.json
+        final_data["aiUserId"] = data.ai_user_id
+        
+        # Save the updated final_data.json back to disk
+        with open(final_data_path, "w") as f:
+            json.dump(final_data, f, indent=2, ensure_ascii=False)
+        
+        response_message = f"Narration bot processing complete for YouTube ID: {video_id}"
         logger.info(response_message)
         
-        return {
-            "status": "success",
-            "message": response_message
-        }
+        return {"status": "success", "message": response_message, "final_data": final_data}
     except Exception as e:
         logger.error(f"Error in narration bot endpoint: {str(e)}")
         return {"status": "error", "message": f"Error: {str(e)}"}
+    
+    
 if __name__ == "__main__":
-
     logger.info("Starting Info Bot API server")
     uvicorn.run(app, host="0.0.0.0", port=8000)

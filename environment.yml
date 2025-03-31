@@ -1,0 +1,29 @@
+name: video_describe
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - numpy
+  - pillow
+  - ffmpeg
+  - pip
+  - cpuonly
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pip:
+    - git+https://github.com/openai/CLIP.git
+    - whisper_timestamped
+    - onnxruntime
+    - google-cloud-speech
+    - openai
+    - fastapi
+    - uvicorn
+    - python-dotenv
+    - pydantic
+    - gtts
+    - yt-dlp
+    - youtube-transcript-api
+
