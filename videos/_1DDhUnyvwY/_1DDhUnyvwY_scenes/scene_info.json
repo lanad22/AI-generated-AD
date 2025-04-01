@@ -13,7 +13,7 @@
             {
                 "start_time": 2.0,
                 "type": "visual",
-                "text": "A rotating globe is shown, highlighting the continent of Africa."
+                "text": "A rotating globe appears, highlighting the continent of Africa."
             },
             {
                 "start_time": 5.0,
@@ -68,28 +68,39 @@
         "end_time": 39.56,
         "duration": 11.600000000000001,
         "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_003.mp4",
-        "transcript": [],
+        "transcript": [
+            {
+                "text": "I remember I was struck by the harmony of color in the forest.",
+                "start": 0.33,
+                "end": 4.13
+            },
+            {
+                "text": "Shades of yellow and green deepening to the browns and purples, and the way the vines",
+                "start": 5.13,
+                "end": 11.29
+            }
+        ],
         "captions": [],
         "audio_clips": [
             {
                 "start_time": 0.0,
                 "type": "visual",
-                "text": "A large tree stands prominently in the forest, surrounded by dense green foliage."
+                "text": "A large tree stands prominently in the forest, its branches sprawling outwards with dense green foliage."
             },
             {
                 "start_time": 3.5,
                 "type": "visual",
-                "text": "A stream flows gently through the forest floor, with sunlight reflecting off the water."
+                "text": "A stream flows gently through the forest floor, surrounded by rocks and lush vegetation."
             },
             {
                 "start_time": 6.8,
                 "type": "visual",
-                "text": "A butterfly rests on the ground among fallen leaves, its wings spread wide."
+                "text": "A butterfly rests on the forest floor among fallen leaves, its wings spread wide."
             },
             {
                 "start_time": 9.2,
                 "type": "visual",
-                "text": "A spider web is illuminated by sunlight, hanging delicately between branches."
+                "text": "A close-up of a spider web glistens in the sunlight, attached to a plant with vibrant purple flowers."
             }
         ]
     },
@@ -101,18 +112,39 @@
         "end_time": 49.92,
         "duration": 10.32,
         "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_004.mp4",
-        "transcript": [],
+        "transcript": [
+            {
+                "text": "curled up through the trees clinging to twigs and branches.",
+                "start": 0.0,
+                "end": 3.06
+            },
+            {
+                "text": "The gentle breeze rustled the leaves",
+                "start": 4.08,
+                "end": 6.24
+            },
+            {
+                "text": "so that the shining stars of light gleamed and winked.",
+                "start": 6.32,
+                "end": 9.94
+            }
+        ],
         "captions": [],
         "audio_clips": [
             {
                 "start_time": 0.0,
                 "type": "visual",
-                "text": "A large tree with sprawling branches and dense green leaves fills the frame, viewed from below."
+                "text": "The camera captures a dense canopy of trees with sunlight filtering through the leaves, creating a dappled effect on the branches."
             },
             {
-                "start_time": 5.0,
+                "start_time": 3.5,
                 "type": "visual",
-                "text": "The camera shifts slightly to reveal more of the tree's canopy, with sunlight filtering through the leaves."
+                "text": "Leaves gently sway in the breeze, catching and reflecting light as they move."
+            },
+            {
+                "start_time": 7.2,
+                "type": "visual",
+                "text": "Sunlight pierces through gaps in the foliage, highlighting the intricate network of branches and twigs."
             }
         ]
     },
@@ -124,23 +156,29 @@
         "end_time": 64.92,
         "duration": 14.96,
         "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_005.mp4",
-        "transcript": [],
+        "transcript": [
+            {
+                "text": "I was keenly aware of secret movements in the trees.",
+                "start": 4.94,
+                "end": 8.3
+            }
+        ],
         "captions": [],
         "audio_clips": [
             {
                 "start_time": 0.0,
                 "type": "visual",
-                "text": "A vast forested hillside under a partly cloudy sky."
+                "text": "A vast expanse of lush green forest stretches across rolling hills under a bright blue sky with scattered clouds."
             },
             {
                 "start_time": 5.0,
                 "type": "visual",
-                "text": "Leaves and branches of a tree with small flying insects around."
+                "text": "Leaves in various shades of green and yellow sway gently in the breeze, with small white insects fluttering around them."
             },
             {
-                "start_time": 9.0,
+                "start_time": 10.0,
                 "type": "visual",
-                "text": "A chimpanzee appears in the foliage, moving through the leaves."
+                "text": "A chimpanzee appears among the dense foliage of a tree, moving its arms as it navigates through the branches."
             }
         ]
     },
@@ -152,23 +190,29 @@
         "end_time": 79.04,
         "duration": 14.080000000000013,
         "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_006.mp4",
-        "transcript": [],
+        "transcript": [
+            {
+                "text": "I looked into his large and lustrous eyes.",
+                "start": 7.05,
+                "end": 9.71
+            },
+            {
+                "text": "They seemed somehow to express his entire personality.",
+                "start": 10.07,
+                "end": 13.57
+            }
+        ],
         "captions": [],
         "audio_clips": [
             {
                 "start_time": 0.0,
                 "type": "visual",
-                "text": "A chimpanzee is perched atop a tree, surrounded by lush green leaves and small flying insects."
-            },
-            {
-                "start_time": 2.5,
-                "type": "visual",
-                "text": "The chimpanzee raises its arms wide open, appearing to interact with the environment around it."
+                "text": "A chimpanzee is perched atop a tree, surrounded by lush green leaves and small flying insects. The chimpanzee raises its arms wide in an expressive gesture."
             },
             {
                 "start_time": 7.0,
                 "type": "visual",
-                "text": "The camera shifts to a close-up of the chimpanzee's face as it looks directly towards the viewer, mouth slightly open."
+                "text": "The camera zooms in on the chimpanzee's face as it looks directly at the viewer with large, expressive eyes and an open mouth."
             }
         ]
     },
@@ -180,23 +224,29 @@
         "end_time": 91.32,
         "duration": 12.239999999999995,
         "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_007.mp4",
-        "transcript": [],
+        "transcript": [
+            {
+                "text": "his serene self-assurance what an amazing privilege it was to be utterly",
+                "start": 0.0,
+                "end": 6.74
+            },
+            {
+                "text": "accepted thus by a wild free animal",
+                "start": 6.74,
+                "end": 9.8
+            }
+        ],
         "captions": [],
         "audio_clips": [
             {
                 "start_time": 0.0,
                 "type": "visual",
-                "text": "A chimpanzee mother sits on the forest floor with her baby lying beside her, both looking around."
+                "text": "A chimpanzee sits on the forest floor with a baby chimpanzee lying on its back, both appearing relaxed and content."
             },
             {
                 "start_time": 6.12,
                 "type": "visual",
-                "text": "The mother chimpanzee opens her mouth as if vocalizing or yawning."
-            },
-            {
-                "start_time": 8.52,
-                "type": "visual",
-                "text": "Another chimpanzee is seen climbing a tree in the dense forest."
+                "text": "The scene shifts to show another chimpanzee climbing up a large tree trunk in the dense forest."
             }
         ]
     },
@@ -208,13 +258,19 @@
         "end_time": 101.76,
         "duration": 10.400000000000006,
         "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_008.mp4",
-        "transcript": [],
+        "transcript": [
+            {
+                "text": "I lay there part of the forest and experienced again that magical enhancement of sound",
+                "start": 4.46,
+                "end": 10.38
+            }
+        ],
         "captions": [],
         "audio_clips": [
             {
                 "start_time": 0.0,
                 "type": "visual",
-                "text": "A baboon walks through a forest, looking around cautiously."
+                "text": "A baboon walks through a forest, its mouth open as if vocalizing."
             },
             {
                 "start_time": 5.2,
@@ -224,7 +280,7 @@
             {
                 "start_time": 8.6,
                 "type": "visual",
-                "text": "A close-up of a yellow insect resting on a leaf is shown."
+                "text": "A close-up reveals a small yellow insect resting on a leaf."
             }
         ]
     },
@@ -236,7 +292,13 @@
         "end_time": 113.6,
         "duration": 11.799999999999997,
         "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_009.mp4",
-        "transcript": [],
+        "transcript": [
+            {
+                "text": "that added richness of perception I was awed by the beauty when I found my",
+                "start": 0.33,
+                "end": 11.71
+            }
+        ],
         "captions": [],
         "audio_clips": [
             {
@@ -245,17 +307,17 @@
                 "text": "A green snake slithers along a moss-covered tree branch."
             },
             {
-                "start_time": 4.5,
+                "start_time": 3.5,
                 "type": "visual",
                 "text": "Water cascades down a rocky waterfall surrounded by lush greenery."
             },
             {
-                "start_time": 7.8,
+                "start_time": 7.0,
                 "type": "visual",
                 "text": "A bright green caterpillar hangs from a thin strand of silk against a soft yellow background."
             },
             {
-                "start_time": 9.2,
+                "start_time": 9.5,
                 "type": "visual",
                 "text": "Two butterflies with black and white wings flutter among vibrant green leaves."
             }
@@ -269,28 +331,29 @@
         "end_time": 123.6,
         "duration": 9.959999999999994,
         "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_010.mp4",
-        "transcript": [],
+        "transcript": [
+            {
+                "text": "thinking this is where I belong together the chimpanzee",
+                "start": 0.0,
+                "end": 9.9
+            }
+        ],
         "captions": [],
         "audio_clips": [
             {
                 "start_time": 0.0,
                 "type": "visual",
-                "text": "A vast landscape with rolling hills covered in lush greenery and a body of water reflecting sunlight."
+                "text": "A panoramic view of a lush, green landscape with rolling hills and a distant body of water under a clear sky."
             },
             {
-                "start_time": 2.5,
+                "start_time": 3.5,
                 "type": "visual",
-                "text": "Two birds soar gracefully across the sky above the hills."
+                "text": "The camera focuses on a dense forest canopy with sunlight filtering through the leaves."
             },
             {
-                "start_time": 4.8,
+                "start_time": 6.2,
                 "type": "visual",
-                "text": "The camera shifts to show dense foliage with trees having thick, twisting branches."
-            },
-            {
-                "start_time": 7.3,
-                "type": "visual",
-                "text": "A chimpanzee appears among the leaves, gripping a tree branch with its hand."
+                "text": "A chimpanzee appears in the tree branches, gripping them with its hands and looking around attentively."
             }
         ]
     },
@@ -302,7 +365,18 @@
         "end_time": 135.16,
         "duration": 11.519999999999996,
         "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_011.mp4",
-        "transcript": [],
+        "transcript": [
+            {
+                "text": "and the baboons and the monkeys, the birds and insects, the teeming life of",
+                "start": 0.0,
+                "end": 5.26
+            },
+            {
+                "text": "the vibrant forest, the stirrings of the never still waters of the Great Lake,",
+                "start": 5.26,
+                "end": 10.2
+            }
+        ],
         "captions": [],
         "audio_clips": [
             {
@@ -323,7 +397,7 @@
             {
                 "start_time": 9.8,
                 "type": "visual",
-                "text": "The ocean stretches out under a cloudy sky, appearing calm yet vast."
+                "text": "The camera pans over a vast, dark ocean under a cloudy sky."
             }
         ]
     },
@@ -335,7 +409,13 @@
         "end_time": 146.24,
         "duration": 11.04000000000002,
         "scene_path": "videos/_1DDhUnyvwY/_1DDhUnyvwY_scenes/scene_012.mp4",
-        "transcript": [],
+        "transcript": [
+            {
+                "text": "formed one whole.",
+                "start": 0.0,
+                "end": 1.1
+            }
+        ],
         "captions": [],
         "audio_clips": [
             {

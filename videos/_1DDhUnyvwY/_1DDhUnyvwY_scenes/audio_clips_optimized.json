@@ -26,10 +26,10 @@
   {
     "scene_number": 2,
     "start_time": 18.908,
-    "duration": 4.752,
-    "end_time": 23.66,
+    "duration": 4.968,
+    "end_time": 23.876,
     "type": "visual",
-    "text": "\"Close-up of moss-covered rocks with plants sprouting from crevices.\""
+    "text": "\"A close-up of mossy rocks with tiny plants sprouting from crevices.\""
   },
   {
     "scene_number": 2,
@@ -42,82 +42,234 @@
   {
     "scene_number": 3,
     "start_time": 27.96,
-    "duration": 11.784,
-    "end_time": 39.744,
+    "duration": 7.464,
+    "end_time": 35.424,
     "type": "visual",
-    "text": "\"A large tree stands in the forest, surrounded by dense foliage. A stream flows nearby, reflecting sunlight, while a butterfly rests on fallen leaves.\""
+    "text": "A large tree stands prominently in the forest, its branches sprawling outwards with dense green foliage."
+  },
+  {
+    "scene_number": 3,
+    "start_time": 31.46,
+    "duration": 6.408,
+    "end_time": 37.868,
+    "type": "visual",
+    "text": "A stream flows gently through the forest floor, surrounded by rocks and lush vegetation."
+  },
+  {
+    "scene_number": 3,
+    "start_time": 34.76,
+    "duration": 6.096,
+    "end_time": 40.855999999999995,
+    "type": "visual",
+    "text": "A butterfly rests on the forest floor among fallen leaves, its wings spread wide."
+  },
+  {
+    "scene_number": 3,
+    "start_time": 37.16,
+    "duration": 7.32,
+    "end_time": 44.48,
+    "type": "visual",
+    "text": "A close-up of a spider web glistens in the sunlight, attached to a plant with vibrant purple flowers."
   },
   {
     "scene_number": 4,
     "start_time": 39.6,
-    "duration": 9.624,
-    "end_time": 49.224000000000004,
+    "duration": 9.12,
+    "end_time": 48.72,
     "type": "visual",
-    "text": "\"A large tree with sprawling branches and dense green leaves fills the frame, viewed from below, with sunlight filtering through the canopy.\""
+    "text": "The camera captures a dense canopy of trees with sunlight filtering through the leaves, creating a dappled effect on the branches."
+  },
+  {
+    "scene_number": 4,
+    "start_time": 43.1,
+    "duration": 5.544,
+    "end_time": 48.644,
+    "type": "visual",
+    "text": "Leaves gently sway in the breeze, catching and reflecting light as they move."
+  },
+  {
+    "scene_number": 4,
+    "start_time": 46.800000000000004,
+    "duration": 7.272,
+    "end_time": 54.072,
+    "type": "visual",
+    "text": "Sunlight pierces through gaps in the foliage, highlighting the intricate network of branches and twigs."
   },
   {
     "scene_number": 5,
     "start_time": 49.96,
-    "duration": 12.984,
-    "end_time": 62.944,
+    "duration": 5.376,
+    "end_time": 55.336,
     "type": "visual",
-    "text": "\"A vast forested hillside under a partly cloudy sky transitions to leaves and branches of a tree with small flying insects, followed by a chimpanzee moving through the foliage.\""
+    "text": "\"A lush green forest covers rolling hills under a cloud-dotted sky.\""
+  },
+  {
+    "scene_number": 5,
+    "start_time": 54.96,
+    "duration": 8.328,
+    "end_time": 63.288,
+    "type": "visual",
+    "text": "Leaves in various shades of green and yellow sway gently in the breeze, with small white insects fluttering around them."
+  },
+  {
+    "scene_number": 5,
+    "start_time": 58.260000000000005,
+    "duration": 6.768,
+    "end_time": 65.028,
+    "type": "visual",
+    "text": "\"A chimpanzee emerges from foliage, moving skillfully through branches with agile arms.\""
   },
   {
     "scene_number": 6,
     "start_time": 64.96,
-    "duration": 14.328,
-    "end_time": 79.288,
+    "duration": 4.608,
+    "end_time": 69.568,
     "type": "visual",
-    "text": "\"A chimpanzee atop a tree, surrounded by green leaves, raises its arms wide. The camera shifts to a close-up of the chimpanzee's face, looking directly at the viewer with its mouth slightly open.\""
+    "text": "\"A chimpanzee perches atop a tree, raising its arms wide.\""
   },
   {
     "scene_number": 7,
     "start_time": 79.08,
-    "duration": 12.552,
-    "end_time": 91.632,
+    "duration": 8.808,
+    "end_time": 87.888,
     "type": "visual",
-    "text": "\"A chimpanzee mother sits on the forest floor with her baby beside her; she opens her mouth, perhaps vocalizing or yawning, as another chimpanzee climbs a nearby tree.\""
+    "text": "A chimpanzee sits on the forest floor with a baby chimpanzee lying on its back, both appearing relaxed and content."
+  },
+  {
+    "scene_number": 7,
+    "start_time": 85.2,
+    "duration": 6.504,
+    "end_time": 91.70400000000001,
+    "type": "visual",
+    "text": "The scene shifts to show another chimpanzee climbing up a large tree trunk in the dense forest."
   },
   {
     "scene_number": 8,
     "start_time": 91.36,
-    "duration": 10.584,
-    "end_time": 101.944,
+    "duration": 4.056,
+    "end_time": 95.416,
     "type": "visual",
-    "text": "\"A baboon navigates a dense forest, eyes darting. The camera pans up to towering tree branches, then shows a yellow insect on a leaf.\""
+    "text": "\"A baboon strides through the forest, mouth open wide.\""
+  },
+  {
+    "scene_number": 8,
+    "start_time": 96.56,
+    "duration": 5.592,
+    "end_time": 102.152,
+    "type": "visual",
+    "text": "The camera shifts to show the towering branches of a large tree against the sky."
+  },
+  {
+    "scene_number": 8,
+    "start_time": 99.96,
+    "duration": 4.368,
+    "end_time": 104.32799999999999,
+    "type": "visual",
+    "text": "A close-up reveals a small yellow insect resting on a leaf."
   },
   {
     "scene_number": 9,
     "start_time": 101.8,
-    "duration": 9.96,
-    "end_time": 111.75999999999999,
+    "duration": 4.104,
+    "end_time": 105.904,
     "type": "visual",
-    "text": "\"A green snake slithers across a mossy tree branch, while water cascades down a nearby rocky waterfall surrounded by lush greenery.\""
+    "text": "A green snake slithers along a moss-covered tree branch."
+  },
+  {
+    "scene_number": 9,
+    "start_time": 105.3,
+    "duration": 4.896,
+    "end_time": 110.196,
+    "type": "visual",
+    "text": "Water cascades down a rocky waterfall surrounded by lush greenery."
+  },
+  {
+    "scene_number": 9,
+    "start_time": 108.8,
+    "duration": 6.504,
+    "end_time": 115.304,
+    "type": "visual",
+    "text": "A bright green caterpillar hangs from a thin strand of silk against a soft yellow background."
+  },
+  {
+    "scene_number": 9,
+    "start_time": 111.3,
+    "duration": 5.592,
+    "end_time": 116.892,
+    "type": "visual",
+    "text": "Two butterflies with black and white wings flutter among vibrant green leaves."
   },
   {
     "scene_number": 10,
     "start_time": 113.64,
-    "duration": 9.936,
-    "end_time": 123.576,
+    "duration": 8.448,
+    "end_time": 122.088,
     "type": "visual",
-    "text": "\"Rolling hills, lush greenery, water reflecting sunlight, birds soaring, dense foliage, chimpanzee gripping branch.\""
+    "text": "A panoramic view of a lush, green landscape with rolling hills and a distant body of water under a clear sky."
+  },
+  {
+    "scene_number": 10,
+    "start_time": 117.14,
+    "duration": 6.288,
+    "end_time": 123.428,
+    "type": "visual",
+    "text": "The camera focuses on a dense forest canopy with sunlight filtering through the leaves."
+  },
+  {
+    "scene_number": 10,
+    "start_time": 119.84,
+    "duration": 6.96,
+    "end_time": 126.8,
+    "type": "visual",
+    "text": "A chimpanzee appears in the tree branches, gripping them with its hands and looking around attentively."
   },
   {
     "scene_number": 11,
     "start_time": 123.64,
-    "duration": 11.16,
-    "end_time": 134.8,
+    "duration": 5.28,
+    "end_time": 128.92,
     "type": "visual",
-    "text": "\"Close-up of two baboons touching faces, a fluffy insect on a green leaf, a bird soaring over palm trees, and the calm ocean under clouds.\""
+    "text": "A close-up of two baboons, one gently touching the other's face."
+  },
+  {
+    "scene_number": 11,
+    "start_time": 127.14,
+    "duration": 4.368,
+    "end_time": 131.508,
+    "type": "visual",
+    "text": "A white insect with fluffy appendages crawls on a green leaf."
+  },
+  {
+    "scene_number": 11,
+    "start_time": 129.84,
+    "duration": 4.464,
+    "end_time": 134.304,
+    "type": "visual",
+    "text": "A bird soars gracefully through the air above dense palm trees."
+  },
+  {
+    "scene_number": 11,
+    "start_time": 133.44,
+    "duration": 5.064,
+    "end_time": 138.504,
+    "type": "visual",
+    "text": "The camera pans over a vast, dark ocean under a cloudy sky."
   },
   {
     "scene_number": 12,
     "start_time": 135.2,
-    "duration": 10.536,
-    "end_time": 145.736,
+    "duration": 6.408,
+    "end_time": 141.60799999999998,
     "type": "visual",
-    "text": "\"Aerial view of a coastline with lush green hills and mountains, transitioning to a dense forest with tall trees and sunlight filtering through the canopy.\""
+    "text": "Aerial view of a coastline with lush green hills and mountains extending into the distance."
+  },
+  {
+    "scene_number": 12,
+    "start_time": 136.29999999999998,
+    "duration": 10.032,
+    "end_time": 146.332,
+    "type": "visual",
+    "text": "\"The camera shifts to a dense forest, tall trees with thick foliage, sunlight filtering through the canopy, creating a vibrant scene.\""
   },
   {
     "scene_number": 13,

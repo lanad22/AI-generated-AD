@@ -2,41 +2,67 @@ import os
 import json
 import argparse
 import subprocess
+import re
 from pathlib import Path
 from youtube_transcript_api import YouTubeTranscriptApi
 from datetime import timedelta
 
 def get_video_metadata(video_id: str) -> dict:
     url = f"https://www.youtube.com/watch?v={video_id}"
-    command = [
-        "yt-dlp",
-        "--get-title",
-        "--get-description",
-        "--get-duration",
-        url
-    ]
+    
+    # Separate commands for each piece of metadata for more reliable extraction
+    title_cmd = ["yt-dlp", "--get-title", url]
+    desc_cmd = ["yt-dlp", "--get-description", url]
+    duration_cmd = ["yt-dlp", "--get-duration", url]
+    
+    title = "Unknown Title"
+    description = ""
+    video_length = 0
+    
+    # Get title
     try:
-        result = subprocess.run(command, capture_output=True, text=True, check=True)
-        metadata = result.stdout.strip().splitlines()
-        title = metadata[0] if len(metadata) > 0 else "Unknown Title"
-        description = metadata[1] if len(metadata) > 1 else ""
-        duration_str = metadata[2] if len(metadata) > 2 else "0"
-
-        # Inline duration-to-seconds conversion using timedelta
-        parts = [int(p) for p in duration_str.strip().split(":")]
-        if len(parts) == 3:
-            video_length = int(timedelta(hours=parts[0], minutes=parts[1], seconds=parts[2]).total_seconds())
-        elif len(parts) == 2:
-            video_length = int(timedelta(minutes=parts[0], seconds=parts[1]).total_seconds())
-        elif len(parts) == 1:
-            video_length = int(timedelta(seconds=parts[0]).total_seconds())
-        else:
-            video_length = 0
-
-        return {"title": title, "description": description, "video_length": video_length}
+        result = subprocess.run(title_cmd, capture_output=True, text=True, check=True)
+        if result.stdout.strip():
+            title = result.stdout.strip()
     except subprocess.CalledProcessError as e:
-        print(f"Error fetching metadata: {e}")
-        return {"title": "Unknown Title", "description": "", "video_length": 0}
+        print(f"Error fetching title: {e}")
+    
+    # Get description
+    try:
+        result = subprocess.run(desc_cmd, capture_output=True, text=True, check=True)
+        if result.stdout.strip():
+            description = result.stdout.strip()
+    except subprocess.CalledProcessError as e:
+        print(f"Error fetching description: {e}")
+    
+    # Get duration with error handling
+    try:
+        result = subprocess.run(duration_cmd, capture_output=True, text=True, check=True)
+        duration_str = result.stdout.strip()
+        
+        # Make sure duration is in the expected format (HH:MM:SS)
+        if re.match(r'^\d+:\d+:\d+$', duration_str) or re.match(r'^\d+:\d+$', duration_str):
+            parts = [int(p) for p in duration_str.split(':')]
+            if len(parts) == 3:
+                video_length = int(timedelta(hours=parts[0], minutes=parts[1], seconds=parts[2]).total_seconds())
+            elif len(parts) == 2:
+                video_length = int(timedelta(minutes=parts[0], seconds=parts[1]).total_seconds())
+            elif len(parts) == 1:
+                video_length = int(parts[0])
+        else:
+            print(f"Invalid duration format: {duration_str}")
+            # Try to get duration through a different method
+            info_cmd = ["yt-dlp", "--print", "duration", url]
+            try:
+                result = subprocess.run(info_cmd, capture_output=True, text=True, check=True)
+                if result.stdout.strip().isdigit():
+                    video_length = int(result.stdout.strip())
+            except subprocess.CalledProcessError:
+                print("Could not determine video duration")
+    except subprocess.CalledProcessError as e:
+        print(f"Error fetching duration: {e}")
+        
+    return {"title": title, "description": description, "video_length": video_length}
 
 def download_with_captions(video_id: str):
     """Download YouTube video, metadata, and captions into a folder named after the video ID"""
@@ -49,7 +75,10 @@ def download_with_captions(video_id: str):
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
     # Fetch video metadata (title & description)
+    print("Fetching video metadata...")
     metadata = get_video_metadata(video_id)
+    print(f"Title: {metadata['title']}")
+    print(f"Duration: {metadata['video_length']} seconds")
 
     # Prepare JSON data
     captions_path = os.path.join(output_dir, f"{video_id}.json")
@@ -70,17 +99,84 @@ def download_with_captions(video_id: str):
     
     print(f"Metadata saved to: {captions_path}")
 
-    # Download video
+    # Output path
     video_path = os.path.join(output_dir, f"{video_id}.mp4")
-    command = f'yt-dlp -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4" -o "{video_path}" {url}'
+    
+    # Universal download command that works for all format types
     print("\nDownloading video...")
-    os.system(command)
-
-    if os.path.exists(video_path):
-        print(f"Video downloaded to: {video_path}")
-        print(f"File size: {os.path.getsize(video_path) / (1024*1024):.2f} MB")
-    else:
-        print("No MP4 file found")
+    command = [
+        "yt-dlp",
+        # Format selection that works for both normal and HLS formats
+        "-f", "bv*+ba/b",  # Best video + best audio / or best combined if needed
+        "--merge-output-format", "mp4",
+        "--no-playlist",
+        "--hls-prefer-native",  
+        "--ignore-errors",
+        "-o", video_path,
+        url
+    ]
+    
+    try:
+        subprocess.run(command, check=True)
+        if os.path.exists(video_path) and os.path.getsize(video_path) > 0:
+            print(f"Success! Video downloaded to: {video_path}")
+            print(f"File size: {os.path.getsize(video_path) / (1024*1024):.2f} MB")
+            return True
+        else:
+            print("Download failed or produced an empty file.")
+            return False
+    except subprocess.CalledProcessError as e:
+        print(f"Error downloading video with standard method: {e}")
+        
+        # If standard method fails, try even more universal approach
+        print("\nTrying alternative download method...")
+        fallback_cmd = [
+            "yt-dlp",
+            # More universal/flexible format selection
+            "--format-sort", "res,codec",
+            "--merge-output-format", "mp4",
+            "--allow-unplayable-formats",
+            "--ignore-errors",
+            "--no-playlist",
+            "-o", video_path,
+            url
+        ]
+        
+        try:
+            subprocess.run(fallback_cmd, check=True)
+            if os.path.exists(video_path) and os.path.getsize(video_path) > 0:
+                print(f"Success with alternative method! Video downloaded to: {video_path}")
+                print(f"File size: {os.path.getsize(video_path) / (1024*1024):.2f} MB")
+                return True
+            else:
+                print("Alternative download attempt failed.")
+                return False
+        except subprocess.CalledProcessError as e2:
+            print(f"Error with alternative method: {e2}")
+            
+            # Final attempt with the simplest possible approach
+            print("\nMaking final download attempt...")
+            last_resort_cmd = [
+                "yt-dlp",
+                "--no-check-formats",  # Skip format checking
+                "--ignore-errors",
+                "--no-playlist",
+                "-o", video_path,
+                url
+            ]
+            
+            try:
+                subprocess.run(last_resort_cmd, check=True)
+                if os.path.exists(video_path) and os.path.getsize(video_path) > 0:
+                    print(f"Success with final method! Video downloaded to: {video_path}")
+                    print(f"File size: {os.path.getsize(video_path) / (1024*1024):.2f} MB")
+                    return True
+                else:
+                    print("All download attempts failed.")
+                    return False
+            except subprocess.CalledProcessError as e3:
+                print(f"All download methods failed: {e3}")
+                return False
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Download YouTube video by ID with captions and metadata.")
