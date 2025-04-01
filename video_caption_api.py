@@ -106,12 +106,12 @@ def process_scene(scene_data, scene_path, client, previous_description=None, sys
             Then generate a JSON array of scene events with the following rules:
 
             EVENT TYPES:
-            1. Text Events ("type": "text"):
+            1. Text Events ("type": "Text on Screen"):
             - Capture ONLY visible on-screen text.
             - DO NOT include transcript or dialogue.
             - CRITICAL: For each text event, include the EXACT `start_time` in seconds when the text appears.
 
-            2. Visual Description Events ("type": "visual"):
+            2. Visual Description Events ("type": "Visual"):
             - Provide a brief, focused description of the visual content (e.g., who is present, what they are doing).
             - DO NOT include any text or camera movements.
             - Use exact `start_time` for when the visual starts.
@@ -121,9 +121,9 @@ def process_scene(scene_data, scene_path, client, previous_description=None, sys
             - ALWAYS use specific character names from the context if available. Do not use generic terms like "man" or "person".
             - Format the output as a JSON array. Each object should include:
             - `start_time` (in seconds)
-            - `type` ("text" or "visual")
+            - `type` ("Text on Screen" or "Visual")
             - `text` (description or on-screen text)
-
+            
             Now generate the JSON array of events for this scene.
         """
 
