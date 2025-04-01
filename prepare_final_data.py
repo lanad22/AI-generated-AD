@@ -3,14 +3,15 @@ import os
 import argparse
 
 def prepare_dialogue(scene):
-    """Prepare dialogue_timestamp entries from transcript"""
+    """Prepare dialogue_timestamp entries from transcript using global timestamps."""
     dialogue = []
-    scene_number = scene.get("scene_number", 0)
+    scene_starttime = scene.get("start_time", 0)
     transcript = scene.get("transcript", [])
 
     for idx, line in enumerate(transcript):
-        start = line.get("start", 0)
-        end = line.get("end", 0)
+        # Add the global offset to get absolute timestamps.
+        start = scene_starttime + line.get("start", 0)
+        end = scene_starttime + line.get("end", 0)
         duration = round(end - start, 2)
 
         dialogue.append({
@@ -69,7 +70,8 @@ def compile_final_data(video_id):
         "audio_clips": audio_clips,
         "youtube_id": video_id,
         "video_name": metadata.get("title", ""),
-        "video_length": metadata.get("video_length", 0)
+        "video_length": metadata.get("video_length", 0),
+        "aiUserId": "650506db3ff1c2140ea10ece" 
     }
 
     # Save to final_data.json

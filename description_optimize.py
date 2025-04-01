@@ -112,7 +112,7 @@ def compute_global_audio_clips(scenes):
         next_clip = audio_clips[i + 1]
 
         if (current['start_time'] == next_clip['start_time'] and
-            current['type'] == 'text' and next_clip['type'] == 'visual'):
+            current['type'] == 'Text on Screen' and next_clip['type'] == 'Visual'):
             current['tts_duration'] = get_tts_duration(current['text'])
             next_clip['start_time'] = current['start_time'] + current['tts_duration']
         
@@ -135,7 +135,7 @@ def compute_subgaps_and_candidates(gaps, audio_clips):
         
         # Find text clips in this gap
         text_clips = [clip for clip in audio_clips 
-                     if clip['type'] == 'text' and gap_start <= clip['start_time'] < gap_end]
+                     if clip['type'] == 'Text on Screen' and gap_start <= clip['start_time'] < gap_end]
         text_clips.sort(key=lambda x: x['start_time'])
         
         # Add TTS duration to text clips
@@ -150,7 +150,7 @@ def compute_subgaps_and_candidates(gaps, audio_clips):
             # Find visual candidates
             candidates_by_subgap[subgap_id] = []               
             for clip in audio_clips:
-                if clip['type'] == 'visual' and subgap['start_time'] <= clip['start_time'] < subgap['end_time']:
+                if clip['type'] == 'Visual' and subgap['start_time'] <= clip['start_time'] < subgap['end_time']:
                     candidates_by_subgap[subgap_id].append(clip)
                     candidates_id.add(clip['id'])
         else:
@@ -168,7 +168,7 @@ def compute_subgaps_and_candidates(gaps, audio_clips):
                     # Find visual candidates for this subgap
                     candidates_by_subgap[subgap_id] = []               
                     for clip in audio_clips:
-                        if clip['type'] == 'visual' and subgap['start_time'] <= clip['start_time'] < subgap['end_time']:
+                        if clip['type'] == 'Visual' and subgap['start_time'] <= clip['start_time'] < subgap['end_time']:
                             candidates_by_subgap[subgap_id].append(clip)
                             candidates_id.add(clip['id'])
                 
@@ -183,7 +183,7 @@ def compute_subgaps_and_candidates(gaps, audio_clips):
                 
                 candidates_by_subgap[subgap_id] = []               
                 for clip in audio_clips:
-                    if clip['type'] == 'visual' and subgap['start_time'] <= clip['start_time'] < subgap['end_time']:
+                    if clip['type'] == 'Visual' and subgap['start_time'] <= clip['start_time'] < subgap['end_time']:
                         candidates_by_subgap[subgap_id].append(clip)
                         candidates_id.add(clip['id'])
     
@@ -252,7 +252,7 @@ def optimize_descriptions(client, subgap, candidates, max_retries=3):
             'start_time': subgap['start_time'],
             'duration': tts_duration,
             'end_time': subgap['start_time'] + tts_duration,
-            'type': 'visual',
+            'type': 'Visual',
             'text': optimized_text,
             'fits_in_gap': tts_duration <= available_duration + 0.5
         }
@@ -306,7 +306,7 @@ def optimize_descriptions(client, subgap, candidates, max_retries=3):
                 'start_time': subgap['start_time'],
                 'duration': retry_duration,
                 'end_time': subgap['start_time'] + retry_duration,
-                'type': 'visual',
+                'type': 'Visual',
                 'text': retry_text,
                 'fits_in_gap': retry_duration <= available_duration + 0.5
             }
@@ -396,7 +396,7 @@ def main():
     
     print("\n===== ALL AUDIO CLIPS (ABSOLUTE TIMESTAMPS) =====")
     for i, clip in enumerate(audio_clips):
-        if 'tts_duration' in clip and clip['type'] == 'text':
+        if 'tts_duration' in clip and clip['type'] == 'Text on Screen':
             print(f"Clip {i}: {clip['start_time']:.2f}s - {clip['start_time'] + clip['tts_duration']:.2f}s - Type: {clip['type']}, Scene: {clip['scene_number']}")
         else:
             print(f"Clip {i}: {clip['start_time']:.2f}s - Type: {clip['type']}, Scene: {clip['scene_number']}")
