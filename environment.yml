@@ -12,6 +12,7 @@ dependencies:
   - pytorch
   - torchvision
   - torchaudio
+  - opencv
   - pip:
     - git+https://github.com/openai/CLIP.git
     - whisper_timestamped
