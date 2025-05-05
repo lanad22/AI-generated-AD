@@ -14,10 +14,13 @@ def get_video_metadata(video_id: str) -> dict:
     title_cmd = ["yt-dlp", "--get-title", url]
     desc_cmd = ["yt-dlp", "--get-description", url]
     duration_cmd = ["yt-dlp", "--get-duration", url]
+    # Add command to get the category
+    category_cmd = ["yt-dlp", "--print", "categories", url]
     
     title = "Unknown Title"
     description = ""
     video_length = 0
+    category = "Unknown Category"
     
     # Get title
     try:
@@ -34,6 +37,32 @@ def get_video_metadata(video_id: str) -> dict:
             description = result.stdout.strip()
     except subprocess.CalledProcessError as e:
         print(f"Error fetching description: {e}")
+    
+    # Get category
+    try:
+        result = subprocess.run(category_cmd, capture_output=True, text=True, check=True)
+        if result.stdout.strip():
+            # Clean the category string from "['category']" format to just "category"
+            category_str = result.stdout.strip()
+            # Check if it's in list format like "['entertainment']"
+            if category_str.startswith("['") and category_str.endswith("']"):
+                # Extract the content between quotes
+                category = category_str[2:-2]
+            else:
+                category = category_str
+    except subprocess.CalledProcessError as e:
+        print(f"Error fetching category: {e}")
+        # Alternative method to get category
+        try:
+            info_json_cmd = ["yt-dlp", "--dump-json", url]
+            result = subprocess.run(info_json_cmd, capture_output=True, text=True, check=True)
+            if result.stdout.strip():
+                video_info = json.loads(result.stdout)
+                if "categories" in video_info and video_info["categories"]:
+                    # Take just the first category as a string
+                    category = video_info["categories"][0]
+        except (subprocess.CalledProcessError, json.JSONDecodeError, KeyError) as e2:
+            print(f"Alternative category fetch failed: {e2}")
     
     # Get duration with error handling
     try:
@@ -62,7 +91,12 @@ def get_video_metadata(video_id: str) -> dict:
     except subprocess.CalledProcessError as e:
         print(f"Error fetching duration: {e}")
         
-    return {"title": title, "description": description, "video_length": video_length}
+    return {
+        "title": title, 
+        "description": description, 
+        "video_length": video_length,
+        "category": category
+    }
 
 def download_with_captions(video_id: str):
     """Download YouTube video, metadata, and captions into a folder named after the video ID"""
@@ -74,16 +108,22 @@ def download_with_captions(video_id: str):
     output_dir = os.path.join(os.getcwd(), "videos", video_id)
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
-    # Fetch video metadata (title & description)
+    # Fetch video metadata (title, description, and category)
     print("Fetching video metadata...")
     metadata = get_video_metadata(video_id)
     print(f"Title: {metadata['title']}")
+    print(f"Category: {metadata['category']}")
     print(f"Duration: {metadata['video_length']} seconds")
 
     # Prepare JSON data
     captions_path = os.path.join(output_dir, f"{video_id}.json")
-    captions_data = {"title": metadata["title"], "description": metadata["description"], 
-                     "video_length": metadata["video_length"],"captions": []}
+    captions_data = {
+        "title": metadata["title"], 
+        "description": metadata["description"], 
+        "video_length": metadata["video_length"],
+        "category": metadata["category"],
+        "captions": []
+    }
 
     # Try downloading captions
     try:
@@ -93,7 +133,7 @@ def download_with_captions(video_id: str):
     except Exception as e:
         print(f"Captions not available: {str(e)}")
 
-    # Save JSON file with title, description, and (if available) captions
+    # Save JSON file with title, description, category, and (if available) captions
     with open(captions_path, 'w', encoding='utf-8') as f:
         json.dump(captions_data, f, indent=2, ensure_ascii=False)
     

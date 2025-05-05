@@ -1,10 +1,14 @@
 import json
 import difflib
+from jiwer import wer
+import re
 import subprocess
 import argparse
 import whisper_timestamped
 import os
 import onnxruntime
+import multiprocessing as mp
+
 onnxruntime.set_default_logger_severity(3)
 os.environ["OMP_NUM_THREADS"] = "1"
 
@@ -38,11 +42,14 @@ def match_captions(scene_start, scene_end, scene_duration, captions):
                 })
     return scene_captions
 
+import os
+import subprocess
+
 def extract_audio(scene_video_path, output_audio_path):
-    """
-    Extract audio from a video file (scene) using ffmpeg.
-    Audio is extracted as a WAV file (mono, 16kHz).
-    """
+    if os.path.exists(output_audio_path):
+        print(f"Audio already exists: {output_audio_path}, skipping extraction.")
+        return
+
     command = [
         "ffmpeg", "-y",
         "-i", scene_video_path,
@@ -52,11 +59,13 @@ def extract_audio(scene_video_path, output_audio_path):
         "-ac", "1",
         output_audio_path
     ]
+
     try:
         subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         print(f"Extracted audio: {output_audio_path}")
     except subprocess.CalledProcessError as e:
         print(f"Error extracting audio from {scene_video_path}: {e.stderr.decode()}")
+
 
 def transcribe_whisper(wav_path, device="cuda"):
     """
@@ -73,12 +82,14 @@ def transcribe_whisper(wav_path, device="cuda"):
             best_of=5,
             temperature=(0.0, 0.1, 0.2, 0.4, 0.6, 0.8)
         )
+        print('RAW RESPONSE WHISPER: {result}')
         transcripts = []
         for segment in result["segments"]:
             transcripts.append({
                 "text": segment["text"].strip(),
                 "start": segment["start"],
-                "end": segment["end"]
+                "end": segment["end"],
+                "confidence": segment["confidence"]
             })
         print(f"Whisper transcription complete: {len(transcripts)} segments")
         return transcripts
@@ -87,9 +98,6 @@ def transcribe_whisper(wav_path, device="cuda"):
         return []
 
 def transcribe_google_speech(wav_path):
-    """
-    Transcribe the given WAV file using Google Speech-to-Text API.
-    """
     print(f"Transcribing with Google Speech-to-Text on audio: {wav_path}")
     try:
         client = speech.SpeechClient()
@@ -143,67 +151,139 @@ def transcribe_google_speech(wav_path):
         import traceback
         traceback.print_exc()
         return []
-def verify_transcriptions(whisper_transcripts, google_transcripts):
-    """
-    Verify Whisper transcripts using Google Speech-to-Text output.
-    """
-    if not google_transcripts:
-        print("No Google Speech-to-Text segments found, discarding all Whisper segments")
-        return []
 
-    # Check if any Google segment has empty text
-    for google_seg in google_transcripts:
-        if not google_seg["text"]:
-            print("Empty text found in Google segments, discarding all Whisper segments")
-            return []
+def normalize(text: str) -> str:
+    # lowercase, trim, remove punctuation, collapse spaces
+    text = text.lower().strip()
+    text = re.sub(r"[^\w\s]", "", text)     # drop punctuation
+    text = re.sub(r"\s+", " ", text)        # collapse whitespace
+    return text
 
+def verify_transcriptions(whisper_transcripts, google_transcripts, wer_threshold=0.30, confidence_threshold=0.75):
+    """
+    Workflow:
+    1. If no Google transcripts:
+         • Keep only Whisper segments with confidence ≥ confidence_threshold.
+    
+    2. If both Whisper and Google have transcripts:
+         • Compare combined text from both transcriptions for overall similarity
+         • If similar (WER ≤ wer_threshold):
+             - Use all Whisper segments
+         • If not similar:
+             - For each Whisper segment:
+                 - If high confidence (≥ 0.65), keep as is
+                 - If low confidence (< 0.65):
+                     - Find Google segment whose start time falls within this Whisper segment
+                     - If found, use Google's segment
+                     - If not found, discard the Whisper segment
+    """
     verified = []
 
-    # add Whisper segments with Google overlap
-    for w_seg in whisper_transcripts:
-        has_overlap = any(
-            w_seg["start"] < g_seg["end"] and w_seg["end"] > g_seg["start"]
-            for g_seg in google_transcripts
-        )
-        if has_overlap:
-            verified.append(w_seg)
+    # 1) No Google: only high‑confidence Whisper
+    if not google_transcripts:
+        for w in whisper_transcripts:
+            conf = w.get("confidence", 0)
+            if conf >= confidence_threshold:
+                segment = {
+                    "text":       w["text"].strip(),
+                    "start":      w.get("start"),
+                    "end":        w.get("end")
+                }
+                verified.append(segment)
+                print(f"Added WHISPER_HIGH_CONFIDENCE: \"{segment['text']}\" "
+                      f"({segment['start']}–{segment['end']}) conf={conf:.2f}")
+            else:
+                print(f"Discarded Whisper (conf {conf:.2f} < {confidence_threshold}): "
+                      f"\"{w['text'].strip()}\"")
+        verified.sort(key=lambda s: s.get("start", 0))
+        return verified
 
-    # Track which Google segments were used to verify Whisper segments
-    google_used = [False] * len(google_transcripts)
+    # 2) Both Whisper and Google have transcripts
+    # Combine all whisper text
+    whisper_combined = " ".join([w.get("text", "").strip() for w in whisper_transcripts if w.get("text", "").strip()])
+    norm_whisper_combined = normalize(whisper_combined)
+    print(f'NORM WHISPER, {norm_whisper_combined}')
+    
+    # Combine all google text
+    google_combined = " ".join([g.get("text", "").strip() for g in google_transcripts if g.get("text", "").strip()])
+    norm_google_combined = normalize(google_combined)
+    print(f'NORM GOOGLE, {norm_google_combined}')
+    
+    # Calculate overall WER
+    overall_wer = wer(norm_google_combined, norm_whisper_combined)
+    print(f"Overall WER between combined transcripts: {overall_wer:.4f}")
 
-    for i, g_seg in enumerate(google_transcripts):
-        for w_seg in whisper_transcripts:
-            if (w_seg["start"] < g_seg["end"] and w_seg["end"] > g_seg["start"]):
-                google_used[i] = True
-                break
-
-    # Add high-confidence Google segments that don't overlap with any Whisper segment
-    high_confidence_count = 0
-    for i, g_seg in enumerate(google_transcripts):
-        if not google_used[i] and g_seg.get("confidence", 0) > 0.9:  # 90% confidence threshold
-            high_confidence_segment = {
-                "text": g_seg["text"],
-                "start": g_seg["start"],
-                "end": g_seg["end"],
+    # If combined texts are similar enough, use all Whisper segments
+    if overall_wer <= wer_threshold:
+        print(f"Combined transcripts are similar (WER={overall_wer:.4f} <= {wer_threshold})")
+        print(f"Using all Whisper segments (verified)")
+        
+        for w in whisper_transcripts:
+            raw_w = w.get("text", "").strip()
+            if not raw_w:
+                continue
+                
+            segment = {
+                "text": raw_w,
+                "start": w.get("start"),
+                "end": w.get("end")
             }
-            verified.append(high_confidence_segment)
-            high_confidence_count += 1
+            verified.append(segment)
+            print(f"Added VERIFIED_WHISPER: \"{segment['text']}\" "
+                  f"({segment['start']}–{segment['end']})")
+    else:
+        print(f"Combined transcripts differ significantly (WER={overall_wer:.4f} > {wer_threshold})")
+        print(f"Checking individual segments")
+        
+        # Process each Whisper segment
+        for w in whisper_transcripts:
+            raw_w = w.get("text", "").strip()
+            if not raw_w:
+                continue
+                
+            conf_w = w.get("confidence", 0)
+            w_start = w.get("start", 0)
+            w_end = w.get("end", 0)
+            
+            # High confidence Whisper - keep regardless
+            if conf_w >= 0.60:
+                segment = {
+                    "text": raw_w,
+                    "start": w_start,
+                    "end": w_end
+                }
+                verified.append(segment)
+                print(f"Added WHISPER (high conf): \"{segment['text']}\" "
+                      f"({segment['start']}–{segment['end']}) conf={conf_w:.2f}")
+            else:
+                # Low confidence Whisper - find Google segment whose start time is within this segment
+                matching_g = None
+                
+                for g in google_transcripts:
+                    g_start = g.get("start", 0)
+                    
+                    # Check if Google segment's start time falls within Whisper segment's timespan
+                    if w_start <= g_start < w_end:
+                        matching_g = g
+                        break
+                
+                # If matching Google segment found, use it
+                if matching_g:
+                    segment = {
+                        "text": matching_g["text"].strip(),
+                        "start": matching_g["start"],
+                        "end": matching_g["end"]
+                    }
+                    verified.append(segment)
+                    print(f"Added GOOGLE (low whisper conf): \"{segment['text']}\" "
+                          f"({segment['start']}–{segment['end']}) whisper_conf={conf_w:.2f}")
+                else:
+                    print(f"Discarded low confidence Whisper (no matching Google segment): \"{raw_w}\" "
+                          f"({w_start}–{w_end}) conf={conf_w:.2f}")
 
-    # If no Whisper segments but there are high-confidence Google segments
-    for g_seg in google_transcripts:
-        if g_seg.get("confidence", 0) > 0.9:  # 90% confidence threshold
-            high_confidence_segment = {
-                "text": g_seg["text"],
-                "start": g_seg["start"],
-                "end": g_seg["end"],
-            }
-            verified.append(high_confidence_segment)
-            high_confidence_count += 1
-
-    # Sort verified segments by start time
-    verified.sort(key=lambda x: x["start"])
-
-    print(f"Verification complete: {len(verified)} segments total")
+    # sort and return
+    verified.sort(key=lambda s: s.get("start", 0))
+    print(f"Verification complete: {len(verified)} segments added.")
     return verified
 
 def should_discard_captions(global_transcript_text, global_caption_text, threshold=0.8):
@@ -215,7 +295,7 @@ def should_discard_captions(global_transcript_text, global_caption_text, thresho
     print(f"Global transcript vs captions similarity: {similarity:.2f}")
     return similarity >= threshold
 
-def update_scene_transcripts(video_folder, device="cuda", verification_threshold=0.6, global_caption_threshold=0.8):
+def update_scene_transcripts(video_folder, device="cuda", global_caption_threshold=0.8):
     video_id = os.path.basename(os.path.normpath(video_folder))
     scene_json_path = os.path.join(video_folder, f"{video_id}_scenes", "scene_info.json")
 
@@ -246,26 +326,27 @@ def update_scene_transcripts(video_folder, device="cuda", verification_threshold
             print(f"Scene video not found for scene {scene.get('scene_number')}, skipping transcription.")
             continue
 
-        temp_audio_path = scene_path.replace(".mp4", ".wav")
+        audio_path = scene_path.replace(".mp4", ".wav")
         print(f"Extracting audio for scene {scene.get('scene_number')}")
-        extract_audio(scene_path, temp_audio_path)
+        extract_audio(scene_path, audio_path)
 
         # Transcribe with both models and verify
-        whisper_trans = transcribe_whisper(temp_audio_path, device)
+        whisper_trans = transcribe_whisper(audio_path, device)
         print(f"WHISPER TRANS: {whisper_trans}")
         # Use Google Speech-to-Text instead of Wav2Vec2
-        google_trans = transcribe_google_speech(temp_audio_path)
+        google_trans = transcribe_google_speech(audio_path)
         print(f"GOOGLE SPEECH TRANS: {google_trans}")
         verified_trans = verify_transcriptions(whisper_trans, google_trans)
+        print(f"VERIFIED: {verified_trans}")
         scene["transcript"] = verified_trans
 
         # Append the scene transcript text to the global transcript text
         scene_transcript_text = " ".join([seg["text"] for seg in verified_trans])
         global_transcript_text += scene_transcript_text + " "
-
+        '''
         if os.path.exists(temp_audio_path):
             os.remove(temp_audio_path)
-            print(f"Removed temporary audio file: {temp_audio_path}")
+            print(f"Removed temporary audio file: {temp_audio_path}")'''
 
     # Global captions check: compare the entire transcript with the full captions text
     if captions and global_transcript_text.strip():
@@ -295,7 +376,7 @@ def update_scene_transcripts(video_folder, device="cuda", verification_threshold
         json.dump(scenes, out_f, indent=2)
     print(f"Updated scene JSON with transcripts saved to: {scene_json_path}")
     
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(
         description="Transcribe scene audio using Whisper and Google Speech-to-Text, verify transcripts, and update scene JSON with optional captions."
     )
@@ -308,10 +389,10 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     update_scene_transcripts(args.video_folder, args.device, args.threshold)
-                
-    
 
-
+if __name__ == '__main__':
+    mp.set_start_method('spawn', force=True)
+    main()
 
 
 

@@ -12,7 +12,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def convert_for_qwen(input_path):
-    """Convert video to a format compatible with Qwen model."""
     base_path, ext = os.path.splitext(input_path)
     output_path = f"{base_path}_qwen{ext}"
     
@@ -30,13 +29,11 @@ def convert_for_qwen(input_path):
     return output_path
 
 def encode_video_to_base64(video_path):
-    """Encode video file to base64 for API transmission."""
     with open(video_path, "rb") as video_file:
         encoded_string = base64.b64encode(video_file.read())
     return encoded_string.decode('utf-8')
 
 def extract_and_parse_json(response):
-    """Extract and parse JSON from the model response."""
     try:
         # Remove markdown code block markers if present
         response = re.sub(r'```json|```', '', response)
@@ -82,56 +79,95 @@ def prepare_context(scene_data, previous_description=None):
     # Add previous description if available
     if previous_description:
         context_parts.append(
-            f"PREVIOUS SCENE CONTEXT (for reference only, do not repeat):\n{previous_description}\n\n"
+            f"PREVIOUS SCENE DESCRIPTION (for reference only, do not repeat):\n{previous_description}\n\n"
             "Focus on new observations, actions, and details from the current scene.\n"
         )
     
     return "\n\n".join(context_parts)
 
-def process_scene(scene_data, scene_path, client, previous_description=None, system_message=None, max_retries=3):
-    """Process a scene to create audio descriptions using the Qwen API."""
+def process_scene(scene_data, scene_path, client, previous_description=None, system_message=None, max_retries=3, video_category="Other", video_title = "Other"):
     # Prepare context
     context = prepare_context(scene_data, previous_description)
     scene_duration = scene_data.get("duration")
     
-    # Create a more concise scene prompt that focuses on context review
+    if video_category.lower() == "howto & style":
+        extra_rule = (
+            "\n"
+            "- DO NOT mention any person or body part. "
+            "ONLY describe the action itself in the imperative."
+        )
+        if "origami" in video_title.lower() or "paper folding" in video_title.lower():
+            extra_rule += (
+                "\n"
+                "- For origami instructions: Use precise geometric and directional language. "
+                "Describe each fold with specificity with degree of rotation."
+                "Mention paper characteristics (square, colored side, white side). "
+                "Use standard origami terminology (squash fold, petal fold, inside reverse fold). "
+                "Track shape progression ('The paper transforms into a preliminary base'). "
+                "Describe spatial relationships ('Align top edge with center crease'). "
+                "ONLY describe the action itself in the imperative. NO mentions of hands, fingers, or people."
+            )
+            
+        elif "scarf" in video_title.lower() or "wrap" in video_title.lower() or "accessory" in video_title.lower():
+            extra_rule += (
+                "\n"
+                "- For scarf styling instructions: Use precise positional and directional terminology. BE VERY DETAILED AND SPECIFIC "
+                "Focus on fabric movement and placement ('Drape fabric over shoulders,' 'Twist ends together'). "
+                "Describe the technique with specific verbs ('Loop,' 'Thread,' 'Fold,' 'Tuck'). "
+                "Note the evolving appearance ('Creates cascade effect,' 'Forms triangular shape'). "
+                "Include stylistic outcomes where relevant ('Results in waterfall effect,' 'Creates layered look'). "
+                "Mention fabric orientation or directionality ('Position patterned side outward'). "
+                "ONLY describe actions in imperative form with NO mentions of wearer, hands, or body parts."
+            )
+    else:
+        extra_rule = ""
+
     prompt = f"""
             SCENE DURATION: {scene_duration:.2f} seconds
 
             CONTEXT:
             {context}
+            
+            You are analyzing a video scene. Identify specific characters, locations, and any important elements mentioned in the context.
 
-            You are analyzing a video scene. First, identify specific characters, locations, and any important elements mentioned in the context.
-
-            Then generate a JSON array of scene events with the following rules:
-
-            EVENT TYPES:
-            1. Text Events ("type": "Text on Screen"):
-            - Capture ONLY visible on-screen text.
+            First, generate a JSON array of Text on Screen events.
+            Text Events ("type": "Text on Screen"):
+            - Capture ALL visible on-screen text.
             - DO NOT include transcript or dialogue.
             - CRITICAL: For each text event, include the EXACT `start_time` in seconds when the text appears.
+            
+            INCLUDE:
+            - Titles, headings, names
+            - Informational text
+            - Important dates or events
 
-            2. Visual Description Events ("type": "Visual"):
-            - Provide a brief, focused description of the visual content (e.g., who is present, what they are doing).
-            - DO NOT include any text or camera movements.
-            - Use exact `start_time` for when the visual starts.
-            - Do not repeat descriptions from earlier.
+            EXCLUDE:
+            - Brand logos and watermarks
+            - Network logos
+            - Social media handles
+            - Copyright notices
+            
+            Second, generate a JSON array of Visual event.
+            - Provide contextually rich visual description of the scene using very concise wording
+            - Describe each action in this scene in every specific details. 
+            - ALWAYS use specific character names from context (not "person" or "woman")
+            - Focus on key actions, settings, objects that aren't mentioned in previous description
+            - Include clear start times for each visual event
+            - IMPORTANT: DO NOT describe Text on Screen
 
             ### RULES:
-            - ALWAYS use specific character names from the context if available. Do not use generic terms like "man" or "person".
             - Format the output as a JSON array. Each object should include:
             - `start_time` (in seconds)
             - `type` ("Text on Screen" or "Visual")
-            - `text` (description or on-screen text)
-            
+            - `text` (description or on-screen text){extra_rule}        
             Now generate the JSON array of events for this scene.
         """
 
     
-    print(f"SCENE PROMPT LENGTH: {len(prompt)} characters")
+    #print(f"PROMPT: {prompt}")
     
     if not system_message:
-        system_message = "You are a professional audio describer following strict guidelines."
+        system_message = "You are a professional audio describer."
     
     # Encode video to base64
     print("Encoding video for API transmission...")
@@ -155,7 +191,7 @@ def process_scene(scene_data, scene_path, client, previous_description=None, sys
                         {"type": "video_url", "video_url": {"url": f"data:video/mp4;base64,{encoded_video}"}}
                     ]}
                 ],
-                max_tokens=2048,
+                max_tokens=512,
                 temperature=0.7,
                 #timeout=120  # Increased timeout for longer responses
             )
@@ -215,10 +251,10 @@ def process_scene(scene_data, scene_path, client, previous_description=None, sys
     deduplicated_events.sort(key=lambda e: e.get("start_time", 0))
     return deduplicated_events
 
-def process_all_scenes(video_folder, client, skip_guidelines=False):
-    """Process all scenes in the provided video folder with initial model priming."""
+def process_all_scenes(video_folder, client):
     video_id = os.path.basename(os.path.normpath(video_folder))
     video_metadata_path = os.path.join(video_folder, f"{video_id}.json")
+
     scenes_folder = os.path.join(video_folder, f"{video_id}_scenes")
     scenes_json_path = os.path.join(scenes_folder, "scene_info.json")
     
@@ -230,9 +266,13 @@ def process_all_scenes(video_folder, client, skip_guidelines=False):
     with open(video_metadata_path, "r") as f:
         video_metadata = json.load(f)
     
+    video_category = video_metadata.get("category", "Other")
+    print(f"Loaded video category: {video_category}")
+    
     video_title = video_metadata.get("title", "Unknown Title")
     video_description = video_metadata.get("description", "")
     previous_description = f"Video Title: {video_title}\n{video_description}"
+    print(f"PREVIOUS DESCRIPTION: {previous_description}")
     
     if not os.path.exists(scenes_json_path):
         print(f"Error: scene_info.json not found in {scenes_folder}")
@@ -251,11 +291,9 @@ def process_all_scenes(video_folder, client, skip_guidelines=False):
     - Be factual, objective, and precise in your descriptions.
     - Use proper terminology and names from the context when possible.
     - Match the tone and mood of the video.
-    - Do not describe what can be inferred from the audio.
     - Do not over-describe - less is more.
     - Do not interpret or editorialize about what you see.
     - Do not give away surprises before they happen.
-    - DO NOT mention or describe any camera movements or transitions.
    
     IMPORTANT CHARACTER IDENTIFICATION:
     - When you recognize a character from the context, ALWAYS use their specific name.
@@ -311,9 +349,9 @@ def process_all_scenes(video_folder, client, skip_guidelines=False):
             prev_descriptions = []
             
             if prev_scene.get('audio_clips'):
-                # Extract visual descriptions from previous scene
+                # Extract descriptions from previous scene
                 prev_descriptions = [clip.get('text', '') for clip in prev_scene.get('audio_clips', []) 
-                                    if clip.get('type') == 'visual']
+                                    if clip.get('type') == 'visual'] 
                 
                 if prev_descriptions:
                     # Update previous_description with actual previous scene data
@@ -330,7 +368,9 @@ def process_all_scenes(video_folder, client, skip_guidelines=False):
                     converted_scene_path, 
                     client, 
                     previous_description=previous_description,
-                    system_message=system_message
+                    system_message=system_message,
+                    video_category=video_category,
+                    video_title=video_title
                 )
                 
                 scene_data['audio_clips'] = scene_events
@@ -338,10 +378,10 @@ def process_all_scenes(video_folder, client, skip_guidelines=False):
             except Exception as e:
                 print(f"Error processing scene {idx}: {str(e)}")
                 scene_data['audio_clips'] = []
-            
+            '''
             if converted_scene_path != scene_path and os.path.exists(converted_scene_path):
                 os.remove(converted_scene_path)
-                print(f"Removed temporary Qwen format file: {converted_scene_path}")
+                print(f"Removed temporary Qwen format file: {converted_scene_path}")'''
         
         except Exception as e:
             print(f"Error converting video: {str(e)}")

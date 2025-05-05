@@ -83,7 +83,40 @@ def get_transcript_for_timestamp(scene, timestamp, video_id, window=2.0):
     else:
         return "No transcript or video details available for this moment."
 
-def query_frames_with_api(keyframe_path, exact_frame_path, scene, keyframe_time, exact_time, video_id, query="describe the scene"):
+def get_accumulated_audio_clips(scene_info, current_scene_idx):
+    """Get accumulated audio clips from the current scene and all previous scenes."""
+    accumulated_clips = []
+    
+    # Get all scenes up to and including the current scene
+    for i in range(current_scene_idx + 1):
+        scene = scene_info[i]
+        if "audio_clips" in scene:
+            for clip in scene["audio_clips"]:
+                accumulated_clips.append({
+                    "scene_number": scene["scene_number"],
+                    "start_time": clip.get("start_time", 0),
+                    "end_time": clip.get("end_time", 0),
+                    "text": clip.get("text", ""),
+                    "speakers": clip.get("speakers", [])
+                })
+    
+    return accumulated_clips
+
+def format_audio_clips(clips):
+    """Format audio clips into a readable string."""
+    if not clips:
+        return "No audio clips available."
+    
+    formatted = []
+    for clip in clips:
+        speakers = ", ".join(clip["speakers"]) if clip["speakers"] else "Unknown"
+        formatted.append(
+            f"[Scene {clip['scene_number']} | {clip['start_time']:.2f}s - {clip['end_time']:.2f}s | Speakers: {speakers}]: {clip['text']}"
+        )
+    
+    return "\n".join(formatted)
+
+def query_frames_with_api(keyframe_path, exact_frame_path, scene, scene_info, scene_idx, keyframe_time, exact_time, video_id, query="describe the scene"):
     if not keyframe_path or not os.path.exists(keyframe_path):
         return "Keyframe not found."
     if not exact_frame_path or not os.path.exists(exact_frame_path):
@@ -97,6 +130,10 @@ def query_frames_with_api(keyframe_path, exact_frame_path, scene, keyframe_time,
     
     transcript = get_transcript_for_timestamp(scene, exact_time, video_id)
     
+    # Get accumulated audio clips
+    accumulated_audio_clips = get_accumulated_audio_clips(scene_info, scene_idx)
+    formatted_audio_clips = format_audio_clips(accumulated_audio_clips)
+    
     scene_info_text = (
         f"SCENE NUMBER: {scene['scene_number']}\n"
         f"SCENE TIMESTAMP RANGE: {scene['start_time']:.2f}s - {scene['end_time']:.2f}s\n"
@@ -104,9 +141,12 @@ def query_frames_with_api(keyframe_path, exact_frame_path, scene, keyframe_time,
         f"KEYFRAME TIMESTAMP: {keyframe_time:.2f}s\n"
         f"EXACT TIMESTAMP: {exact_time:.2f}s\n\n"
         f"TRANSCRIPT AT TIMESTAMP:\n{transcript}\n\n"
+        f"ACCUMULATED AUDIO CLIPS (CURRENT AND PREVIOUS SCENES):\n{formatted_audio_clips}\n\n"
     )
     
-    prompt = f"""VIDEO SCENE CONTEXT:
+    # Create different prompts based on the query
+    if query.lower().strip() == "describe the scene":
+        prompt = f"""VIDEO SCENE CONTEXT:
             {scene_info_text}
 
             USER QUERY: {query}
@@ -114,10 +154,28 @@ def query_frames_with_api(keyframe_path, exact_frame_path, scene, keyframe_time,
             IMPORTANT: You are looking at two frames from the video.
             - The first frame is a keyframe captured near timestamp {keyframe_time:.2f}s.
             - The second frame is the exact frame captured at timestamp {exact_time:.2f}s.
-            Provide an information and concise description or answer of what is visible in these images in 1 sentence.
-            Focus on the most important elements to help the user understand what they want to know about timestamp {exact_time:.2f}s.
-            DO NOT mention frames or the timestamp. 
+            Use context to provide a contextually rich description about the current frame.
+            Description should be concise in 1 sentence.
+            Focus on the most important visual elements at timestamp {exact_time:.2f}s.
+            DO NOT mention frames or the timestamp.
             """
+    else:
+        prompt = f"""VIDEO SCENE CONTEXT:
+            {scene_info_text}
+
+            USER QUERY: {query}
+
+            IMPORTANT: You are looking at two frames from the video.
+            - The first frame is a keyframe captured near timestamp {keyframe_time:.2f}s.
+            - The second frame is the exact frame captured at timestamp {exact_time:.2f}s. 
+            Use context to provide a contextually rich answer to the {query} in one very concise sentence.
+            When the query is a "Why" question, your answer must include the specific cause-and-effect details 
+            (identifying who was involved, when the event occurred, and what happened) that directly answer the query.
+            If the question is Where, be specific with the setting.
+            Do NOT add external details outside of scope.
+            Do NOT refer to frame numbers or timestamps.
+            """
+
     #print(f"PROMT: {prompt}")
     client = OpenAI(
         api_key=os.getenv("API_KEY"),
@@ -156,7 +214,7 @@ def main():
     parser = argparse.ArgumentParser(description="Find the keyframe closest to a given timestamp and the exact frame at that timestamp, then query the API.")
     parser.add_argument("video_id", help="ID of the video (e.g., '_1DDhUnyvwY')")
     parser.add_argument("timestamp", type=float, help="Timestamp in seconds to analyze")
-    parser.add_argument("query", default="describe the scene",
+    parser.add_argument("query", nargs="?", default="describe the scene",
                       help="Query to send to the API (default: 'describe the scene')")
     
     args = parser.parse_args()
@@ -171,7 +229,15 @@ def main():
         return
     
     # Find the scene covering the timestamp.
-    scene = find_scene_for_timestamp(scene_info, args.timestamp)
+    scene = None
+    scene_idx = -1
+    
+    for idx, s in enumerate(scene_info):
+        if s["start_time"] <= args.timestamp < s["end_time"]:
+            scene = s
+            scene_idx = idx
+            break
+            
     if not scene:
         print(f"Error: No scene found for timestamp {args.timestamp}")
         return
@@ -185,7 +251,7 @@ def main():
         return
     
     # Load keyframes info from JSON (assumed always present).
-    keyframes_json_path = f"videos/{args.video_id}/keyframes/keyframes_info.json"
+    keyframes_json_path = f"videos/{args.video_id}/keyframes/keyframe_info.json"
     try:
         with open(keyframes_json_path, "r") as f:
             keyframes_info = json.load(f)
@@ -210,10 +276,14 @@ def main():
             print(f"  Path: {keyframe_path}")
             
             print(f"\nQuerying API with keyframe (at {keyframe_time:.2f}s) and exact frame (at {args.timestamp:.2f}s)...")
+            print(f"Also including accumulated audio clips from scene 1 to scene {scene['scene_number']}...")
+            
             response = query_frames_with_api(
                 keyframe_path,
                 exact_frame_path,
                 scene,
+                scene_info,
+                scene_idx,
                 keyframe_time,
                 args.timestamp,
                 args.video_id,
