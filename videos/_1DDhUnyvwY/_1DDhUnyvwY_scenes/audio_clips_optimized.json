@@ -1,314 +1,232 @@
 [
   {
     "scene_number": 1,
+    "text": "The scene opens with a black screen, then a rotating globe highlights Africa. It zooms into a region with lush, green hills and a coastline.",
+    "type": "Visual",
+    "duration": 10.584,
+    "fits_in_gap": true,
+    "original_texts": [
+      "The scene begins with a black screen, which transitions to a rotating globe highlighting the continent of Africa.",
+      "The camera zooms in on Africa, focusing on its geographical features and then narrows down to a specific region showing detailed terrain.",
+      "The view shifts to a closer perspective of a lush green landscape with rolling hills and a coastline, suggesting a natural habitat."
+    ],
     "start_time": 0.0,
-    "duration": 10.776,
-    "end_time": 10.776,
-    "type": "Visual",
-    "text": "\"A rotating globe highlights Africa, then zooms into a detailed landscape, transitioning to a lush, green mountainous area near a coastline.\""
+    "end_time": 10.584,
+    "strategy": "combine_all",
+    "gap_idx": 0
   },
   {
     "scene_number": 2,
+    "text": "Sunlight dapples through dense leaves.",
+    "type": "Visual",
+    "duration": 2.976,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Sunlight filters through dense foliage, creating a dappled light effect on the forest floor."
+    ],
     "start_time": 12.96,
-    "duration": 4.992,
-    "end_time": 17.952,
-    "type": "Visual",
-    "text": "\"Sunlight filters through leaves, casting shadows on the forest floor.\""
+    "end_time": 15.936,
+    "strategy": "combine_all",
+    "gap_idx": 0
   },
   {
     "scene_number": 2,
-    "start_time": 16.46,
-    "duration": 2.448,
-    "end_time": 18.908,
+    "start_time": 15.96,
+    "end_time": 18.864,
+    "duration": 2.904,
     "type": "Text on Screen",
-    "text": "GOMBE NATIONAL PARK TANZANIA"
+    "text": "GOMBE NATIONAL PARK\nTANZANIA",
+    "fits_in_gap": true
   },
   {
-    "scene_number": 2,
-    "start_time": 18.908,
-    "duration": 4.512,
-    "end_time": 23.42,
-    "type": "Visual",
-    "text": "\"A close-up of mossy rocks with small plants in dappled sunlight.\""
-  },
-  {
-    "scene_number": 2,
-    "start_time": 23.96,
+    "scene_number": 3,
+    "start_time": 21.76,
+    "end_time": 24.712000000000003,
     "duration": 2.952,
-    "end_time": 26.912,
     "type": "Text on Screen",
-    "text": "With words and narration by Jane Goodall"
+    "text": "With words and narration by Jane Goodall",
+    "fits_in_gap": true
   },
   {
     "scene_number": 3,
-    "start_time": 27.96,
-    "duration": 6.144,
-    "end_time": 34.104,
+    "text": "Mossy rock, delicate plants, soft light.",
     "type": "Visual",
-    "text": "A large tree stands prominently in a lush forest, surrounded by dense greenery."
+    "duration": 3.168,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A close-up shot of a moss-covered rock with delicate plants growing from it is shown, bathed in soft sunlight."
+    ],
+    "start_time": 24.712000000000003,
+    "end_time": 27.880000000000003,
+    "strategy": "combine_all",
+    "gap_idx": 0
   },
   {
-    "scene_number": 3,
-    "start_time": 32.46,
-    "duration": 7.584,
-    "end_time": 40.044,
+    "scene_number": 10,
+    "text": "\"Lush forest covers rolling hills, sky dotted with clouds.\"",
     "type": "Visual",
-    "text": "A stream flows gently through the forest floor, with sunlight filtering through the leaves and illuminating the water."
+    "duration": 4.752,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A lush, expansive forest stretches across rolling hills under a bright blue sky dotted with fluffy white clouds."
+    ],
+    "start_time": 50.04,
+    "end_time": 54.792,
+    "strategy": "combine_all",
+    "gap_idx": 0
   },
   {
-    "scene_number": 3,
-    "start_time": 35.76,
-    "duration": 6.096,
-    "end_time": 41.855999999999995,
+    "scene_number": 12,
+    "text": "Green canopy sways. Chimpanzee moves, arms reaching through leaves.",
     "type": "Visual",
-    "text": "A butterfly rests on the forest floor among fallen leaves, its wings spread wide."
+    "duration": 5.736,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A lush green tree canopy fills the frame, with leaves gently swaying in the breeze. The sky above is clear and bright.",
+      "A chimpanzee appears on the right side of the frame, partially obscured by the foliage. It moves its arms, possibly reaching for something or interacting with its environment."
+    ],
+    "start_time": 58.28,
+    "end_time": 64.016,
+    "strategy": "combine_all",
+    "gap_idx": 0
   },
   {
-    "scene_number": 3,
-    "start_time": 38.16,
-    "duration": 7.32,
-    "end_time": 45.48,
+    "scene_number": 13,
+    "text": "A chimpanzee in a green tree, surrounded by insects, raises its arms and calls loudly.",
     "type": "Visual",
-    "text": "A close-up of a spider web glistens in the sunlight, attached to a plant with vibrant purple flowers."
-  },
-  {
-    "scene_number": 4,
-    "start_time": 39.6,
-    "duration": 8.52,
-    "end_time": 48.120000000000005,
-    "type": "Visual",
-    "text": "A large tree with sprawling branches and dense foliage is shown from a low angle, with sunlight filtering through the leaves."
-  },
-  {
-    "scene_number": 4,
-    "start_time": 44.6,
-    "duration": 8.568,
-    "end_time": 53.168,
-    "type": "Visual",
-    "text": "The camera shifts focus to another tree, showcasing its thick canopy of green leaves swaying gently in the breeze."
-  },
-  {
-    "scene_number": 5,
-    "start_time": 49.96,
-    "duration": 5.256,
-    "end_time": 55.216,
-    "type": "Visual",
-    "text": "\"A lush, green hillside rises under a sky dotted with clouds.\""
-  },
-  {
-    "scene_number": 5,
-    "start_time": 54.96,
-    "duration": 5.616,
-    "end_time": 60.576,
-    "type": "Visual",
-    "text": "Leaves and branches sway gently in the breeze with small insects flying around."
-  },
-  {
-    "scene_number": 5,
-    "start_time": 58.260000000000005,
-    "duration": 6.744,
-    "end_time": 65.004,
-    "type": "Visual",
-    "text": "\"A chimpanzee swings through dense, lush foliage, navigating the vibrant green canopy.\""
-  },
-  {
-    "scene_number": 6,
+    "duration": 6.84,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A chimpanzee is perched atop a lush green tree, surrounded by flying insects. It raises its arms and appears to be vocalizing or gesturing energetically."
+    ],
     "start_time": 64.96,
-    "duration": 7.248,
-    "end_time": 72.208,
-    "type": "Visual",
-    "text": "\"A chimpanzee sits atop a tree, arms outstretched, with an open mouth and expressive eyes.\""
+    "end_time": 71.8,
+    "strategy": "combine_all",
+    "gap_idx": 0
   },
   {
-    "scene_number": 7,
-    "start_time": 79.08,
-    "duration": 8.424,
-    "end_time": 87.50399999999999,
+    "scene_number": 14,
+    "start_time": 79.26,
+    "end_time": 87.372,
+    "duration": 8.112,
     "type": "Visual",
-    "text": "A chimpanzee sits on the forest floor with a baby chimpanzee lying beside it, both appear calm and at ease."
+    "text": "A chimpanzee sits upright beside a baby chimp lying on its back, both surrounded by leaves in the forest.",
+    "fits_in_gap": false,
+    "strategy": "unprocessed",
+    "original_text": "An adult chimpanzee sits upright on the forest floor next to a baby chimp lying on its back, surrounded by leaves and trees."
   },
   {
-    "scene_number": 7,
-    "start_time": 85.58,
-    "duration": 7.344,
-    "end_time": 92.92399999999999,
+    "scene_number": 16,
+    "text": "A baboon walks through a lush forest, another in background.",
     "type": "Visual",
-    "text": "Another chimpanzee is seen climbing a tree in the dense forest, moving gracefully among the branches."
-  },
-  {
-    "scene_number": 8,
+    "duration": 4.296,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A baboon walks forward through a lush forest, its mouth slightly open as if vocalizing. Another baboon is visible in the background to the right."
+    ],
     "start_time": 91.36,
-    "duration": 3.96,
-    "end_time": 95.32,
-    "type": "Visual",
-    "text": "\"A baboon moves through a dense forest, eyes focused.\""
+    "end_time": 95.656,
+    "strategy": "combine_all",
+    "gap_idx": 0
   },
   {
-    "scene_number": 8,
-    "start_time": 96.56,
-    "duration": 6.072,
-    "end_time": 102.632,
+    "scene_number": 20,
+    "text": "Waterfall down rocky cliff.",
     "type": "Visual",
-    "text": "The camera shifts to show the towering branches of a large tree reaching towards the sky."
+    "duration": 2.4,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A powerful waterfall cascades down a rocky cliff, green foliage."
+    ],
+    "start_time": 105.16,
+    "end_time": 107.56,
+    "strategy": "combine_all",
+    "gap_idx": 0
   },
   {
-    "scene_number": 8,
-    "start_time": 99.96,
-    "duration": 4.368,
-    "end_time": 104.32799999999999,
+    "scene_number": 24,
+    "start_time": 117.16,
+    "end_time": 121.58,
+    "duration": 6.72,
     "type": "Visual",
-    "text": "A close-up reveals a small yellow insect resting on a leaf."
+    "text": "Tall trees, chimpanzee is seen gripping a tree branch with its hand.",
+    "fits_in_gap": true,
+    "strategy": "original_placement"
   },
   {
-    "scene_number": 9,
-    "start_time": 101.8,
-    "duration": 4.104,
-    "end_time": 105.904,
-    "type": "Visual",
-    "text": "A green snake slithers along a moss-covered tree branch."
-  },
-  {
-    "scene_number": 9,
-    "start_time": 106.3,
-    "duration": 4.896,
-    "end_time": 111.196,
-    "type": "Visual",
-    "text": "Water cascades down a rocky waterfall surrounded by lush greenery."
-  },
-  {
-    "scene_number": 9,
-    "start_time": 109.8,
-    "duration": 6.504,
-    "end_time": 116.304,
-    "type": "Visual",
-    "text": "A bright green caterpillar hangs from a thin strand of silk against a soft yellow background."
-  },
-  {
-    "scene_number": 9,
-    "start_time": 111.8,
-    "duration": 5.592,
-    "end_time": 117.392,
-    "type": "Visual",
-    "text": "Two butterflies with black and white wings flutter among vibrant green leaves."
-  },
-  {
-    "scene_number": 10,
-    "start_time": 113.64,
-    "duration": 8.448,
-    "end_time": 122.088,
-    "type": "Visual",
-    "text": "A panoramic view of a lush, green landscape with rolling hills and a distant body of water under a clear sky."
-  },
-  {
-    "scene_number": 10,
-    "start_time": 117.14,
-    "duration": 9.888,
-    "end_time": 127.028,
-    "type": "Visual",
-    "text": "The camera focuses on a dense forest canopy with sunlight filtering through the leaves, highlighting the intricate branches and vibrant greenery."
-  },
-  {
-    "scene_number": 10,
-    "start_time": 120.44,
-    "duration": 8.616,
-    "end_time": 129.05599999999998,
-    "type": "Visual",
-    "text": "A chimpanzee is seen in close-up, gripping a tree branch with its hands and looking around attentively amidst the foliage."
-  },
-  {
-    "scene_number": 11,
+    "scene_number": 26,
     "start_time": 123.64,
-    "duration": 5.28,
-    "end_time": 128.92,
+    "end_time": 126.88,
+    "duration": 3.24,
     "type": "Visual",
-    "text": "A close-up of two baboons, one gently touching the other's face."
+    "text": "Two baboons in close-up, one gently grooming the other's face.",
+    "fits_in_gap": false,
+    "strategy": "unprocessed",
+    "original_text": "Two baboons in close-up, one gently grooming the other's face."
   },
   {
-    "scene_number": 11,
-    "start_time": 127.14,
-    "duration": 4.368,
-    "end_time": 131.508,
+    "scene_number": 27,
+    "start_time": 128.66,
+    "end_time": 132.188,
+    "duration": 3.528,
     "type": "Visual",
-    "text": "A white insect with fluffy appendages crawls on a green leaf."
+    "text": "A chimpanzee swings through lush palms treetops.",
+    "fits_in_gap": false,
+    "strategy": "unprocessed",
+    "original_text": "A chimpanzee swings gracefully through the treetops, surrounded by lush palms."
   },
   {
-    "scene_number": 11,
-    "start_time": 129.84,
-    "duration": 4.464,
-    "end_time": 134.304,
-    "type": "Visual",
-    "text": "A bird soars gracefully through the air above dense palm trees."
-  },
-  {
-    "scene_number": 11,
-    "start_time": 133.44,
-    "duration": 7.152,
-    "end_time": 140.59199999999998,
-    "type": "Visual",
-    "text": "The scene shifts to a vast ocean under a cloudy sky, with gentle waves rippling across the water."
-  },
-  {
-    "scene_number": 12,
-    "start_time": 135.2,
-    "duration": 6.408,
-    "end_time": 141.60799999999998,
-    "type": "Visual",
-    "text": "Aerial view of a coastline with lush green hills and mountains extending into the distance."
-  },
-  {
-    "scene_number": 12,
-    "start_time": 136.29999999999998,
-    "duration": 8.304,
-    "end_time": 144.60399999999998,
-    "type": "Visual",
-    "text": "\"The scene shifts to a dense forest, where tall trees loom overhead, sunlight filtering through the lush canopy.\""
-  },
-  {
-    "scene_number": 13,
+    "scene_number": 31,
     "start_time": 146.28,
-    "duration": 1.464,
     "end_time": 147.744,
+    "duration": 1.464,
     "type": "Text on Screen",
-    "text": "Hello Gombe."
+    "text": "Hello Gombe.",
+    "fits_in_gap": true
   },
   {
-    "scene_number": 13,
-    "start_time": 149.28,
+    "scene_number": 31,
+    "start_time": 148.48,
+    "end_time": 149.776,
     "duration": 1.296,
-    "end_time": 150.576,
     "type": "Text on Screen",
-    "text": "Hello world."
+    "text": "Hello world.",
+    "fits_in_gap": true
   },
   {
-    "scene_number": 13,
-    "start_time": 152.28,
-    "duration": 5.304,
-    "end_time": 157.584,
+    "scene_number": 32,
+    "start_time": 150.72,
+    "end_time": 152.04,
+    "duration": 1.32,
     "type": "Text on Screen",
-    "text": "Google Maps\nExplore Gombe at g.co/treks"
+    "text": "Google Maps",
+    "fits_in_gap": true
   },
   {
-    "scene_number": 13,
-    "start_time": 155.28,
+    "scene_number": 32,
+    "start_time": 152.22,
+    "end_time": 156.276,
+    "duration": 4.056,
+    "type": "Text on Screen",
+    "text": "Explore Gombe at g.co/treks",
+    "fits_in_gap": true
+  },
+  {
+    "scene_number": 32,
+    "start_time": 153.92,
+    "end_time": 160.136,
     "duration": 6.216,
-    "end_time": 161.496,
     "type": "Text on Screen",
-    "text": "Created in partnership with the Jane Goodall Institute\nLearn more at JaneGoodall.org"
+    "text": "Created in partnership with the Jane Goodall Institute\nLearn more at JaneGoodall.org",
+    "fits_in_gap": true
   },
   {
-    "scene_number": 13,
-    "start_time": 158.28,
+    "scene_number": 33,
+    "start_time": 156.4,
+    "end_time": 164.56,
     "duration": 8.16,
-    "end_time": 166.44,
     "type": "Text on Screen",
-    "text": "Audio read by Jane Goodall\nfrom Reason for Hope: A Spiritual Journey\nby Jane Goodall with Phillip Berman"
-  },
-  {
-    "scene_number": 13,
-    "start_time": 161.28,
-    "duration": 11.76,
-    "end_time": 173.04,
-    "type": "Text on Screen",
-    "text": "Copyright \u00a9 1999 by Soko Publications Ltd. and Phillip Berman. Used by permission of Hachette Audio. All rights reserved worldwide."
+    "text": "Audio read by Jane Goodall\nfrom Reason for Hope: A Spiritual Journey\nby Jane Goodall with Phillip Berman",
+    "fits_in_gap": true
   }
 ]

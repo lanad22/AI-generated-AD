@@ -1,0 +1,126 @@
+[
+    {
+        "scene_number": 1,
+        "start_frame": 0,
+        "end_frame": 406,
+        "start_time": 0.0,
+        "end_time": 6.766666666666667,
+        "duration": 6.766666666666667,
+        "scene_path": "videos/1MASOkOhpSk/1MASOkOhpSk_scenes/scene_001.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "4 ways to wear a scarf \ud83e\udde3"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A woman with long dark hair and wearing a black turtleneck holds up a red scarf with fringes, preparing to demonstrate how to wear it."
+            },
+            {
+                "start_time": 2.5,
+                "type": "Text on Screen",
+                "text": "1. side pull through"
+            },
+            {
+                "start_time": 2.5,
+                "type": "Visual",
+                "text": "The woman begins by placing the scarf around her neck and proceeds to adjust it using both hands, demonstrating the 'side pull through' method."
+            }
+        ]
+    },
+    {
+        "scene_number": 2,
+        "start_frame": 407,
+        "end_frame": 726,
+        "start_time": 6.783333333333333,
+        "end_time": 12.1,
+        "duration": 5.316666666666666,
+        "scene_path": "videos/1MASOkOhpSk/1MASOkOhpSk_scenes/scene_002.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "2. front knot"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A woman with long black hair and a black turtleneck is shown holding a red scarf above her head. She begins to wrap the scarf around her neck."
+            },
+            {
+                "start_time": 1.5,
+                "type": "Visual",
+                "text": "The woman continues to adjust the scarf, pulling it through her hands and positioning it neatly around her neck."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "She ties the ends of the scarf into a knot at the front, ensuring it sits comfortably against her chest."
+            },
+            {
+                "start_time": 4.5,
+                "type": "Visual",
+                "text": "With both hands, she smooths out the scarf, making final adjustments to ensure it looks tidy and stylish."
+            }
+        ]
+    },
+    {
+        "scene_number": 3,
+        "start_frame": 727,
+        "end_frame": 965,
+        "start_time": 12.116666666666667,
+        "end_time": 16.083333333333332,
+        "duration": 3.966666666666665,
+        "scene_path": "videos/1MASOkOhpSk/1MASOkOhpSk_scenes/scene_003.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "3. croissant"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A woman is holding a red scarf up in front of her face, then she brings it down and wraps it around her neck in a croissant style."
+            }
+        ]
+    },
+    {
+        "scene_number": 4,
+        "start_frame": 966,
+        "end_frame": 1292,
+        "start_time": 16.1,
+        "end_time": 21.55,
+        "duration": 5.449999999999999,
+        "scene_path": "videos/1MASOkOhpSk/1MASOkOhpSk_scenes/scene_004.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "4. crisscross"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A woman with dark hair and a black top is shown holding a red scarf. She begins by lifting the scarf above her head."
+            },
+            {
+                "start_time": 1.5,
+                "type": "Visual",
+                "text": "The woman places the scarf around her neck, crossing the ends in front of her chest."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "She adjusts the scarf, pulling it tight and ensuring it sits neatly around her neck."
+            },
+            {
+                "start_time": 4.5,
+                "type": "Visual",
+                "text": "The woman continues to adjust the scarf, smoothing it down with her hands."
+            }
+        ]
+    }
+]

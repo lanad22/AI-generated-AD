@@ -4,6 +4,7 @@ import json
 import subprocess
 import glob
 import shutil
+import math
 
 import numpy as np
 import torch
@@ -11,10 +12,6 @@ import clip
 from PIL import Image
 
 def get_video_info(video_path):
-    """
-    Use ffprobe to get the video's FPS and total frame count.
-    """
-    # Get FPS
     cmd = [
         "ffprobe", "-v", "error",
         "-select_streams", "v:0",
@@ -26,7 +23,6 @@ def get_video_info(video_path):
     num, den = fps_output.split('/')
     fps = float(num) / float(den)
     
-    # Get total frame count
     cmd2 = [
         "ffprobe", "-v", "error",
         "-select_streams", "v:0",
@@ -45,7 +41,6 @@ def get_video_info(video_path):
 
 def extract_frames_ffmpeg(video_path, output_folder, sample_rate=1):
     os.makedirs(output_folder, exist_ok=True)
-    # Build the ffmpeg command. The filter selects every nth frame.
     command = [
         "ffmpeg", "-i", video_path,
         "-vf", f"select='not(mod(n\\,{sample_rate}))'",
@@ -56,131 +51,43 @@ def extract_frames_ffmpeg(video_path, output_folder, sample_rate=1):
     try:
         subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     except subprocess.CalledProcessError as e:
-        print(f"Error extracting frames: {e.stderr.decode()}")
+        print("Error extracting frames:", e.stderr.decode())
         return []
     
     frame_files = sorted(glob.glob(os.path.join(output_folder, "frame_*.jpg")))
     print(f"Extracted {len(frame_files)} frames to {output_folder}")
     return frame_files
 
-def extract_keyframes_clip(video_path, device="cuda", sample_rate=1, similarity_threshold=0.85, save_keyframes=True):
-    print(f"Extracting keyframes using CLIP from {video_path}")
-    fps, total_frames = get_video_info(video_path)
-    print(f"Video FPS: {fps:.2f}, Total frames: {total_frames}")
+def cosine_similarity(emb1, emb2):
+    return torch.nn.functional.cosine_similarity(emb1, emb2).item()
+
+def detect_keyframes_and_scene_boundaries(embeddings, keyframe_threshold, scene_boundary_threshold):
+    if not embeddings:
+        return [], []
     
-    # Create a temporary folder for extracted frames.
-    temp_frames_folder = os.path.join(os.path.dirname(video_path), "extracted_frames_temp")
-    frame_files = extract_frames_ffmpeg(video_path, temp_frames_folder, sample_rate=sample_rate)
-    if not frame_files:
-        print("No frames extracted. Exiting keyframe extraction.")
-        return [], total_frames, []
-    
-    # Create a folder for keyframes if saving is enabled.
-    if save_keyframes:
-        keyframes_folder = os.path.join(os.path.dirname(video_path), "keyframes")
-        os.makedirs(keyframes_folder, exist_ok=True)
-    else:
-        keyframes_folder = None
+    keyframes = [0]  # Always mark the first frame as candidate keyframe
+    scene_boundaries = [0]  # And as a scene boundary
+    last_scene_boundary_index = 0
 
-    # Load CLIP model and preprocessing pipeline.
-    model, preprocess = clip.load("ViT-B/32", device=device)
-    model.eval()
+    for i in range(1, len(embeddings)):
+        sim_prev = cosine_similarity(embeddings[i], embeddings[i-1])
+        if sim_prev < keyframe_threshold:
+            keyframes.append(i)
+        if sim_prev < scene_boundary_threshold:
+            scene_boundaries.append(i)
 
-    keyframe_indices = []
-    keyframes_info = []
-    prev_embedding = None
+    return keyframes, scene_boundaries
 
-    # Iterate over the extracted frames.
-    for i, frame_file in enumerate(frame_files):
-        try:
-            image = Image.open(frame_file).convert("RGB")
-        except Exception as e:
-            print(f"Error opening frame {frame_file}: {e}")
-            continue
-        
-        image_input = preprocess(image).unsqueeze(0).to(device)
-        with torch.no_grad():
-            embedding = model.encode_image(image_input)
-            embedding = embedding / embedding.norm(dim=-1, keepdim=True)
-        
-        # Map the extracted frame to the original video frame index.
-        # Since frames are extracted every 'sample_rate' frames, original_index = i * sample_rate.
-        original_index = i * sample_rate
-        
-        if prev_embedding is not None:
-            cosine_sim = torch.nn.functional.cosine_similarity(embedding, prev_embedding).item()
-            if cosine_sim < similarity_threshold:
-                keyframe_indices.append(original_index)
-                timestamp = original_index / fps
-                if save_keyframes:
-                    dest_file = os.path.join(keyframes_folder, f"keyframe_{original_index:06d}.jpg")
-                    shutil.copy2(frame_file, dest_file)
-                else:
-                    dest_file = None
-                keyframes_info.append({
-                    "frame_index": original_index,
-                    "timestamp": timestamp,
-                    "image_path": dest_file
-                })
-        else:
-            # Always treat the first frame as a keyframe.
-            keyframe_indices.append(original_index)
-            timestamp = original_index / fps
-            if save_keyframes:
-                dest_file = os.path.join(keyframes_folder, f"keyframe_{original_index:06d}.jpg")
-                shutil.copy2(frame_file, dest_file)
-            else:
-                dest_file = None
-            keyframes_info.append({
-                "frame_index": original_index,
-                "timestamp": timestamp,
-                "image_path": dest_file
-            })
-        
-        prev_embedding = embedding
-
-    print(f"Found {len(keyframe_indices)} keyframe indices out of {total_frames} frames")
-    
-    # Remove the temporary frames folder.
-    shutil.rmtree(temp_frames_folder)
-    
-    return keyframe_indices, total_frames, keyframes_info
-
-def segment_video_indices(keyframe_indices, total_frames):
+def segment_video_indices(scene_boundaries, total_frames):
     segments = []
-    for i in range(len(keyframe_indices) - 1):
-        start = keyframe_indices[i]
-        end = keyframe_indices[i+1] - 1  # End at the frame before the next keyframe.
+    for i in range(len(scene_boundaries) - 1):
+        start = scene_boundaries[i]
+        end = scene_boundaries[i+1] - 1
         segments.append((start, end))
-    if keyframe_indices and keyframe_indices[-1] < total_frames:
-        segments.append((keyframe_indices[-1], total_frames - 1))
-    print(f"Segmented video into {len(segments)} segments (by frame indices)")
+    if scene_boundaries and scene_boundaries[-1] < total_frames:
+        segments.append((scene_boundaries[-1], total_frames - 1))
+    print(f"Segmented video into {len(segments)} scenes based on detected boundaries")
     return segments
-
-def merge_short_segments(segments, fps, min_duration=10.0):
-    if not segments:
-        return segments
-
-    merged = []
-    current_seg = segments[0]
-    
-    for next_seg in segments[1:]:
-        current_duration = (current_seg[1] - current_seg[0] + 1) / fps
-        if current_duration < min_duration:
-            # Merge with the next segment.
-            current_seg = (current_seg[0], next_seg[1])
-        else:
-            merged.append(current_seg)
-            current_seg = next_seg
-
-    # Merge the last segment if it is too short.
-    current_duration = (current_seg[1] - current_seg[0] + 1) / fps
-    if current_duration < min_duration and merged:
-        prev_seg = merged.pop()
-        current_seg = (prev_seg[0], current_seg[1])
-    merged.append(current_seg)
-    print(f"Merged segments into {len(merged)} segments (each at least {min_duration}s long)")
-    return merged
 
 def extract_video_segment_ffmpeg(video_path, start_time, end_time, output_path):
     duration = end_time - start_time
@@ -194,59 +101,208 @@ def extract_video_segment_ffmpeg(video_path, start_time, end_time, output_path):
     ]
     try:
         subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        print(f"Extracted segment: {output_path}")
+        print(f"Extracted scene segment: {output_path}")
     except subprocess.CalledProcessError as e:
         print(f"Error extracting segment: {e.stderr.decode()}")
 
-def process_video(video_folder, target_duration, device="cuda", sample_rate=1,
-                  similarity_threshold=0.85, min_duration=10.0):
+def adjust_scene_segments_target_duration(segments, fps, target_duration):
+    merged_segments = []
+    i = 0
+    while i < len(segments):
+        start, end = segments[i]
+        seg_duration = (end - start + 1) / fps
+        while seg_duration < target_duration and i < len(segments) - 1:
+            i += 1
+            next_start, next_end = segments[i]
+            end = next_end
+            seg_duration = (end - start + 1) / fps
+        merged_segments.append((start, end))
+        i += 1
+    return merged_segments
+
+def process_video_folder(video_folder, sample_rate, keyframe_threshold, scene_boundary_threshold, 
+                         merge_scenes=False, target_duration=10.0, device="cuda"):
     video_id = os.path.basename(os.path.normpath(video_folder))
     video_path = os.path.join(video_folder, f"{video_id}.mp4")
+    fps, total_frames = get_video_info(video_path)
+    print(f"Processing video: {video_path}")
+    print(f"FPS: {fps:.2f}, Total frames: {total_frames}")
+    
+    # --- load metadata if available, but we won't check category anymore ---
+    metadata_path = os.path.join(video_folder, f"{video_id}.json")
+    try:
+        with open(metadata_path, 'r') as mf:
+            video_metadata = json.load(mf)
+        print(f"Loaded video metadata")
+    except FileNotFoundError:
+        video_metadata = {}
+    
+    # Create a temporary folder for frame extraction.
+    temp_folder = os.path.join(video_folder, "frames_temp")
+    frame_files = extract_frames_ffmpeg(video_path, temp_folder, sample_rate=sample_rate)
+    if not frame_files:
+        print("No frames extracted.")
+        return None
+
+    # Load CLIP model.
+    model, preprocess = clip.load("ViT-B/32", device=device)
+    model.eval()
+
+    embeddings = []
+    for frame_file in frame_files:
+        try:
+            image = Image.open(frame_file).convert("RGB")
+        except Exception as e:
+            print("Error loading image:", e)
+            continue
+        image_input = preprocess(image).unsqueeze(0).to(device)
+        with torch.no_grad():
+            emb = model.encode_image(image_input)
+            emb = emb / emb.norm(dim=-1, keepdim=True)
+        embeddings.append(emb)
+    print(f"Computed embeddings for {len(embeddings)} frames.")
+
+    # Detect candidate keyframes and scene boundaries using fixed thresholds.
+    keyframes, scene_boundaries = detect_keyframes_and_scene_boundaries(embeddings, keyframe_threshold, scene_boundary_threshold)
+    print(f"Detected {len(keyframes)} candidate keyframes and {len(scene_boundaries)} scene boundaries.")
+
+    # Save candidate keyframe and scene boundary images if requested.
+    keyframes_dir = os.path.join(video_folder, "keyframes")
+    os.makedirs(keyframes_dir, exist_ok=True)
+    keyframe_info = []
+    for idx in keyframes:
+        src = frame_files[idx]
+        dst = os.path.join(keyframes_dir, f"keyframe_{idx:06d}.jpg")
+        shutil.copy2(src, dst)
+        timestamp = idx / fps
+        keyframe_info.append({
+            "frame_index": idx,
+            "timestamp": round(timestamp, 2),
+            "image_path": os.path.join(video_folder, "keyframes", f"keyframe_{idx:06d}.jpg")
+        })
+    keyframes_json_path = os.path.join(keyframes_dir, "keyframe_info.json")
+    with open(keyframes_json_path, "w") as f:
+        json.dump(keyframe_info, f, indent=2)
+    print(f"Candidate keyframe info saved to: {keyframes_json_path}")
+
+    scene_dir = os.path.join(video_folder, "scene_boundaries")
+    os.makedirs(scene_dir, exist_ok=True)
+    for idx in scene_boundaries:
+        src = frame_files[idx]
+        dst = os.path.join(scene_dir, f"scene_boundary_{idx:06d}.jpg")
+        shutil.copy2(src, dst)
+    print(f"Scene boundary images saved to: {scene_dir}")
+
+    # Remove temporary folder.
+    shutil.rmtree(temp_folder)
+    
+    # natural segmentation
+    segments = segment_video_indices(scene_boundaries, total_frames)
+    print(f"Natural segmentation → {len(segments)} scenes")
+
+    # Check merge_scenes flag instead of category
+    if merge_scenes:
+        print(f"Merge scenes flag is set; merging scenes to ~{target_duration}s each")
+        segments = adjust_scene_segments_target_duration(segments, fps, target_duration)
+        print(f"After merging → {len(segments)} scenes")
+    
+    i = 0
+    while i < len(segments):
+        start, end = segments[i]
+        seg_duration = (end - start + 1) / fps
+
+        if seg_duration < 2.0:
+            # Gather embeddings for this segment
+            current_segment_embs = []
+            for f in range(start, end + 1):
+                frame_idx = f // sample_rate
+                if frame_idx < len(embeddings):
+                    current_segment_embs.append(embeddings[frame_idx])
+
+            # If no embeddings, default to merging with next (or previous if last)
+            if not current_segment_embs:
+                if i == len(segments) - 1:
+                    # final tiny segment: merge into previous
+                    prev_start, _ = segments[i-1]
+                    segments[i-1] = (prev_start, end)
+                    segments.pop(i)
+                    print(f"Merged final tiny segment ({seg_duration:.2f}s) into previous scene.")
+                    break
+                else:
+                    next_start, next_end = segments[i+1]
+                    segments[i] = (start, next_end)
+                    segments.pop(i+1)
+                    print(f"Default-merged tiny scene ({seg_duration:.2f}s) with next scene.")
+                    continue
+
+            # Compute average embedding for current segment
+            current_avg_emb = torch.mean(torch.stack(current_segment_embs), dim=0)
+
+            # Compute similarity to previous
+            prev_similarity = -1.0
+            if i > 0:
+                prev_embs = [
+                    embeddings[f // sample_rate]
+                    for f in range(segments[i-1][0], segments[i-1][1] + 1)
+                    if (f // sample_rate) < len(embeddings)
+                ]
+                if prev_embs:
+                    prev_avg = torch.mean(torch.stack(prev_embs), dim=0)
+                    prev_similarity = cosine_similarity(current_avg_emb, prev_avg)
+
+            # Compute similarity to next (or handle as final)
+            if i == len(segments) - 1:
+                # final tiny segment: merge into previous
+                prev_start, _ = segments[i-1]
+                segments[i-1] = (prev_start, end)
+                segments.pop(i)
+                print(f"Merged final tiny segment ({seg_duration:.2f}s) into previous scene.")
+                break
+            else:
+                next_embs = [
+                    embeddings[f // sample_rate]
+                    for f in range(segments[i+1][0], segments[i+1][1] + 1)
+                    if (f // sample_rate) < len(embeddings)
+                ]
+                next_similarity = (
+                    cosine_similarity(current_avg_emb, torch.mean(torch.stack(next_embs), dim=0))
+                    if next_embs else -1.0
+                )
+
+            # Merge with whichever neighbour is more similar
+            if prev_similarity > next_similarity and i > 0:
+                prev_start, _ = segments[i-1]
+                segments[i-1] = (prev_start, end)
+                segments.pop(i)
+                print(f"Merged scene {i+1} ({seg_duration:.2f}s) with previous (sim {prev_similarity:.3f}).")
+                i -= 1  # re-check this newly merged segment
+            else:
+                next_start, next_end = segments[i+1]
+                segments[i] = (start, next_end)
+                segments.pop(i+1)
+                print(f"Merged scene {i+1} ({seg_duration:.2f}s) with next (sim {next_similarity:.3f}).")
+                # i stays the same to re-check
+        else:
+            i += 1
+
+    
+    print(f"Final scene segmentation: {len(segments)} segments")
+
+    # Create a folder to store scene segments.
     scenes_dir = os.path.join(video_folder, f"{video_id}_scenes")
-    keyframes_folder = os.path.join(video_folder, "keyframes")
     os.makedirs(scenes_dir, exist_ok=True)
     
-    print(f"Processing video: {video_path}")
-    
-    # Extract keyframes using CLIP with ffmpeg-based frame extraction.
-    keyframe_indices, total_frames, keyframes_info = extract_keyframes_clip(
-        video_path, device=device, sample_rate=sample_rate, similarity_threshold=similarity_threshold, save_keyframes=True
-    )
-    if not keyframe_indices or not total_frames:
-        print("Failed to extract keyframes/frames. Exiting.")
-        return
-
-    # Save keyframe info to JSON.
-    keyframes_json_path = os.path.join(keyframes_folder, "keyframes_info.json")
-    with open(keyframes_json_path, "w") as f:
-        json.dump(keyframes_info, f, indent=2)
-    print(f"Keyframes info saved to: {keyframes_json_path}")
-
-    # Retrieve FPS and total duration.
-    fps, _ = get_video_info(video_path)
-    total_duration = total_frames / fps
-    print(f"Video duration: {total_duration:.2f}s, FPS: {fps:.2f}")
-    
-    # Segment the video based on keyframe indices.
-    segments = segment_video_indices(keyframe_indices, total_frames)
-    
-    # Merge segments that are shorter than the minimum required duration.
-    segments = merge_short_segments(segments, fps, min_duration=min_duration)
-    
+    # Extract each scene using ffmpeg.
     scene_info = []
-    
-    # Process and extract each scene.
     for i, (start_frame, end_frame) in enumerate(segments):
         start_time = start_frame / fps
-        # For a clear cut, use the end_frame time directly.
+        # For the last scene, extract until the end of the video.
         end_time = (end_frame / fps) if i < len(segments) - 1 else (total_frames / fps)
         duration = end_time - start_time
         scene_filename = f"scene_{i+1:03d}.mp4"
         scene_path = os.path.join(scenes_dir, scene_filename)
         
         print(f"\nScene {i+1}: frames {start_frame} to {end_frame}, time {start_time:.2f}s to {end_time:.2f}s (duration: {duration:.2f}s)")
-        
-        # Extract the scene (with audio) using ffmpeg.
         extract_video_segment_ffmpeg(video_path, start_time, end_time, scene_path)
         
         scene_dict = {
@@ -260,31 +316,34 @@ def process_video(video_folder, target_duration, device="cuda", sample_rate=1,
         }
         scene_info.append(scene_dict)
     
-    # Save scene information to JSON.
-    json_path = os.path.join(scenes_dir, "scene_info.json")
-    with open(json_path, "w") as jf:
+    # Save scene segmentation info to JSON.
+    scenes_json_path = os.path.join(scenes_dir, "scene_info.json")
+    with open(scenes_json_path, "w") as jf:
         json.dump(scene_info, jf, indent=2)
-    print(f"\nScene processing complete! JSON info saved to: {json_path}")
+    print(f"\nScene processing complete! JSON info saved to: {scenes_json_path}")
+
+    return keyframes, scene_boundaries, fps, total_frames
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Detect scenes from a video using CLIP-based keyframe segmentation with ffmpeg frame extraction, "
-                    "merge scenes shorter than a minimum duration (default: 10s), extract original segments (with audio), "
-                    "and save scene and keyframe information to JSON files."
-    )
-    parser.add_argument("video_folder", type=str,
-                        help="Path to the video folder (e.g., videos/video_id). The video file must be named video_id.mp4")
-    parser.add_argument("--target_duration", type=float, default=10.0,
-                        help="Desired duration (in seconds) for each scene (used for grouping, default: 10s)")
-    parser.add_argument("--device", type=str, default="cuda",
-                        help="Device to run processing (default: cuda)")
-    parser.add_argument("--sample_rate", type=int, default=1,
-                        help="Extract every nth frame for keyframe detection (default: 1, i.e., every frame)")
-    parser.add_argument("--similarity_threshold", type=float, default=0.95,
-                        help="Cosine similarity threshold for keyframe detection (default: 0.95)")
-    parser.add_argument("--min_duration", type=float, default=10.0,
-                        help="Minimum duration (in seconds) for each scene (default: 10s)")
-    
+        description="Threshold Keyframe and Scene Boundary Detection with Video Segmentation using CLIP.\n")
+    parser.add_argument("video_folder", type=str, help="Path to the video folder (e.g., videos/video_id)")
+    parser.add_argument("--sample_rate", type=int, default=1, help="Extract every nth frame (default: 1)")
+    parser.add_argument("--keyframe_threshold", type=float, default=0.95, help="Cosine similarity threshold for candidate keyframes (default: 0.95)")
+    parser.add_argument("--scene_boundary_threshold", type=float, default=0.85, help="Cosine similarity threshold for scene boundaries (default: 0.85)")
+    parser.add_argument("--device", type=str, default="cuda", help="Device to run CLIP (default: cuda)")
+    # Add new arguments for scene merging
+    parser.add_argument("--merge_scenes", action="store_true", default=False, help="Enable scene merging to target duration")
+    parser.add_argument("--target_duration", type=float, default=10.0, help="Target duration for merged scenes in seconds (default: 10.0)")
     args = parser.parse_args()
-    process_video(args.video_folder, args.target_duration, args.device,
-                  args.sample_rate, args.similarity_threshold, args.min_duration)
+    
+    # Pass the merge_scenes and target_duration arguments to the process_video_folder function
+    result = process_video_folder(
+        args.video_folder, 
+        args.sample_rate, 
+        args.keyframe_threshold, 
+        args.scene_boundary_threshold,
+        merge_scenes=args.merge_scenes,
+        target_duration=args.target_duration,
+        device=args.device
+    )

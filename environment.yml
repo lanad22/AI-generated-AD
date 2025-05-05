@@ -1,3 +1,4 @@
+name: video_describe
 channels:
   - pytorch
   - conda-forge
@@ -15,7 +16,7 @@ dependencies:
   - opencv
   - pip:
     - git+https://github.com/openai/CLIP.git
-    - whisper_timestamped
+    - whisper-timestamped
     - onnxruntime
     - google-cloud-speech
     - openai
@@ -26,4 +27,9 @@ dependencies:
     - gtts
     - yt-dlp
     - youtube-transcript-api
-
+    - bitsandbytes
+    - git+https://github.com/huggingface/transformers
+    - soundfile
+    - librosa
+    - pydub
+    - accelerate

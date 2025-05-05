@@ -2,29 +2,49 @@ import json
 import os
 import argparse
 
-def prepare_dialogue(scene):
-    """Prepare dialogue_timestamp entries from transcript using global timestamps."""
+def prepare_dialogue(scenes):
     dialogue = []
-    scene_starttime = scene.get("start_time", 0)
-    transcript = scene.get("transcript", [])
-
-    for idx, line in enumerate(transcript):
-        # Add the global offset to get absolute timestamps.
-        start = scene_starttime + line.get("start", 0)
-        end = scene_starttime + line.get("end", 0)
-        duration = round(end - start, 2)
-
-        dialogue.append({
-            "sequence_num": idx + 1,
-            "start_time": start,
-            "end_time": end,
-            "duration": duration
-        })
-
+    sequence_counter = 1
+    last_dialogue_end = None
+    continuing_dialogue = False
+    
+    for scene in scenes:
+        scene_starttime = scene.get("start_time", 0)
+        transcript = scene.get("transcript", [])
+        
+        for line in transcript:
+            start = scene_starttime + line.get("start", 0)
+            end = scene_starttime + line.get("end", 0)
+            
+            gap_threshold = 0.1
+            
+            if last_dialogue_end is not None and abs(start - last_dialogue_end) < gap_threshold:
+                if dialogue and continuing_dialogue:
+                    dialogue[-1]["end_time"] = end - 0.1
+                    dialogue[-1]["duration"] = round(dialogue[-1]["end_time"] - dialogue[-1]["start_time"], 2)
+                    continuing_dialogue = False
+                    last_dialogue_end = end
+                    continue
+            
+            duration = round(end - start, 2)
+            dialogue.append({
+                "start_time": start,
+                "end_time": end - 0.1,
+                "duration": duration,
+                "sequence_num": sequence_counter
+            })
+            sequence_counter += 1
+            
+            if end >= scene.get("end_time", 0) - gap_threshold:
+                continuing_dialogue = True
+            else:
+                continuing_dialogue = False
+                
+            last_dialogue_end = end
+            
     return dialogue
 
 def prepare_audio_clips(scene_number, all_clips):
-    """Filter and format audio clips for a given scene_number"""
     return [
         {
             "scene_number": clip["scene_number"],
@@ -37,7 +57,6 @@ def prepare_audio_clips(scene_number, all_clips):
     ]
 
 def compile_final_data(video_id):
-    # Paths
     base_dir = os.path.join("videos", video_id)
     scene_dir = os.path.join(base_dir, f"{video_id}_scenes")
     scene_info_path = os.path.join(scene_dir, "scene_info.json")
@@ -55,16 +74,12 @@ def compile_final_data(video_id):
     with open(metadata_path, "r") as f:
         metadata = json.load(f)
 
-    # Collect dialogue_timestamps and audio_clips
-    dialogue_timestamps = []
+    dialogue_timestamps = prepare_dialogue(scenes)
+    
     audio_clips = []
-
     for scene in scenes:
-        scene_number = scene.get("scene_number")
-        dialogue_timestamps.extend(prepare_dialogue(scene))
-        audio_clips.extend(prepare_audio_clips(scene_number, all_audio_clips))
+        audio_clips.extend(prepare_audio_clips(scene.get("scene_number"), all_audio_clips))
 
-    # Compile final data
     final_data = {
         "dialogue_timestamps": dialogue_timestamps,
         "audio_clips": audio_clips,
@@ -78,6 +93,10 @@ def compile_final_data(video_id):
     with open(output_path, "w") as out_f:
         json.dump(final_data, out_f, indent=2, ensure_ascii=False)
     print(f"Saved final_data.json to: {output_path}")
+    '''
+    print("\nDialogue Timestamps:")
+    for dt in dialogue_timestamps:
+        print(f"Sequence {dt['sequence_num']}: {dt['start_time']} - {dt['end_time']} (Duration: {dt['duration']})")'''
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Compile dialogue timestamps and audio clips into final_data.json")

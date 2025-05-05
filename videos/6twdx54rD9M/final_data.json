@@ -1,0 +1,63 @@
+{
+  "dialogue_timestamps": [],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "\"Hosico in a transparent cat backpack is carried through a park, then the carrier sits on a bench.\"",
+      "type": "Visual",
+      "start_time": 0.0
+    },
+    {
+      "scene_number": 1,
+      "text": "Hosico",
+      "type": "Text on Screen",
+      "start_time": 9.2
+    },
+    {
+      "scene_number": 2,
+      "text": "\"At night, Hosico sits in a transparent cat backpack on a wooden bench. The front opens, revealing Hosico looking curious. He extends his paw, exploring.\"",
+      "type": "Visual",
+      "start_time": 11.88
+    },
+    {
+      "scene_number": 3,
+      "text": "\"Hosico, still in transparent backpack, sits calmly on a spinning playground merry-go-round.\"",
+      "type": "Visual",
+      "start_time": 28.44
+    },
+    {
+      "scene_number": 4,
+      "text": "\"Hosico sits in a transparent backpack on a swinging playground swing, looking curious. Soon, Hosico is outside, wearing a harness and leash, exploring the artificial grass.\"",
+      "type": "Visual",
+      "start_time": 40.32
+    },
+    {
+      "scene_number": 5,
+      "text": "\"Hosico, in a green harness, walks on artificial grass, stopping to sniff, while a person walks alongside.\"",
+      "type": "Visual",
+      "start_time": 59.24
+    },
+    {
+      "scene_number": 6,
+      "text": "\"Hosico, stops near a slide, and looks curious as someone approaches.\"",
+      "type": "Visual",
+      "start_time": 70.2
+    },
+    {
+      "scene_number": 7,
+      "text": "\"A person on a playground holds a green leash connected to Hosico. The cat stands and starts walking forward.\"",
+      "type": "Visual",
+      "start_time": 80.92
+    },
+    {
+      "scene_number": 8,
+      "text": "\"Hosico walks toward a transparent backpack. Assisted by a person, Hosico enters the backpack. The person lifts the backpack and walks along a park pathway.\"",
+      "type": "Visual",
+      "start_time": 93.24
+    }
+  ],
+  "youtube_id": "6twdx54rD9M",
+  "video_name": "Hosico's Adventures in a Cat Backpack",
+  "video_length": 110,
+  "aiUserId": "650506db3ff1c2140ea10ece"
+}
