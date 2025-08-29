@@ -6,6 +6,7 @@ import re
 from pathlib import Path
 from youtube_transcript_api import YouTubeTranscriptApi
 from datetime import timedelta
+import urllib.request
 
 def get_video_metadata(video_id: str) -> dict:
     url = f"https://www.youtube.com/watch?v={video_id}"
@@ -99,7 +100,7 @@ def get_video_metadata(video_id: str) -> dict:
     }
 
 def download_with_captions(video_id: str):
-    """Download YouTube video, metadata, and captions into a folder named after the video ID"""
+    """Download YouTube video, metadata, captions, and thumbnail into a folder named after the video ID"""
     
     # Get video ID
     url = f"https://www.youtube.com/watch?v={video_id}"
@@ -133,21 +134,65 @@ def download_with_captions(video_id: str):
     except Exception as e:
         print(f"Captions not available: {str(e)}")
 
-    # Save JSON file with title, description, category, and (if available) captions
     with open(captions_path, 'w', encoding='utf-8') as f:
         json.dump(captions_data, f, indent=2, ensure_ascii=False)
     
     print(f"Metadata saved to: {captions_path}")
 
+    # Download thumbnail
+    thumbnail_path = os.path.join(output_dir, f"{video_id}_thumbnail.jpg")
+    print("\nDownloading thumbnail...")
+    thumbnail_cmd = [
+        "yt-dlp",
+        "--write-thumbnail",
+        "--skip-download",
+        "--convert-thumbnails", "jpg",
+        "-o", os.path.join(output_dir, video_id),
+        url
+    ]
+    
+    try:
+        subprocess.run(thumbnail_cmd, check=True)
+        # Check for both webp and jpg files since conversion might produce either
+        possible_thumbnails = [
+            os.path.join(output_dir, f"{video_id}.jpg"),
+            os.path.join(output_dir, f"{video_id}.webp")
+        ]
+        
+        thumbnail_found = False
+        for thumb in possible_thumbnails:
+            if os.path.exists(thumb):
+                if thumb.endswith('.webp') and not thumbnail_path.endswith('.webp'):
+                    # Rename to expected jpg path
+                    os.rename(thumb, thumbnail_path)
+                thumbnail_found = True
+                print(f"Thumbnail downloaded to: {thumbnail_path}")
+                break
+                
+        if not thumbnail_found:
+            print("Thumbnail download failed. Trying alternative method...")
+            # Alternative method using --dump-json to get thumbnail URL
+            info_cmd = ["yt-dlp", "--dump-json", url]
+            result = subprocess.run(info_cmd, capture_output=True, text=True, check=True)
+            if result.stdout.strip():
+                video_info = json.loads(result.stdout)
+                if "thumbnail" in video_info and video_info["thumbnail"]:
+                    urllib.request.urlretrieve(video_info["thumbnail"], thumbnail_path)
+                    print(f"Thumbnail downloaded with alternative method to: {thumbnail_path}")
+                    thumbnail_found = True
+        
+        if not thumbnail_found:
+            print("Could not download thumbnail.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error downloading thumbnail: {e}")
+
     # Output path
     video_path = os.path.join(output_dir, f"{video_id}.mp4")
     
-    # Universal download command that works for all format types
     print("\nDownloading video...")
     command = [
         "yt-dlp",
-        # Format selection that works for both normal and HLS formats
-        "-f", "bv*+ba/b",  # Best video + best audio / or best combined if needed
+        "-f", "bv*+ba/b", 
         "--merge-output-format", "mp4",
         "--no-playlist",
         "--hls-prefer-native",  
@@ -168,7 +213,6 @@ def download_with_captions(video_id: str):
     except subprocess.CalledProcessError as e:
         print(f"Error downloading video with standard method: {e}")
         
-        # If standard method fails, try even more universal approach
         print("\nTrying alternative download method...")
         fallback_cmd = [
             "yt-dlp",
@@ -194,11 +238,10 @@ def download_with_captions(video_id: str):
         except subprocess.CalledProcessError as e2:
             print(f"Error with alternative method: {e2}")
             
-            # Final attempt with the simplest possible approach
             print("\nMaking final download attempt...")
             last_resort_cmd = [
                 "yt-dlp",
-                "--no-check-formats",  # Skip format checking
+                "--no-check-formats", 
                 "--ignore-errors",
                 "--no-playlist",
                 "-o", video_path,

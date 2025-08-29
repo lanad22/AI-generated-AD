@@ -7,16 +7,17 @@ import argparse
 import whisper_timestamped
 import os
 import onnxruntime
+from functools import partial
 import multiprocessing as mp
 
 onnxruntime.set_default_logger_severity(3)
 os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning, module="torch")
 
 from google.cloud import speech
-
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -42,9 +43,6 @@ def match_captions(scene_start, scene_end, scene_duration, captions):
                 })
     return scene_captions
 
-import os
-import subprocess
-
 def extract_audio(scene_video_path, output_audio_path):
     if os.path.exists(output_audio_path):
         print(f"Audio already exists: {output_audio_path}, skipping extraction.")
@@ -55,34 +53,28 @@ def extract_audio(scene_video_path, output_audio_path):
         "-i", scene_video_path,
         "-vn",
         "-acodec", "pcm_s16le",
-        "-ar", "44100",
+        #Changed sample rate to 16000 for wider model compatibility
+        "-ar", "16000",
         "-ac", "1",
         output_audio_path
     ]
 
     try:
-        subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subprocess.run(command, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         print(f"Extracted audio: {output_audio_path}")
     except subprocess.CalledProcessError as e:
-        print(f"Error extracting audio from {scene_video_path}: {e.stderr.decode()}")
+        print(f"Error extracting audio from {scene_video_path}: {e.stderr.decode() if e.stderr else 'Unknown error'}")
 
-
-def transcribe_whisper(wav_path, device="cuda"):
-    """
-    Transcribe the audio using Whisper via whisper_timestamped.
-    """
+def transcribe_whisper(model, wav_path):
     print(f"Transcribing with Whisper on audio: {wav_path}")
     try:
-        model = whisper_timestamped.load_model(WHISPER_MODEL, device=device)
         result = whisper_timestamped.transcribe(
             model,
             wav_path,
-            vad="silero:v3.1",
-            beam_size=10,
-            best_of=5,
-            temperature=(0.0, 0.1, 0.2, 0.4, 0.6, 0.8)
+            vad=True,
+            beam_size=5,
+            temperature=(0.0, 0.2, 0.4, 0.6, 0.8)
         )
-        print('RAW RESPONSE WHISPER: {result}')
         transcripts = []
         for segment in result["segments"]:
             transcripts.append({
@@ -97,41 +89,28 @@ def transcribe_whisper(wav_path, device="cuda"):
         print(f"Error transcribing with Whisper: {str(e)}")
         return []
 
-def transcribe_google_speech(wav_path):
+def transcribe_google_speech(client, wav_path):
     print(f"Transcribing with Google Speech-to-Text on audio: {wav_path}")
     try:
-        client = speech.SpeechClient()
-
-        # Load audio data
         with open(wav_path, "rb") as audio_file:
             audio_content = audio_file.read()
 
         audio = speech.RecognitionAudio(content=audio_content)
 
-        # Configure speech recognition request
         config = speech.RecognitionConfig(
             encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
-            sample_rate_hertz=44100,
+            sample_rate_hertz=16000,
             language_code="en-US",
             enable_word_time_offsets=True,
             enable_automatic_punctuation=True,
-            model="video",  # Using video model for better results
+            model="video",
         )
-         # For longer audio, use long_running_recognize
-        file_size = os.path.getsize(wav_path) / (1024 * 1024)  # Size in MB
-
-        if file_size > 1:  # If file is larger than 1MB, use long-running recognition
-            print("Using long-running recognition due to file size...")
-            operation = client.long_running_recognize(config=config, audio=audio)
-            response = operation.result(timeout=90)
-        else:
-            response = client.recognize(config=config, audio=audio)
+        response = client.recognize(config=config, audio=audio)
 
         transcripts = []
         for result in response.results:
             alternative = result.alternatives[0]
 
-            # Get start and end time from first and last word if available
             if alternative.words:
                 first_word = alternative.words[0]
                 last_word = alternative.words[-1]
@@ -148,38 +127,18 @@ def transcribe_google_speech(wav_path):
         return transcripts
     except Exception as e:
         print(f"Error during Google Speech-to-Text transcription: {str(e)}")
-        import traceback
-        traceback.print_exc()
         return []
 
 def normalize(text: str) -> str:
-    # lowercase, trim, remove punctuation, collapse spaces
     text = text.lower().strip()
-    text = re.sub(r"[^\w\s]", "", text)     # drop punctuation
-    text = re.sub(r"\s+", " ", text)        # collapse whitespace
+    text = re.sub(r"[^\w\s]", "", text)
+    text = re.sub(r"\s+", " ", text)
     return text
 
-def verify_transcriptions(whisper_transcripts, google_transcripts, wer_threshold=0.30, confidence_threshold=0.75):
-    """
-    Workflow:
-    1. If no Google transcripts:
-         • Keep only Whisper segments with confidence ≥ confidence_threshold.
-    
-    2. If both Whisper and Google have transcripts:
-         • Compare combined text from both transcriptions for overall similarity
-         • If similar (WER ≤ wer_threshold):
-             - Use all Whisper segments
-         • If not similar:
-             - For each Whisper segment:
-                 - If high confidence (≥ 0.65), keep as is
-                 - If low confidence (< 0.65):
-                     - Find Google segment whose start time falls within this Whisper segment
-                     - If found, use Google's segment
-                     - If not found, discard the Whisper segment
-    """
+def verify_transcriptions(whisper_transcripts, google_transcripts, wer_threshold=0.30, confidence_threshold=0.83):
     verified = []
 
-    # 1) No Google: only high‑confidence Whisper
+    # If no Google transcript is available, filter Whisper by confidence
     if not google_transcripts:
         for w in whisper_transcripts:
             conf = w.get("confidence", 0)
@@ -198,22 +157,17 @@ def verify_transcriptions(whisper_transcripts, google_transcripts, wer_threshold
         verified.sort(key=lambda s: s.get("start", 0))
         return verified
 
-    # 2) Both Whisper and Google have transcripts
-    # Combine all whisper text
     whisper_combined = " ".join([w.get("text", "").strip() for w in whisper_transcripts if w.get("text", "").strip()])
     norm_whisper_combined = normalize(whisper_combined)
     print(f'NORM WHISPER, {norm_whisper_combined}')
     
-    # Combine all google text
     google_combined = " ".join([g.get("text", "").strip() for g in google_transcripts if g.get("text", "").strip()])
     norm_google_combined = normalize(google_combined)
     print(f'NORM GOOGLE, {norm_google_combined}')
     
-    # Calculate overall WER
     overall_wer = wer(norm_google_combined, norm_whisper_combined)
     print(f"Overall WER between combined transcripts: {overall_wer:.4f}")
 
-    # If combined texts are similar enough, use all Whisper segments
     if overall_wer <= wer_threshold:
         print(f"Combined transcripts are similar (WER={overall_wer:.4f} <= {wer_threshold})")
         print(f"Using all Whisper segments (verified)")
@@ -222,7 +176,6 @@ def verify_transcriptions(whisper_transcripts, google_transcripts, wer_threshold
             raw_w = w.get("text", "").strip()
             if not raw_w:
                 continue
-                
             segment = {
                 "text": raw_w,
                 "start": w.get("start"),
@@ -235,17 +188,15 @@ def verify_transcriptions(whisper_transcripts, google_transcripts, wer_threshold
         print(f"Combined transcripts differ significantly (WER={overall_wer:.4f} > {wer_threshold})")
         print(f"Checking individual segments")
         
-        # Process each Whisper segment
         for w in whisper_transcripts:
             raw_w = w.get("text", "").strip()
             if not raw_w:
                 continue
-                
+            
             conf_w = w.get("confidence", 0)
             w_start = w.get("start", 0)
             w_end = w.get("end", 0)
             
-            # High confidence Whisper - keep regardless
             if conf_w >= 0.60:
                 segment = {
                     "text": raw_w,
@@ -256,18 +207,8 @@ def verify_transcriptions(whisper_transcripts, google_transcripts, wer_threshold
                 print(f"Added WHISPER (high conf): \"{segment['text']}\" "
                       f"({segment['start']}–{segment['end']}) conf={conf_w:.2f}")
             else:
-                # Low confidence Whisper - find Google segment whose start time is within this segment
-                matching_g = None
+                matching_g = next((g for g in google_transcripts if w_start <= g.get("start", 0) < w_end), None)
                 
-                for g in google_transcripts:
-                    g_start = g.get("start", 0)
-                    
-                    # Check if Google segment's start time falls within Whisper segment's timespan
-                    if w_start <= g_start < w_end:
-                        matching_g = g
-                        break
-                
-                # If matching Google segment found, use it
                 if matching_g:
                     segment = {
                         "text": matching_g["text"].strip(),
@@ -281,19 +222,48 @@ def verify_transcriptions(whisper_transcripts, google_transcripts, wer_threshold
                     print(f"Discarded low confidence Whisper (no matching Google segment): \"{raw_w}\" "
                           f"({w_start}–{w_end}) conf={conf_w:.2f}")
 
-    # sort and return
     verified.sort(key=lambda s: s.get("start", 0))
     print(f"Verification complete: {len(verified)} segments added.")
     return verified
 
 def should_discard_captions(global_transcript_text, global_caption_text, threshold=0.8):
-    """
-    Compare the global transcript and caption texts.
-    Returns True if the similarity is above the threshold, indicating that captions should be discarded.
-    """
     similarity = difflib.SequenceMatcher(None, global_transcript_text, global_caption_text).ratio()
     print(f"Global transcript vs captions similarity: {similarity:.2f}")
     return similarity >= threshold
+
+whisper_model = None
+google_client = None
+
+def init_worker(device):
+    global whisper_model, google_client
+    print(f"Initializing worker process {os.getpid()}...")
+    whisper_model = whisper_timestamped.load_model(WHISPER_MODEL, device=device)
+    google_client = speech.SpeechClient()
+
+def process_scene(scene, video_folder):
+    scene_number = scene.get('scene_number')
+    print(f"Processing scene {scene_number} in process {os.getpid()}...")
+    
+    scene_path = scene.get("scene_path")
+    if not scene_path or not os.path.exists(scene_path):
+        return scene
+
+    audio_path = scene_path.replace(".mp4", ".wav")
+    extract_audio(scene_path, audio_path)
+
+    if not os.path.exists(audio_path):
+        scene["transcript"] = []
+        return scene
+
+    whisper_trans = transcribe_whisper(whisper_model, audio_path)
+    google_trans = transcribe_google_speech(google_client, audio_path)
+    
+    scene["transcript"] = verify_transcriptions(whisper_trans, google_trans)
+    
+    if os.path.exists(audio_path):
+        os.remove(audio_path)
+
+    return scene
 
 def update_scene_transcripts(video_folder, device="cuda", global_caption_threshold=0.8):
     video_id = os.path.basename(os.path.normpath(video_folder))
@@ -306,7 +276,15 @@ def update_scene_transcripts(video_folder, device="cuda", global_caption_thresho
     with open(scene_json_path, "r") as f:
         scenes = json.load(f)
 
-    # Load global captions if available (expects a JSON file named <video_id>.json in video_folder)
+    num_processes = 2
+    with mp.Pool(processes=num_processes, initializer=init_worker, initargs=(device,)) as pool:
+        process_func = partial(process_scene, video_folder=video_folder)
+        updated_scenes = pool.map(process_func, scenes)
+
+    global_transcript_text = " ".join(
+        " ".join(seg["text"] for seg in scene.get("transcript", [])) for scene in updated_scenes
+    ).strip()
+
     captions = None
     captions_path = os.path.join(video_folder, f"{video_id}.json")
     if os.path.exists(captions_path):
@@ -318,64 +296,30 @@ def update_scene_transcripts(video_folder, device="cuda", global_caption_thresho
         except Exception as e:
             print(f"Error loading captions: {str(e)}")
 
-    global_transcript_text = ""
-    # Process each scene to update transcripts and build global transcript text
-    for scene in scenes:
-        scene_path = scene.get("scene_path", "")
-        if not scene_path or not os.path.exists(scene_path):
-            print(f"Scene video not found for scene {scene.get('scene_number')}, skipping transcription.")
-            continue
-
-        audio_path = scene_path.replace(".mp4", ".wav")
-        print(f"Extracting audio for scene {scene.get('scene_number')}")
-        extract_audio(scene_path, audio_path)
-
-        # Transcribe with both models and verify
-        whisper_trans = transcribe_whisper(audio_path, device)
-        print(f"WHISPER TRANS: {whisper_trans}")
-        # Use Google Speech-to-Text instead of Wav2Vec2
-        google_trans = transcribe_google_speech(audio_path)
-        print(f"GOOGLE SPEECH TRANS: {google_trans}")
-        verified_trans = verify_transcriptions(whisper_trans, google_trans)
-        print(f"VERIFIED: {verified_trans}")
-        scene["transcript"] = verified_trans
-
-        # Append the scene transcript text to the global transcript text
-        scene_transcript_text = " ".join([seg["text"] for seg in verified_trans])
-        global_transcript_text += scene_transcript_text + " "
-        '''
-        if os.path.exists(temp_audio_path):
-            os.remove(temp_audio_path)
-            print(f"Removed temporary audio file: {temp_audio_path}")'''
-
-    # Global captions check: compare the entire transcript with the full captions text
-    if captions and global_transcript_text.strip():
+    if captions and global_transcript_text:
         global_caption_text = " ".join([cap["text"] for cap in captions])
         if should_discard_captions(global_transcript_text, global_caption_text, global_caption_threshold):
             print("Global captions are very similar to the transcript. Discarding captions for all scenes.")
-            for scene in scenes:
+            for scene in updated_scenes:
                 scene["captions"] = []
         else:
-            # If captions are not similar, match captions to each scene based on scene boundaries
-            for scene in scenes:
+            for scene in updated_scenes:
                 scene_start = scene.get("start", 0)
                 scene_end = scene.get("end", 0)
                 if scene_end > scene_start:
                     scene_duration = scene_end - scene_start
                     scene_captions = match_captions(scene_start, scene_end, scene_duration, captions)
                     scene["captions"] = scene_captions
-                    print(f"Scene {scene.get('scene_number')}: {len(scene_captions)} captions matched.")
                 else:
                     scene["captions"] = []
     else:
-        # No captions available or transcript text is empty
-        for scene in scenes:
+        for scene in updated_scenes:
             scene["captions"] = []
 
     with open(scene_json_path, "w") as out_f:
-        json.dump(scenes, out_f, indent=2)
+        json.dump(updated_scenes, out_f, indent=2)
     print(f"Updated scene JSON with transcripts saved to: {scene_json_path}")
-    
+
 def main():
     parser = argparse.ArgumentParser(
         description="Transcribe scene audio using Whisper and Google Speech-to-Text, verify transcripts, and update scene JSON with optional captions."
@@ -384,8 +328,8 @@ def main():
                         help="Path to the video folder (e.g., videos/video_id). The scene_info.json file is expected at videos/video_id/video_id_scenes/scene_info.json")
     parser.add_argument("--device", type=str, default="cuda",
                         help="Device to use for Whisper transcription (default: cuda)")
-    parser.add_argument("--threshold", type=float, default=0.6,
-                        help="Similarity threshold for transcription verification (default: 0.6)")
+    parser.add_argument("--threshold", type=float, default=0.8,
+                        help="Similarity threshold for transcription verification (default: 0.8)")
 
     args = parser.parse_args()
     update_scene_transcripts(args.video_folder, args.device, args.threshold)
@@ -393,7 +337,3 @@ def main():
 if __name__ == '__main__':
     mp.set_start_method('spawn', force=True)
     main()
-
-
-
-    

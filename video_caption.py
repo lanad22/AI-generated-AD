@@ -6,135 +6,49 @@ import argparse
 import subprocess
 import base64
 import time
+import google.generativeai as genai
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
 
-def convert_for_qwen(input_path):
-    base_path, ext = os.path.splitext(input_path)
-    output_path = f"{base_path}_qwen{ext}"
-    
-    command = [
-        "ffmpeg", "-y",
-        "-loglevel", "quiet",
-        "-i", input_path,
-        "-an",
-        "-c:v", "libx264",
-        "-vf", "scale='min(1280,iw)':'-2'",
-        "-pix_fmt", "yuv420p",
-        output_path
-    ]
-    subprocess.run(command, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    return output_path
 
-def encode_video_to_base64(video_path):
-    with open(video_path, "rb") as video_file:
-        encoded_string = base64.b64encode(video_file.read())
-    return encoded_string.decode('utf-8')
+MODEL_GEMINI = "gemini"
+MODEL_QWEN = "qwen"
 
-def extract_and_parse_json(response):
-    try:
-        # Remove markdown code block markers if present
-        response = re.sub(r'```json|```', '', response)
-        json_pattern = r'\[\s*{.*}\s*\]'
-        json_match = re.search(json_pattern, response, re.DOTALL)
-        if json_match:
-            json_str = json_match.group(0).strip()
-            try:
-                parsed_data = json.loads(json_str)
-                return parsed_data
-            except json.JSONDecodeError:
-                try:
-                    parsed_data = ast.literal_eval(json_str)
-                    return parsed_data
-                except Exception:
-                    return []
-        else:
-            return []
-    except Exception:
-        return []
 
-def prepare_context(scene_data, previous_description=None):
-    """Prepare context information from transcript and previous description."""
-    context_parts = []
-    
-    # Add transcript information
-    if scene_data.get("transcript"):
-        transcripts_info = ""
-        for transcript in scene_data.get("transcript"):
-            transcripts_info += f"{transcript['text']}\n"
-        context_parts.append(
-            f"TRANSCRIPT:\n{transcripts_info}\n"
-            "Do not repeat this information in the description.\n"
-        )
-    
-    # Add captions information
-    if scene_data.get("captions"):
-        captions_info = ""
-        for caption in scene_data.get("captions"):
-            captions_info += f"{caption['text']}\n"
-        context_parts.append(f"CAPTIONS:\n{captions_info}\n")
-    
-    # Add previous description if available
-    if previous_description:
-        context_parts.append(
-            f"PREVIOUS SCENE DESCRIPTION (for reference only, do not repeat):\n{previous_description}\n\n"
-            "Focus on new observations, actions, and details from the current scene.\n"
-        )
-    
-    return "\n\n".join(context_parts)
+AUDIO_DESCRIPTION_GUIDELINES = """
+AUDIO DESCRIPTION GUIDELINES (for "Visual" events):
+- Describe what you see in a concise, factual manner.
+- Be factual, objective, and precise in your descriptions.
+- Use proper terminology and names from the context (like character names) when possible.
+- Match the tone and mood of the video.
+- Do not over-describe; less is often more.
+- Do not interpret or editorialize what you see.
+- Do not give away surprises before they happen.
+- Do not describe camera movements.
 
-def process_scene(scene_data, scene_path, client, previous_description=None, system_message=None, max_retries=3, video_category="Other", video_title = "Other"):
-    # Prepare context
-    context = prepare_context(scene_data, previous_description)
-    scene_duration = scene_data.get("duration")
-    
-    if video_category.lower() == "howto & style":
-        extra_rule = (
-            "\n"
-            "- DO NOT mention any person or body part. "
-            "ONLY describe the action itself in the imperative."
-        )
-        if "origami" in video_title.lower() or "paper folding" in video_title.lower():
-            extra_rule += (
-                "\n"
-                "- For origami instructions: Use precise geometric and directional language. "
-                "Describe each fold with specificity with degree of rotation."
-                "Mention paper characteristics (square, colored side, white side). "
-                "Use standard origami terminology (squash fold, petal fold, inside reverse fold). "
-                "Track shape progression ('The paper transforms into a preliminary base'). "
-                "Describe spatial relationships ('Align top edge with center crease'). "
-                "ONLY describe the action itself in the imperative. NO mentions of hands, fingers, or people."
-            )
-            
-        elif "scarf" in video_title.lower() or "wrap" in video_title.lower() or "accessory" in video_title.lower():
-            extra_rule += (
-                "\n"
-                "- For scarf styling instructions: Use precise positional and directional terminology. BE VERY DETAILED AND SPECIFIC "
-                "Focus on fabric movement and placement ('Drape fabric over shoulders,' 'Twist ends together'). "
-                "Describe the technique with specific verbs ('Loop,' 'Thread,' 'Fold,' 'Tuck'). "
-                "Note the evolving appearance ('Creates cascade effect,' 'Forms triangular shape'). "
-                "Include stylistic outcomes where relevant ('Results in waterfall effect,' 'Creates layered look'). "
-                "Mention fabric orientation or directionality ('Position patterned side outward'). "
-                "ONLY describe actions in imperative form with NO mentions of wearer, hands, or body parts."
-            )
-    else:
-        extra_rule = ""
+CHARACTER IDENTIFICATION GUIDELINES (for "Visual" events):
+- When you recognize a character from the context, ALWAYS use their specific name.
+- Before describing a scene, carefully review any provided context to identify all named characters.
+- Use the most specific identification possible based on context.
+"""
 
-    prompt = f"""
-            SCENE DURATION: {scene_duration:.2f} seconds
+PROMPT_TEMPLATE = """
+        Scene Duration: {scene_duration:.2f} seconds
 
-            CONTEXT:
-            {context}
-            
-            You are analyzing a video scene. Identify specific characters, locations, and any important elements mentioned in the context.
+        CONTEXT FOR CURRENT SCENE ANALYSIS:
+        {context_block}
 
-            First, generate a JSON array of Text on Screen events.
+        You are analyzing a video scene. Identify specific characters, locations, and any important elements mentioned in the context.
+
+        First, generate a JSON array of Text on Screen events.
             Text Events ("type": "Text on Screen"):
-            - Capture ALL visible on-screen text.
+            - Capture visible on-screen text.
             - DO NOT include transcript or dialogue.
             - CRITICAL: For each text event, include the EXACT `start_time` in seconds when the text appears.
+            - Combine events that have the same start_time or appear within 2s. 
             
             INCLUDE:
             - Titles, headings, names
@@ -147,7 +61,7 @@ def process_scene(scene_data, scene_path, client, previous_description=None, sys
             - Social media handles
             - Copyright notices
             
-            Second, generate a JSON array of Visual event.
+        Second, generate a JSON array of Visual event.
             - Provide contextually rich visual description of the scene using very concise wording
             - Describe each action in this scene in every specific details. 
             - ALWAYS use specific character names from context (not "person" or "woman")
@@ -159,265 +73,357 @@ def process_scene(scene_data, scene_path, client, previous_description=None, sys
             - Format the output as a JSON array. Each object should include:
             - `start_time` (in seconds)
             - `type` ("Text on Screen" or "Visual")
-            - `text` (description or on-screen text){extra_rule}        
+            - `text` (description or on-screen text)       
             Now generate the JSON array of events for this scene.
         """
 
-    
-    #print(f"PROMPT: {prompt}")
-    
-    if not system_message:
-        system_message = "You are a professional audio describer."
-    
-    # Encode video to base64
-    print("Encoding video for API transmission...")
-    encoded_video = encode_video_to_base64(scene_path)
-    
-    # Set up retry mechanism
-    retry_count = 0
-    response = None
-    
-    while retry_count < max_retries:
-        try:
-            print(f"Calling Qwen API (attempt {retry_count + 1})...")
-            
-            # Call the Qwen API
-            completion = client.chat.completions.create(
-                model="qwen2.5-vl-72b-instruct",
-                messages=[
-                    {"role": "system", "content": system_message},
-                    {"role": "user", "content": [
-                        {"type": "text", "text": prompt},
-                        {"type": "video_url", "video_url": {"url": f"data:video/mp4;base64,{encoded_video}"}}
-                    ]}
-                ],
-                max_tokens=512,
-                temperature=0.7,
-                #timeout=120  # Increased timeout for longer responses
-            )
-            
-            # Extract response
-            response = completion.choices[0].message.content
-            print(f'RESPONSE: {response}')
-            break
-            
-        except Exception as e:
-            retry_count += 1
-            print(f"API call failed (attempt {retry_count}): {str(e)}")
-            
-            if retry_count < max_retries:
-                wait_time = 2 ** retry_count  
-                print(f"Waiting {wait_time} seconds before retrying...")
-                time.sleep(wait_time)
-            else:
-                print("Maximum retries reached. Moving on...")
-                return []
-    
-    if not response:
-        print("Failed to get a response from the API.")
-        return []
-    
-    # Extract the JSON events
-    events = extract_and_parse_json(response)
-    
-    # Convert any "start_time" strings to floats
-    if not isinstance(events, list):
-        print(f"Warning: Could not extract valid JSON from response. Using empty list.")
-        events = []
-    
-    for event in events:
-        if "start_time" in event and isinstance(event["start_time"], str):
-            try:
-                event["start_time"] = float(event["start_time"])
-            except ValueError:
-                event["start_time"] = 0.0
-    
-    # Deduplicate text events (if same text appears multiple times)
-    unique_texts = {}
-    deduplicated_events = []
-    
-    for event in events:
-        if event.get("type") == "text":
-            text_content = event.get("text", "").strip()
-            if text_content and text_content not in unique_texts:
-                unique_texts[text_content] = True
-                deduplicated_events.append(event)
-        else:
-            deduplicated_events.append(event)
-    
-    if len(events) != len(deduplicated_events):
-        print(f"Deduplicated text events: {len(events)} → {len(deduplicated_events)}")
-    
-    deduplicated_events.sort(key=lambda e: e.get("start_time", 0))
-    return deduplicated_events
 
-def process_all_scenes(video_folder, client):
-    video_id = os.path.basename(os.path.normpath(video_folder))
-    video_metadata_path = os.path.join(video_folder, f"{video_id}.json")
+MODEL_CONFIGS = {
+    MODEL_GEMINI: {
+        "model_name": "gemini-1.5-pro-latest",
+        "system_instruction": f"""
+        You are an expert video analysis AI. The user will provide context including video title, overall description, and potentially details from the immediately preceding scene.
 
-    scenes_folder = os.path.join(video_folder, f"{video_id}_scenes")
-    scenes_json_path = os.path.join(scenes_folder, "scene_info.json")
-    
-    if not os.path.exists(video_metadata_path):
-        print(f"Error: {video_metadata_path} not found. Unable to retrieve title and description.")
-        return
-    
-    # Load video metadata for context
-    with open(video_metadata_path, "r") as f:
-        video_metadata = json.load(f)
-    
-    video_category = video_metadata.get("category", "Other")
-    print(f"Loaded video category: {video_category}")
-    
-    video_title = video_metadata.get("title", "Unknown Title")
-    video_description = video_metadata.get("description", "")
-    previous_description = f"Video Title: {video_title}\n{video_description}"
-    print(f"PREVIOUS DESCRIPTION: {previous_description}")
-    
-    if not os.path.exists(scenes_json_path):
-        print(f"Error: scene_info.json not found in {scenes_folder}")
-        return
-    
-    with open(scenes_json_path, "r") as f:
-        scene_list = json.load(f)
-    
-    print(f"Processing {len(scene_list)} scenes in {scenes_folder}...")
-    
-    # Define guidelines
-    guidelines = """
-    AUDIO DESCRIPTION GUIDELINES:
-    - Describe what you see in a concise, factual manner.
-    - Always read on-screen text exactly as it appears.
-    - Be factual, objective, and precise in your descriptions.
-    - Use proper terminology and names from the context when possible.
-    - Match the tone and mood of the video.
-    - Do not over-describe - less is more.
-    - Do not interpret or editorialize about what you see.
-    - Do not give away surprises before they happen.
-   
-    IMPORTANT CHARACTER IDENTIFICATION:
-    - When you recognize a character from the context, ALWAYS use their specific name.
-    - Before each scene, carefully review context to identify all named characters.
-    - Use the most specific identification possible based on the context information.
-    """
-    
-    # First, have the model understand the guidelines by sending a one-time prompt
-    print("\n----- ESTABLISHING GUIDELINES WITH MODEL -----")
-    guidelines_prompt = f"""
-        You are a professional audio describer following these guidelines:
-        
-        {guidelines}
-        
-        Do you understand these guidelines? Respond with "YES" and a brief confirmation.
-        """
-        
-    # Call the Qwen API for guidelines understanding
+        Follow these CORE GUIDELINES for your analysis:
+        {AUDIO_DESCRIPTION_GUIDELINES}
+        """,
+        "generation_config": {
+            "temperature": 0.6,
+            "max_output_tokens": 4096,
+            "response_mime_type": "application/json",
+        },
+        "safety_settings": {
+            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+        },
+        "max_retries": 2
+    },
+    MODEL_QWEN: {
+        "model_name": "qwen2.5-vl-72b-instruct",
+        "system_message": f"""
+            You are a professional audio describer and video analysis AI. The user will provide context including video title, overall description, and potentially details from the immediately preceding scene.
+            You MUST strictly follow these CORE GUIDELINES for your analysis and descriptions:
+            {AUDIO_DESCRIPTION_GUIDELINES}
+
+            SPECIFIC RULE FOR 'Howto & Style' CATEGORY VIDEOS:
+            If the video category (provided in context) is identified as "howto & style", for "Visual" events, DO NOT mention any person or body part. ONLY describe the action itself, often in the imperative mood (e.g., "Unscrew the lid," "Fold the paper."). For other video categories, describe persons and actions normally.
+            """,
+                    "api_base_url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+                    "generation_config": {
+                        "max_tokens": 2048,
+                        "temperature": 0.7,
+                    },
+                    "max_retries": 3
+                }
+}
+
+def convert_video_for_processing(input_path, model_type_for_filename_suffix):
+    base_path, ext = os.path.splitext(input_path)
+    output_path = f"{base_path}_{model_type_for_filename_suffix}_temp{ext}"
+    command = [
+        "ffmpeg", "-y", "-loglevel", "quiet", "-i", input_path,
+        "-an", "-c:v", "libx264", "-vf", "scale='min(1280,iw)':'-2'",
+        "-pix_fmt", "yuv420p", output_path
+    ]
     try:
-            completion = client.chat.completions.create(
-                model="qwen2.5-vl-72b-instruct",
-                messages=[
-                    {"role": "system", "content": "You are a professional audio describer."},
-                    {"role": "user", "content": guidelines_prompt}
-                ],
-                max_tokens=200,
-                temperature=0.3,
-                timeout=30
-            )
-            
-            guidelines_response = completion.choices[0].message.content
-            print(f"MODEL RESPONSE: {guidelines_response}")
-            print("----- GUIDELINES ESTABLISHED -----\n")
-            
-    except Exception as e:
-            print(f"Warning: Failed to establish guidelines: {str(e)}")
-            print("----- CONTINUING WITHOUT GUIDELINES ESTABLISHMENT -----\n")
-    
-    # Create a system message that includes the guidelines reference
-    system_message = "You are a professional audio describer following strict guidelines."
-    
-    # Process each scene, building context from previous scenes
-    for idx, scene_data in enumerate(scene_list, start=1):
-        print(f"\nProcessing Scene {idx}/{len(scene_list)}: {scene_data.get('scene_number', 'Unknown')}")
-        scene_path = scene_data.get('scene_path', '')
-        if not os.path.exists(scene_path):
-            print(f"Scene file not found: {scene_path}")
-            continue
-        
-        # Get previous scene descriptions for context
-        if idx > 1:
-            prev_scene = scene_list[idx-2]  # idx-2 because idx starts at 1
-            prev_descriptions = []
-            
-            if prev_scene.get('audio_clips'):
-                # Extract descriptions from previous scene
-                prev_descriptions = [clip.get('text', '') for clip in prev_scene.get('audio_clips', []) 
-                                    if clip.get('type') == 'visual'] 
-                
-                if prev_descriptions:
-                    # Update previous_description with actual previous scene data
-                    previous_description = f"{video_title}\n{video_description}\n\nPrevious scene: {prev_descriptions[0]}"
-        
-        try:
-            print("Converting video for Qwen format...")
-            converted_scene_path = convert_for_qwen(scene_path)
-            
+        subprocess.run(command, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        return output_path
+    except subprocess.CalledProcessError as e:
+        print(f"Error during ffmpeg conversion for {input_path} (suffix: {model_type_for_filename_suffix}): {e}. Using original.")
+        return input_path
+
+def encode_video_to_base64(video_path):
+    with open(video_path, "rb") as video_file:
+        return base64.b64encode(video_file.read()).decode('utf-8')
+
+def extract_and_parse_json(response_text):
+    if not response_text:
+        return []
+    try:
+        response_text = re.sub(r'```json|```', '', response_text).strip()
+        json_match = re.search(r'^\s*\[[\s\S]*?\]\s*$', response_text, re.MULTILINE)
+        if not json_match:
+            json_match = re.search(r'\[\s*{[\s\S]*?}\s*\]', response_text, re.DOTALL)
+
+        if json_match:
+            json_str = json_match.group(0)
             try:
-                # Process scene with our API approach
-                scene_events = process_scene(
-                    scene_data, 
-                    converted_scene_path, 
-                    client, 
-                    previous_description=previous_description,
-                    system_message=system_message,
-                    video_category=video_category,
-                    video_title=video_title
+                return json.loads(json_str)
+            except json.JSONDecodeError as e:
+                print(f"JSONDecodeError: {e}. Attempting ast.literal_eval on: {json_str[:200]}...")
+                try:
+                    evaluated_data = ast.literal_eval(json_str)
+                    return evaluated_data if isinstance(evaluated_data, list) else []
+                except Exception as e_ast:
+                    print(f"ast.literal_eval failed: {e_ast} on content: {json_str[:200]}")
+                    return []
+        else:
+            print(f"No valid JSON array found in response: {response_text[:200]}...")
+            return []
+    except Exception as e:
+        print(f"Generic error in extract_and_parse_json: {e}")
+        return []
+
+def prepare_context_block_for_scene(base_context_from_previous, video_category, current_scene_data, scene_idx):
+    context_parts = [base_context_from_previous]
+
+    context_parts.append(f"\nVideo Category: {video_category}") 
+
+    current_scene_specific_context = []
+    if current_scene_data.get("transcript"):
+        transcripts_info = "".join(f"{t['text']}\n" for t in current_scene_data["transcript"])
+        current_scene_specific_context.append(f"TRANSCRIPT FOR CURRENT SCENE (Scene {scene_idx + 1}):\n{transcripts_info}")
+
+    if current_scene_data.get("captions"):
+        captions_info = "".join(f"{c['text']}\n" for c in current_scene_data["captions"])
+        current_scene_specific_context.append(f"CAPTIONS FOR CURRENT SCENE (Scene {scene_idx + 1}):\n{captions_info}")
+
+    if current_scene_specific_context:
+        context_parts.append("\nADDITIONAL CONTEXT FOR CURRENT SCENE ANALYSIS:")
+        context_parts.extend(current_scene_specific_context)
+    elif scene_idx == 0 and "PREVIOUS SCENE INFORMATION" not in base_context_from_previous: # For first scene if no prev info in base
+         context_parts.append("\nThis is the first scene of the video.")
+
+
+    return "\n\n".join(context_parts)
+
+
+
+def get_scene_events_from_model(chosen_model_type, model_client_instance, scene_data, video_path,
+                                scene_idx, # pass scene_idx
+                                base_context_for_current_scene, # This is the evolving context string
+                                video_category):
+    scene_duration = scene_data.get("duration", 0.0)
+    scene_number_display = scene_data.get('scene_number', scene_idx + 1)
+
+
+    context_block = prepare_context_block_for_scene(
+        base_context_for_current_scene,
+        video_category,
+        scene_data,
+        scene_idx
+    )
+
+    user_prompt = PROMPT_TEMPLATE.format(
+        scene_duration=scene_duration,
+        context_block=context_block
+    )
+
+    print(f"\n--- Sending to {chosen_model_type.upper()} for Scene {scene_number_display} ---")
+    # print(f"--- USER PROMPT for {chosen_model_type.upper()} ---")
+    # print(user_prompt)
+    # print("--- END USER PROMPT ---")
+
+
+    encoded_video = encode_video_to_base64(video_path)
+    video_part = {"mime_type": "video/mp4", "data": encoded_video}
+
+    model_specific_config = MODEL_CONFIGS[chosen_model_type]
+    max_retries = model_specific_config.get("max_retries", 2)
+    events = []
+
+    for attempt in range(max_retries):
+        try:
+            if chosen_model_type == MODEL_GEMINI:
+                response = model_client_instance.generate_content(
+                    [user_prompt, video_part],
+                    generation_config=model_specific_config["generation_config"],
+                    safety_settings=model_specific_config["safety_settings"],
+                    request_options={"timeout": 240}
                 )
-                
-                scene_data['audio_clips'] = scene_events
-                
-            except Exception as e:
-                print(f"Error processing scene {idx}: {str(e)}")
-                scene_data['audio_clips'] = []
-            '''
-            if converted_scene_path != scene_path and os.path.exists(converted_scene_path):
-                os.remove(converted_scene_path)
-                print(f"Removed temporary Qwen format file: {converted_scene_path}")'''
-        
+                response_text = ""
+                if response.candidates and response.candidates[0].content and response.candidates[0].content.parts:
+                    response_text = "".join(part.text for part in response.candidates[0].content.parts if hasattr(part, 'text'))
+
+                if response.prompt_feedback and response.prompt_feedback.block_reason:
+                    print(f"Prompt blocked: {response.prompt_feedback.block_reason}. Safety: {response.prompt_feedback.safety_ratings}")
+                if response.candidates and response.candidates[0].finish_reason.name not in ["STOP", "MAX_TOKENS"]:
+                    print(f"Generation finished due to: {response.candidates[0].finish_reason.name}")
+                    if response.candidates[0].finish_reason.name == "SAFETY":
+                        print(f"Safety ratings: {response.candidates[0].safety_ratings}")
+                        return []
+                events = extract_and_parse_json(response_text)
+                return events
+
+            elif chosen_model_type == MODEL_QWEN:
+                system_message_for_api_call = model_specific_config["system_message"]
+                completion = model_client_instance.chat.completions.create(
+                    model=model_specific_config["model_name"],
+                    messages=[
+                        {"role": "system", "content": system_message_for_api_call},
+                        {"role": "user", "content": [
+                            {"type": "text", "text": user_prompt},
+                            {"type": "video_url", "video_url": {"url": f"data:video/mp4;base64,{encoded_video}"}}
+                        ]}
+                    ],
+                    **model_specific_config["generation_config"]
+                )
+                response_text = completion.choices[0].message.content
+                print(f'QWEN RESPONSE (first 300 chars): {response_text[:300]}...')
+                events = extract_and_parse_json(response_text)
+                return events
+
         except Exception as e:
-            print(f"Error converting video: {str(e)}")
+            print(f"Error calling {chosen_model_type.upper()} API (attempt {attempt + 1}/{max_retries}): {e}")
+            if attempt == max_retries - 1:
+                return []
+            time.sleep(5 * (attempt + 1))
+    return []
+
+def process_video_folder(video_folder_path, model_client_instance, chosen_model_type, output_suffix):
+    video_id = os.path.basename(os.path.normpath(video_folder_path))
+    metadata_path = os.path.join(video_folder_path, f"{video_id}.json")
+    scenes_input_json_path = os.path.join(video_folder_path, f"{video_id}_scenes", "scene_info.json")
+
+    if not os.path.exists(metadata_path):
+        print(f"Metadata file not found: {metadata_path}")
+        return
+    with open(metadata_path, "r", encoding="utf-8") as f:
+        video_metadata = json.load(f)
+    video_title = video_metadata.get("title", "Untitled Video")
+    video_description = video_metadata.get("description", "")
+    video_category = video_metadata.get("category", "Other")
+
+    if not os.path.exists(scenes_input_json_path):
+        print(f"Scene info file not found: {scenes_input_json_path}")
+        return
+    with open(scenes_input_json_path, "r", encoding="utf-8") as f:
+        scene_list = json.load(f)
+
+    print(f"Processing {len(scene_list)} scenes for video: '{video_title}' using {chosen_model_type.upper()}")
+
+    context_for_api_call = f"Video Title: {video_title}"
+    if video_description:
+        context_for_api_call += f"\nVideo Description: {video_description}"
+    context_for_api_call += "\n\nPREVIOUS SCENE INFORMATION: This is the first scene, or previous visual not available."
+
+
+    for i, scene_data in enumerate(scene_list):
+        original_scene_path = scene_data.get('scene_path')
+        scene_number = scene_data.get('scene_number', i + 1) # 1-based for display/logging
+
+        if not original_scene_path or not os.path.exists(original_scene_path):
+            print(f"Scene {scene_number}: Path missing or file not found. Skipping.")
             scene_data['audio_clips'] = []
-        
-    with open(scenes_json_path, "w") as f:
+            # If a scene is skipped, context_for_api_call remains from the last successfully processed scene.
+            continue
+
+        converted_path = None
+        try:
+            converted_path = convert_video_for_processing(original_scene_path, chosen_model_type)
+            scene_events_raw = get_scene_events_from_model(
+                chosen_model_type, model_client_instance,
+                scene_data, converted_path,
+                i, # Pass 0-based scene_idx
+                context_for_api_call, # This is the base context string
+                video_category
+            )
+
+            processed_events = []
+            unique_texts_on_screen = {}
+            current_scene_visual_texts = []
+
+            if isinstance(scene_events_raw, list):
+                for event in scene_events_raw:
+                    if not isinstance(event, dict) or "start_time" not in event or "type" not in event or "text" not in event:
+                        print(f"Skipping malformed event: {event}")
+                        continue
+                    try:
+                        event["start_time"] = float(event["start_time"])
+                    except (ValueError, TypeError):
+                        event["start_time"] = 0.0
+
+                    event_type = event["type"]
+                    if chosen_model_type == MODEL_QWEN and event_type.lower() == "text":
+                        event_type = "Text on Screen"
+                        event["type"] = "Text on Screen"
+
+                    if event_type == "Text on Screen":
+                        text_content = event["text"].strip()
+                        if text_content and text_content not in unique_texts_on_screen:
+                            unique_texts_on_screen[text_content] = True
+                            processed_events.append(event)
+                    elif event_type == "Visual":
+                        processed_events.append(event)
+                        if event["text"]:
+                            current_scene_visual_texts.append(event["text"].strip())
+                    else:
+                        print(f"Skipping event with unknown or non-standard type '{event_type}': {event}")
+            else:
+                print(f"Warning: Scene {scene_number} returned non-list events: {scene_events_raw}")
+
+            processed_events.sort(key=lambda e: e.get("start_time", 0))
+            scene_data['audio_clips'] = processed_events
+
+            next_base_context = f"Video Title: {video_title}"
+            if video_description:
+                next_base_context += f"\nVideo Description: {video_description}"
+
+            if current_scene_visual_texts:
+                next_base_context += f"\n\nPREVIOUS SCENE INFORMATION (Scene {scene_number}):\nKey Visual: {current_scene_visual_texts[0]}"
+            else:
+                next_base_context += f"\n\nPREVIOUS SCENE INFORMATION (Scene {scene_number}): No distinct key visual identified in this scene."
+            context_for_api_call = next_base_context
+
+
+        except Exception as e:
+            print(f"Failed to process scene {scene_number}: {e}")
+            import traceback
+            traceback.print_exc()
+            scene_data['audio_clips'] = []
+        finally:
+            if converted_path and converted_path != original_scene_path and os.path.exists(converted_path):
+                try:
+                    os.remove(converted_path)
+                except OSError as e_remove:
+                    print(f"Warning: Could not remove temp file {converted_path}: {e_remove}")
+
+    input_dir = os.path.dirname(scenes_input_json_path)
+    final_output_path = os.path.join(input_dir, f"scene_info_{output_suffix}.json")
+    with open(final_output_path, "w", encoding="utf-8") as f:
         json.dump(scene_list, f, indent=4)
-    
-    print(f"\nScene descriptions updated in: {scenes_json_path}")
-    return scene_list
+    print(f"\nProcessing complete. Updated scene descriptions saved to: {final_output_path}")
+
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Generate audio descriptions for video scenes using Qwen2.5-VL-72B-Instruct API."
-    )
-    parser.add_argument("video_folder", type=str,
-                        help="Folder containing video files and metadata.")
+    parser = argparse.ArgumentParser(description="Generate video scene descriptions using a chosen LLM API.")
+    parser.add_argument("video_folder", help="Folder containing video files and metadata.")
+    parser.add_argument("--model", type=str, choices=["gemini", "qwen"], required=True,
+                        help="Choose the model: 'gemini' or 'qwen'.")
     args = parser.parse_args()
-    
-    # Setup API client
-    api_key = os.getenv("API_KEY")
-    base_url = "https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
-    
-    if not api_key:
-        raise ValueError("API key must be provided via API_KEY environment variable")
-    
-    print("Setting up OpenAI client for DashScope API...")
-    client = OpenAI(
-        api_key=api_key,
-        base_url=base_url,
-    )
-    
-    # Process all scenes
-    process_all_scenes(args.video_folder, client)
-    
-    print("Processing complete.")
+
+    model_client = None
+    output_file_suffix = ""
+
+    if args.model == MODEL_GEMINI:
+        google_api_key = os.getenv("GEMINI_API_KEY")
+        if not google_api_key:
+            raise ValueError("GEMINI_API_KEY environment variable not set for Gemini model.")
+        genai.configure(api_key=google_api_key)
+        print(f"Initializing Gemini model: {MODEL_CONFIGS[MODEL_GEMINI]['model_name']}")
+        model_client = genai.GenerativeModel(
+            MODEL_CONFIGS[MODEL_GEMINI]['model_name'],
+            system_instruction=MODEL_CONFIGS[MODEL_GEMINI]['system_instruction']
+        )
+        output_file_suffix = "gemini"
+
+    elif args.model == MODEL_QWEN:
+        qwen_api_key = os.getenv("QWEN_API_KEY") 
+        if not qwen_api_key:
+            raise ValueError("QWEN_API_KEY (or API_KEY) environment variable not set for Qwen model.")
+
+        print(f"Initializing Qwen client for model: {MODEL_CONFIGS[MODEL_QWEN]['model_name']}")
+        model_client = OpenAI(
+            api_key=qwen_api_key,
+            base_url = "https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
+        )
+        output_file_suffix = "qwen"
+    else:
+        raise ValueError(f"Invalid model type specified: {args.model}")
+
+    process_video_folder(args.video_folder, model_client, args.model, output_file_suffix)
 
 if __name__ == "__main__":
     main()
