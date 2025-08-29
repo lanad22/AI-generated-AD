@@ -1,6 +1,7 @@
 # info_bot_api.py
 from typing import Optional
-from fastapi import FastAPI, Request, HTTPException
+from enum import Enum
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import subprocess
 import json
@@ -147,39 +148,53 @@ async def narration_bot(data: NarrationBotRequest):
                 detail=f"Error in narration bot endpoint: {str(e)}"
             )
 
+
+class DataType(str, Enum):
+    HUMAN = "human"
+    QWEN = "qwen"
+    GEMINI = "gemini"
+    GPT = "gpt"
+
 class YouTubeIDRequest(BaseModel):
     youtube_id: str
+    data_type: DataType = DataType.HUMAN  # Default to HUMAN 
 
 @app.post("/api/newaidescription")
 async def forward_final_data(data: YouTubeIDRequest):
     """
-    API to forward final_data.json to another server.
+    API to forward specified final_data file to another server.
+    Supports: final_data_human.json, final_data_qwen.json, final_data_gemini.json, final_data_gpt.json
+    
+    Usage examples:
+    - {"youtube_id": "abc123", "data_type": "human"}
+    - {"youtube_id": "abc123", "data_type": "qwen"}
+    - {"youtube_id": "abc123"} # defaults to human
     """
-    logger.info(f"Received request to forward final_data.json for YouTube ID: {data.youtube_id}")
+    logger.info(f"Received request to forward final_data_{data.data_type.value}.json for YouTube ID: {data.youtube_id}")
     
     try:
-        # Path to the final_data.json file
-        final_data_path = os.path.join("videos", data.youtube_id, "final_data.json")
+        # Construct the file path based on data_type
+        filename = f"final_data_{data.data_type.value}.json"
+        final_data_path = os.path.join("videos", data.youtube_id, filename)
         
-        # Check if final_data.json exists
+        # Check if the specified file exists
         if not os.path.exists(final_data_path):
             raise HTTPException(
                 status_code=404,
-                detail=f"final_data.json not found for YouTube ID: {data.youtube_id}"
+                detail=f"{filename} not found for YouTube ID: {data.youtube_id}"
             )
         
-        # Load the final_data.json file
+        # Load the final_data file
         try:
             with open(final_data_path, "r") as f:
                 final_data = json.load(f)
         except Exception as e:
             raise HTTPException(
                 status_code=500,
-                detail=f"Failed to load final_data.json: {str(e)}"
+                detail=f"Failed to load {filename}: {str(e)}"
             )
         
-        target_url = "http://172.31.13.176:4000/api/audio-descriptions/newaidescription" 
-        
+        target_url = "http://localhost:4001/api/audio-descriptions/newaidescription" 
         headers = {"Content-Type": "application/json"}
         
         try:
@@ -195,6 +210,8 @@ async def forward_final_data(data: YouTubeIDRequest):
                 if r.status_code == 200:
                     logger.info("Processed all clips in DB")
                     logger.info(r.text)
+                else:
+                    logger.warning(f"Failed to process clips. Status: {r.status_code}")
 
         except requests.exceptions.RequestException as e:
             logger.error(f"Failed to forward data. Error: {str(e)}")
@@ -206,9 +223,14 @@ async def forward_final_data(data: YouTubeIDRequest):
         # Parse the JSON response
         try:
             json_response = response.json()
-            logger.info(f"Successfully forwarded final_data.json to {target_url}")
+            logger.info(f"Successfully forwarded {filename} to {target_url}")
             logger.info(f"Response: {json_response}")
-            return {"status": "success", "message": "Data forwarded successfully", "response": json_response}
+            return {
+                "status": "success", 
+                "message": f"Data forwarded successfully from {filename}", 
+                "data_type": data.data_type.value,
+                "response": json_response
+            }
         except ValueError as e:
             logger.error(f"Failed to parse JSON response. Error: {str(e)}")
             raise HTTPException(

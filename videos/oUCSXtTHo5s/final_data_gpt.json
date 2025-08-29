@@ -1,0 +1,137 @@
+{
+  "dialogue_timestamps": [],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "V CREATE DIGITAL PRESENTS....",
+      "type": "Text on Screen",
+      "start_time": 0.0,
+      "end_time": 2.328,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 2,
+      "text": "BEING A KID AGAIN....",
+      "type": "Text on Screen",
+      "start_time": 2.9029000000000003,
+      "end_time": 3.9809,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 2,
+      "text": "A square piece of plain paper is placed on a wooden surface.",
+      "type": "Visual",
+      "start_time": 4.902900000000001,
+      "end_time": 7.7349,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 3,
+      "text": "Rotate the paper 45 degrees to form a diamond shape.",
+      "type": "Visual",
+      "start_time": 7.919059,
+      "end_time": 10.795899999999999,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 4,
+      "text": "Positions a square piece of plain paper diagonally on a wooden surface, with one hand at the top corner and the other at the bottom corner. Folds the top corner of the paper down towards the bottom corner, creating a triangle shape.",
+      "type": "Visual",
+      "start_time": 11.7117,
+      "end_time": 23.893700000000001,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 5,
+      "text": "Crease the fold sharply, ensuring precise alignment along the edges.",
+      "type": "Visual",
+      "start_time": 24.182833333333335,
+      "end_time": 27.520833333333334,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "\"Current piece of paper, oriented with the long edge facing the viewer. Rotate the triangle so that the point is now facing downwards\"",
+      "type": "Visual",
+      "start_time": 28.7287,
+      "end_time": 35.04427,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "The right hand lifts the bottom corner and folds it upwards towards the top corner, creating a smaller triangle shape. Both hands adjust the newly formed triangle, ensuring the edges align precisely",
+      "type": "Visual",
+      "start_time": 38.8408,
+      "end_time": 48.2228,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 9,
+      "text": "Press the paper to create a sharp crease.",
+      "type": "Visual",
+      "start_time": 49.315933333333334,
+      "end_time": 54.595933333333335,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 10,
+      "text": "The paper is unfolded slightly, showing the newly formed crease.",
+      "type": "Visual",
+      "start_time": 55.48876666666667,
+      "end_time": 58.61476666666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 11,
+      "text": "Rotate the paper again with the long edge facing down. The right hand lifts the left corner of the triangle, folding it inward toward the center of the triangle, creating a smaller triangle shape. The left hand mirrors the action by folding the right corner inward toward the center, forming a symmetric kite shape.",
+      "type": "Visual",
+      "start_time": 60.52713333333333,
+      "end_time": 74.83476666666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 12,
+      "text": "The paper is folded into a basic dog face shape with pointed ears. Flip the paper over. Fold the top corners slightly inward, forming a slight curve on the top edge. Mirror the fold for bottom edge",
+      "type": "Visual",
+      "start_time": 94.9949,
+      "end_time": 104.4929,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 13,
+      "text": "\"The paper is flipped back to the front, with the dog's face clearly visible. The paper has been folded into a shape with two pointed ears and a flat base.",
+      "type": "Visual",
+      "start_time": 120.3242,
+      "end_time": 127.4242,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 14,
+      "text": "Adjust the paper slightly, aligning the edges to emphasize the symmetry of the dog face shape. Use a blue marker to draw two dots for eyes, a small curve for a nose, and a smiling mouth. The origami dog face is complete and lifted slightly to show the final result.",
+      "type": "Visual",
+      "start_time": 128.69323333333334,
+      "end_time": 141.31123333333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 15,
+      "text": "\"Hands adjust an origami dog face on wood, add features with a marker, then press to emphasize folds. Ends with a close-up.\"",
+      "type": "Visual",
+      "start_time": 150.48366666666666,
+      "end_time": 156.019366666666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 16,
+      "text": "THANKS YOU FOR WATCHING THE VIDEO.\nSUBSCRIBE TO SEE MORE VIDEOS AT :\nhttp://www.youtube.com/BeingAKidAgain",
+      "type": "Text on Screen",
+      "start_time": 162.6625,
+      "end_time": 171.5425,
+      "track_type": "inline"
+    }
+  ],
+  "youtube_id": "oUCSXtTHo5s",
+  "video_name": "How to make an origami dog face step by step.",
+  "video_length": 168,
+  "aiUserId": "68798f57c48a173631902319"
+}

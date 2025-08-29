@@ -1,0 +1,342 @@
+{
+  "dialogue_timestamps": [
+    {
+      "start_time": 42.16416666666667,
+      "end_time": 43.72416666666667,
+      "duration": 1.66,
+      "audio_text": "Everyone's got their thing.",
+      "sequence_num": 1
+    },
+    {
+      "start_time": 51.3864,
+      "end_time": 60.446400000000004,
+      "duration": 9.16,
+      "audio_text": "Maybe it's a breakup, an accident.",
+      "sequence_num": 2
+    },
+    {
+      "start_time": 63.36626666666667,
+      "end_time": 66.96626666666668,
+      "duration": 3.7,
+      "audio_text": "Whatever it is, you used to be one thing.",
+      "sequence_num": 3
+    },
+    {
+      "start_time": 69.05066666666667,
+      "end_time": 70.11066666666667,
+      "duration": 1.16,
+      "audio_text": "You're something else.",
+      "sequence_num": 4
+    }
+  ],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "In a dark, abstract scene, a figure like Tom Hardy's Eddie Brock flashes by.",
+      "type": "Visual",
+      "start_time": 0.0,
+      "end_time": 6.312,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 2,
+      "text": "A record player needle drops onto a spinning vinyl record.",
+      "type": "Visual",
+      "start_time": 12.7127,
+      "end_time": 16.8407,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 3,
+      "text": "Black screen.",
+      "type": "Visual",
+      "start_time": 14.7147,
+      "end_time": 15.9867,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 3,
+      "text": "End of Scene 3",
+      "type": "Visual",
+      "start_time": 16.8547,
+      "end_time": 18.3667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 4,
+      "text": "SONY",
+      "type": "Text on Screen",
+      "start_time": 16.883533333333332,
+      "end_time": 16.883533333333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "Black screen with \"SONY\" logo.",
+      "type": "Visual",
+      "start_time": 16.883533333333332,
+      "end_time": 16.883533333333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "COLUMBIA\na Sony Company",
+      "type": "Text on Screen",
+      "start_time": 18.883533333333332,
+      "end_time": 18.883533333333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "The Columbia Pictures logo, a woman holding a torch, appears against a cloudy sky.",
+      "type": "Visual",
+      "start_time": 18.883533333333332,
+      "end_time": 18.883533333333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "Red-filtered aerial view of a city",
+      "type": "Visual",
+      "start_time": 19.686333333333334,
+      "end_time": 19.686333333333334,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "MARVEL",
+      "type": "Text on Screen",
+      "start_time": 20.656333333333333,
+      "end_time": 20.656333333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "The Marvel logo appears briefly.",
+      "type": "Visual",
+      "start_time": 20.686333333333334,
+      "end_time": 20.686333333333334,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "At night, Eddie Brock walks past dark, web-draped buildings. Close-up on a record player.",
+      "type": "Visual",
+      "start_time": 22.622600000000002,
+      "end_time": 29.870600000000003,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "Hardy's eyes are closed in a hospital bed. A dark swirl appears.",
+      "type": "Visual",
+      "start_time": 34.801433333333335,
+      "end_time": 39.889433333333336,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "Tom Hardy walks down a city street at night.",
+      "type": "Visual",
+      "start_time": 42.87416666666667,
+      "end_time": 42.87416666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 8,
+      "text": "He looks around, appearing distressed.",
+      "type": "Visual",
+      "start_time": 42.87416666666667,
+      "end_time": 42.87416666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 9,
+      "text": "Hardy, kids flee.",
+      "type": "Visual",
+      "start_time": 44.044000000000004,
+      "end_time": 45.916000000000004,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 10,
+      "text": "Dark swirling liquid, Michelle Williams in a hospital corridor.",
+      "type": "Visual",
+      "start_time": 46.446400000000004,
+      "end_time": 51.1024,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 10,
+      "text": "Tom Hardy walks down dark corridor, towards brightly lit lab.",
+      "type": "Visual",
+      "start_time": 53.2864,
+      "end_time": 53.2864,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 10,
+      "text": "Tom Hardy pulls sheet from covered body.",
+      "type": "Visual",
+      "start_time": 56.96640000000001,
+      "end_time": 56.96640000000001,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 10,
+      "text": "Crash site at night, with emergency vehicles and personnel.",
+      "type": "Visual",
+      "start_time": 58.406400000000005,
+      "end_time": 58.406400000000005,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 10,
+      "text": "Hardy glances up.",
+      "type": "Visual",
+      "start_time": 60.546400000000006,
+      "end_time": 60.546400000000006,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 11,
+      "text": "Sweaty Tom Hardy as Eddie Brock lies in a hospital gown inside what looks like an MRI machine.",
+      "type": "Visual",
+      "start_time": 64.05626666666667,
+      "end_time": 64.05626666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 11,
+      "text": "Eddie Brock's eyes are closed.",
+      "type": "Visual",
+      "start_time": 64.05626666666667,
+      "end_time": 64.05626666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 12,
+      "text": "Sweaty Eddie Brock lies inside an MRI machine.",
+      "type": "Visual",
+      "start_time": 67.40066666666667,
+      "end_time": 67.40066666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 12,
+      "text": "Eddie Brock speaks, but his words are inaudible.",
+      "type": "Visual",
+      "start_time": 69.40066666666667,
+      "end_time": 69.40066666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "Dark, abstract shapes intertwine and lighten slightly.",
+      "type": "Visual",
+      "start_time": 70.63723333333334,
+      "end_time": 74.76523333333334,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 14,
+      "text": "Eddie thrashes in the MRI.",
+      "type": "Visual",
+      "start_time": 79.04563333333334,
+      "end_time": 81.46963333333335,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 15,
+      "text": "A stylized, glowing Venom face fades into smoke and ash, forming a fiery V.",
+      "type": "Visual",
+      "start_time": 82.3823,
+      "end_time": 88.9103,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 16,
+      "text": "OCTOBER",
+      "type": "Text on Screen",
+      "start_time": 90.85743333333333,
+      "end_time": 90.85743333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "IN REAL D 3D AND IMAX",
+      "type": "Text on Screen",
+      "start_time": 90.85743333333333,
+      "end_time": 90.85743333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "Venom.Movie #Venom",
+      "type": "Text on Screen",
+      "start_time": 90.85743333333333,
+      "end_time": 90.85743333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "This film is not yet rated.",
+      "type": "Text on Screen",
+      "start_time": 90.85743333333333,
+      "end_time": 90.85743333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "For future info go to www.filmratings.com",
+      "type": "Text on Screen",
+      "start_time": 90.85743333333333,
+      "end_time": 90.85743333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "The word \"October\" appears in large, stylized letters, crackling with electric-blue energy against a black background. Smaller text below it reads \"IN REAL D 3D AND IMAX\".",
+      "type": "Visual",
+      "start_time": 90.85743333333333,
+      "end_time": 90.85743333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "Blurry shapes and faint webs on black. A face appears as webs thicken, billowing like a spiderweb.",
+      "type": "Visual",
+      "start_time": 93.25983333333333,
+      "end_time": 100.67583333333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 18,
+      "text": "LEAVE A LIKE",
+      "type": "Text on Screen",
+      "start_time": 101.06763333333333,
+      "end_time": 101.06763333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 18,
+      "text": "CHECK OUT\nMORE VIDEOS",
+      "type": "Text on Screen",
+      "start_time": 101.06763333333333,
+      "end_time": 101.06763333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 18,
+      "text": "Dark, blurry shapes move against a black background.",
+      "type": "Visual",
+      "start_time": 101.06763333333333,
+      "end_time": 101.06763333333333,
+      "track_type": "extended"
+    }
+  ],
+  "youtube_id": "6pBONClIuzg",
+  "video_name": "VENOM Teaser Trailer #2 Concept (2018) NEW Extended Tom Hardy Marvel Movie",
+  "video_length": 113,
+  "aiUserId": "6845e4375506faa0752b8d62"
+}

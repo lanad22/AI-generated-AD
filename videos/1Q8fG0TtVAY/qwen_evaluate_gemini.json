@@ -1,0 +1,29 @@
+{
+    "evaluation_summary": {
+        "overall_quality_rating": "4",
+        "strengths": "The audio description effectively uses both inline and extended tracks to provide necessary visual context without disrupting the flow of dialogue. It captures important visual elements and text on screen accurately.",
+        "areas_for_improvement": "Some extended descriptions could be condensed into inline descriptions for better pacing. There are instances where additional strategic placement could enhance the understanding of rapid scene changes."
+    },
+    "criteria_ratings": {
+        "Reads Text-on-Screen": {
+            "rating": "5",
+            "justification": "All text on screen is accurately captured and described at appropriate times."
+        },
+        "Inline Track Quality": {
+            "rating": "4",
+            "justification": "Inline tracks are mostly effective and well-placed, though some could be more concise."
+        },
+        "Extended Track Quality": {
+            "rating": "4",
+            "justification": "Extended tracks provide detailed information but could sometimes be streamlined for better pacing."
+        },
+        "strategic_AD_type_selection": {
+            "rating": "4",
+            "justification": "There is a generally good mix of inline and extended descriptions, though optimization could improve the flow further."
+        },
+        "track_placement": {
+            "rating": "4",
+            "justification": "Narrations are well-timed, but there is room for improvement in aligning them even more closely with visual transitions."
+        }
+    }
+}

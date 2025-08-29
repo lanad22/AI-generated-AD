@@ -1,0 +1,105 @@
+{
+  "dialogue_timestamps": [],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "FROM THE CREATORS OF Tangled & Wreck-It Ralph",
+      "type": "Text on Screen",
+      "start_time": 0.0,
+      "end_time": 3.36,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 2,
+      "text": "\"Disney castle with a shooting star in twilight.\"",
+      "type": "Visual",
+      "start_time": 3.7120416666666665,
+      "end_time": 7.048041666666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 3,
+      "text": "\"The scene opens with a snowy landscape, featuring snow-covered trees and a single purple flower emerging from the snow. Olaf leans down to smell the flower, showing a delighted expression. His carrot nose touches it, surprising him. On a nearby frozen lake, Olaf in the distance and his carrot nose sliding on the ice.\"",
+      "type": "Visual",
+      "start_time": 7.215541666666666,
+      "end_time": 21.639541666666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 4,
+      "text": "\"A reindeer with large antlers looks surprised, opening its mouth wide and sticking its tounge out in a playful manner. The reindeer attempts to walk on a frozen pond, its hooves slipping on the ice. Olaf, the snowman, watches, smiling with raised twig arms as he stands on the snowy surface. The reindeer struggles to maintain balance, sliding across the ice with its legs splayed out.\"",
+      "type": "Visual",
+      "start_time": 21.981291666666664,
+      "end_time": 37.901291666666665,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 5,
+      "text": "Olaf begins to walk across the ice, slipping slightly. He falls apart. The reindeer slides awkeardly on the ice nearby. Olaf is struggling to put himself back together.",
+      "type": "Visual",
+      "start_time": 37.659625,
+      "end_time": 45.795625,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 6,
+      "text": "\" Carrot lies on a frozen lake. Sven approaches the carrot with his tounge out. Olaf is on the ice, his body parts scattered. Olaf reassembles himself and moves toward the carrot. Sven and Olaf both reach for the carrot, staring at each other. The carrot is flung into the air as Sven retreats.\"",
+      "type": "Visual",
+      "start_time": 46.08770833333333,
+      "end_time": 58.6970833333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "\"Sven runs after Olaf's carrot; Olaf grabs onto Sven and slides away on the ice.\"",
+      "type": "Visual",
+      "start_time": 59.34895833333333,
+      "end_time": 62.9495833333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "Olaf picks up his scatter body parts on the ice while holding onto Sven. Olaf stumbles off. His head lands on the snow, and he reassembles himself with his body. Olaf stands upright, looking puzzled as he adjusts his head",
+      "type": "Visual",
+      "start_time": 63.035875,
+      "end_time": 72.6187499999999,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "Sven returns and places Olaf's carrot nose back on his face. Olaf smiles as Sven jumps playfully, landing beside him. Sven and Olaf share a playful moment, with Sven lying down beside Olaf.",
+      "type": "Visual",
+      "start_time": 74.935875,
+      "end_time": 74.935875,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 8,
+      "text": "Olaf looks at his hand, which is holding Sven's fur, and seems concerned. Olaf tries grab onto his nose but his head flies off.",
+      "type": "Visual",
+      "start_time": 81.935875,
+      "end_time": 81.935875,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 8,
+      "text": "Disney FROZEN",
+      "type": "Text on Screen",
+      "start_time": 87.93875,
+      "end_time": 88.835875,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 9,
+      "text": "COMING THIS WINTER",
+      "type": "Text on Screen",
+      "start_time": 88.94579166666666,
+      "end_time": 89.98579166666666,
+      "track_type": "inline"
+    }
+  ],
+  "youtube_id": "EnnZnxhDU-4",
+  "video_name": "Trailer - Frozen TEASER TRAILER (2013) - Disney Animated Movie HD",
+  "video_length": 90,
+  "aiUserId": "6881366ec48a17363190231b"
+}

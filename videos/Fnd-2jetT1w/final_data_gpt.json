@@ -1,0 +1,696 @@
+{
+  "dialogue_timestamps": [
+    {
+      "start_time": 10.301958333333333,
+      "end_time": 12.021958333333334,
+      "duration": 1.82,
+      "audio_text": "You know what we haven't talked about in a while?",
+      "sequence_num": 1
+    },
+    {
+      "start_time": 12.261958333333332,
+      "end_time": 13.481958333333333,
+      "duration": 1.32,
+      "audio_text": "Things that matter.",
+      "sequence_num": 2
+    },
+    {
+      "start_time": 13.581958333333333,
+      "end_time": 15.581958333333334,
+      "duration": 2.1,
+      "audio_text": "Like mass and materials and particles.",
+      "sequence_num": 3
+    },
+    {
+      "start_time": 15.841958333333334,
+      "end_time": 19.221958333333333,
+      "duration": 3.48,
+      "audio_text": "I guess what I mean is things that have to do with matter.",
+      "sequence_num": 4
+    },
+    {
+      "start_time": 19.321958333333335,
+      "end_time": 20.66195833333333,
+      "duration": 1.44,
+      "audio_text": "We've already talked a lot",
+      "sequence_num": 5
+    },
+    {
+      "start_time": 20.761958333333332,
+      "end_time": 22.14195833333333,
+      "duration": 1.48,
+      "audio_text": "about the different states of matter.",
+      "sequence_num": 6
+    },
+    {
+      "start_time": 22.241958333333333,
+      "end_time": 24.56195833333333,
+      "duration": 2.42,
+      "audio_text": "You know, some matter comes in the form of a solid,",
+      "sequence_num": 7
+    },
+    {
+      "start_time": 24.701958333333334,
+      "end_time": 27.141958333333335,
+      "duration": 2.54,
+      "audio_text": "others in a liquid, and still others in a gas.",
+      "sequence_num": 8
+    },
+    {
+      "start_time": 27.241958333333336,
+      "end_time": 31.048999999999996,
+      "duration": 3.81,
+      "audio_text": "But are you ready for",
+      "sequence_num": 9
+    },
+    {
+      "start_time": 31.148999999999997,
+      "end_time": 33.22899999999999,
+      "duration": 2.18,
+      "audio_text": "What if there's matter that fits into more",
+      "sequence_num": 10
+    },
+    {
+      "start_time": 33.32899999999999,
+      "end_time": 34.608999999999995,
+      "duration": 1.38,
+      "audio_text": "than one of these categories?",
+      "sequence_num": 11
+    },
+    {
+      "start_time": 35.160125,
+      "end_time": 35.860125,
+      "duration": 0.8,
+      "audio_text": "Is there such a thing?",
+      "sequence_num": 12
+    },
+    {
+      "start_time": 35.960125,
+      "end_time": 37.660125,
+      "duration": 1.8,
+      "audio_text": "If there is, what's it like?",
+      "sequence_num": 13
+    },
+    {
+      "start_time": 37.760125,
+      "end_time": 38.740125,
+      "duration": 1.08,
+      "audio_text": "And can I make some?",
+      "sequence_num": 14
+    },
+    {
+      "start_time": 38.980125,
+      "end_time": 40.840125,
+      "duration": 1.96,
+      "audio_text": "Maybe in my kitchen.",
+      "sequence_num": 15
+    },
+    {
+      "start_time": 45.83345833333333,
+      "end_time": 49.35345833333333,
+      "duration": 3.62,
+      "audio_text": "Before I answer any of these questions, let's take a closer look at different states of matter.",
+      "sequence_num": 16
+    },
+    {
+      "start_time": 49.59120833333333,
+      "end_time": 50.711208333333325,
+      "duration": 1.22,
+      "audio_text": "You remember what a solid is.",
+      "sequence_num": 17
+    },
+    {
+      "start_time": 50.811208333333326,
+      "end_time": 52.97120833333332,
+      "duration": 2.26,
+      "audio_text": "It's matter that has a definite size and shape.",
+      "sequence_num": 18
+    },
+    {
+      "start_time": 53.071208333333324,
+      "end_time": 54.55120833333333,
+      "duration": 1.58,
+      "audio_text": "Like this desk that I'm sitting at,",
+      "sequence_num": 19
+    },
+    {
+      "start_time": 54.65120833333333,
+      "end_time": 55.79120833333332,
+      "duration": 1.24,
+      "audio_text": "or the clothes that I'm wearing,",
+      "sequence_num": 20
+    },
+    {
+      "start_time": 55.891208333333324,
+      "end_time": 57.571208333333324,
+      "duration": 1.78,
+      "audio_text": "and well, all of me.",
+      "sequence_num": 21
+    },
+    {
+      "start_time": 57.671208333333325,
+      "end_time": 60.11120833333332,
+      "duration": 2.54,
+      "audio_text": "I'm a person with a definite size and shape.",
+      "sequence_num": 22
+    },
+    {
+      "start_time": 60.39366666666666,
+      "end_time": 61.99366666666666,
+      "duration": 1.7,
+      "audio_text": "Liquid is matter that has a definite size,",
+      "sequence_num": 23
+    },
+    {
+      "start_time": 62.093666666666664,
+      "end_time": 63.39366666666666,
+      "duration": 1.4,
+      "audio_text": "but no definite shape.",
+      "sequence_num": 24
+    },
+    {
+      "start_time": 63.49366666666666,
+      "end_time": 65.27366666666667,
+      "duration": 1.88,
+      "audio_text": "The water in this glass is a liquid.",
+      "sequence_num": 25
+    },
+    {
+      "start_time": 65.37366666666667,
+      "end_time": 67.79366666666667,
+      "duration": 2.52,
+      "audio_text": "It has a definite size, but no definite shape.",
+      "sequence_num": 26
+    },
+    {
+      "start_time": 68.068,
+      "end_time": 72.928,
+      "duration": 4.96,
+      "audio_text": "Like, you could say that my desk is desk shaped, but there's no such thing as water shaped.",
+      "sequence_num": 27
+    },
+    {
+      "start_time": 73.448375,
+      "end_time": 76.448375,
+      "duration": 3.1,
+      "audio_text": "And gas is matter that has no definite size or shape.",
+      "sequence_num": 28
+    },
+    {
+      "start_time": 77.03529166666667,
+      "end_time": 78.77529166666667,
+      "duration": 1.84,
+      "audio_text": "The air around me and you is a gas.",
+      "sequence_num": 29
+    },
+    {
+      "start_time": 79.01529166666667,
+      "end_time": 83.43529166666667,
+      "duration": 4.52,
+      "audio_text": "It's not shaped like anything and its size changes depending on how big the container",
+      "sequence_num": 30
+    },
+    {
+      "start_time": 83.53529166666667,
+      "end_time": 84.33529166666668,
+      "duration": 0.9,
+      "audio_text": "is that it's in.",
+      "sequence_num": 31
+    },
+    {
+      "start_time": 84.43529166666667,
+      "end_time": 89.13529166666667,
+      "duration": 4.8,
+      "audio_text": "Now, all solids, liquids, and gases are materials or objects made of matter.",
+      "sequence_num": 32
+    },
+    {
+      "start_time": 89.38095833333333,
+      "end_time": 96.12095833333333,
+      "duration": 6.84,
+      "audio_text": "And all materials have properties, or traits that help identify them, like their color, or shape, or size, or temperature, or weight.",
+      "sequence_num": 33
+    },
+    {
+      "start_time": 96.22095833333333,
+      "end_time": 101.84095833333333,
+      "duration": 5.72,
+      "audio_text": "And now that you're properly refreshed on the states of matter, I'm going to cheat and answer our big question a little early.",
+      "sequence_num": 34
+    },
+    {
+      "start_time": 101.94095833333333,
+      "end_time": 103.70095833333333,
+      "duration": 1.86,
+      "audio_text": "Or at least part of it.",
+      "sequence_num": 35
+    },
+    {
+      "start_time": 103.80095833333333,
+      "end_time": 107.34095833333333,
+      "duration": 3.64,
+      "audio_text": "Yes, some materials aren't so easily lumped into just one state of matter.",
+      "sequence_num": 36
+    },
+    {
+      "start_time": 107.64920833333332,
+      "end_time": 110.96920833333333,
+      "duration": 3.42,
+      "audio_text": "These unusual materials can actually act like multiple states of matter.",
+      "sequence_num": 37
+    },
+    {
+      "start_time": 111.486375,
+      "end_time": 111.906375,
+      "duration": 0.52,
+      "audio_text": "Neat, right?",
+      "sequence_num": 38
+    },
+    {
+      "start_time": 112.00637499999999,
+      "end_time": 113.306375,
+      "duration": 1.4,
+      "audio_text": "Wanna meet just such a material?",
+      "sequence_num": 39
+    },
+    {
+      "start_time": 113.406375,
+      "end_time": 116.566375,
+      "duration": 3.26,
+      "audio_text": "Then let me introduce you to non-Newtonian fluids.",
+      "sequence_num": 40
+    },
+    {
+      "start_time": 117.266375,
+      "end_time": 118.166375,
+      "duration": 1.0,
+      "audio_text": "The non-what now?",
+      "sequence_num": 41
+    },
+    {
+      "start_time": 118.70191666666666,
+      "end_time": 119.94191666666667,
+      "duration": 1.34,
+      "audio_text": "Non-Newtonian fluids are substances",
+      "sequence_num": 42
+    },
+    {
+      "start_time": 120.04191666666667,
+      "end_time": 122.28191666666667,
+      "duration": 2.34,
+      "audio_text": "that don't behave like we expect them to.",
+      "sequence_num": 43
+    },
+    {
+      "start_time": 122.38191666666667,
+      "end_time": 124.66191666666667,
+      "duration": 2.38,
+      "audio_text": "These fluids might look like one thing,",
+      "sequence_num": 44
+    },
+    {
+      "start_time": 124.76191666666666,
+      "end_time": 126.36191666666667,
+      "duration": 1.7,
+      "audio_text": "but they behave like another.",
+      "sequence_num": 45
+    },
+    {
+      "start_time": 126.46191666666667,
+      "end_time": 129.08191666666667,
+      "duration": 2.72,
+      "audio_text": "So, what makes a substance non-Newtonian?",
+      "sequence_num": 46
+    },
+    {
+      "start_time": 129.18191666666667,
+      "end_time": 132.28191666666666,
+      "duration": 3.2,
+      "audio_text": "Let's find out by making a non-Newtonian mixture of our own.",
+      "sequence_num": 47
+    },
+    {
+      "start_time": 132.757625,
+      "end_time": 134.29762499999998,
+      "duration": 1.64,
+      "audio_text": "Say hello to Oobleck!",
+      "sequence_num": 48
+    },
+    {
+      "start_time": 139.1807083333333,
+      "end_time": 140.9007083333333,
+      "duration": 1.82,
+      "audio_text": "Believe it or not, I didn't make this word up.",
+      "sequence_num": 49
+    },
+    {
+      "start_time": 141.0007083333333,
+      "end_time": 142.9007083333333,
+      "duration": 2.0,
+      "audio_text": "It comes from a book written by Dr. Seuss.",
+      "sequence_num": 50
+    },
+    {
+      "start_time": 143.0007083333333,
+      "end_time": 144.6807083333333,
+      "duration": 1.78,
+      "audio_text": "You know, the guy who wrote The Cat in the Hat?",
+      "sequence_num": 51
+    },
+    {
+      "start_time": 144.7807083333333,
+      "end_time": 147.16070833333333,
+      "duration": 2.48,
+      "audio_text": "In another book he wrote called Bartholomew and the Oobleck,",
+      "sequence_num": 52
+    },
+    {
+      "start_time": 147.26070833333333,
+      "end_time": 149.70070833333332,
+      "duration": 2.54,
+      "audio_text": "there's a king who gets bored with normal, everyday weather,",
+      "sequence_num": 53
+    },
+    {
+      "start_time": 149.80070833333332,
+      "end_time": 152.20070833333332,
+      "duration": 2.5,
+      "audio_text": "so instead he makes sticky stuff fall from the sky.",
+      "sequence_num": 54
+    },
+    {
+      "start_time": 152.30070833333332,
+      "end_time": 156.07591666666667,
+      "duration": 3.78,
+      "audio_text": "That-",
+      "sequence_num": 55
+    },
+    {
+      "start_time": 156.35591666666667,
+      "end_time": 158.63591666666667,
+      "duration": 2.38,
+      "audio_text": "But the stuff we're talking about is real.",
+      "sequence_num": 56
+    },
+    {
+      "start_time": 158.99216666666666,
+      "end_time": 162.49216666666666,
+      "duration": 3.6,
+      "audio_text": "Our oobleck is a non-Newtonian substance with a pretty simple recipe.",
+      "sequence_num": 57
+    },
+    {
+      "start_time": 162.63216666666665,
+      "end_time": 164.29216666666667,
+      "duration": 1.76,
+      "audio_text": "No magical kings required.",
+      "sequence_num": 58
+    },
+    {
+      "start_time": 164.39216666666667,
+      "end_time": 170.55575,
+      "duration": 6.16,
+      "audio_text": "All you need is about one...",
+      "sequence_num": 59
+    },
+    {
+      "start_time": 170.87904166666667,
+      "end_time": 173.65904166666667,
+      "duration": 2.88,
+      "audio_text": "Pour the cornstarch into your bowl and slowly add some water.",
+      "sequence_num": 60
+    },
+    {
+      "start_time": 174.17399999999998,
+      "end_time": 176.23399999999998,
+      "duration": 2.16,
+      "audio_text": "Keep stirring until the mixture feels kind of like honey.",
+      "sequence_num": 61
+    },
+    {
+      "start_time": 176.33399999999997,
+      "end_time": 178.27399999999997,
+      "duration": 2.04,
+      "audio_text": "In the end, it should look like this.",
+      "sequence_num": 62
+    },
+    {
+      "start_time": 178.534,
+      "end_time": 180.474,
+      "duration": 2.04,
+      "audio_text": "Now grab some of this goo in your hand.",
+      "sequence_num": 63
+    },
+    {
+      "start_time": 180.57399999999998,
+      "end_time": 183.39399999999998,
+      "duration": 2.92,
+      "audio_text": "When you squeeze it, it'll form a solid ball in your palm.",
+      "sequence_num": 64
+    },
+    {
+      "start_time": 184.11399999999998,
+      "end_time": 188.434,
+      "duration": 4.42,
+      "audio_text": "But when you unclench your fist and release the pressure, it'll slide between your fingers,",
+      "sequence_num": 65
+    },
+    {
+      "start_time": 188.81399999999996,
+      "end_time": 189.914,
+      "duration": 1.2,
+      "audio_text": "like a liquid.",
+      "sequence_num": 66
+    },
+    {
+      "start_time": 190.01399999999998,
+      "end_time": 192.254,
+      "duration": 2.34,
+      "audio_text": "All fluids have a property known as viscose.",
+      "sequence_num": 67
+    },
+    {
+      "start_time": 192.48395833333333,
+      "end_time": 194.96395833333335,
+      "duration": 2.58,
+      "audio_text": "which is basically the rate at which a fluid flows.",
+      "sequence_num": 68
+    },
+    {
+      "start_time": 195.7372083333333,
+      "end_time": 202.51720833333331,
+      "duration": 6.88,
+      "audio_text": "Newtonian fluids, or normal fluids, flow at a consistent rate, but non-Newtonian fluids, or non-normal fluids,",
+      "sequence_num": 69
+    },
+    {
+      "start_time": 202.74420833333332,
+      "end_time": 205.68420833333332,
+      "duration": 3.04,
+      "audio_text": "flow at a different rate depending on how much force",
+      "sequence_num": 70
+    },
+    {
+      "start_time": 205.7842083333333,
+      "end_time": 207.10420833333333,
+      "duration": 1.42,
+      "audio_text": "or pressure is applied to them.",
+      "sequence_num": 71
+    },
+    {
+      "start_time": 207.20420833333333,
+      "end_time": 207.3442083333333,
+      "duration": 0.24,
+      "audio_text": "So",
+      "sequence_num": 72
+    },
+    {
+      "start_time": 207.66579166666665,
+      "end_time": 212.12579166666666,
+      "duration": 4.56,
+      "audio_text": "So your oobleck flows at a much slower rate when pressure is applied to it, acting like a solid.",
+      "sequence_num": 73
+    },
+    {
+      "start_time": 212.22579166666665,
+      "end_time": 216.30579166666666,
+      "duration": 4.18,
+      "audio_text": "But when the pressure is removed, it flows faster and behaves like a liquid.",
+      "sequence_num": 74
+    },
+    {
+      "start_time": 216.40579166666666,
+      "end_time": 219.60579166666665,
+      "duration": 3.3,
+      "audio_text": "Good for you, oobleck! Being normal is overrated, right?",
+      "sequence_num": 75
+    },
+    {
+      "start_time": 223.87579166666666,
+      "end_time": 227.76449999999997,
+      "duration": 3.89,
+      "audio_text": "So...",
+      "sequence_num": 76
+    },
+    {
+      "start_time": 228.14458333333332,
+      "end_time": 231.78458333333333,
+      "duration": 3.74,
+      "audio_text": "or changes depending on the pressure applied to it, it's a non-Newtonian fluid.",
+      "sequence_num": 77
+    },
+    {
+      "start_time": 232.23199999999997,
+      "end_time": 236.55199999999996,
+      "duration": 4.42,
+      "audio_text": "Which means, yes, some materials can fit into more than just one state of matter.",
+      "sequence_num": 78
+    },
+    {
+      "start_time": 236.67199999999997,
+      "end_time": 241.59199999999998,
+      "duration": 5.02,
+      "audio_text": "These materials are called non-Newtonian fluids, and they don't play by your regular rules",
+      "sequence_num": 79
+    },
+    {
+      "start_time": 241.69199999999998,
+      "end_time": 242.03199999999998,
+      "duration": 0.44,
+      "audio_text": "of matter.",
+      "sequence_num": 80
+    },
+    {
+      "start_time": 242.28370833333332,
+      "end_time": 245.46370833333333,
+      "duration": 3.28,
+      "audio_text": "They'll be a solid sometimes, and then a liquid at others.",
+      "sequence_num": 81
+    },
+    {
+      "start_time": 245.56370833333332,
+      "end_time": 248.64370833333334,
+      "duration": 3.18,
+      "audio_text": "You do you, non-Newtonian fluids. I like your style.",
+      "sequence_num": 82
+    }
+  ],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "Science Crash Course Kids",
+      "type": "Text on Screen",
+      "start_time": 0.0,
+      "end_time": 1.656,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 2,
+      "text": "Episode 46.1\nNON-NEWTONIAN FLUIDS",
+      "type": "Text on Screen",
+      "start_time": 8.755749999999999,
+      "end_time": 8.755749999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "BIG QUESTION",
+      "type": "Text on Screen",
+      "start_time": 41.83345833333333,
+      "end_time": 43.10545833333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "Water pours into a clear glass, bubbling and splashing.",
+      "type": "Visual",
+      "start_time": 60.19366666666666,
+      "end_time": 60.19366666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 11,
+      "text": "Smiling clouds animate with swirling air around them.",
+      "type": "Visual",
+      "start_time": 81.40529166666667,
+      "end_time": 81.40529166666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "Hands manipulate white gooey Oobleck in a red bowl.",
+      "type": "Visual",
+      "start_time": 132.557625,
+      "end_time": 132.557625,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "INVESTIGATION",
+      "type": "Text on Screen",
+      "start_time": 135.6772083333333,
+      "end_time": 135.6772083333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 18,
+      "text": "Dr. Seuss illustration with his name and \"Scien-Terrific!\" text, set against a floral background.",
+      "type": "Visual",
+      "start_time": 143.3807083333333,
+      "end_time": 143.3807083333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 18,
+      "text": "Green droplets falling.",
+      "type": "Visual",
+      "start_time": 152.2507083333333,
+      "end_time": 152.2507083333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 22,
+      "text": "Sabrina stirs the blue water and white cornstarch in a red bowl. It blends into a smooth, blue liquid.",
+      "type": "Visual",
+      "start_time": 178.28904166666667,
+      "end_time": 178.28904166666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 23,
+      "text": "Sabrina scoops up the thick, gooey mix and squeezes it into a solid ball in her hand.",
+      "type": "Visual",
+      "start_time": 183.429999999998,
+      "end_time": 183.4299999999998,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 23,
+      "text": "Sabrina's hand opens, and the mixture drips through her fingers.",
+      "type": "Visual",
+      "start_time": 188.17399999999998,
+      "end_time": 188.17399999999998,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 27,
+      "text": "CONCLUSION",
+      "type": "Text on Screen",
+      "start_time": 222.66579166666665,
+      "end_time": 223.86579166666664,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 33,
+      "text": "CRASH COURSE KIDS\nLAST EPISODE PLANETARY PLANTS\nNEXT EPISODE NORMAL STUFF IN NOT-SO-NORMAL PLACES",
+      "type": "Text on Screen",
+      "start_time": 253.6700833333333,
+      "end_time": 255.32608333333332,
+      "track_type": "inline"
+    }
+  ],
+  "youtube_id": "Fnd-2jetT1w",
+  "video_name": "Oobleck and Non-Newtonian Fluids: Crash Course Kids #46.1",
+  "video_length": 260,
+  "aiUserId": "6845e4375506faa0752b8d62"
+}

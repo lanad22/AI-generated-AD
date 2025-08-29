@@ -1,0 +1,207 @@
+{
+  "dialogue_timestamps": [
+    {
+      "start_time": 0.14,
+      "end_time": 4.7,
+      "duration": 4.66,
+      "audio_text": "I hate to do this to you, but I think you can help me pick up the slack on those edges catches. No problem",
+      "sequence_num": 1
+    },
+    {
+      "start_time": 4.8,
+      "end_time": 9.5,
+      "duration": 4.8,
+      "audio_text": "I appreciate it, but he's killing me. I only got lum lum and choo-choo pulling doubles",
+      "sequence_num": 2
+    },
+    {
+      "start_time": 10.28,
+      "end_time": 13.32,
+      "duration": 3.14,
+      "audio_text": "Quick thinking yesterday with that special talents thing",
+      "sequence_num": 3
+    },
+    {
+      "start_time": 13.847166666666666,
+      "end_time": 16.187166666666666,
+      "duration": 2.44,
+      "audio_text": "I feel bad for the guy. I just hope he doesn't get wise.",
+      "sequence_num": 4
+    },
+    {
+      "start_time": 16.76675,
+      "end_time": 19.326749999999997,
+      "duration": 2.66,
+      "audio_text": "Well, he hasn't figured out he's a human by now.",
+      "sequence_num": 5
+    },
+    {
+      "start_time": 19.76975,
+      "end_time": 20.76975,
+      "duration": 1.1,
+      "audio_text": "I don't think he ever will.",
+      "sequence_num": 6
+    },
+    {
+      "start_time": 26.316666666666666,
+      "end_time": 29.836666666666666,
+      "duration": 3.62,
+      "audio_text": "If he hasn't figured out he's a human by now, I don't think he ever will.",
+      "sequence_num": 7
+    },
+    {
+      "start_time": 32.240541666666665,
+      "end_time": 33.200541666666666,
+      "duration": 1.06,
+      "audio_text": "I think they're too small.",
+      "sequence_num": 8
+    },
+    {
+      "start_time": 36.452083333333334,
+      "end_time": 39.65208333333333,
+      "duration": 3.3,
+      "audio_text": "You just special.",
+      "sequence_num": 9
+    },
+    {
+      "start_time": 58.437041666666666,
+      "end_time": 60.95704166666666,
+      "duration": 2.62,
+      "audio_text": "You don't look so good, buddy. Are you okay?",
+      "sequence_num": 10
+    },
+    {
+      "start_time": 61.72833333333333,
+      "end_time": 63.50833333333333,
+      "duration": 1.88,
+      "audio_text": "I'll be okay. I just need a glass of water.",
+      "sequence_num": 11
+    }
+  ],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "Two elves in red suits chat while holding cups. They stand in front of shelves with toys.",
+      "type": "Visual",
+      "start_time": 0.0,
+      "end_time": 0.0,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 1,
+      "text": "Buddy peeking down from above.",
+      "type": "Visual",
+      "start_time": 7.0,
+      "end_time": 7.0,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 2,
+      "text": "Buddy peeks through small gap in wooden wall, eyes wide.",
+      "type": "Visual",
+      "start_time": 13.847166666666666,
+      "end_time": 13.847166666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "\"Buddy's head disappears behind wood as he listens\"",
+      "type": "Visual",
+      "start_time": 20.86975,
+      "end_time": 23.74975,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 5,
+      "text": "Buddy is shocked and bends down fast.",
+      "type": "Visual",
+      "start_time": 30.156666666666666,
+      "end_time": 30.156666666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 7,
+      "text": "An elf wearing orange clothes is fiting a small elf shoes into Buddy's big feet.",
+      "type": "Visual",
+      "start_time": 33.552083333333334,
+      "end_time": 36.862083333333334,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "Buddy stands tall in small tub, struggling to get water on him.",
+      "type": "Visual",
+      "start_time": 36.952083333333334,
+      "end_time": 39.592083333333334,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "Buddy lies in small bed, then springs up. Buddy falls off bed onto floor.",
+      "type": "Visual",
+      "start_time": 43.043,
+      "end_time": 45.995,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 9,
+      "text": "Buddy stands in old photo with tiny elves. Frame shakes slightly.",
+      "type": "Visual",
+      "start_time": 46.671625,
+      "end_time": 49.361625,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 10,
+      "text": "\"Buddy are in a photo playing basketball with tiny elves. He stares at clown toy shocked.\"",
+      "type": "Visual",
+      "start_time": 50.157041666666666,
+      "end_time": 53.80704166666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 11,
+      "text": "Buddy in a green outfit, looking  confused. Orange-clad elf turns to face Buddy.",
+      "type": "Visual",
+      "start_time": 61.018333333333334,
+      "end_time": 61.01833333333334,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 12,
+      "text": "Buddy falls down onto the orange-clad elf.",
+      "type": "Visual",
+      "start_time": 63.93383333333332,
+      "end_time": 71.24183333333332,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 12,
+      "text": "ACTOR\nWill Ferrell\nACTOR\nPeter Billingsley\nDIRECTOR\nJon Favreau",
+      "type": "Text on Screen",
+      "start_time": 74.23383333333332,
+      "end_time": 80.95383333333332,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 12,
+      "text": "GENRE\nChildren & Family\nBEST OF THE BEST\nHilarious!\nACTION\nFall",
+      "type": "Text on Screen",
+      "start_time": 81.23383333333332,
+      "end_time": 87.97783333333332,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 12,
+      "text": "OCCASION\nChristmas\nCHARACTER TYPE\nLittle Person\nTHEME\nTruth",
+      "type": "Text on Screen",
+      "start_time": 88.23383333333332,
+      "end_time": 91.44,
+      "track_type": "inline"
+    }
+  ],
+  "youtube_id": "dJU1SZIfK3Y",
+  "video_name": "Elf (1/5) Movie CLIP - Buddy Realizes He's Human (2003) HD",
+  "video_length": 98,
+  "aiUserId": "68798f57c48a173631902319"
+}

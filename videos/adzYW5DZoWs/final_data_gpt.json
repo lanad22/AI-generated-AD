@@ -1,0 +1,205 @@
+{
+  "dialogue_timestamps": [
+    {
+      "start_time": 19.299999999999997,
+      "end_time": 20.86,
+      "duration": 1.66,
+      "audio_text": "We've passed on all we know.",
+      "sequence_num": 1
+    },
+    {
+      "start_time": 25.158166666666666,
+      "end_time": 27.598166666666664,
+      "duration": 2.54,
+      "audio_text": "A thousand generations live in you now.",
+      "sequence_num": 2
+    },
+    {
+      "start_time": 33.11275,
+      "end_time": 34.372749999999996,
+      "duration": 1.36,
+      "audio_text": "But this is your fight",
+      "sequence_num": 3
+    },
+    {
+      "start_time": 96.74224999999999,
+      "end_time": 97.94224999999999,
+      "duration": 1.2,
+      "audio_text": "We'll always be with you.",
+      "sequence_num": 4
+    },
+    {
+      "start_time": 101.51508333333332,
+      "end_time": 102.69508333333333,
+      "duration": 1.18,
+      "audio_text": "No one's ever really gone.",
+      "sequence_num": 5
+    }
+  ],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "LUCASFILM Ltd.",
+      "type": "Text on Screen",
+      "start_time": 0.0,
+      "end_time": 1.68,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 3,
+      "text": "\"Rey stands in the desert, scanning the horizon, lightsaber hilt at her waist.\"",
+      "type": "Visual",
+      "start_time": 10.01,
+      "end_time": 16.226,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "Every generation has a legend",
+      "type": "Text on Screen",
+      "start_time": 36.119416666666666,
+      "end_time": 38.519416666666665,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "\"Desert landscape with distant mountains. Rey, with lightsaber, looks focused. A vehicle speeds by. Rey assumes a defensive stance, then sprints, glancing over her shoulder.\"",
+      "type": "Visual",
+      "start_time": 38.519416666666665,
+      "end_time": 53.39941666666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "\"Figure runs with blue saber, vehicle speeds in.\"",
+      "type": "Visual",
+      "start_time": 61.394666666666666,
+      "end_time": 65.25866666666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 9,
+      "text": "\"Rey leaps over the TIE fighter.\"",
+      "type": "Visual",
+      "start_time": 65.89916666666666,
+      "end_time": 68.39516666666665,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 9,
+      "text": "This Christmas",
+      "type": "Text on Screen",
+      "start_time": 68.39916666666666,
+      "end_time": 69.81516666666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 11,
+      "text": "\"Blue light flies through misty mountains, lighting terrain.\"",
+      "type": "Visual",
+      "start_time": 71.11270833333333,
+      "end_time": 75.00070833333334,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 12,
+      "text": "Cloaked fighter triumphs over armored opponent.",
+      "type": "Visual",
+      "start_time": 75.07499999999999,
+      "end_time": 78.45899999999999,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 13,
+      "text": "\"Lightsaber clash. Welding helmet. Man in desert. BB-8 with droid. Smiling in hyperspace.\"",
+      "type": "Visual",
+      "start_time": 77.45237499999999,
+      "end_time": 85.68437499999999,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 14,
+      "text": "THE SAGA COMES TO AN END",
+      "type": "Text on Screen",
+      "start_time": 85.83574999999999,
+      "end_time": 87.94774999999998,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 15,
+      "text": "Explosion hits armored figure; C-3PO and man flee quickly.",
+      "type": "Visual",
+      "start_time": 87.83775,
+      "end_time": 87.83775,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "Hands hold a detailed golden medal.",
+      "type": "Visual",
+      "start_time": 93.34224999999999,
+      "end_time": 93.34224999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "Two women hug; one has braided hair.",
+      "type": "Visual",
+      "start_time": 94.34224999999999,
+      "end_time": 94.34224999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "A woman in white leads a group, including a droid, across a grassy field.",
+      "type": "Visual",
+      "start_time": 96.34224999999999,
+      "end_time": 96.34224999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "Rey stands on a cliff, facing waves with the misty remains of the Death Star in the distance.",
+      "type": "Visual",
+      "start_time": 98.51508333333332,
+      "end_time": 98.51508333333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "\"Waves hit rocks.\"",
+      "type": "Visual",
+      "start_time": 102.79508333333332,
+      "end_time": 102.79508333333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 19,
+      "text": "STAR WARS",
+      "type": "Text on Screen",
+      "start_time": 111.23612499999999,
+      "end_time": 112.65212499999998,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 19,
+      "text": "THE RISE OF SKYWALKER",
+      "type": "Text on Screen",
+      "start_time": 116.23612499999999,
+      "end_time": 118.18012499999999,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 20,
+      "text": "DECEMBER",
+      "type": "Text on Screen",
+      "start_time": 120.16170833333332,
+      "end_time": 121.28970833333332,
+      "track_type": "inline"
+    }
+  ],
+  "youtube_id": "adzYW5DZoWs",
+  "video_name": "Star Wars: The Rise of Skywalker – Teaser",
+  "video_length": 124,
+  "aiUserId": "68798f57c48a173631902319"
+}

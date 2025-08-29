@@ -3,7 +3,7 @@
   "audio_clips": [
     {
       "scene_number": 1,
-      "text": "4 ways to wear a scarf 🧣",
+      "text": "4 ways to wear a scarf",
       "type": "Text on Screen",
       "start_time": 0.0
     },
@@ -77,7 +77,7 @@
       "scene_number": 4,
       "text": "The woman begins by lifting the scarf above her head. Then she places the scarf around her neck, crossing the ends in front of her chest.",
       "type": "Visual",
-      "start_time": 17.1
+      "start_time": 18.1
     },
     {
       "scene_number": 4,

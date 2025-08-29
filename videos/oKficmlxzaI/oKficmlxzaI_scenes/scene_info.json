@@ -1,0 +1,257 @@
+[
+  {
+    "scene_number": 1,
+    "start_frame": 0,
+    "end_frame": 424,
+    "start_time": 0.0,
+    "end_time": 14.147466666666666,
+    "duration": 14.147466666666666,
+    "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_001.mp4",
+    "transcript": [
+      {
+        "text": "Bald eagles. Bald eagles are majestic, powerful hunting birds.",
+        "start": 4.69,
+        "end": 12.99
+      }
+    ],
+    "captions": []
+  },
+  {
+    "scene_number": 2,
+    "start_frame": 425,
+    "end_frame": 1027,
+    "start_time": 14.180833333333334,
+    "end_time": 34.26756666666667,
+    "duration": 20.086733333333335,
+    "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_002.mp4",
+    "transcript": [
+      {
+        "text": "They're a type of eagle, with distinct colors.",
+        "start": 0.88,
+        "end": 4.4
+      },
+      {
+        "text": "And despite their name, they actually aren't bald.",
+        "start": 5.97,
+        "end": 9.56
+      },
+      {
+        "text": "They have lovely white feathers on their heads and tails,",
+        "start": 10.48,
+        "end": 13.23
+      },
+      {
+        "text": "rich brown feathers on their body and wings, and yellow beaks.",
+        "start": 13.69,
+        "end": 18.09
+      }
+    ],
+    "captions": []
+  },
+  {
+    "scene_number": 3,
+    "start_frame": 1028,
+    "end_frame": 1198,
+    "start_time": 34.30093333333333,
+    "end_time": 39.97326666666667,
+    "duration": 5.672333333333334,
+    "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_003.mp4",
+    "transcript": [
+      {
+        "text": "The young are called fledglings, and they're all brown.",
+        "start": 0.0,
+        "end": 3.62
+      }
+    ],
+    "captions": []
+  },
+  {
+    "scene_number": 4,
+    "start_frame": 1199,
+    "end_frame": 1448,
+    "start_time": 40.00663333333333,
+    "end_time": 48.314933333333336,
+    "duration": 8.308300000000003,
+    "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_004.mp4",
+    "transcript": [
+      {
+        "text": "Bald eagles are found in North America.",
+        "start": 0.37,
+        "end": 2.63
+      },
+      {
+        "text": "They're the national animal of the United States of America.",
+        "start": 3.98,
+        "end": 7.04
+      }
+    ],
+    "captions": []
+  },
+  {
+    "scene_number": 5,
+    "start_frame": 1449,
+    "end_frame": 1623,
+    "start_time": 48.3483,
+    "end_time": 54.1541,
+    "duration": 5.805799999999998,
+    "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_005.mp4",
+    "transcript": [
+      {
+        "text": "and can be found on the Great Seal of the USA.",
+        "start": 0.0,
+        "end": 3.26
+      }
+    ],
+    "captions": []
+  },
+  {
+    "scene_number": 6,
+    "start_frame": 1624,
+    "end_frame": 1919,
+    "start_time": 54.187466666666666,
+    "end_time": 64.03063333333334,
+    "duration": 9.843166666666676,
+    "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_006.mp4",
+    "transcript": [
+      {
+        "text": "bald eagles live near the sea and lakes in nests high up in trees their favorite food is",
+        "start": 0.21,
+        "end": 9.68
+      }
+    ],
+    "captions": []
+  },
+  {
+    "scene_number": 7,
+    "start_frame": 1920,
+    "end_frame": 2358,
+    "start_time": 64.06400000000001,
+    "end_time": 78.6786,
+    "duration": 14.614599999999996,
+    "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_007.mp4",
+    "transcript": [
+      {
+        "text": "fish and soaring high into the air, they use their great eyesight to spot their next target.",
+        "start": 0.0,
+        "end": 7.44
+      }
+    ],
+    "captions": []
+  },
+  {
+    "scene_number": 8,
+    "start_frame": 2359,
+    "end_frame": 2693,
+    "start_time": 78.71196666666667,
+    "end_time": 89.85643333333333,
+    "duration": 11.14446666666666,
+    "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_008.mp4",
+    "transcript": [
+      {
+        "text": "The eagle swoops down.",
+        "start": 6.8,
+        "end": 8.34
+      }
+    ],
+    "captions": []
+  },
+  {
+    "scene_number": 9,
+    "start_frame": 2694,
+    "end_frame": 2943,
+    "start_time": 89.88980000000001,
+    "end_time": 98.1981,
+    "duration": 8.308299999999988,
+    "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_009.mp4",
+    "transcript": [],
+    "captions": []
+  },
+  {
+    "scene_number": 10,
+    "start_frame": 2944,
+    "end_frame": 4028,
+    "start_time": 98.23146666666666,
+    "end_time": 134.40093333333334,
+    "duration": 36.16946666666668,
+    "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_010.mp4",
+    "transcript": [
+      {
+        "text": "grasping a fish with her sharp talons watch out another cheek eagle is trying",
+        "start": 1.33,
+        "end": 15.48
+      },
+      {
+        "text": "to steal her lunch oops splash another drop fish",
+        "start": 15.48,
+        "end": 29.13
+      }
+    ],
+    "captions": []
+  },
+  {
+    "scene_number": 11,
+    "start_frame": 4029,
+    "end_frame": 4622,
+    "start_time": 134.4343,
+    "end_time": 154.22073333333333,
+    "duration": 19.78643333333332,
+    "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_011.mp4",
+    "transcript": [
+      {
+        "text": "Finally, success for the hungry bird.",
+        "start": 10.64,
+        "end": 13.32
+      }
+    ],
+    "captions": []
+  },
+  {
+    "scene_number": 12,
+    "start_frame": 4623,
+    "end_frame": 4875,
+    "start_time": 154.2541,
+    "end_time": 162.6625,
+    "duration": 8.4084,
+    "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_012.mp4",
+    "transcript": [
+      {
+        "text": "High in the tree, the bald eagle eats the fish she's caught,",
+        "start": 0.08,
+        "end": 3.3
+      },
+      {
+        "text": "while the other eagle will have to find her own lunch.",
+        "start": 5.01,
+        "end": 7.53
+      }
+    ],
+    "captions": []
+  },
+  {
+    "scene_number": 13,
+    "start_frame": 4876,
+    "end_frame": 5709,
+    "start_time": 162.69586666666666,
+    "end_time": 190.52366666666666,
+    "duration": 27.827799999999996,
+    "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_013.mp4",
+    "transcript": [
+      {
+        "text": "Isn't the bald eagle a wonderful flying creature?",
+        "start": 4.78,
+        "end": 7.54
+      },
+      {
+        "text": "Click on the videos above to see more amazing animals.",
+        "start": 19.69,
+        "end": 23.23
+      },
+      {
+        "text": "And be sure to subscribe!",
+        "start": 23.41,
+        "end": 25.69
+      }
+    ],
+    "captions": []
+  }
+]

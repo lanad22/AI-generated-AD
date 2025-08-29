@@ -20,7 +20,7 @@ def get_tts_duration(text):
         duration = float(subprocess.check_output(cmd, shell=True).decode().strip())
         return duration
 
-def process_scene(scene, client, is_stem=False):
+def process_scene(scene, client):
     scene_number = scene.get('scene_number', 'unknown')
     scene_start = scene.get("start_time", 0.0)
     scene_end = scene.get("end_time", 0.0)
@@ -38,18 +38,11 @@ def process_scene(scene, client, is_stem=False):
     visual_elements = [clip['text'].strip() for clip in visual_clips]
     
     # Build a prompt for the VLM to merge elements.
-    if is_stem:
-        prompt = "TASK: Combine the text on screen and visual elements into ONE coherent description of the scene, " \
-                 "then make it concise to better fit within the time limit. " \
-                 "\n\nVERY IMPORTANT: ALL mathematical expressions, equations, formulas, variables, and numerical values MUST be preserved EXACTLY as written and INCLUDED in the final description. " \
-                 f"\n\nAim for the description to fit within {available_scene_time:.2f} seconds of TTS duration when spoken aloud." \
-                 "\n\nBe concise but clear. Prioritize mathematical and scientific content accuracy.\n\n"
-    else:
-        prompt = "TASK: Combine the text on screen and visual elements into ONE coherent description of the scene, " \
-                 "then SHORTEN it so it FITS within the time limit. " \
-                 "\n\nVERY IMPORTANT: ALL MEASUREMENTS MUST BE PRESERVED EXACTLY and INCLUDED in the final description. " \
-                 f"\n\nThe final description MUST fit within {available_scene_time:.2f} seconds of TTS duration - this is a HARD LIMIT." \
-                 "\n\nBe extremely brief.\n\n"
+    prompt = "TASK: Combine the text on screen and visual elements into ONE coherent description of the scene, " \
+             "then SHORTEN it so it FITS within the time limit. " \
+             "\n\nVERY IMPORTANT: ALL MEASUREMENTS MUST BE PRESERVED EXACTLY and INCLUDED in the final description. " \
+             f"\n\nThe final description MUST fit within {available_scene_time:.2f} seconds of TTS duration - this is a HARD LIMIT." \
+             "\n\nBe extremely brief.\n\n"
     
     if text_elements:
         text_list = ", ".join(text_elements)
@@ -74,107 +67,55 @@ def process_scene(scene, client, is_stem=False):
         merged_text = response.choices[0].message.content.strip()
     except Exception as e:
         print(f"Error merging scene {scene_number} using VLM: {e}")
-        # Fallback: simple concatenation
-        merged_text = f"{text_list} {visual_list}"
-    
+        
     duration = get_tts_duration(merged_text)
     print(f"Scene {scene_number} - Initial duration: {duration:.2f}s, Available time: {available_scene_time:.2f}s")
     
-    if is_stem:
-        # For STEM content, only attempt to shorten if duration exceeds available time by more than 25%
-        if duration > available_scene_time:
-            retry_count = 0
-            while duration > available_scene_time and retry_count < 5:
-                retry_count += 1
-                print(f"Scene {scene_number} - Shortening attempt #{retry_count}: Current duration {duration:.2f}s, Target: {available_scene_time:.2f}s")
-                
-                shorten_prompt = f"""You are optimizing a STEM visual description for a video.
-                                    PREVIOUS ATTEMPT: "{merged_text}"
-                                    
-                                    ISSUE: This description takes {duration:.2f} seconds to speak, but you have {available_scene_time:.2f} seconds available.
-                                    Try to make it more concise if possible.
-                                    
-                                    TASK (Attempt #{retry_count}):
-                                    Create a CONCISE DESCRIPTION that aims to fit within {available_scene_time:.2f} seconds.
-                                    
-                                    VERY IMPORTANT: 
-                                    - ALL mathematical expressions, equations, formulas, variables, and CODE MUST be preserved EXACTLY and INCLUDED in the final description
-                                    - Do not modify any mathematical notation, numbers, units, or measurements in any way
-                                    - Focus on being clear first, concise second
-                                    - Prefer removing less important descriptive elements while keeping the mathematical content intact
-                                    
-                                    OUTPUT FORMAT:
-                                    Provide only the refined description, nothing else."""
-                try:
-                    response = client.chat.completions.create(
-                        model="qwen2.5-72b-instruct",
-                        messages=[
-                            {"role": "system", "content": "You are an expert at creating clear descriptions of mathematical and scientific content."},
-                            {"role": "user", "content": shorten_prompt}
-                        ],
-                        temperature=0.7,
-                        max_tokens=100,
-                    )
-                    merged_text = response.choices[0].message.content.strip()
-                except Exception as e:
-                    print(f"Error shortening scene {scene_number} description: {e}")
-                    break
-                
-                previous_duration = duration
-                duration = get_tts_duration(merged_text)
-                print(f"Scene {scene_number} - After attempt #{retry_count}: New duration: {duration:.2f}s (reduced by {previous_duration - duration:.2f}s)")
+    retry_count = 0
+    while duration > available_scene_time and retry_count < 5:
+        retry_count += 1
+        print(f"Scene {scene_number} - Shortening attempt #{retry_count}: Current duration {duration:.2f}s, Target: {available_scene_time:.2f}s")
         
-        if duration > available_scene_time:
-            print(f"\nNOTE: Final description for Scene {scene_number} exceeds available time ({duration:.2f}s > {available_scene_time:.2f}s), but may still be acceptable")
-        else:
-            print(f"\nSUCCESS: Scene {scene_number} description fits within available time ({duration:.2f}s <= {available_scene_time:.2f}s)")
+        shorten_prompt = f"""You are optimizing a visual description for a video.
+                            PREVIOUS ATTEMPT: "{merged_text}"
+                            
+                            ISSUE: This description takes {duration:.2f} seconds to speak, but you only have {available_scene_time:.2f} seconds available.
+                            You MUST reduce it by at least {(duration - available_scene_time):.2f} seconds.
+                            
+                            TASK (Attempt #{retry_count} - URGENT):
+                            Create an EXTREMELY SHORT DESCRIPTION that MUST fit within {available_scene_time:.2f} seconds.
+                            
+                            VERY IMPORTANT: 
+                            - ALL MEASUREMENTS MUST BE PRESERVED EXACTLY as written and INCLUDED in the final description
+                            - Do not modify any numbers, units, or measurements in any way
+                            - Remove ALL details that aren't absolutely necessary
+                            - Use as few syllables as possible.
+                            
+                            OUTPUT FORMAT:
+                            Provide only the shortened description, nothing else."""
+        try:
+            response = client.chat.completions.create(
+                model="qwen2.5-72b-instruct",
+                messages=[
+                    {"role": "system", "content": "You are an expert at creating concise descriptions."},
+                    {"role": "user", "content": shorten_prompt}
+                ],
+                temperature=0.7,
+                max_tokens=100,
+            )
+            merged_text = response.choices[0].message.content.strip()
+        except Exception as e:
+            print(f"Error shortening scene {scene_number} description: {e}")
+            break
+        
+        previous_duration = duration
+        duration = get_tts_duration(merged_text)
+        print(f"Scene {scene_number} - After attempt #{retry_count}: New duration: {duration:.2f}s (reduced by {previous_duration - duration:.2f}s)")
+    
+    if duration > available_scene_time:
+        print(f"\nWARNING: Final description for Scene {scene_number} still exceeds available time ({duration:.2f}s > {available_scene_time:.2f}s)")
     else:
-        # For regular content, use the original more aggressive shortening approach
-        retry_count = 0
-        while duration > available_scene_time and retry_count < 5:
-            retry_count += 1
-            print(f"Scene {scene_number} - Shortening attempt #{retry_count}: Current duration {duration:.2f}s, Target: {available_scene_time:.2f}s")
-            
-            shorten_prompt = f"""You are optimizing a visual description for a video.
-                                PREVIOUS ATTEMPT: "{merged_text}"
-                                
-                                ISSUE: This description takes {duration:.2f} seconds to speak, but you only have {available_scene_time:.2f} seconds available.
-                                You MUST reduce it by at least {(duration - available_scene_time):.2f} seconds.
-                                
-                                TASK (Attempt #{retry_count} - URGENT):
-                                Create an EXTREMELY SHORT DESCRIPTION that MUST fit within {available_scene_time:.2f} seconds.
-                                
-                                VERY IMPORTANT: 
-                                - ALL MEASUREMENTS MUST BE PRESERVED EXACTLY as written and INCLUDED in the final description
-                                - Do not modify any numbers, units, or measurements in any way
-                                - Remove ALL details that aren't absolutely necessary
-                                - Use as few syllables as possible.
-                                
-                                OUTPUT FORMAT:
-                                Provide only the shortened description, nothing else."""
-            try:
-                response = client.chat.completions.create(
-                    model="qwen2.5-72b-instruct",
-                    messages=[
-                        {"role": "system", "content": "You are an expert at creating concise descriptions."},
-                        {"role": "user", "content": shorten_prompt}
-                    ],
-                    temperature=0.7,
-                    max_tokens=100,
-                )
-                merged_text = response.choices[0].message.content.strip()
-            except Exception as e:
-                print(f"Error shortening scene {scene_number} description: {e}")
-                break
-            
-            previous_duration = duration
-            duration = get_tts_duration(merged_text)
-            print(f"Scene {scene_number} - After attempt #{retry_count}: New duration: {duration:.2f}s (reduced by {previous_duration - duration:.2f}s)")
-        
-        if duration > available_scene_time:
-            print(f"\nWARNING: Final description for Scene {scene_number} still exceeds available time ({duration:.2f}s > {available_scene_time:.2f}s)")
-        else:
-            print(f"\nSUCCESS: Scene {scene_number} description fits within available time ({duration:.2f}s <= {available_scene_time:.2f}s)")
+        print(f"\nSUCCESS: Scene {scene_number} description fits within available time ({duration:.2f}s <= {available_scene_time:.2f}s)")
     
     return {
         'scene_number': scene_number,
@@ -184,14 +125,14 @@ def process_scene(scene, client, is_stem=False):
         'tts_duration': duration
     }
 
-def process_scenes(scenes, client, is_stem=False):
+def process_scenes(scenes, client):
     """
     Process every scene by generating a merged description.
     Skip scenes that have no clips.
     """
     processed = []
     for scene in scenes:
-        result = process_scene(scene, client, is_stem)
+        result = process_scene(scene, client)
         if result is not None:  # Only add the scene if it has content
             processed.append(result)
     return processed
@@ -205,7 +146,6 @@ def main():
     parser.add_argument("video_folder", help="Path to the video folder (must include scene_info.json)")
     parser.add_argument("--input_file", default="scene_info_deduped.json", help="Input JSON file (default: scene_info_deduped.json)")
     parser.add_argument("--output_file", default="audio_clips_optimized.json", help="Output JSON file (default: audio_clips_optimized.json)")
-    parser.add_argument("--stem", action="store_true", help="Use STEM-specific prompts that preserve mathematical expressions")
     
     args = parser.parse_args()
 
@@ -235,12 +175,8 @@ def main():
         return
     client = OpenAI(api_key=api_key, base_url=base_url)
     
-    # Process all scenes with the appropriate mode
-    is_stem = args.stem
-    if is_stem:
-        print("\nUsing STEM-specific prompts to preserve mathematical expressions")
-    
-    processed_clips = process_scenes(scenes, client, is_stem)
+    # Process all scenes.
+    processed_clips = process_scenes(scenes, client)
 
     print("\n===== PROCESSED SCENE DESCRIPTIONS =====")
     for clip in processed_clips:
@@ -253,10 +189,6 @@ def main():
         json.dump(processed_clips, f, indent=2)
     
     print(f"\nResults saved to: {output_file}")
-    if is_stem:
-        print("STEM mode was used: Mathematical expressions were preserved with priority over shortening")
-    else:
-        print("Regular mode was used: Descriptions were aggressively shortened to fit time constraints")
 
 if __name__ == "__main__":
     main()

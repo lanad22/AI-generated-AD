@@ -1,0 +1,393 @@
+[
+    {
+        "scene_number": 1,
+        "start_frame": 0,
+        "end_frame": 86,
+        "start_time": 0.0,
+        "end_time": 2.8695333333333335,
+        "duration": 2.8695333333333335,
+        "scene_path": "videos/oUCSXtTHo5s/oUCSXtTHo5s_scenes/scene_001.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "V CREATE DIGITAL PRESENTS..."
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A light blue screen with centered white text."
+            }
+        ]
+    },
+    {
+        "scene_number": 2,
+        "start_frame": 87,
+        "end_frame": 176,
+        "start_time": 2.9029000000000003,
+        "end_time": 5.872533333333333,
+        "duration": 2.969633333333333,
+        "scene_path": "videos/oUCSXtTHo5s/oUCSXtTHo5s_scenes/scene_002.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "Being A Kid Again..."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "A square piece of light yellow paper appears on a wood-grain surface.  Four light blue triangles point inwards from the corners of the frame."
+            }
+        ]
+    },
+    {
+        "scene_number": 3,
+        "start_frame": 177,
+        "end_frame": 350,
+        "start_time": 5.9059,
+        "end_time": 11.678333333333333,
+        "duration": 5.772433333333333,
+        "scene_path": "videos/oUCSXtTHo5s/oUCSXtTHo5s_scenes/scene_003.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "BeingAKidAgain"
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "Two hands enter the frame and position themselves on either side of the light yellow square."
+            },
+            {
+                "start_time": 2.8,
+                "type": "Visual",
+                "text": "The hands rotate the paper 45 degrees into a diamond shape."
+            }
+        ]
+    },
+    {
+        "scene_number": 4,
+        "start_frame": 351,
+        "end_frame": 484,
+        "start_time": 11.7117,
+        "end_time": 16.149466666666665,
+        "duration": 4.437766666666665,
+        "scene_path": "videos/oUCSXtTHo5s/oUCSXtTHo5s_scenes/scene_004.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "BeingAKidAgain"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The hands flatten the light yellow paper."
+            },
+            {
+                "start_time": 4.0,
+                "type": "Visual",
+                "text": "One hand folds the square in half diagonally to form a triangle, pressing the edges together to form a crease."
+            }
+        ]
+    },
+    {
+        "scene_number": 5,
+        "start_frame": 485,
+        "end_frame": 799,
+        "start_time": 16.182833333333335,
+        "end_time": 26.659966666666666,
+        "duration": 10.477133333333331,
+        "scene_path": "videos/oUCSXtTHo5s/oUCSXtTHo5s_scenes/scene_005.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "BeingAKidAgain"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The folded piece of light yellow paper is folded in half again."
+            }
+        ]
+    },
+    {
+        "scene_number": 6,
+        "start_frame": 800,
+        "end_frame": 860,
+        "start_time": 26.693333333333335,
+        "end_time": 28.695333333333334,
+        "duration": 2.001999999999999,
+        "scene_path": "videos/oUCSXtTHo5s/oUCSXtTHo5s_scenes/scene_006.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "BeingAKidAgain"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The folded paper is unfolded."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "The paper is folded in half again to form a triangle."
+            }
+        ]
+    },
+    {
+        "scene_number": 7,
+        "start_frame": 861,
+        "end_frame": 1223,
+        "start_time": 28.7287,
+        "end_time": 40.807433333333336,
+        "duration": 12.078733333333336,
+        "scene_path": "videos/oUCSXtTHo5s/oUCSXtTHo5s_scenes/scene_007.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "BeingAKidAgain"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The folded triangle paper is flattened."
+            },
+            {
+                "start_time": 7.0,
+                "type": "Visual",
+                "text": "One of the bottom corners of the triangle is folded upwards."
+            }
+        ]
+    },
+    {
+        "scene_number": 8,
+        "start_frame": 1224,
+        "end_frame": 1477,
+        "start_time": 40.8408,
+        "end_time": 49.28256666666667,
+        "duration": 8.441766666666666,
+        "scene_path": "videos/oUCSXtTHo5s/oUCSXtTHo5s_scenes/scene_008.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "BeingAKidAgain"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The top flap of the triangle is folded downwards."
+            },
+            {
+                "start_time": 7.5,
+                "type": "Visual",
+                "text": "The paper is flattened."
+            }
+        ]
+    },
+    {
+        "scene_number": 9,
+        "start_frame": 1478,
+        "end_frame": 1662,
+        "start_time": 49.315933333333334,
+        "end_time": 55.455400000000004,
+        "duration": 6.139466666666671,
+        "scene_path": "videos/oUCSXtTHo5s/oUCSXtTHo5s_scenes/scene_009.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "BeingAKidAgain"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The bottom left and right corners of the folded down flap are folded inwards to meet at the center line."
+            }
+        ]
+    },
+    {
+        "scene_number": 10,
+        "start_frame": 1663,
+        "end_frame": 1813,
+        "start_time": 55.48876666666667,
+        "end_time": 60.493766666666666,
+        "duration": 5.0049999999999955,
+        "scene_path": "videos/oUCSXtTHo5s/oUCSXtTHo5s_scenes/scene_010.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "BeingAKidAgain"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The two inside folded flaps are unfolded."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "The top flap is folded downwards."
+            }
+        ]
+    },
+    {
+        "scene_number": 11,
+        "start_frame": 1814,
+        "end_frame": 2846,
+        "start_time": 60.52713333333333,
+        "end_time": 94.96153333333334,
+        "duration": 34.434400000000004,
+        "scene_path": "videos/oUCSXtTHo5s/oUCSXtTHo5s_scenes/scene_011.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "BeingAKidAgain"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The two previously unfolded flaps are now folded inwards towards the center crease."
+            },
+            {
+                "start_time": 9.0,
+                "type": "Visual",
+                "text": "One of the bottom corners is folded upwards, creating a small triangle that aligns with the top point of the larger triangle."
+            },
+            {
+                "start_time": 24.0,
+                "type": "Visual",
+                "text": "The other bottom corner is folded upwards in the same manner, mirroring the first fold and completing the dog face shape."
+            }
+        ]
+    },
+    {
+        "scene_number": 12,
+        "start_frame": 2847,
+        "end_frame": 3725,
+        "start_time": 94.9949,
+        "end_time": 124.29083333333334,
+        "duration": 29.295933333333338,
+        "scene_path": "videos/oUCSXtTHo5s/oUCSXtTHo5s_scenes/scene_012.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "BeingAKidAgain"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The top flap of the paper is folded down."
+            },
+            {
+                "start_time": 14.0,
+                "type": "Visual",
+                "text": "The paper is flipped over."
+            },
+            {
+                "start_time": 18.0,
+                "type": "Visual",
+                "text": "The top section of the paper is folded downwards."
+            }
+        ]
+    },
+    {
+        "scene_number": 13,
+        "start_frame": 3726,
+        "end_frame": 3796,
+        "start_time": 124.3242,
+        "end_time": 126.65986666666667,
+        "duration": 2.3356666666666683,
+        "scene_path": "videos/oUCSXtTHo5s/oUCSXtTHo5s_scenes/scene_013.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "BeingAKidAgain"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The two side flaps of the paper are folded inwards towards the center."
+            }
+        ]
+    },
+    {
+        "scene_number": 14,
+        "start_frame": 3797,
+        "end_frame": 4509,
+        "start_time": 126.69323333333334,
+        "end_time": 150.4503,
+        "duration": 23.75706666666666,
+        "scene_path": "videos/oUCSXtTHo5s/oUCSXtTHo5s_scenes/scene_014.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "BeingAKidAgain"
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "A marker is used to draw two dots for eyes and curved lines for the nose and mouth."
+            }
+        ]
+    },
+    {
+        "scene_number": 15,
+        "start_frame": 4510,
+        "end_frame": 4874,
+        "start_time": 150.48366666666666,
+        "end_time": 162.62913333333333,
+        "duration": 12.145466666666664,
+        "scene_path": "videos/oUCSXtTHo5s/oUCSXtTHo5s_scenes/scene_015.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "BeingAKidAgain"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The completed origami dog face is shown.  A marker is held near it."
+            },
+            {
+                "start_time": 9.5,
+                "type": "Visual",
+                "text": "The origami dog face is picked up and moved closer to the camera."
+            }
+        ]
+    },
+    {
+        "scene_number": 16,
+        "start_frame": 4875,
+        "end_frame": 5029,
+        "start_time": 162.6625,
+        "end_time": 167.83433333333335,
+        "duration": 5.171833333333353,
+        "scene_path": "videos/oUCSXtTHo5s/oUCSXtTHo5s_scenes/scene_016.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "THANKS YOU FOR WATCHING THE VIDEO."
+            },
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "SUBSCRIBE TO SEE MORE VIDEOS AT : http://www.youtube.com/BeingAKidAgain"
+            }
+        ]
+    }
+]

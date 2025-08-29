@@ -1,0 +1,168 @@
+[
+    {
+        "scene_number": 1,
+        "start_frame": 0,
+        "end_frame": 140,
+        "start_time": 0.0,
+        "end_time": 2.3333333333333335,
+        "duration": 2.3333333333333335,
+        "scene_path": "videos/1MASOkOhpSk/1MASOkOhpSk_scenes/scene_001.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "4 ways to wear a scarf \ud83e\udde3"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A person holds up a red scarf with fringes."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "The person adjusts the scarf, displaying it fully."
+            }
+        ]
+    },
+    {
+        "scene_number": 2,
+        "start_frame": 141,
+        "end_frame": 267,
+        "start_time": 2.35,
+        "end_time": 4.45,
+        "duration": 2.1,
+        "scene_path": "videos/1MASOkOhpSk/1MASOkOhpSk_scenes/scene_002.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "1. side pull through"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A person adjusts a red scarf around their neck."
+            },
+            {
+                "start_time": 1.5,
+                "type": "Visual",
+                "text": "The person pulls the scarf through one of its loops."
+            }
+        ]
+    },
+    {
+        "scene_number": 3,
+        "start_frame": 268,
+        "end_frame": 406,
+        "start_time": 4.466666666666667,
+        "end_time": 6.766666666666667,
+        "duration": 2.3,
+        "scene_path": "videos/1MASOkOhpSk/1MASOkOhpSk_scenes/scene_003.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "1. side pull through"
+            },
+            {
+                "start_time": 0.5,
+                "type": "Visual",
+                "text": "A person adjusts a red scarf around their neck, pulling one end through the loop."
+            }
+        ]
+    },
+    {
+        "scene_number": 4,
+        "start_frame": 407,
+        "end_frame": 726,
+        "start_time": 6.783333333333333,
+        "end_time": 12.1,
+        "duration": 5.316666666666666,
+        "scene_path": "videos/1MASOkOhpSk/1MASOkOhpSk_scenes/scene_004.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "2. front knot"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A person adjusts a red scarf around their neck, bringing the ends together in front."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "The person ties the scarf into a knot at the front."
+            }
+        ]
+    },
+    {
+        "scene_number": 5,
+        "start_frame": 727,
+        "end_frame": 1062,
+        "start_time": 12.116666666666667,
+        "end_time": 17.7,
+        "duration": 5.583333333333332,
+        "scene_path": "videos/1MASOkOhpSk/1MASOkOhpSk_scenes/scene_005.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "3. croissant"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A person holds a red scarf up in front of them."
+            },
+            {
+                "start_time": 1.5,
+                "type": "Visual",
+                "text": "The person places the scarf around their neck and adjusts it."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Text on Screen",
+                "text": "4. crisscross"
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "The person lifts the ends of the scarf over their shoulders."
+            }
+        ]
+    },
+    {
+        "scene_number": 6,
+        "start_frame": 1063,
+        "end_frame": 1292,
+        "start_time": 17.716666666666665,
+        "end_time": 21.55,
+        "duration": 3.8333333333333357,
+        "scene_path": "videos/1MASOkOhpSk/1MASOkOhpSk_scenes/scene_006.mp4",
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "4. crisscross"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A person adjusts a red scarf around their neck."
+            },
+            {
+                "start_time": 1.5,
+                "type": "Visual",
+                "text": "The person crosses the ends of the scarf over each other."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "The person tucks one end of the scarf into the loop created by the crossing."
+            }
+        ]
+    }
+]

@@ -5,7 +5,7 @@
     "end_time": 2.616,
     "duration": 2.616,
     "type": "Text on Screen",
-    "text": "4 ways to wear a scarf \ud83e\udde3"
+    "text": "4 ways to wear a scarf"
   },
   {
     "scene_number": 1,
@@ -104,7 +104,7 @@
   },
   {
     "scene_number": 4,
-    "start_time": 17.1,
+    "start_time": 18.1,
     "end_time": 31.5,
     "duration": 14.4,
     "type": "Visual",

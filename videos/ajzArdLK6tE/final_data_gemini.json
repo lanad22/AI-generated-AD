@@ -1,0 +1,248 @@
+{
+  "dialogue_timestamps": [
+    {
+      "start_time": 135.72545833333334,
+      "end_time": 136.32545833333333,
+      "duration": 0.7,
+      "audio_text": "Oh",
+      "sequence_num": 1
+    },
+    {
+      "start_time": 136.56966666666665,
+      "end_time": 137.26966666666667,
+      "duration": 0.8,
+      "audio_text": "Yes!",
+      "sequence_num": 2
+    }
+  ],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "Tongs lower 1-quart jars into boiling water.",
+      "type": "Visual",
+      "start_time": 0.0,
+      "end_time": 5.904,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 2,
+      "text": "1 cup water, ½ vinegar, 1 tbsp salt, 1 tsp sugar into pan.",
+      "type": "Visual",
+      "start_time": 7.173833333333333,
+      "end_time": 14.061833333333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 3,
+      "text": "One teaspoon of black peppercorns, dill seed, and caraway seed are added to the saucepan.",
+      "type": "Visual",
+      "start_time": 13.054708333333332,
+      "end_time": 15.886708333333331,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 4,
+      "text": "The saucepan is removed from the heat",
+      "type": "Visual",
+      "start_time": 19.05770833333333,
+      "end_time": 23.53770833333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 5,
+      "text": "Garlic, dill, and cucumber spears are packed in the sterilized mason jar. jar, then brine is poured in.",
+      "type": "Visual",
+      "start_time": 23.56220833333333,
+      "end_time": 27.04220833333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 6,
+      "text": "Brine fills jar.",
+      "type": "Visual",
+      "start_time": 32.449083333333334,
+      "end_time": 34.08108333333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "Jar is sealed then labeled.",
+      "type": "Visual",
+      "start_time": 34.86816666666667,
+      "end_time": 36.884166666666665,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "Dill Pickles 2/17/17 written on tag.",
+      "type": "Visual",
+      "start_time": 37.49579166666666,
+      "end_time": 41.79179166666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 11,
+      "text": "1/2 cup white vinegars and 1/2 cup apple cider, pour into a pan.",
+      "type": "Visual",
+      "start_time": 48.173125,
+      "end_time": 52.133125,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 12,
+      "text": "Quarter cup water, one cup sugar, one tablespoon salt, one teaspoon peppercorns are added saucepan.",
+      "type": "Visual",
+      "start_time": 52.385666666666665,
+      "end_time": 58.84166666666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 13,
+      "text": "1 tsp dry mustard and 3-4 cloves are added to the saucepan",
+      "type": "Visual",
+      "start_time": 59.059,
+      "end_time": 61.794999999999995,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 14,
+      "text": "one teaspoon Celery seed and tumeric join the brine.",
+      "type": "Visual",
+      "start_time": 64.05445833333333,
+      "end_time": 66.06245833333332,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 14,
+      "text": "The Bread and Butter pickle brine is stirred and brought to a boil.",
+      "type": "Visual",
+      "start_time": 67.85445833333333,
+      "end_time": 70.86245833333332,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 15,
+      "text": "Chili, cucumber on board. Pan of brine on cloth.  Hand adds chili and cucumber to jar, then brine.",
+      "type": "Visual",
+      "start_time": 71.65191666666666,
+      "end_time": 80.26791666666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 17,
+      "text": "Lid tightened on jar, set down. Close-up: Bread and Butter pickles in a jar.",
+      "type": "Visual",
+      "start_time": 81.12270833333332,
+      "end_time": 84.02670833333332,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 19,
+      "text": "1 cup Vinegar, 1/2 cup water are poured into the saucepan. 1 tbsp salt is added to the mixture.",
+      "type": "Visual",
+      "start_time": 84.75333333333333,
+      "end_time": 90.97733333333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 20,
+      "text": "One teaspoon pepper, one teaspoon red pepper flakes.",
+      "type": "Visual",
+      "start_time": 91.29954166666666,
+      "end_time": 94.41954166666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 21,
+      "text": "1 teaspoon caraway and half teaspoon dry mustard are added then bring to a boil.",
+      "type": "Visual",
+      "start_time": 93.968875,
+      "end_time": 98.576875,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 22,
+      "text": "Cucumbers, jalapeño, garlic, into jar. Brine poured.",
+      "type": "Visual",
+      "start_time": 101.39295833333333,
+      "end_time": 106.91295833333332,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 23,
+      "text": "Cucumbers in brine. Sealed.",
+      "type": "Visual",
+      "start_time": 109.734625,
+      "end_time": 112.422625,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 24,
+      "text": "Spicy Pickles Jar, 4/7/17",
+      "type": "Visual",
+      "start_time": 113.15470833333333,
+      "end_time": 116.32270833333334,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 26,
+      "text": "Three pickle jars are placed into the refrigerator.",
+      "type": "Visual",
+      "start_time": 118.28483333333332,
+      "end_time": 120.34883333333332,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 27,
+      "text": "REFRIGERATE store up to 2 months",
+      "type": "Text on Screen",
+      "start_time": 120.995875,
+      "end_time": 123.035875,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 28,
+      "text": "A plate with a sandwich, chips, and a pickle.",
+      "type": "Visual",
+      "start_time": 123.12299999999999,
+      "end_time": 125.883,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 29,
+      "text": "Two pickle slices are placed on a cheeseburger.",
+      "type": "Visual",
+      "start_time": 125.83404166666666,
+      "end_time": 128.69004166666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 30,
+      "text": "Green olives and pickle slices placed on the rim of a Bloody Mary cocktail.",
+      "type": "Visual",
+      "start_time": 130.04658333333333,
+      "end_time": 132.15858333333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 31,
+      "text": "PICKLES 3 WAYS. \"Dill Pickles,\" \"Bread and Butter,\" and \"Spicy Pickles\".",
+      "type": "Text on Screen",
+      "start_time": 135.92545833333332,
+      "end_time": 135.92545833333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 33,
+      "text": "Tasty logo.",
+      "type": "Visual",
+      "start_time": 141.43295833333332,
+      "end_time": 142.92095833333332,
+      "track_type": "inline"
+    }
+  ],
+  "youtube_id": "ajzArdLK6tE",
+  "video_name": "3 Ways To Make Homemade Pickles",
+  "video_length": 144,
+  "aiUserId": "650506db3ff1c2140ea10ece"
+}

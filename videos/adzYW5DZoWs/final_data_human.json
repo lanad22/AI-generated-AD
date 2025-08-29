@@ -1,0 +1,192 @@
+{
+  "dialogue_timestamps": [
+    {
+      "start_time": 19.299999999999997,
+      "end_time": 20.86,
+      "duration": 1.66,
+      "audio_text": "We've passed on all we know.",
+      "sequence_num": 1
+    },
+    {
+      "start_time": 25.158166666666666,
+      "end_time": 27.598166666666664,
+      "duration": 2.54,
+      "audio_text": "A thousand generations live in you now.",
+      "sequence_num": 2
+    },
+    {
+      "start_time": 33.11275,
+      "end_time": 34.372749999999996,
+      "duration": 1.36,
+      "audio_text": "But this is your fight",
+      "sequence_num": 3
+    },
+    {
+      "start_time": 96.74224999999999,
+      "end_time": 97.94224999999999,
+      "duration": 1.2,
+      "audio_text": "We'll always be with you.",
+      "sequence_num": 4
+    },
+    {
+      "start_time": 101.51508333333332,
+      "end_time": 102.69508333333333,
+      "duration": 1.18,
+      "audio_text": "No one's ever really gone.",
+      "sequence_num": 5
+    }
+  ],
+  "audio_clips": [
+    {
+      "start_time": 2.483413,
+      "end_time": 5.982079667,
+      "description_style": "inline",
+      "text": "A silver logo is illuminated. Lucasfilm Ltd.",
+      "type": "Text on Screen"
+    },
+    {
+      "start_time": 10.65438021,
+      "end_time": 15.34771354,
+      "description_style": "inline",
+      "text": "Ray stands alone in the middle of a sandy desert, staring into the distance.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 21.520443,
+      "end_time": 24.25110967,
+      "description_style": "inline",
+      "text": "she pulls her lightsaber handle from her belt.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 29.214211,
+      "end_time": 33.310211,
+      "description_style": "inline",
+      "text": "A vehicle appears on the horizon, flashing in the sun as it flies towards her.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 35.626321,
+      "end_time": 38.86898767,
+      "description_style": "inline",
+      "text": "Every generation has a legend.",
+      "type": "Text on Screen"
+    },
+    {
+      "start_time": 48.076059,
+      "end_time": 53.36672567,
+      "description_style": "inline",
+      "text": "A first-order Thai interceptor is flying low over the sand, raising clouds of dust in its wake.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 54.766035,
+      "end_time": 58.94736833,
+      "description_style": "inline",
+      "text": "Ray activates her lightsaber and spins down to a crouch facing away from the vehicle.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 59.245343,
+      "end_time": 63.51200967,
+      "description_style": "inline",
+      "text": "Gloved hands push forward on controls. Rait glances behind her and starts to sprint.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 64.73038542,
+      "end_time": 66.52238542,
+      "description_style": "inline",
+      "text": "The TIE Interceptor gains on her.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 67.315531,
+      "end_time": 72.52086433,
+      "description_style": "inline",
+      "text": "Just before it would hit her, she leaps into the air, kicking her legs over her head, and does an aerial cartwheel above it.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 72.791065,
+      "end_time": 74.59373167,
+      "description_style": "inline",
+      "text": "This Christmas.",
+      "type": "Text on Screen"
+    },
+    {
+      "start_time": 74.77373958,
+      "end_time": 79.00040625,
+      "description_style": "inline",
+      "text": "In a forest, Kylo Ren uses his red lightsaber to take down a rebel fighter.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 79.334131,
+      "end_time": 81.97946433,
+      "description_style": "inline",
+      "text": "Sparks fly as a black helmet is repaired.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 82.070701,
+      "end_time": 86.84936767,
+      "description_style": "inline",
+      "text": "Chewbacca and Lando hurdle through space in the Millennium Falcon. They enter hyperspace.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 87.887692,
+      "end_time": 90.53302533,
+      "description_style": "inline",
+      "text": "The Sega comes to an end.",
+      "type": "Text on Screen"
+    },
+    {
+      "start_time": 90.68284,
+      "end_time": 94.77884,
+      "description_style": "inline",
+      "text": "Flying a sanskiff at high speeds, three CPO Fin and Po dodge explosions.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 94.88429167,
+      "end_time": 96.84695833,
+      "description_style": "inline",
+      "text": "Senator Organa hugs Ray.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 97.984766,
+      "end_time": 101.7394327,
+      "description_style": "inline",
+      "text": "Ray and her companions stare out over the wreckage of a crashed Death Star.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 105.786175,
+      "end_time": 107.4075083,
+      "description_style": "inline",
+      "text": "black screen.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 112.669068,
+      "end_time": 118.557068,
+      "description_style": "inline",
+      "text": "Over a night sky full of stars in blue outline, Star Wars, the Rise of Skywalker.",
+      "type": "Text on Screen"
+    },
+    {
+      "start_time": 120.535435,
+      "end_time": 122.2421017,
+      "description_style": "inline",
+      "text": "December.",
+      "type": "Text on Screen"
+    }
+  ],
+  "youtube_id": "adzYW5DZoWs",
+  "video_name": "Star Wars: The Rise of Skywalker – Teaser",
+  "video_length": 124,
+  "aiUserId": "6881366ec48a17363190231b"
+}

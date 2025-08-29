@@ -1,0 +1,34 @@
+{
+  "audio_clips": [
+    {
+      "start_time": 6.773764,
+      "end_time": 6.773764,
+      "description_style": "extended",
+      "text": "Two elves are discussing in a toy closet."
+    },
+    {
+      "start_time": 11.190429,
+      "end_time": 11.190429,
+      "description_style": "extended",
+      "text": "Buddy sneaks a look over the wall and the elves do not notice him."
+    },
+    {
+      "start_time": 22.23136,
+      "end_time": 22.23136,
+      "description_style": "extended",
+      "text": "Buddy starts to look extremely shocked and exits the building."
+    },
+    {
+      "start_time": 32.877639,
+      "end_time": 32.877639,
+      "description_style": "extended",
+      "text": "He begins to have flashbacks about how he may have been a human."
+    },
+    {
+      "start_time": 63.558578,
+      "end_time": 65.13753492,
+      "description_style": "inline",
+      "text": "But he begins to fall."
+    }
+  ]
+}

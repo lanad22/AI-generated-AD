@@ -1,0 +1,269 @@
+[
+  {
+    "scene_number": 1,
+    "start_time": 1.5,
+    "end_time": 3.1799999999999997,
+    "duration": 1.68,
+    "type": "Text on Screen",
+    "text": "LUCASFILM Ltd"
+  },
+  {
+    "scene_number": 3,
+    "text": "Rey stands in the desert.",
+    "type": "Visual",
+    "duration": 2.112,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Rey stands in the desert, wearing a light colored robe over white pants"
+    ],
+    "start_time": 10.01,
+    "end_time": 12.122
+  },
+  {
+    "scene_number": 4,
+    "start_time": 24.858166666666666,
+    "end_time": 27.474166666666665,
+    "duration": 2.616,
+    "type": "Visual",
+    "text": "Rey is looking towards the horizon.",
+    "fits_in_gap": false
+  },
+  {
+    "scene_number": 5,
+    "text": "Rey's hand grips her lightsaber. Distant ship.",
+    "type": "Visual",
+    "duration": 3.768,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Rey has a holster attached to her waist and grips the lightsaber tightly. A ship flies in the distance."
+    ],
+    "start_time": 28.278249999999996,
+    "end_time": 32.04624999999999
+  },
+  {
+    "scene_number": 6,
+    "start_time": 34.03275,
+    "end_time": 38.18475,
+    "duration": 4.152,
+    "type": "Visual",
+    "text": "Rey ignites her lightsaber and assumes a fighting stance.",
+    "fits_in_gap": false
+  },
+  {
+    "scene_number": 7,
+    "start_time": 36.119416666666666,
+    "end_time": 38.543416666666666,
+    "duration": 2.424,
+    "type": "Text on Screen",
+    "text": "EVERY GENERATION HAS A LEGEND"
+  },
+  {
+    "scene_number": 7,
+    "text": "Rey sprints through the desert, lightsaber flashing, then gloved hands take the controls of a cockpit.",
+    "type": "Visual",
+    "duration": 7.344,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Rey runs through the desert, wielding a lightsaber.",
+      "Gloved hands grip controls in a cockpit."
+    ],
+    "start_time": 38.543416666666666,
+    "end_time": 45.88741666666667
+  },
+  {
+    "scene_number": 8,
+    "text": "TIE fighter chases Rey, sand spraying everywhere.",
+    "type": "Visual",
+    "duration": 3.936,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A small, TIE fighter-style craft pursues Rey, kicking up sand."
+    ],
+    "start_time": 61.394666666666666,
+    "end_time": 65.33066666666667
+  },
+  {
+    "scene_number": 9,
+    "text": "Rey flips over the TIE fighter.",
+    "type": "Visual",
+    "duration": 2.52,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Rey ignites her blue lightsaber and faces the pursuing TIE fighter.",
+      "Rey flips over the TIE fighter as it flies low to the ground."
+    ],
+    "start_time": 65.89916666666666,
+    "end_time": 68.41916666666665
+  },
+  {
+    "scene_number": 10,
+    "start_time": 69.02729166666666,
+    "end_time": 70.44329166666665,
+    "duration": 1.416,
+    "type": "Text on Screen",
+    "text": "THIS CHRISTMAS"
+  },
+  {
+    "scene_number": 10,
+    "start_time": 70.02729166666666,
+    "end_time": 73.19529166666666,
+    "duration": 3.168,
+    "type": "Visual",
+    "text": "A TIE fighter approaches Rey from behind.",
+    "fits_in_gap": false
+  },
+  {
+    "scene_number": 11,
+    "text": "Glowing craft nears hidden mountain city.",
+    "type": "Visual",
+    "duration": 3.0,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Dark, misty mountains emerge from the clouds.",
+      "A small, glowing vehicle flies through the misty air towards a city nestled among the mountain peaks."
+    ],
+    "start_time": 71.11270833333333,
+    "end_time": 74.11270833333333
+  },
+  {
+    "scene_number": 12,
+    "text": "Kylo Ren ignites his red lightsaber in a smoky, red-tinged forest. He attacks and kills an unseen enemy",
+    "type": "Visual",
+    "duration": 2.256,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Kylo Ren ignites his red lightsaber in a smoky, red-tinged forest. ",
+      "Kylo Ren attacks and kills an unseen enemy.",
+      "Two stormtroopers fire their blasters."
+    ],
+    "start_time": 75.07499999999999,
+    "end_time": 77.33099999999999
+  },
+  {
+    "scene_number": 13,
+    "text": "Welding sparks on Kylo Ren's damaged helmet. Finn stands on a rocky desert. Close-up of BB-8 with D-O. Poe Dameron and Chewbacca pilot the Millennium Falcon. Lando Calrissian smiles at the controls of the Millennium Falcon. Hyperspace!",
+    "type": "Visual",
+    "duration": 6.192,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Close-up of welding sparks on Kylo Ren's damaged helmet.",
+      "Finn stands on a rocky desert overlook with another person.",
+      "Close-up of BB-8 with D-O.",
+      "Poe Dameron and Chewbacca pilot the Millennium Falcon.",
+      "Lando Calrissian smiles at the controls of the Millennium Falcon.",
+      "The Millennium Falcon jumps to hyperspace."
+    ],
+    "start_time": 77.45237499999999,
+    "end_time": 83.644375
+  },
+  {
+    "scene_number": 14,
+    "start_time": 85.83574999999999,
+    "end_time": 87.94774999999998,
+    "duration": 2.112,
+    "type": "Text on Screen",
+    "text": "THE SAGA COMES TO AN END"
+  },
+  {
+    "scene_number": 15,
+    "text": "Speeder escapes desert blast! Threepio!",
+    "type": "Visual",
+    "duration": 3.624,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Explosion in the desert landscape",
+      "A speeder bike emerges from the explosion",
+      "C-3PO and an unknown character ride the speeder bike"
+    ],
+    "start_time": 87.83775,
+    "end_time": 91.46175
+  },
+  {
+    "scene_number": 16,
+    "start_time": 92.34224999999999,
+    "end_time": 95.84625,
+    "duration": 3.504,
+    "type": "Visual",
+    "text": "A ship flies through the air, trailing flames.",
+    "fits_in_gap": false
+  },
+  {
+    "scene_number": 16,
+    "start_time": 93.46225,
+    "end_time": 97.25425,
+    "duration": 3.792,
+    "type": "Visual",
+    "text": "A pair of hands holds a golden, circular object.",
+    "fits_in_gap": false
+  },
+  {
+    "scene_number": 16,
+    "start_time": 94.42224999999999,
+    "end_time": 96.19824999999999,
+    "duration": 1.776,
+    "type": "Visual",
+    "text": "Rey embraces Leia.",
+    "fits_in_gap": false
+  },
+  {
+    "scene_number": 16,
+    "start_time": 96.52224999999999,
+    "end_time": 102.73825,
+    "duration": 6.216,
+    "type": "Visual",
+    "text": "Rey stands in a grassy field. C-3PO and Poe Dameron stand behind her.",
+    "fits_in_gap": false
+  },
+  {
+    "scene_number": 17,
+    "text": "Rey stands on a grassy shore, facing a rough sea.  A large, partially submerged wreckage resembling a spacecraft is visible in the water.",
+    "type": "Visual",
+    "duration": 1.8,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Rey stands on a grassy shore, facing a rough sea.  A large, partially submerged wreckage resembling a spacecraft is visible in the water.  A man stands behind her.",
+      "The wreckage is revealed to be the ruins of the Death Star."
+    ],
+    "start_time": 102.79508333333332,
+    "end_time": 104.59508333333332
+  },
+  {
+    "scene_number": 18,
+    "text": "Rey ignites her lightsaber, deflecting shots from a training remote.",
+    "type": "Visual",
+    "duration": 4.704,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Rey ignites her lightsaber.",
+      "She begins practicing lightsaber combat.",
+      "A training remote fires at Rey.",
+      "Rey deflects the training remote's shots using her lightsaber."
+    ],
+    "start_time": 104.85475,
+    "end_time": 109.55874999999999
+  },
+  {
+    "scene_number": 19,
+    "start_time": 111.23612499999999,
+    "end_time": 112.65212499999998,
+    "duration": 1.416,
+    "type": "Text on Screen",
+    "text": "STAR WARS"
+  },
+  {
+    "scene_number": 19,
+    "start_time": 115.11612499999998,
+    "end_time": 117.06012499999999,
+    "duration": 1.944,
+    "type": "Text on Screen",
+    "text": "THE RISE OF SKYWALKER"
+  },
+  {
+    "scene_number": 20,
+    "start_time": 120.16170833333332,
+    "end_time": 121.28970833333332,
+    "duration": 1.128,
+    "type": "Text on Screen",
+    "text": "DECEMBER"
+  }
+]

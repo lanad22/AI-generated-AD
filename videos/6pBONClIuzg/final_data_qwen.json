@@ -1,0 +1,430 @@
+{
+  "dialogue_timestamps": [
+    {
+      "start_time": 42.16416666666667,
+      "end_time": 43.72416666666667,
+      "duration": 1.66,
+      "audio_text": "Everyone's got their thing.",
+      "sequence_num": 1
+    },
+    {
+      "start_time": 51.3864,
+      "end_time": 60.446400000000004,
+      "duration": 9.16,
+      "audio_text": "Maybe it's a breakup, an accident.",
+      "sequence_num": 2
+    },
+    {
+      "start_time": 63.36626666666667,
+      "end_time": 66.96626666666668,
+      "duration": 3.7,
+      "audio_text": "Whatever it is, you used to be one thing.",
+      "sequence_num": 3
+    },
+    {
+      "start_time": 69.05066666666667,
+      "end_time": 70.11066666666667,
+      "duration": 1.16,
+      "audio_text": "You're something else.",
+      "sequence_num": 4
+    }
+  ],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "The scene opens in complete darkness.",
+      "type": "Visual",
+      "start_time": 0.0,
+      "end_time": 3.0,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 1,
+      "text": "SMASHER",
+      "type": "Text on Screen",
+      "start_time": 3.4,
+      "end_time": 3.4,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 1,
+      "text": "Neon outline of 'SMASHER' appears with sparks.",
+      "type": "Visual",
+      "start_time": 3.4,
+      "end_time": 3.4,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 1,
+      "text": "YOUTUBE.COM/SMASHER",
+      "type": "Text on Screen",
+      "start_time": 4.5,
+      "end_time": 4.5,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 1,
+      "text": "Neon blue 'YOUTUBE.COM/SMASHER' text below logo lights up.",
+      "type": "Visual",
+      "start_time": 4.5,
+      "end_time": 4.5,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 1,
+      "text": "The logo and text gradually disappear into a black screen.",
+      "type": "Visual",
+      "start_time": 7.284,
+      "end_time": 7.284,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 2,
+      "text": "Vinyl record spins in dim light.",
+      "type": "Visual",
+      "start_time": 12.7127,
+      "end_time": 12.7127,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 2,
+      "text": "Needle moves onto record, needle arm shifts.",
+      "type": "Visual",
+      "start_time": 13.0127,
+      "end_time": 13.0127,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 3,
+      "text": "The screen goes black.",
+      "type": "Visual",
+      "start_time": 14.7147,
+      "end_time": 16.442700000000002,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 3,
+      "text": "SONY",
+      "type": "Text on Screen",
+      "start_time": 16.8547,
+      "end_time": 17.814700000000002,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 4,
+      "text": "SONY",
+      "type": "Text on Screen",
+      "start_time": 16.883533333333332,
+      "end_time": 17.843533333333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 4,
+      "text": "COLUMBIA\na Sony Company",
+      "type": "Text on Screen",
+      "start_time": 17.883533333333332,
+      "end_time": 17.883533333333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "Glowing logo fades out.",
+      "type": "Visual",
+      "start_time": 17.883533333333332,
+      "end_time": 17.883533333333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "Eddie Brock's face contorts in pain as glowing energy explodes around him.",
+      "type": "Visual",
+      "start_time": 19.686333333333334,
+      "end_time": 19.686333333333334,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "MARVEL",
+      "type": "Text on Screen",
+      "start_time": 21.186333333333334,
+      "end_time": 21.186333333333334,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "Threads float in night. Thin strand shown close. Eddie Brock walks city street. Record spins, needle drops.",
+      "type": "Visual",
+      "start_time": 22.622600000000002,
+      "end_time": 31.6946,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "Eddie sleeps in dark bed as mist forms, tendrils twist, merge.",
+      "type": "Visual",
+      "start_time": 34.801433333333335,
+      "end_time": 40.48943333333334,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "Eddie Brock walks through crowded street at night.",
+      "type": "Visual",
+      "start_time": 43.87416666666667,
+      "end_time": 47.04216666666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 9,
+      "text": "\"Eddie sprints, turns, leaps over trunk.\"",
+      "type": "Visual",
+      "start_time": 44.044000000000004,
+      "end_time": 47.524,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 10,
+      "text": "Smoke billows; a tense blonde woman walks dim hall.",
+      "type": "Visual",
+      "start_time": 46.446400000000004,
+      "end_time": 50.6944,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 10,
+      "text": "Eddie Brock walks through a sleek, modern laboratory, looking around cautiously.",
+      "type": "Visual",
+      "start_time": 52.446400000000004,
+      "end_time": 52.446400000000004,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 10,
+      "text": "A covered body lies on a gurney, shrouded in plastic.",
+      "type": "Visual",
+      "start_time": 55.446400000000004,
+      "end_time": 55.446400000000004,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 10,
+      "text": "A chaotic scene unfolds at night, with emergency vehicles and people gathered around a crash site.",
+      "type": "Visual",
+      "start_time": 57.446400000000004,
+      "end_time": 57.446400000000004,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 10,
+      "text": "\"Man looks shocked.\"",
+      "type": "Visual",
+      "start_time": 60.546400000000006,
+      "end_time": 60.546400000000006,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 11,
+      "text": "Man with closed eyes lies in hospital bed, appearing weak.",
+      "type": "Visual",
+      "start_time": 67.36626666666668,
+      "end_time": 67.36626666666668,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 12,
+      "text": "Darkness. Black screen.",
+      "type": "Visual",
+      "start_time": 67.40066666666667,
+      "end_time": 67.40066666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 12,
+      "text": "Eddie Brock's face appears in shadowy light.",
+      "type": "Visual",
+      "start_time": 68.90066666666667,
+      "end_time": 68.90066666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 12,
+      "text": "Eddie's face gets clearer; thin tendrils approach.",
+      "type": "Visual",
+      "start_time": 69.60066666666667,
+      "end_time": 69.60066666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "Dark tendrils swirl, converge, tightening. Abruptly stop, form dense core.",
+      "type": "Visual",
+      "start_time": 70.63723333333334,
+      "end_time": 77.11723333333335,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 14,
+      "text": "\"Eddie in bed, eyes closed, twists, screams.\"",
+      "type": "Visual",
+      "start_time": 79.04563333333334,
+      "end_time": 83.55763333333334,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 15,
+      "text": "Amid darkness, eerie blue light highlights Venom's glowing eyes and sharp teeth, shaping the letter 'V'.",
+      "type": "Visual",
+      "start_time": 82.3823,
+      "end_time": 90.3743,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 16,
+      "text": "OCTOBER",
+      "type": "Text on Screen",
+      "start_time": 90.85743333333333,
+      "end_time": 90.85743333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "Electric arcs flicker around 'OCTOBER' text.",
+      "type": "Visual",
+      "start_time": 90.85743333333333,
+      "end_time": 90.85743333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "IN REALD 3D AND IMAX",
+      "type": "Text on Screen",
+      "start_time": 91.35743333333333,
+      "end_time": 91.35743333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "'IN REALD 3D AND IMAX' appears below title, glowing faintly.",
+      "type": "Visual",
+      "start_time": 91.35743333333333,
+      "end_time": 91.35743333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "Venom.Movie  #Venom",
+      "type": "Text on Screen",
+      "start_time": 91.85743333333333,
+      "end_time": 91.85743333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "SMASHER",
+      "type": "Text on Screen",
+      "start_time": 93.25983333333333,
+      "end_time": 93.25983333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "YOUTUBE.COM/SMASHER",
+      "type": "Text on Screen",
+      "start_time": 93.25983333333333,
+      "end_time": 93.25983333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "SUBSCRIBE FOR MORE TRAILERS",
+      "type": "Text on Screen",
+      "start_time": 93.25983333333333,
+      "end_time": 93.25983333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "Dark background with faint light spots.",
+      "type": "Visual",
+      "start_time": 93.25983333333333,
+      "end_time": 93.25983333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "LEAVE A LIKE",
+      "type": "Text on Screen",
+      "start_time": 94.25983333333333,
+      "end_time": 94.25983333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "CHECK OUT MORE VIDEOS",
+      "type": "Text on Screen",
+      "start_time": 94.25983333333333,
+      "end_time": 94.25983333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "Web-like structures appear against dark backdrop.",
+      "type": "Visual",
+      "start_time": 94.25983333333333,
+      "end_time": 94.25983333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "Close-up of a metallic structure with detailed lines.",
+      "type": "Visual",
+      "start_time": 96.04383333333334,
+      "end_time": 96.04383333333334,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 18,
+      "text": "LEAVE A LIKE",
+      "type": "Text on Screen",
+      "start_time": 101.06763333333333,
+      "end_time": 101.06763333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 18,
+      "text": "CHECK OUT MORE VIDEOS",
+      "type": "Text on Screen",
+      "start_time": 101.06763333333333,
+      "end_time": 101.06763333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 18,
+      "text": "SMASHER YOUTUBE.COM/SMASHER",
+      "type": "Text on Screen",
+      "start_time": 101.06763333333333,
+      "end_time": 101.06763333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 18,
+      "text": "SUBSCRIBE FOR MORE TRAILERS",
+      "type": "Text on Screen",
+      "start_time": 101.06763333333333,
+      "end_time": 101.06763333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 18,
+      "text": "Dark, swirling mass grows denser and expands outward.",
+      "type": "Visual",
+      "start_time": 101.06763333333333,
+      "end_time": 101.06763333333333,
+      "track_type": "extended"
+    }
+  ],
+  "youtube_id": "6pBONClIuzg",
+  "video_name": "VENOM Teaser Trailer #2 Concept (2018) NEW Extended Tom Hardy Marvel Movie",
+  "video_length": 113,
+  "aiUserId": "650506db3ff1c2140ea10ece"
+}

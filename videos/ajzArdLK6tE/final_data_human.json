@@ -1,0 +1,52 @@
+{
+  "dialogue_timestamps": [
+    {
+      "start_time": 135.72545833333334,
+      "end_time": 136.32545833333333,
+      "duration": 0.7,
+      "audio_text": "Oh",
+      "sequence_num": 1
+    },
+    {
+      "start_time": 136.56966666666665,
+      "end_time": 137.26966666666667,
+      "duration": 0.8,
+      "audio_text": "Yes!",
+      "sequence_num": 2
+    }
+  ],
+  "audio_clips": [
+    {
+      "start_time": 0.0,
+      "end_time": 36.03736961,
+      "description_style": "inline",
+      "text": "Sanitize 1 quart jars. Pour 1 cup of water into a pot on an oven. Then pour 1 1⁄2 cup of white vinegar, 1 tablespoon of salt, 1 teaspoon of sugar, 1 teaspoon of peppercorns, 1 teaspoon of caraway seed, 1 1⁄2 teaspoon of dill seed, and stir all the ingredients together with a wooden spoon. Set aside the pot and grab one jar. Place garlic and a couple of pieces of fresh dill into the jar along with Kirby cucumbers cut into fourths. Pour the pot full of liquid into the jar and close the lid. Label the jar with dill pickles.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 44.266915,
+      "end_time": 80.49004425,
+      "description_style": "inline",
+      "text": "To make bread and butter pickles pour 1 cup of white vinegar into a pot on an oven. Next pour 1 cup of cider vinegar, 1 1⁄4 cup of water, 1 cup of sugar, 1 tablespoon of salt, 1 teaspoon of peppercorns, 1 teaspoon of dry mustard, 3 to 4 cloves, 1 teaspoon of celery seed, 1⁄2 teaspoon of turmeric, and stir all the ingredients with a wooden spoon. Grab a jar and place a couple of slices, and stir all the ingredients with a wooden spoon. Grab a jar and place a couple of slices of red chili into the jar. Layer cucumber slices over the chili and pour the contents of the pot into the jar. Label the jar with bread and butter.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 83.641172,
+      "end_time": 117.2636663,
+      "description_style": "inline",
+      "text": "To make spicy pickles, pour 1 cup of white vinegar into a pot on an oven. Next, pour 1 cup of water, 1 tablespoon of salt, 1 teaspoon of peppercorns, 1 teaspoon of red pepper, 1 teaspoon of caraway seed, 1 teaspoon of dry mustard. Stir the ingredients using a wooden spoon. Next, grab a mason jar and place 1 garlic slice into the jar. Then place a couple of kirby cucumbers cut into fourths and jalapeno peppers into the jar. Then place a couple kirby cucumbers cut into fourths and jalapeno peppers into the jar. Then pour the contents of the pot into the jar. Close the lid and label the jar as spicy pickles.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 120.918574,
+      "end_time": 131.135354,
+      "description_style": "inline",
+      "text": "Refrigerate the three jars of pickles. These can be stored for up to two months. You can eat your homemade pickles on the side, in your hamburgers, or placed on top of the cocktail.",
+      "type": "Visual"
+    }
+  ],
+  "youtube_id": "ajzArdLK6tE",
+  "video_name": "3 Ways To Make Homemade Pickles",
+  "video_length": 144,
+  "aiUserId": "68798f57c48a173631902319"
+}
