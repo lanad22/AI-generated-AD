@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 # Added google.generativeai and Pillow
 import google.generativeai as genai
 from PIL import Image
+import subprocess
 
 # Load environment variables from a .env file
 load_dotenv()
@@ -29,30 +30,74 @@ def find_closest_keyframe(keyframes_dict, target_timestamp):
     return eligible[closest_time], closest_time
 
 def extract_frame_at_timestamp(video_path, output_dir, timestamp, scene_start_time):
-    """Extracts a single frame from a video at a precise timestamp."""
+    """Extracts a single frame from a video at a precise timestamp. Falls back to ffmpeg if cv2 fails."""
     os.makedirs(output_dir, exist_ok=True)
     rel_timestamp = timestamp - scene_start_time
-    video = cv2.VideoCapture(video_path)
-    if not video.isOpened():
-        print(f"Error: Could not open video file {video_path}")
-        return None
-    fps = video.get(cv2.CAP_PROP_FPS)
-    frame_count = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
-    frame_idx = int(rel_timestamp * fps)
-    if frame_idx < 0 or frame_idx >= frame_count:
-        print(f"Error: Timestamp {timestamp}s (frame {frame_idx}) is outside video range")
+    
+    # Try cv2 first
+    try:
+        video = cv2.VideoCapture(video_path)
+        if not video.isOpened():
+            print(f"CV2: Could not open video file {video_path}, trying ffmpeg...")
+            video.release()
+            return extract_frame_with_ffmpeg(video_path, output_dir, timestamp, scene_start_time)
+        
+        fps = video.get(cv2.CAP_PROP_FPS)
+        frame_count = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
+        frame_idx = int(rel_timestamp * fps)
+        
+        if frame_idx < 0 or frame_idx >= frame_count:
+            print(f"CV2: Timestamp {timestamp}s (frame {frame_idx}) is outside video range, trying ffmpeg...")
+            video.release()
+            return extract_frame_with_ffmpeg(video_path, output_dir, timestamp, scene_start_time)
+        
+        video.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
+        ret, frame = video.read()
         video.release()
+        
+        if not ret:
+            print(f"CV2: Could not read frame at timestamp {timestamp}s, trying ffmpeg...")
+            return extract_frame_with_ffmpeg(video_path, output_dir, timestamp, scene_start_time)
+        
+        output_path = os.path.join(output_dir, f"exact_frame_{frame_idx:06d}.jpg")
+        cv2.imwrite(output_path, frame)
+        print(f"CV2: Saved frame at exact timestamp {timestamp:.2f}s (frame {frame_idx})")
+        return output_path
+        
+    except Exception as e:
+        print(f"CV2: Exception occurred: {e}, trying ffmpeg...")
+        return extract_frame_with_ffmpeg(video_path, output_dir, timestamp, scene_start_time)
+
+def extract_frame_with_ffmpeg(video_path, output_dir, timestamp, scene_start_time):
+    """Fallback frame extraction using ffmpeg."""
+    
+    try:
+        rel_timestamp = max(0.0, timestamp - scene_start_time)
+        output_path = os.path.join(output_dir, f"exact_frame_ffmpeg_{int(rel_timestamp*1000):06d}.jpg")
+        
+        # Use ffmpeg to extract frame
+        cmd = [
+            'ffmpeg', '-y', '-v', 'quiet',
+            '-ss', str(rel_timestamp),
+            '-i', str(video_path),
+            '-frames:v', '1',
+            '-q:v', '2',
+            str(output_path)
+        ]
+        
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+        
+        if result.returncode == 0 and os.path.exists(output_path):
+            print(f"FFMPEG: Saved frame at exact timestamp {timestamp:.2f}s")
+            return output_path
+        else:
+            print(f"FFMPEG: Failed to extract frame: {result.stderr}")
+            return None
+            
+    except Exception as e:
+        print(f"FFMPEG: Exception occurred: {e}")
         return None
-    video.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
-    ret, frame = video.read()
-    video.release()
-    if not ret:
-        print(f"Error: Could not read frame at timestamp {timestamp}s")
-        return None
-    output_path = os.path.join(output_dir, f"exact_frame_{frame_idx:06d}.jpg")
-    cv2.imwrite(output_path, frame)
-    print(f"Saved frame at exact timestamp {timestamp:.2f}s (frame {frame_idx})")
-    return output_path
+
 
 def get_transcript_for_timestamp(scene, timestamp, video_id, window=2.0):
     """Retrieves transcript text around a specific timestamp."""
