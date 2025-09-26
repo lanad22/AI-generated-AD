@@ -146,10 +146,10 @@ def query_frames_with_api(keyframe_path, exact_frame_path, scene, scene_info, sc
     if not exact_frame_path or not os.path.exists(exact_frame_path):
         return "Exact frame not found."
 
-    try:
-        genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-    except Exception as e:
-        return f"Error configuring Gemini API: {e}. Make sure GOOGLE_API_KEY is set."
+    google_api_key = os.getenv("GEMINI_API_KEY")
+    if not google_api_key:
+        return "Error: GEMINI_API_KEY environment variable not set."
+    genai.configure(api_key=google_api_key)
 
     transcript = get_transcript_for_timestamp(scene, exact_time, video_id)
     accumulated_audio_clips = get_accumulated_audio_clips(scene_info, scene_idx)
@@ -199,8 +199,10 @@ def query_frames_with_api(keyframe_path, exact_frame_path, scene, scene_info, sc
         keyframe_img = Image.open(keyframe_path)
         exact_frame_img = Image.open(exact_frame_path)
 
-        model = genai.GenerativeModel('gemini-1.5-pro-latest')
-        model.system_instruction = "You analyze frames extracted from a video and provide answers to user queries based on the provided context."
+        model = genai.GenerativeModel(
+            model_name='gemini-2.5-pro',
+            system_instruction="You analyze frames extracted from a video and provide answers to user queries based on the provided context."
+        )
 
         response = model.generate_content(
             [prompt, keyframe_img, exact_frame_img]
