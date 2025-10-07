@@ -30,10 +30,18 @@ class QueryModel(BaseModel):
     current_time: str
     video_id: str
 
-class NarrationBotRequest(BaseModel):
+class DataType(str, Enum):
+    HUMAN = "human"
+    QWEN = "qwen"
+    GEMINI = "gemini"
+    GPT = "gpt"
+
+# Unified request model for both endpoints
+class UnifiedVideoRequest(BaseModel):
     youtube_id: str
-    user_id: str
-    ai_user_id: str
+    user_id: Optional[str] = None
+    ai_user_id: Optional[str] = None
+    data_type: DataType = DataType.GPT
 
 async def run_query_script(command):
     process = await asyncio.create_subprocess_exec(
@@ -107,60 +115,104 @@ async def receive_data(data: QueryModel):
         logger.error(f"Error running script: {str(e)}")
         return {"status": "error", "message": f"Error: {str(e)}"}
 
+
+async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_user_id: Optional[str], data_type: DataType):
+    try:
+        logger.info(f"Starting background pipeline processing for {video_id}")
+        
+        # Run the pipeline asynchronously
+        command = ["python", "test_pipeline.py", "--video_id", video_id]
+        process = await asyncio.create_subprocess_exec(
+            *command,
+            stdout=sys.stdout,
+            stderr=sys.stderr
+        )
+
+        await process.wait()
+
+        if process.returncode != 0:
+            logger.error(f"Pipeline failed for {video_id}")
+            return
+        
+        logger.info(f"Pipeline completed successfully for {video_id}")
+        
+        # Update aiUserId if provided
+        final_data_path = os.path.join("videos", video_id, "final_data.json")
+        if ai_user_id and os.path.exists(final_data_path):
+            with open(final_data_path, "r") as f:
+                final_data = json.load(f)
+            final_data["aiUserId"] = ai_user_id
+            with open(final_data_path, "w") as f:
+                json.dump(final_data, f, indent=2, ensure_ascii=False)
+        
+        # Forward to newaidescription endpoint
+        logger.info(f"Forwarding {video_id} with data_type={data_type.value}")
+        forward_request = UnifiedVideoRequest(
+            youtube_id=video_id,
+            user_id=user_id,
+            ai_user_id=ai_user_id,
+            data_type=data_type
+        )
+        
+        # Call the forward function directly
+        try:
+            await forward_final_data(forward_request)
+            logger.info(f"Successfully forwarded {video_id} to production")
+        except Exception as e:
+            logger.error(f"Failed to forward {video_id}: {str(e)}")
+            
+    except Exception as e:
+        logger.error(f"Error in background pipeline processing for {video_id}: {str(e)}")
+
 @app.post("/api/generate-ai-description")
-async def narration_bot(data: NarrationBotRequest):
+async def narration_bot(data: UnifiedVideoRequest):
     logger.info(f"Received narration bot request: {data}")
     try:
         video_id = data.youtube_id
         final_data_path = os.path.join("videos", video_id, "final_data.json")
         
-        if not os.path.exists(final_data_path):
-            logger.info("final_data.json not found. Running pipeline via test_pipeline.py...")
-            # Call test_pipeline.py using subprocess.
-            command = f"python test_pipeline.py --video_id {video_id}"
-            result = subprocess.run(
-                command,
-                shell=True,
-                stdout=sys.stdout, 
-                stderr=sys.stderr,
-                text=True
-            )
-            if result.returncode != 0:
-                raise HTTPException(
-                status_code=500,
-                detail=f"Failed to load final_data.json: {str(e)}"
-            )
+        # Check if already processed
+        if os.path.exists(final_data_path):
+            logger.info(f"final_data.json already exists for {video_id}")
+            
+            with open(final_data_path, "r") as f:
+                final_data = json.load(f)
+            
+            # Update aiUserId if provided
+            if data.ai_user_id:
+                final_data["aiUserId"] = data.ai_user_id
+                with open(final_data_path, "w") as f:
+                    json.dump(final_data, f, indent=2, ensure_ascii=False)
+            
+            return {
+                "status": "success",
+                "message": f"Video {video_id} already processed",
+                "processing": False,
+                "final_data": final_data
+            }
         
-        with open(final_data_path, "r") as f:
-            final_data = json.load(f)
+        # Start background processing
+        logger.info(f"Starting background pipeline for {video_id}")
+        asyncio.create_task(
+            run_pipeline_and_forward(video_id, data.user_id, data.ai_user_id, data.data_type)
+        )
         
-        final_data["aiUserId"] = data.ai_user_id
-        with open(final_data_path, "w") as f:
-            json.dump(final_data, f, indent=2, ensure_ascii=False)
+        return {
+            "status": "processing",
+            "message": f"Pipeline started for YouTube ID: {video_id}. Processing in background.",
+            "video_id": video_id,
+            "processing": True
+        }
         
-        response_message = f"Narration bot processing complete for YouTube ID: {video_id}"
-        logger.info(response_message)
-        
-        return {"status": "success", "message": response_message, "final_data": final_data}
     except Exception as e:
+        logger.error(f"Error in narration bot endpoint: {str(e)}")
         raise HTTPException(
-                status_code=500,
-                detail=f"Error in narration bot endpoint: {str(e)}"
-            )
-
-
-class DataType(str, Enum):
-    HUMAN = "human"
-    QWEN = "qwen"
-    GEMINI = "gemini"
-    GPT = "gpt"
-
-class YouTubeIDRequest(BaseModel):
-    youtube_id: str
-    data_type: DataType = DataType.HUMAN  # Default to HUMAN 
+            status_code=500,
+            detail=f"Error starting pipeline: {str(e)}"
+        )
 
 @app.post("/api/newaidescription")
-async def forward_final_data(data: YouTubeIDRequest):
+async def forward_final_data(data: UnifiedVideoRequest):
     """
     API to forward specified final_data file to another server.
     Supports: final_data_human.json, final_data_qwen.json, final_data_gemini.json, final_data_gpt.json
@@ -169,6 +221,7 @@ async def forward_final_data(data: YouTubeIDRequest):
     - {"youtube_id": "abc123", "data_type": "human"}
     - {"youtube_id": "abc123", "data_type": "qwen"}
     - {"youtube_id": "abc123"} # defaults to human
+    - {"youtube_id": "abc123", "user_id": "user1", "ai_user_id": "ai1", "data_type": "gemini"}
     """
     logger.info(f"Received request to forward final_data_{data.data_type.value}.json for YouTube ID: {data.youtube_id}")
     
@@ -201,7 +254,7 @@ async def forward_final_data(data: YouTubeIDRequest):
             response = requests.post(target_url, data=json.dumps(final_data), headers=headers)
             response.raise_for_status()  
             json_response = response.json()
-            logger.info("json_response", json_response)
+            logger.info(f"json_response: {json_response}")
 
             if json_response.get('_id'):
                 generateAudioClips = f"http://172.31.13.176:4000/api/audio-clips/processAllClipsInDB/{json_response['_id']}"
@@ -247,6 +300,7 @@ async def forward_final_data(data: YouTubeIDRequest):
             status_code=500,
             detail=f"An unexpected error occurred: {str(e)}"
         )
+
 if __name__ == "__main__":
     logger.info("Starting Info Bot API server")
     uvicorn.run(app, host="0.0.0.0", port=8000)
