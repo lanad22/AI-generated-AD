@@ -257,7 +257,7 @@ async def forward_final_data(data: UnifiedVideoRequest):
             logger.info(f"json_response: {json_response}")
 
             if json_response.get('_id'):
-                generateAudioClips = f"http://172.31.13.176:4000/api/audio-clips/processAllClipsInDB/{json_response['_id']}"
+                generateAudioClips = f"http://localhost:4001/api/audio-clips/processAllClipsInDB/{json_response['_id']}"
                 r = requests.get(generateAudioClips)
 
                 if r.status_code == 200:
