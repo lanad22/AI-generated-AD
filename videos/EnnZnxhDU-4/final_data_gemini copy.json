@@ -1,0 +1,105 @@
+{
+  "dialogue_timestamps": [],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "FROM THE CREATORS OF Tangled & WRECK-IT RALPH",
+      "type": "Text on Screen",
+      "start_time": 1.0,
+      "end_time": 4.359999999999999,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 3,
+      "text": "A lone crocus pushes through the snow in a snowy forest. Olaf the snowman walks towards the crocus. He sniffs it. Olaf's carrot nose falls off and slides across the frozen lake.",
+      "type": "Visual",
+      "start_time": 7.215541666666666,
+      "end_time": 20.511541666666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 4,
+      "text": "Sven the reindeer looks surprised, then walks onto a frozen pond. The reindeer's hooves slip on the ice and he falls, sliding across the surface. Olaf hops on, but also stuck. Sven slips and slides on the ice again, eventually landing flat on his stomach",
+      "type": "Visual",
+      "start_time": 22.981291666666664,
+      "end_time": 32.53329166666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 5,
+      "text": "Olaf uses a stick to move but slips and falls. Sven slides. Olaf reassembles himself then uses his teeth to hold onto the ice.",
+      "type": "Visual",
+      "start_time": 34.659625,
+      "end_time": 42.675625,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 6,
+      "text": "A carrot lies on the frozen pond. Sven's head emerges from the water near the carrot but his tounge got stuck on the ice. Olaf sends his head flying off onto the snow. He reaches the carrot",
+      "type": "Visual",
+      "start_time": 46.08770833333333,
+      "end_time": 54.94370833333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "Carrot flies off and lands on the snowly landscape nearby. Sven runs after it. Olaf grabs onto Sven's tail.",
+      "type": "Visual",
+      "start_time": 55.34895833333333,
+      "end_time": 60.636958333333325,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "Olaf, still clinging to Sven's tail, gathers his scattered body parts from the frozen pond. But as Sven dashes off, Olaf loses his grip and tumbles off.",
+      "type": "Visual",
+      "start_time": 60.935874999999996,
+      "end_time": 67.319875,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "Olaf rebuilds himself on the snowy bank. Sven runs over, starling Olaf. Sven puts the carrot noseback on Olaf face. They are jumping, excited.",
+      "type": "Visual",
+      "start_time": 67.935875,
+      "end_time": 74.959875,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "Olaf gestures towards some reindeer hair in the air. He holds onto the carrot nose but his head flies off.",
+      "type": "Visual",
+      "start_time": 78.935875,
+      "end_time": 80.319875,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "Disney\nFrozen",
+      "type": "Text on Screen",
+      "start_time": 84.935875,
+      "end_time": 85.87187499999999,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 9,
+      "text": "COMING THIS WINTER",
+      "type": "Text on Screen",
+      "start_time": 87.54579166666666,
+      "end_time": 87.54579166666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 9,
+      "text": "DISNEY.CO.UK/FROZEN",
+      "type": "Text on Screen",
+      "start_time": 87.54579166666666,
+      "end_time": 87.54579166666666,
+      "track_type": "extended"
+    }
+  ],
+  "youtube_id": "EnnZnxhDU-4",
+  "video_name": "Trailer - Frozen TEASER TRAILER (2013) - Disney Animated Movie HD",
+  "video_length": 90,
+  "aiUserId": "68798f57c48a173631902319"
+}

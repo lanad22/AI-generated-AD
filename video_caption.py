@@ -411,7 +411,7 @@ def process_video_folder(video_folder_path, model_client, chosen_model_type, out
 def main():
     parser = argparse.ArgumentParser(description="Generate video scene descriptions using various models.")
     parser.add_argument("video_folder", help="Folder containing video files and metadata.")
-    parser.add_argument("--model", type=str, choices=[MODEL_GEMINI, MODEL_QWEN, MODEL_GPT4], required=True,
+    parser.add_argument("--model", type=str, choices=[MODEL_GEMINI, MODEL_QWEN, MODEL_GPT4], default='gpt',
                         help="Choose the model: 'gemini', 'qwen', or 'gpt'.")
     args = parser.parse_args()
 
