@@ -39,47 +39,39 @@
   "audio_clips": [
     {
       "scene_number": 1,
-      "text": "A hand examines leaves on a tree trunk close-up.",
+      "text": "Close-up of vine bark and a hand gently examining budding leaves.",
       "type": "Visual",
       "start_time": 0.0,
-      "end_time": 3.624,
+      "end_time": 4.776,
       "track_type": "inline"
     },
     {
       "scene_number": 1,
-      "text": "Water pumps out.",
+      "text": "Water flows from an outdoor faucet, glistening in the sunlight.",
+      "type": "Visual",
+      "start_time": 8.0,
+      "end_time": 8.0,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 1,
+      "text": "\"Hands wash in sunlight.\"",
       "type": "Visual",
       "start_time": 11.21,
-      "end_time": 12.674000000000001,
-      "track_type": "inline"
-    },
-    {
-      "scene_number": 1,
-      "text": "Hands cup the flowing water.",
-      "type": "Visual",
-      "start_time": 15.11,
-      "end_time": 15.11,
+      "end_time": 11.21,
       "track_type": "extended"
     },
     {
       "scene_number": 1,
-      "text": "Vineyards stretch into the distance, with futuristic structures visible.",
+      "text": "A wide view of the vineyard with rows of grapevines stretching into the distance, surrounded by hills.",
       "type": "Visual",
-      "start_time": 24.0,
-      "end_time": 24.0,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 1,
-      "text": "A vehicle sprays the vineyard.",
-      "type": "Visual",
-      "start_time": 25.16,
-      "end_time": 25.16,
+      "start_time": 15.0,
+      "end_time": 15.0,
       "track_type": "extended"
     },
     {
       "scene_number": 2,
-      "text": "Boots walk through a vineyard.",
+      "text": "A pair of brown boots walks along a grassy path between vineyard rows.",
       "type": "Visual",
       "start_time": 30.263566666666666,
       "end_time": 30.263566666666666,
@@ -87,87 +79,31 @@
     },
     {
       "scene_number": 2,
-      "text": "Vineyard shown.",
+      "text": "The camera shifts focus to show a shadow cast on the grass by a vineyard post.",
       "type": "Visual",
-      "start_time": 35.26356666666666,
-      "end_time": 35.26356666666666,
+      "start_time": 33.26356666666666,
+      "end_time": 33.26356666666666,
       "track_type": "extended"
     },
     {
       "scene_number": 3,
-      "text": "A wooden crate of wine bottles is shown.",
+      "text": "\"Crate of wine bottles set down, showing 'Chateau Picard' labels.\"",
       "type": "Visual",
-      "start_time": 39.5895,
-      "end_time": 39.5895,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 3,
-      "text": "Chateau Picard",
-      "type": "Text on Screen",
-      "start_time": 39.599500000000006,
-      "end_time": 39.599500000000006,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 3,
-      "text": "Bourgogne",
-      "type": "Text on Screen",
-      "start_time": 39.599500000000006,
-      "end_time": 39.599500000000006,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 3,
-      "text": "Franche-Comte",
-      "type": "Text on Screen",
-      "start_time": 39.599500000000006,
-      "end_time": 39.599500000000006,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 3,
-      "text": "Vielle Vignes",
-      "type": "Text on Screen",
-      "start_time": 39.599500000000006,
-      "end_time": 39.599500000000006,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 3,
-      "text": "23",
-      "type": "Text on Screen",
-      "start_time": 39.609500000000004,
-      "end_time": 39.609500000000004,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 3,
-      "text": "69",
-      "type": "Text on Screen",
-      "start_time": 39.609500000000004,
-      "end_time": 39.609500000000004,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 3,
-      "text": "Close up of wine bottles in a wooden crate.",
-      "type": "Visual",
-      "start_time": 39.609500000000004,
-      "end_time": 39.609500000000004,
-      "track_type": "extended"
+      "start_time": 39.539500000000004,
+      "end_time": 45.0835,
+      "track_type": "inline"
     },
     {
       "scene_number": 4,
-      "text": "Picard's face comes into focus in a dark room.",
+      "text": "\"Bald man, serious expression, dim room.\"",
       "type": "Visual",
       "start_time": 51.785066666666665,
-      "end_time": 55.38506666666667,
+      "end_time": 55.45706666666666,
       "track_type": "inline"
     },
     {
       "scene_number": 5,
-      "text": "STAR TREK PICARD",
+      "text": "Star Trek Picard",
       "type": "Text on Screen",
       "start_time": 57.59086666666667,
       "end_time": 57.59086666666667,
@@ -175,7 +111,7 @@
     },
     {
       "scene_number": 5,
-      "text": "COMING SOON",
+      "text": "Coming Soon",
       "type": "Text on Screen",
       "start_time": 57.59086666666667,
       "end_time": 57.59086666666667,
@@ -183,39 +119,31 @@
     },
     {
       "scene_number": 5,
-      "text": "Scene begins with a view of dark space with glowing nebulae and floating asteroids. Text \"STAR TREK PICARD\" and \"COMING SOON\" are displayed.",
+      "text": "The text 'Star Trek Picard' appears against a cosmic background with colorful nebulae.",
       "type": "Visual",
       "start_time": 57.59086666666667,
       "end_time": 57.59086666666667,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 5,
-      "text": "Scene end.",
-      "type": "Visual",
-      "start_time": 59.29486666666667,
-      "end_time": 59.29486666666667,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 6,
-      "text": "View through a circular space station window of dark space with glowing nebulae and floating asteroids.",
-      "type": "Visual",
-      "start_time": 63.69696666666667,
-      "end_time": 63.69696666666667,
       "track_type": "extended"
     },
     {
       "scene_number": 6,
       "text": "space",
       "type": "Text on Screen",
-      "start_time": 64.69696666666667,
-      "end_time": 64.69696666666667,
+      "start_time": 63.69696666666667,
+      "end_time": 63.69696666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "A circular space station with glowing lights orbits amidst a starry cosmic background. The word 'space' appears prominently in the center of the scene.",
+      "type": "Visual",
+      "start_time": 63.69696666666667,
+      "end_time": 63.69696666666667,
       "track_type": "extended"
     },
     {
       "scene_number": 7,
-      "text": "THE END IS ONLY\nTHE BEGINNING",
+      "text": "THE END IS ONLY THE BEGINNING",
       "type": "Text on Screen",
       "start_time": 66.066,
       "end_time": 66.066,
@@ -223,7 +151,7 @@
     },
     {
       "scene_number": 7,
-      "text": "View of dark space with glowing nebulae and floating asteroids through a circular space station window",
+      "text": "A cosmic background filled with stars and asteroids. The text 'THE END IS ONLY THE BEGINNING' appears prominently in the center.",
       "type": "Visual",
       "start_time": 66.066,
       "end_time": 66.066,
@@ -233,5 +161,5 @@
   "youtube_id": "eA-GJNebJj0",
   "video_name": "Star Trek: Picard – Official Teaser Trailer",
   "video_length": 70,
-  "aiUserId": "650506db3ff1c2140ea10ece"
+  "aiUserId": "68798f57c48a173631902319"
 }

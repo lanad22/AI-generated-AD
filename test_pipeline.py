@@ -41,10 +41,10 @@ def check_transcribe_scene(video_id: str) -> bool:
         logger.error(f"Error reading {scene_info_path}: {e}")
         return False
 
-def check_video_caption_api(video_id: str) -> bool:
-    scene_info_path = os.path.join("videos", video_id, f"{video_id}_scenes", "scene_info_gemini.json")
+def check_video_caption(video_id: str) -> bool:
+    scene_info_path = os.path.join("videos", video_id, f"{video_id}_scenes", "scene_info_gpt.json")
     if not os.path.exists(scene_info_path):
-        logger.debug(f"video_caption_api check: {scene_info_path} does not exist")
+        logger.debug(f"video_caption check: {scene_info_path} does not exist")
         return False
     try:
         with open(scene_info_path, "r") as f:
@@ -52,9 +52,9 @@ def check_video_caption_api(video_id: str) -> bool:
         # We expect each scene to include the "audio_clips" field.
         for scene in scenes:
             if "audio_clips" not in scene or scene["audio_clips"] == []:
-                logger.debug(f"video_caption_api check: Scene {scene.get('scene_number')} is missing 'audio_clips'")
+                logger.debug(f"video_caption check: Scene {scene.get('scene_number')} is missing 'audio_clips'")
                 return False
-        logger.debug("video_caption_api check: All scenes have 'audio_clips'")
+        logger.debug("video_caption check: All scenes have 'audio_clips'")
         return True
     except Exception as e:
         logger.error(f"Error reading {scene_info_path}: {e}")
@@ -62,14 +62,14 @@ def check_video_caption_api(video_id: str) -> bool:
 
 def check_description_optimize(video_id: str) -> bool:
     scene_dir = os.path.join("videos", video_id, f"{video_id}_scenes")
-    audio_clips_opt_path = os.path.join(scene_dir, "audio_clips_optimized_gemini.json")
+    audio_clips_opt_path = os.path.join(scene_dir, "audio_clips_optimized_gpt.json")
     result = os.path.exists(audio_clips_opt_path)
     logger.debug(f"Check description_optimize for {video_id}: {result}")
     return result
 
 def check_description_optimize_combined(video_id: str) -> bool:
     scene_dir = os.path.join("videos", video_id, f"{video_id}_scenes")
-    audio_clips_combined_path = os.path.join(scene_dir, "audio_clips_optimized_combined.json")
+    audio_clips_combined_path = os.path.join(scene_dir, "audio_clips_optimized_gpt.json")
     result = os.path.exists(audio_clips_combined_path)
     logger.debug(f"Check description_optimize_combined for {video_id}: {result}")
     return result
@@ -109,10 +109,10 @@ def get_video_category(video_id: str) -> str:
     return 'unknown'
 
 def analyze_text_on_screen_density(video_id: str) -> bool:
-    scene_info_path = os.path.join("videos", video_id, f"{video_id}_scenes", "scene_info_gemini.json")
+    scene_info_path = os.path.join("videos", video_id, f"{video_id}_scenes", "scene_info_gpt.json")
     
     if not os.path.exists(scene_info_path):
-        logger.warning(f"scene_info_gemini.json not found for video {video_id}")
+        logger.warning(f"scene_info_gpt.json not found for video {video_id}")
         return False
     
     try:
@@ -172,19 +172,25 @@ def should_use_combined_optimization(video_id: str) -> bool:
     
     return should_use_combined
 
-def get_description_optimization_step(video_id: str, device_flag: str):
+def get_description_optimization_step(video_id: str):
     if should_use_combined_optimization(video_id):
         logger.info(f"Using combined optimization for video {video_id}")
         return {
-            "command": f"python description_optimize_combined.py videos/{video_id} {device_flag}".strip(),
+            "command": f"python description_optimize_combined.py videos/{video_id}".strip(),
             "check": lambda: check_description_optimize_combined(video_id)
         }
     else:
         logger.info(f"Using standard optimization for video {video_id}")
-        return {
-            "command": f"python description_optimize.py videos/{video_id} {device_flag}".strip(),
-            "check": lambda: check_description_optimize(video_id)
-        }
+        return [
+            {
+                "command": f"python description_optimize_inline.py videos/{video_id} --output audio_clips_optimized_gpt.json".strip(),
+                "check": lambda: False  # Always run inline first
+            },
+            {
+                "command": f"python description_optimize_extended.py videos/{video_id}".strip(),
+                "check": lambda: check_description_optimize(video_id)
+            }
+        ]
 
 def run_pipeline(video_id: str) -> bool:
     # Check if CUDA is available.
@@ -195,8 +201,8 @@ def run_pipeline(video_id: str) -> bool:
         logger.info("CUDA is not available. Using CPU for processing.")
         device_flag = "--device cpu"
 
-    # Define pipeline steps with conditional description optimization
-    pipeline_steps = [
+    #define pipeline
+    base_pipeline_steps = [
         {
             "command": f"python youtube_downloader.py {video_id}",
             "check": lambda: check_youtube_downloaded(video_id)
@@ -211,16 +217,21 @@ def run_pipeline(video_id: str) -> bool:
         },
         {
             "command": f"python video_caption.py videos/{video_id}",
-            "check": lambda: check_video_caption_api(video_id)
-        },
-        # Conditional description optimization step - determined at runtime
-        get_description_optimization_step(video_id, device_flag),
-        {
-            "command": f"python prepare_final_data.py {video_id}",
-            "check": lambda: check_final_data(video_id)
+            "check": lambda: check_video_caption(video_id)
         }
     ]
 
+    # Add description optimization steps (could be 1 or 2 steps)
+    optimization_steps = get_description_optimization_step(video_id)
+    base_pipeline_steps.extend(optimization_steps)
+
+    # Add final step
+    base_pipeline_steps.append({
+        "command": f"python prepare_final_data.py {video_id} --model gpt",
+        "check": lambda: check_final_data(video_id)
+    })
+
+    pipeline_steps = base_pipeline_steps
     for step in pipeline_steps:
         cmd = step["command"]
         if step["check"]():
