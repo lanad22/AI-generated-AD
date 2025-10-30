@@ -49,9 +49,11 @@ def prepare_dialogue(scenes):
 def check_interference(clip_start, clip_end, existing_intervals):
     for interval in existing_intervals:
         interval_start = interval["start_time"]
-        interval_end = interval["end_time"]
+        if "end_time" in interval and interval["end_time"]:
+            interval_end = interval["end_time"]
+        else:
+            interval_end = interval["tts_duration"] + interval_start
         
-        # Check for overlap
         if max(clip_start, interval_start) < min(clip_end, interval_end):
             return True
     return False
@@ -63,7 +65,10 @@ def prepare_audio_clips(scene_number, all_clips, dialogue_timestamps):
 
     for i, clip in enumerate(scene_clips):
         clip_start = clip["start_time"]
-        clip_end = clip["end_time"]
+        if "end_time" in clip and clip["end_time"]:
+            clip_end = clip["end_time"]
+        else:
+            clip_end = clip["tts_duration"] + clip_start
 
         track_type = "inline"
         if check_interference(clip_start, clip_end, dialogue_timestamps):
@@ -104,6 +109,12 @@ def compile_final_data(video_id, model_choice):
         ai_user_id = "650506db3ff1c2140ea10ece"
         audio_clips_filename = "audio_clips_optimized_qwen.json"
         output_path = os.path.join(base_dir, "final_data_qwen.json")
+        
+    elif model_choice == "gpt":
+        ai_user_id = "68798f57c48a173631902319"
+        audio_clips_filename = "audio_clips_optimized_gpt.json"
+        output_path = os.path.join(base_dir, "final_data_gpt.json")
+        
     else:
         raise ValueError("Invalid model choice provided.")
 
@@ -146,7 +157,7 @@ def compile_final_data(video_id, model_choice):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Compile dialogue timestamps and audio clips into final_data.json")
     parser.add_argument("video_id", help="YouTube video ID (e.g., dQw4w9WgXcQ)")
-    parser.add_argument("--model", type=str, choices=["gemini", "qwen"], required=True, 
+    parser.add_argument("--model", type=str, choices=["gemini", "qwen", "gpt"], required=True, 
                         help="The model used to generate the audio clips, which determines the input file and AI User ID.")
     args = parser.parse_args()
 
