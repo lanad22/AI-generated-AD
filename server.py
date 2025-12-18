@@ -220,7 +220,7 @@ async def forward_final_data(data: UnifiedVideoRequest):
     Usage examples:
     - {"youtube_id": "abc123", "data_type": "human"}
     - {"youtube_id": "abc123", "data_type": "qwen"}
-    - {"youtube_id": "abc123"} # defaults to human
+    - {"youtube_id": "abc123"} # defaults to gpt
     - {"youtube_id": "abc123", "user_id": "user1", "ai_user_id": "ai1", "data_type": "gemini"}
     """
     logger.info(f"Received request to forward final_data_{data.data_type.value}.json for YouTube ID: {data.youtube_id}")
