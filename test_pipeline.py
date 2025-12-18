@@ -4,6 +4,7 @@ import torch
 import logging
 import sys
 import json
+import glob
 
 logger = logging.getLogger("narration_bot")
 logging.basicConfig(level=logging.DEBUG)
@@ -75,10 +76,16 @@ def check_description_optimize_combined(video_id: str) -> bool:
     return result
 
 def check_final_data(video_id: str) -> bool:
-    final_data_path = os.path.join("videos", video_id, "final_data.json")
-    result = os.path.exists(final_data_path)
-    logger.debug(f"Check final_data for {video_id}: {result}")
-    return result
+    base_dir = os.path.join("videos", video_id)
+    final_data_path = os.path.join(base_dir, "final_data*.json")
+    matches = glob.glob(final_data_path)
+    if not matches:
+        logger.debug(f"No final_data found for {video_id}")
+        return None
+    chosen = matches[0]
+    
+    logger.debug(f"Check final_data for {video_id}: {chosen}")
+    return chosen
 
 def get_video_category(video_id: str) -> str:
     metadata_path = os.path.join("videos", video_id, f"{video_id}.json")
