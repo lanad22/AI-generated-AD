@@ -1,0 +1,18 @@
+[
+  {
+    "scene_number": 1,
+    "text": "\"An older man with a gray beard holds a red ball, facing a white dog that brings back a bone, in a grassy area.\"",
+    "type": "Visual",
+    "duration": 7.968,
+    "fits_in_gap": true,
+    "original_texts": [
+      "An older man with a gray beard and hair, wearing a brown coat, stands in a grassy area facing a small white dog.",
+      "The dog playfully jumps up towards the man, wagging its tail.",
+      "The man raises his arm, holding a red ball, while the dog eagerly watches.",
+      "The man looks intently in the distance, shielding his eyes with his hand as if searching for something.",
+      "The dog returns with a bone in its mouth, standing in front of the man."
+    ],
+    "start_time": 0.0,
+    "end_time": 7.968
+  }
+]

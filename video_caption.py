@@ -6,8 +6,8 @@ import argparse
 import subprocess
 import time
 import torch
-import google.generativeai as genai
-from google.generativeai.types import HarmCategory, HarmBlockThreshold
+import google as genai
+from genai.types import HarmCategory, HarmBlockThreshold
 import openai
 import base64
 import cv2  
