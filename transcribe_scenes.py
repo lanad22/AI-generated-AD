@@ -7,8 +7,6 @@ import argparse
 import whisper_timestamped
 import os
 import onnxruntime
-from functools import partial
-import multiprocessing as mp
 
 onnxruntime.set_default_logger_severity(3)
 os.environ["OMP_NUM_THREADS"] = "1"
@@ -53,7 +51,6 @@ def extract_audio(scene_video_path, output_audio_path):
         "-i", scene_video_path,
         "-vn",
         "-acodec", "pcm_s16le",
-        #Changed sample rate to 16000 for wider model compatibility
         "-ar", "16000",
         "-ac", "1",
         output_audio_path
@@ -135,7 +132,7 @@ def normalize(text: str) -> str:
     text = re.sub(r"\s+", " ", text)
     return text
 
-def verify_transcriptions(whisper_transcripts, google_transcripts, wer_threshold=0.30, confidence_threshold=0.83):
+def verify_transcriptions(whisper_transcripts, google_transcripts, wer_threshold=0.30, confidence_threshold=0.85):
     verified = []
 
     # If no Google transcript is available, filter Whisper by confidence
@@ -231,40 +228,6 @@ def should_discard_captions(global_transcript_text, global_caption_text, thresho
     print(f"Global transcript vs captions similarity: {similarity:.2f}")
     return similarity >= threshold
 
-whisper_model = None
-google_client = None
-
-def init_worker(device):
-    global whisper_model, google_client
-    print(f"Initializing worker process {os.getpid()}...")
-    whisper_model = whisper_timestamped.load_model(WHISPER_MODEL, device=device)
-    google_client = speech.SpeechClient()
-
-def process_scene(scene, video_folder):
-    scene_number = scene.get('scene_number')
-    print(f"Processing scene {scene_number} in process {os.getpid()}...")
-    
-    scene_path = scene.get("scene_path")
-    if not scene_path or not os.path.exists(scene_path):
-        return scene
-
-    audio_path = scene_path.replace(".mp4", ".wav")
-    extract_audio(scene_path, audio_path)
-
-    if not os.path.exists(audio_path):
-        scene["transcript"] = []
-        return scene
-
-    whisper_trans = transcribe_whisper(whisper_model, audio_path)
-    google_trans = transcribe_google_speech(google_client, audio_path)
-    
-    scene["transcript"] = verify_transcriptions(whisper_trans, google_trans)
-    
-    if os.path.exists(audio_path):
-        os.remove(audio_path)
-
-    return scene
-
 def update_scene_transcripts(video_folder, device="cuda", global_caption_threshold=0.8):
     video_id = os.path.basename(os.path.normpath(video_folder))
     scene_json_path = os.path.join(video_folder, f"{video_id}_scenes", "scene_info.json")
@@ -276,15 +239,55 @@ def update_scene_transcripts(video_folder, device="cuda", global_caption_thresho
     with open(scene_json_path, "r") as f:
         scenes = json.load(f)
 
-    num_processes = 2
-    with mp.Pool(processes=num_processes, initializer=init_worker, initargs=(device,)) as pool:
-        process_func = partial(process_scene, video_folder=video_folder)
-        updated_scenes = pool.map(process_func, scenes)
+    # Load models once for all scenes
+    print("Loading Whisper model...")
+    whisper_model = whisper_timestamped.load_model(WHISPER_MODEL, device=device)
+    print("Initializing Google Speech client...")
+    google_client = speech.SpeechClient()
 
+    # Process scenes sequentially
+    updated_scenes = []
+    for i, scene in enumerate(scenes):
+        scene_number = scene.get('scene_number', i+1)
+        print(f"\n{'='*50}")
+        print(f"Processing scene {scene_number} ({i+1}/{len(scenes)})...")
+        print(f"{'='*50}")
+        
+        scene_path = scene.get("scene_path")
+        if not scene_path or not os.path.exists(scene_path):
+            print(f"Scene path not found, skipping: {scene_path}")
+            updated_scenes.append(scene)
+            continue
+
+        audio_path = scene_path.replace(".mp4", ".wav")
+        extract_audio(scene_path, audio_path)
+
+        if not os.path.exists(audio_path):
+            print(f"Audio file not created, skipping transcription")
+            scene["transcript"] = []
+            updated_scenes.append(scene)
+            continue
+
+        # Transcribe with both models
+        whisper_trans = transcribe_whisper(whisper_model, audio_path)
+        google_trans = transcribe_google_speech(google_client, audio_path)
+        
+        # Verify and combine transcriptions
+        scene["transcript"] = verify_transcriptions(whisper_trans, google_trans)
+        
+        # Clean up audio file
+        if os.path.exists(audio_path):
+            os.remove(audio_path)
+            print(f"Cleaned up audio file: {audio_path}")
+
+        updated_scenes.append(scene)
+
+    # Combine all transcripts for global comparison
     global_transcript_text = " ".join(
         " ".join(seg["text"] for seg in scene.get("transcript", [])) for scene in updated_scenes
     ).strip()
 
+    # Load and process captions
     captions = None
     captions_path = os.path.join(video_folder, f"{video_id}.json")
     if os.path.exists(captions_path):
@@ -292,10 +295,11 @@ def update_scene_transcripts(video_folder, device="cuda", global_caption_thresho
             with open(captions_path, "r") as f:
                 cap_data = json.load(f)
                 captions = cap_data.get("captions", [])
-                print(f"Loaded {len(captions)} captions from {captions_path}")
+                print(f"\nLoaded {len(captions)} captions from {captions_path}")
         except Exception as e:
             print(f"Error loading captions: {str(e)}")
 
+    # Match captions to scenes
     if captions and global_transcript_text:
         global_caption_text = " ".join([cap["text"] for cap in captions])
         if should_discard_captions(global_transcript_text, global_caption_text, global_caption_threshold):
@@ -303,6 +307,7 @@ def update_scene_transcripts(video_folder, device="cuda", global_caption_thresho
             for scene in updated_scenes:
                 scene["captions"] = []
         else:
+            print("Matching captions to individual scenes...")
             for scene in updated_scenes:
                 scene_start = scene.get("start", 0)
                 scene_end = scene.get("end", 0)
@@ -310,15 +315,20 @@ def update_scene_transcripts(video_folder, device="cuda", global_caption_thresho
                     scene_duration = scene_end - scene_start
                     scene_captions = match_captions(scene_start, scene_end, scene_duration, captions)
                     scene["captions"] = scene_captions
+                    print(f"Scene {scene.get('scene_number')}: matched {len(scene_captions)} captions")
                 else:
                     scene["captions"] = []
     else:
+        print("No captions available or no transcript generated. Setting empty captions for all scenes.")
         for scene in updated_scenes:
             scene["captions"] = []
 
+    # Save updated scene information
     with open(scene_json_path, "w") as out_f:
         json.dump(updated_scenes, out_f, indent=2)
+    print(f"\n{'='*50}")
     print(f"Updated scene JSON with transcripts saved to: {scene_json_path}")
+    print(f"{'='*50}")
 
 def main():
     parser = argparse.ArgumentParser(
@@ -335,5 +345,4 @@ def main():
     update_scene_transcripts(args.video_folder, args.device, args.threshold)
 
 if __name__ == '__main__':
-    mp.set_start_method('spawn', force=True)
     main()
