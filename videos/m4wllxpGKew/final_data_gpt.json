@@ -1,0 +1,41 @@
+{
+  "dialogue_timestamps": [],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "\"By Lake Louise, a woman walks on rocks.\"",
+      "type": "Visual",
+      "start_time": 0.0,
+      "end_time": 3.384,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 2,
+      "text": "\"Turquoise lake, mountains, woman with Canadian flag, 'REC' overlay.\"",
+      "type": "Visual",
+      "start_time": 4.738066666666667,
+      "end_time": 10.642066666666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 3,
+      "text": "\"Person holds Canadian flag by Lake Louise.\"",
+      "type": "Visual",
+      "start_time": 10.844166666666666,
+      "end_time": 14.492166666666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 4,
+      "text": "\"Turquoise lake, snow peaks.\"",
+      "type": "Visual",
+      "start_time": 15.9159,
+      "end_time": 18.579900000000002,
+      "track_type": "inline"
+    }
+  ],
+  "youtube_id": "m4wllxpGKew",
+  "video_name": "A 20 second video of Lake Louise",
+  "video_length": 19,
+  "aiUserId": "68798f57c48a173631902319"
+}
