@@ -102,19 +102,17 @@ def compile_final_data(video_id, model_choice):
     output_path = ""
 
     if model_choice == "gemini":
-        ai_user_id = "6845e4375506faa0752b8d62"
+        ai_user_id = "6881366ec48a17363190231b"
         audio_clips_filename = "audio_clips_optimized_gemini.json"
         output_path = os.path.join(base_dir, "final_data_gemini.json")
     elif model_choice == "qwen":
-        ai_user_id = "650506db3ff1c2140ea10ece"
-        audio_clips_filename = "audio_clips_optimized_qwen.json"
-        output_path = os.path.join(base_dir, "final_data_qwen.json")
-        
-    elif model_choice == "gpt":
         ai_user_id = "68798f57c48a173631902319"
+        audio_clips_filename = "audio_clips_optimized_qwen.json"
+        output_path = os.path.join(base_dir, "final_data_qwen.json")    
+    elif model_choice == "gpt":
+        ai_user_id = "650506db3ff1c2140ea10ece"
         audio_clips_filename = "audio_clips_optimized_gpt.json"
         output_path = os.path.join(base_dir, "final_data_gpt.json")
-        
     else:
         raise ValueError("Invalid model choice provided.")
 
