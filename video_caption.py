@@ -7,7 +7,7 @@ import subprocess
 import time
 import torch
 import google as genai
-from genai.types import HarmCategory, HarmBlockThreshold
+from google.genai.types import HarmCategory, HarmBlockThreshold
 import openai
 import base64
 import cv2  
