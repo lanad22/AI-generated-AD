@@ -1,0 +1,46 @@
+[
+  {
+    "scene_number": 1,
+    "start_frame": 0,
+    "end_frame": 141,
+    "start_time": 0.0,
+    "end_time": 4.7047,
+    "duration": 4.7047,
+    "scene_path": "videos/m4wllxpGKew/m4wllxpGKew_scenes/scene_001.mp4",
+    "transcript": [],
+    "captions": []
+  },
+  {
+    "scene_number": 2,
+    "start_frame": 142,
+    "end_frame": 324,
+    "start_time": 4.738066666666667,
+    "end_time": 10.8108,
+    "duration": 6.072733333333334,
+    "scene_path": "videos/m4wllxpGKew/m4wllxpGKew_scenes/scene_002.mp4",
+    "transcript": [],
+    "captions": []
+  },
+  {
+    "scene_number": 3,
+    "start_frame": 325,
+    "end_frame": 476,
+    "start_time": 10.844166666666666,
+    "end_time": 15.882533333333333,
+    "duration": 5.038366666666667,
+    "scene_path": "videos/m4wllxpGKew/m4wllxpGKew_scenes/scene_003.mp4",
+    "transcript": [],
+    "captions": []
+  },
+  {
+    "scene_number": 4,
+    "start_frame": 477,
+    "end_frame": 556,
+    "start_time": 15.9159,
+    "end_time": 18.585233333333335,
+    "duration": 2.6693333333333342,
+    "scene_path": "videos/m4wllxpGKew/m4wllxpGKew_scenes/scene_004.mp4",
+    "transcript": [],
+    "captions": []
+  }
+]

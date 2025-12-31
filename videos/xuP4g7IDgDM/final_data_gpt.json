@@ -1,0 +1,17 @@
+{
+  "dialogue_timestamps": [],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "\"Orange sunset over the sea with scattered clouds, reds and purples appear as the sun sets, leaving a warm glow.\"",
+      "type": "Visual",
+      "start_time": 0.0,
+      "end_time": 8.496,
+      "track_type": "inline"
+    }
+  ],
+  "youtube_id": "xuP4g7IDgDM",
+  "video_name": "Stunning Sunset Seen From The Sea | Time lapse | 10 Seconds Video | Nature Blogs",
+  "video_length": 9,
+  "aiUserId": "68798f57c48a173631902319"
+}

@@ -1,0 +1,30 @@
+[
+    {
+        "scene_number": 1,
+        "start_frame": 0,
+        "end_frame": 279,
+        "start_time": 0.0,
+        "end_time": 9.333333333333334,
+        "duration": 9.333333333333334,
+        "scene_path": "videos/xuP4g7IDgDM/xuP4g7IDgDM_scenes/scene_001.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A stunning sunset over the sea, with vibrant orange and yellow hues reflecting on the water. The sun is partially obscured by scattered clouds, creating a dramatic sky."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "The sun gradually sets, moving closer to the horizon. The colors in the sky deepen, with more reds and purples appearing."
+            },
+            {
+                "start_time": 6.0,
+                "type": "Visual",
+                "text": "The sun dips below the horizon, leaving a warm glow. The sky transitions to darker shades, and the water reflects the fading light."
+            }
+        ]
+    }
+]

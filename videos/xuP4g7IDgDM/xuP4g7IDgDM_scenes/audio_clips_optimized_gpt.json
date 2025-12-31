@@ -1,0 +1,16 @@
+[
+  {
+    "scene_number": 1,
+    "text": "\"Orange sunset over the sea with scattered clouds, reds and purples appear as the sun sets, leaving a warm glow.\"",
+    "type": "Visual",
+    "duration": 8.496,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A stunning sunset over the sea, with vibrant orange and yellow hues reflecting on the water. The sun is partially obscured by scattered clouds, creating a dramatic sky.",
+      "The sun gradually sets, moving closer to the horizon. The colors in the sky deepen, with more reds and purples appearing.",
+      "The sun dips below the horizon, leaving a warm glow. The sky transitions to darker shades, and the water reflects the fading light."
+    ],
+    "start_time": 0.0,
+    "end_time": 8.496
+  }
+]
