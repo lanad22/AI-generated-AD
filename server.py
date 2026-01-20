@@ -1,7 +1,7 @@
 # info_bot_api.py
 from typing import Optional
 from enum import Enum
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, BackgroundTasks
 from pydantic import BaseModel
 import subprocess
 import json
@@ -11,6 +11,7 @@ import logging
 import uvicorn
 import sys
 import requests
+import glob
 
 # Set up logging
 logging.basicConfig(
@@ -160,57 +161,55 @@ async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_use
             logger.info(f"Successfully forwarded {video_id} to production")
         except Exception as e:
             logger.error(f"Failed to forward {video_id}: {str(e)}")
-            
+                        
     except Exception as e:
         logger.error(f"Error in background pipeline processing for {video_id}: {str(e)}")
 
+@app.get("/health")
+async def health_check():
+    """
+    Health check endpoint to verify the API is running.
+    """
+    return {
+        "status": "healthy",
+        "service": "Lana GenAD API",
+        "message": "Service is running"
+    }
+    
 @app.post("/api/generate-ai-description")
-async def narration_bot(data: UnifiedVideoRequest):
+async def narration_bot(data: UnifiedVideoRequest, background_tasks: BackgroundTasks):
     logger.info(f"Received narration bot request: {data}")
-    try:
-        video_id = data.youtube_id
-        final_data_path = os.path.join("videos", video_id, "final_data.json")
+    
+    video_id = data.youtube_id
+    pattern = os.path.join("videos", video_id, "final_data*.json")
+    
+    # glob.glob returns a list of matching files
+    if glob.glob(pattern):
+        logger.info(f"File {pattern} exists. Skipping pipeline and JUMPING to forwarding.")
         
-        # Check if already processed
-        if os.path.exists(final_data_path):
-            logger.info(f"final_data.json already exists for {video_id}")
-            
-            with open(final_data_path, "r") as f:
-                final_data = json.load(f)
-            
-            # Update aiUserId if provided
-            if data.ai_user_id:
-                final_data["aiUserId"] = data.ai_user_id
-                with open(final_data_path, "w") as f:
-                    json.dump(final_data, f, indent=2, ensure_ascii=False)
-            
-            return {
-                "status": "success",
-                "message": f"Video {video_id} already processed",
-                "processing": False,
-                "final_data": final_data
-            }
-        
-        # Start background processing
-        logger.info(f"Starting background pipeline for {video_id}")
-        asyncio.create_task(
-            run_pipeline_and_forward(video_id, data.user_id, data.ai_user_id, data.data_type)
-        )
+        # skip run pipeline but still sends the data to the backend
+        background_tasks.add_task(forward_final_data, data)
         
         return {
-            "status": "processing",
-            "message": f"Pipeline started for YouTube ID: {video_id}. Processing in background.",
-            "video_id": video_id,
-            "processing": True
+            "status": "already_exists",
+            "message": "Video found. Forwarding existing data now."
         }
-        
-    except Exception as e:
-        logger.error(f"Error in narration bot endpoint: {str(e)}")
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error starting pipeline: {str(e)}"
-        )
 
+    # Start the heavy lifting in the background
+    background_tasks.add_task(
+        run_pipeline_and_forward, 
+        video_id, 
+        data.user_id, 
+        data.ai_user_id, 
+        data.data_type
+    )
+    
+    # Return immediately so Node.js doesn't time out
+    return {
+        "status": "processing",
+        "message": f"Pipeline started in background for {video_id}"
+    }
+        
 @app.post("/api/newaidescription")
 async def forward_final_data(data: UnifiedVideoRequest):
     """

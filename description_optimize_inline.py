@@ -7,9 +7,9 @@ import time
 from gtts import gTTS
 from typing import List, Dict
 import torch
-import google.generativeai as genai
+import google as genai
 import openai
-from google.generativeai.types import HarmCategory, HarmBlockThreshold
+from google.genai.types import HarmCategory, HarmBlockThreshold
 from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor, BitsAndBytesConfig
 
 from dotenv import load_dotenv

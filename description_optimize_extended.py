@@ -9,7 +9,7 @@ from typing import Dict
 from dotenv import load_dotenv
 import torch
 from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor, BitsAndBytesConfig
-import google.generativeai as genai
+import google as genai
 import openai # Added import
 
 load_dotenv()

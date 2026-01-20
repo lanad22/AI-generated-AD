@@ -33,3 +33,6 @@ dependencies:
     - librosa
     - pydub
     - accelerate
+    - jiwer
+    - google-genai
+    - qwen-vl-utils[decord]
