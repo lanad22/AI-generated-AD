@@ -1,0 +1,472 @@
+[
+    {
+        "scene_number": 1,
+        "start_frame": 0,
+        "end_frame": 143,
+        "start_time": 0.0,
+        "end_time": 5.964291666666666,
+        "duration": 5.964291666666666,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_001.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 1.5,
+                "type": "Text on Screen",
+                "text": "LUCASFILM Ltd"
+            }
+        ]
+    },
+    {
+        "scene_number": 2,
+        "start_frame": 144,
+        "end_frame": 239,
+        "start_time": 6.005999999999999,
+        "end_time": 9.968291666666666,
+        "duration": 3.9622916666666663,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_002.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.5,
+                "type": "Visual",
+                "text": "Dark screen with faint, barely discernible text 'LUCASFILM' at the center."
+            }
+        ]
+    },
+    {
+        "scene_number": 3,
+        "start_frame": 240,
+        "end_frame": 595,
+        "start_time": 10.01,
+        "end_time": 24.816458333333333,
+        "duration": 14.806458333333333,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_003.mp4",
+        "transcript": [
+            {
+                "text": "We've passed on all we know.",
+                "start": 9.29,
+                "end": 10.95
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Rey stands in a vast desert landscape, dressed in her signature beige outfit with a lightsaber at her side. The terrain is barren with distant rock formations under a cloudy sky."
+            },
+            {
+                "start_time": 10.5,
+                "type": "Visual",
+                "text": "The camera slowly zooms in on Rey's face, emphasizing her determined expression."
+            },
+            {
+                "start_time": 13.0,
+                "type": "Visual",
+                "text": "Rey reaches down to adjust her belt."
+            }
+        ]
+    },
+    {
+        "scene_number": 4,
+        "start_frame": 596,
+        "end_frame": 677,
+        "start_time": 24.858166666666666,
+        "end_time": 28.236541666666664,
+        "duration": 3.3783749999999984,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_004.mp4",
+        "transcript": [
+            {
+                "text": "A thousand generations live in you now.",
+                "start": 0.3,
+                "end": 2.84
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Rey stands in the middle of an expansive desert landscape, facing away from the camera towards the horizon. The terrain is vast and sandy, dotted with distant rock formations. The sky above is partly cloudy, casting soft light over the scene."
+            }
+        ]
+    },
+    {
+        "scene_number": 5,
+        "start_frame": 678,
+        "end_frame": 785,
+        "start_time": 28.278249999999996,
+        "end_time": 32.74104166666667,
+        "duration": 4.462791666666671,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_005.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Rey's arm is shown holding a blaster pistol, her hand gripping it firmly. Her white outfit flows slightly in the wind, and the sandy desert landscape stretches out in front of her with scattered rocks and distant mountains."
+            }
+        ]
+    },
+    {
+        "scene_number": 6,
+        "start_frame": 786,
+        "end_frame": 865,
+        "start_time": 32.78275,
+        "end_time": 36.077708333333334,
+        "duration": 3.2949583333333337,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_006.mp4",
+        "transcript": [
+            {
+                "text": "But this is your fight",
+                "start": 0.33,
+                "end": 1.69
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Rey stands in a vast desert landscape, looking off into the distance with a serious expression. The sandy terrain stretches behind her, dotted with small shrubs and large rock formations in the background."
+            }
+        ]
+    },
+    {
+        "scene_number": 7,
+        "start_frame": 866,
+        "end_frame": 1471,
+        "start_time": 36.119416666666666,
+        "end_time": 61.352958333333326,
+        "duration": 25.23354166666666,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_007.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "EVERY GENERATION HAS A LEGEND"
+            },
+            {
+                "start_time": 4.7,
+                "type": "Visual",
+                "text": "A sandy desert landscape is shown, with fine sand particles blowing across the screen."
+            },
+            {
+                "start_time": 14.0,
+                "type": "Visual",
+                "text": "The camera pans over the desert, showing rocky outcroppings in the distance."
+            },
+            {
+                "start_time": 23.0,
+                "type": "Visual",
+                "text": "Rey is seen running across the desert, holding a weapon in one hand."
+            }
+        ]
+    },
+    {
+        "scene_number": 8,
+        "start_frame": 1472,
+        "end_frame": 1579,
+        "start_time": 61.394666666666666,
+        "end_time": 65.85745833333333,
+        "duration": 4.462791666666661,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_008.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Rey, holding a blue lightsaber, sprints across a vast desert landscape under a partly cloudy sky."
+            },
+            {
+                "start_time": 1.5,
+                "type": "Visual",
+                "text": "In the distance, a speeder bike runs across the sand, kicking up dust behind it."
+            }
+        ]
+    },
+    {
+        "scene_number": 9,
+        "start_frame": 1580,
+        "end_frame": 1654,
+        "start_time": 65.89916666666666,
+        "end_time": 68.98558333333332,
+        "duration": 3.086416666666665,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_009.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Rey leaps into the air with her blue lightsaber ignited, performing an acrobatic flip over a speeder bike racing through a desert landscape."
+            }
+        ]
+    },
+    {
+        "scene_number": 10,
+        "start_frame": 1655,
+        "end_frame": 1704,
+        "start_time": 69.02729166666666,
+        "end_time": 71.071,
+        "duration": 2.043708333333342,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_010.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "THIS CHRISTMAS"
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "Starry space background."
+            }
+        ]
+    },
+    {
+        "scene_number": 11,
+        "start_frame": 1705,
+        "end_frame": 1799,
+        "start_time": 71.11270833333333,
+        "end_time": 75.03329166666666,
+        "duration": 3.920583333333326,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_011.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Bright blue lights emerge from the shadows of the rocks, casting an eerie glow across the scene. These lights flicker intermittently, adding a sense of mystery and foreboding."
+            }
+        ]
+    },
+    {
+        "scene_number": 12,
+        "start_frame": 1800,
+        "end_frame": 1856,
+        "start_time": 75.07499999999999,
+        "end_time": 77.41066666666666,
+        "duration": 2.3356666666666683,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_012.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Kylo Ren charges forward aggressively with red lightsaber ignited, as he lunges toward opponents amidst burning trees and smoke-filled air."
+            }
+        ]
+    },
+    {
+        "scene_number": 13,
+        "start_frame": 1857,
+        "end_frame": 2057,
+        "start_time": 77.45237499999999,
+        "end_time": 85.79404166666666,
+        "duration": 8.341666666666669,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_013.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A droid with a red glowing light on its head is seen in a dimly lit environment."
+            },
+            {
+                "start_time": 1.5,
+                "type": "Visual",
+                "text": "The camera shifts to show Finn standing outdoors near rocky terrain with others in the background."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "BB-8 and another spherical droid are inside a dark, cluttered room with various equipment around them."
+            },
+            {
+                "start_time": 4.5,
+                "type": "Visual",
+                "text": "The cockpit of a spacecraft is shown with characters seated inside, looking out at space."
+            },
+            {
+                "start_time": 6.0,
+                "type": "Visual",
+                "text": "A close-up of Lando Calrissian wearing a headset, appearing focused and intense."
+            },
+            {
+                "start_time": 7.5,
+                "type": "Visual",
+                "text": "The view transitions to a spaceship traveling through hyperspace."
+            }
+        ]
+    },
+    {
+        "scene_number": 14,
+        "start_frame": 2058,
+        "end_frame": 2105,
+        "start_time": 85.83574999999999,
+        "end_time": 87.79604166666667,
+        "duration": 1.9602916666666772,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_014.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "THE SAGA COMES TO AN END"
+            }
+        ]
+    },
+    {
+        "scene_number": 15,
+        "start_frame": 2106,
+        "end_frame": 2213,
+        "start_time": 87.83775,
+        "end_time": 92.30054166666666,
+        "duration": 4.462791666666661,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_015.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "An explosion erupts in a desert landscape with rocky formations and ancient pillars."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "C-3PO, a golden droid, appears to be leaning against a vehicle, holding a weapon, while sparks fly around him."
+            }
+        ]
+    },
+    {
+        "scene_number": 16,
+        "start_frame": 2214,
+        "end_frame": 2361,
+        "start_time": 92.34224999999999,
+        "end_time": 98.47337499999999,
+        "duration": 6.131124999999997,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_016.mp4",
+        "transcript": [
+            {
+                "text": "We'll always be with you.",
+                "start": 0.0,
+                "end": 4.6
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A golden medallion with intricate designs."
+            },
+            {
+                "start_time": 1.5,
+                "type": "Visual",
+                "text": "Rey embraces another warmly."
+            },
+            {
+                "start_time": 4.0,
+                "type": "Visual",
+                "text": "Rey, Finn, and Poe stand in a field, looking ahead."
+            }
+        ]
+    },
+    {
+        "scene_number": 17,
+        "start_frame": 2362,
+        "end_frame": 2513,
+        "start_time": 98.51508333333332,
+        "end_time": 104.81304166666666,
+        "duration": 6.297958333333341,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_017.mp4",
+        "transcript": [
+            {
+                "text": "No one's ever really gone.",
+                "start": 0.0,
+                "end": 4.28
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 4.28,
+                "type": "Visual",
+                "text": "Rey as she walks towards the edge of a cliff, facing a stormy sea."
+            }
+        ]
+    },
+    {
+        "scene_number": 18,
+        "start_frame": 2514,
+        "end_frame": 2666,
+        "start_time": 104.85475,
+        "end_time": 111.19441666666665,
+        "duration": 6.339666666666659,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_018.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The screen remains completely black throughout the scene."
+            }
+        ]
+    },
+    {
+        "scene_number": 19,
+        "start_frame": 2667,
+        "end_frame": 2880,
+        "start_time": 111.23612499999999,
+        "end_time": 120.11999999999999,
+        "duration": 8.883875000000003,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_019.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "STAR WARS"
+            },
+            {
+                "start_time": 3.0,
+                "type": "Text on Screen",
+                "text": "THE RISE OF SKYWALKER"
+            }
+        ]
+    },
+    {
+        "scene_number": 20,
+        "start_frame": 2881,
+        "end_frame": 2968,
+        "start_time": 120.16170833333332,
+        "end_time": 123.83204166666665,
+        "duration": 3.670333333333332,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_020.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "DECEMBER"
+            }
+        ]
+    }
+]

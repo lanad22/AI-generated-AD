@@ -6,5 +6,5 @@ __pycache__/
 *.txt
 !requirements.txt
 google_credentials.json
-videos/
-videos/*/*[A-Za-z0-9_-]*.mp4
+videos/*/*.mp4
+!videos/*/scene*.mp4

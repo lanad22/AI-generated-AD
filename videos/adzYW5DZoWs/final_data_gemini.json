@@ -1,0 +1,245 @@
+{
+  "dialogue_timestamps": [
+    {
+      "start_time": 19.299999999999997,
+      "end_time": 20.86,
+      "duration": 1.66,
+      "audio_text": "We've passed on all we know.",
+      "sequence_num": 1
+    },
+    {
+      "start_time": 25.158166666666666,
+      "end_time": 27.598166666666664,
+      "duration": 2.54,
+      "audio_text": "A thousand generations live in you now.",
+      "sequence_num": 2
+    },
+    {
+      "start_time": 33.11275,
+      "end_time": 34.372749999999996,
+      "duration": 1.36,
+      "audio_text": "But this is your fight",
+      "sequence_num": 3
+    },
+    {
+      "start_time": 96.74224999999999,
+      "end_time": 97.94224999999999,
+      "duration": 1.2,
+      "audio_text": "We'll always be with you.",
+      "sequence_num": 4
+    },
+    {
+      "start_time": 101.51508333333332,
+      "end_time": 102.69508333333333,
+      "duration": 1.18,
+      "audio_text": "No one's ever really gone.",
+      "sequence_num": 5
+    }
+  ],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "LUCASFILM Ltd",
+      "type": "Text on Screen",
+      "start_time": 1.5,
+      "end_time": 3.1799999999999997,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 3,
+      "text": "Rey stands in the desert.",
+      "type": "Visual",
+      "start_time": 10.01,
+      "end_time": 12.122,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 4,
+      "text": "Rey is looking towards the horizon.",
+      "type": "Visual",
+      "start_time": 24.858166666666666,
+      "end_time": 24.858166666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "Rey's hand grips her lightsaber. Distant ship.",
+      "type": "Visual",
+      "start_time": 28.278249999999996,
+      "end_time": 32.04624999999999,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 6,
+      "text": "Rey ignites her lightsaber and assumes a fighting stance.",
+      "type": "Visual",
+      "start_time": 34.03275,
+      "end_time": 34.03275,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 7,
+      "text": "EVERY GENERATION HAS A LEGEND",
+      "type": "Text on Screen",
+      "start_time": 36.119416666666666,
+      "end_time": 38.543416666666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "Rey sprints through the desert, lightsaber flashing, then gloved hands take the controls of a cockpit.",
+      "type": "Visual",
+      "start_time": 38.543416666666666,
+      "end_time": 45.88741666666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "TIE fighter chases Rey, sand spraying everywhere.",
+      "type": "Visual",
+      "start_time": 61.394666666666666,
+      "end_time": 65.33066666666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 9,
+      "text": "Rey flips over the TIE fighter.",
+      "type": "Visual",
+      "start_time": 65.89916666666666,
+      "end_time": 68.41916666666665,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 10,
+      "text": "THIS CHRISTMAS",
+      "type": "Text on Screen",
+      "start_time": 69.02729166666666,
+      "end_time": 69.02729166666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 10,
+      "text": "A TIE fighter approaches Rey from behind.",
+      "type": "Visual",
+      "start_time": 70.02729166666666,
+      "end_time": 70.02729166666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 11,
+      "text": "Glowing craft nears hidden mountain city.",
+      "type": "Visual",
+      "start_time": 71.11270833333333,
+      "end_time": 74.11270833333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 12,
+      "text": "Kylo Ren ignites his red lightsaber in a smoky, red-tinged forest. He attacks and kills an unseen enemy",
+      "type": "Visual",
+      "start_time": 75.07499999999999,
+      "end_time": 77.33099999999999,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 13,
+      "text": "Welding sparks on Kylo Ren's damaged helmet. Finn stands on a rocky desert. Close-up of BB-8 with D-O. Poe Dameron and Chewbacca pilot the Millennium Falcon. Lando Calrissian smiles at the controls of the Millennium Falcon. Hyperspace!",
+      "type": "Visual",
+      "start_time": 77.45237499999999,
+      "end_time": 83.644375,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 14,
+      "text": "THE SAGA COMES TO AN END",
+      "type": "Text on Screen",
+      "start_time": 85.83574999999999,
+      "end_time": 87.94774999999998,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 15,
+      "text": "Speeder escapes desert blast! Threepio!",
+      "type": "Visual",
+      "start_time": 87.83775,
+      "end_time": 91.46175,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 16,
+      "text": "A ship flies through the air, trailing flames.",
+      "type": "Visual",
+      "start_time": 92.34224999999999,
+      "end_time": 92.34224999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "A pair of hands holds a golden, circular object.",
+      "type": "Visual",
+      "start_time": 93.46225,
+      "end_time": 93.46225,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "Rey embraces Leia.",
+      "type": "Visual",
+      "start_time": 94.42224999999999,
+      "end_time": 94.42224999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "Rey stands in a grassy field. C-3PO and Poe Dameron stand behind her.",
+      "type": "Visual",
+      "start_time": 96.52224999999999,
+      "end_time": 96.52224999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "Rey stands on a grassy shore, facing a rough sea.  A large, partially submerged wreckage resembling a spacecraft is visible in the water.",
+      "type": "Visual",
+      "start_time": 102.79508333333332,
+      "end_time": 104.59508333333332,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 18,
+      "text": "Rey ignites her lightsaber, deflecting shots from a training remote.",
+      "type": "Visual",
+      "start_time": 104.85475,
+      "end_time": 109.55874999999999,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 19,
+      "text": "STAR WARS",
+      "type": "Text on Screen",
+      "start_time": 111.23612499999999,
+      "end_time": 112.65212499999998,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 19,
+      "text": "THE RISE OF SKYWALKER",
+      "type": "Text on Screen",
+      "start_time": 115.11612499999998,
+      "end_time": 117.06012499999999,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 20,
+      "text": "DECEMBER",
+      "type": "Text on Screen",
+      "start_time": 120.16170833333332,
+      "end_time": 121.28970833333332,
+      "track_type": "inline"
+    }
+  ],
+  "youtube_id": "adzYW5DZoWs",
+  "video_name": "Star Wars: The Rise of Skywalker – Teaser",
+  "video_length": 124,
+  "aiUserId": "6845e4375506faa0752b8d62"
+}

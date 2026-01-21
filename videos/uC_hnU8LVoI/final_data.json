@@ -1,0 +1,310 @@
+{
+  "dialogue_timestamps": [
+    {
+      "start_time": 8.608375,
+      "end_time": 9.368375,
+      "duration": 0.86,
+      "sequence_num": 1
+    },
+    {
+      "start_time": 9.634625,
+      "end_time": 12.114625,
+      "duration": 2.58,
+      "sequence_num": 2
+    },
+    {
+      "start_time": 12.214625,
+      "end_time": 14.734625,
+      "duration": 2.62,
+      "sequence_num": 3
+    },
+    {
+      "start_time": 14.834624999999999,
+      "end_time": 15.854625,
+      "duration": 1.12,
+      "sequence_num": 4
+    },
+    {
+      "start_time": 16.26625,
+      "end_time": 16.866249999999997,
+      "duration": 0.7,
+      "sequence_num": 5
+    },
+    {
+      "start_time": 19.40533333333333,
+      "end_time": 24.12533333333333,
+      "duration": 4.82,
+      "sequence_num": 6
+    },
+    {
+      "start_time": 24.285333333333334,
+      "end_time": 31.59533333333333,
+      "duration": 7.41,
+      "sequence_num": 7
+    },
+    {
+      "start_time": 31.906875,
+      "end_time": 33.466874999999995,
+      "duration": 1.66,
+      "sequence_num": 8
+    },
+    {
+      "start_time": 33.908874999999995,
+      "end_time": 35.688874999999996,
+      "duration": 1.88,
+      "sequence_num": 9
+    },
+    {
+      "start_time": 36.217708333333334,
+      "end_time": 38.51770833333333,
+      "duration": 2.4,
+      "sequence_num": 10
+    },
+    {
+      "start_time": 38.78875,
+      "end_time": 39.02875,
+      "duration": 0.34,
+      "sequence_num": 11
+    },
+    {
+      "start_time": 42.292249999999996,
+      "end_time": 46.612249999999996,
+      "duration": 4.42,
+      "sequence_num": 12
+    },
+    {
+      "start_time": 48.79875,
+      "end_time": 51.318749999999994,
+      "duration": 2.62,
+      "sequence_num": 13
+    },
+    {
+      "start_time": 54.80475,
+      "end_time": 58.16475,
+      "duration": 3.46,
+      "sequence_num": 14
+    },
+    {
+      "start_time": 58.767041666666664,
+      "end_time": 61.38704166666666,
+      "duration": 2.72,
+      "sequence_num": 15
+    },
+    {
+      "start_time": 61.84320833333333,
+      "end_time": 64.72320833333333,
+      "duration": 2.98,
+      "sequence_num": 16
+    },
+    {
+      "start_time": 68.62329166666666,
+      "end_time": 70.68329166666668,
+      "duration": 2.16,
+      "sequence_num": 17
+    },
+    {
+      "start_time": 71.82175,
+      "end_time": 73.50175,
+      "duration": 1.78,
+      "sequence_num": 18
+    },
+    {
+      "start_time": 76.15941666666666,
+      "end_time": 79.55941666666666,
+      "duration": 3.5,
+      "sequence_num": 19
+    },
+    {
+      "start_time": 79.78804166666666,
+      "end_time": 82.82804166666666,
+      "duration": 3.14,
+      "sequence_num": 20
+    },
+    {
+      "start_time": 84.73983333333332,
+      "end_time": 87.89983333333333,
+      "duration": 3.26,
+      "sequence_num": 21
+    },
+    {
+      "start_time": 88.23983333333332,
+      "end_time": 91.86983333333333,
+      "duration": 3.73,
+      "sequence_num": 22
+    },
+    {
+      "start_time": 92.38395833333333,
+      "end_time": 96.00395833333333,
+      "duration": 3.72,
+      "sequence_num": 23
+    },
+    {
+      "start_time": 97.29991666666666,
+      "end_time": 98.59991666666666,
+      "duration": 1.4,
+      "sequence_num": 24
+    },
+    {
+      "start_time": 99.53095833333333,
+      "end_time": 101.35095833333334,
+      "duration": 1.92,
+      "sequence_num": 25
+    },
+    {
+      "start_time": 103.84491666666666,
+      "end_time": 107.72491666666667,
+      "duration": 3.98,
+      "sequence_num": 26
+    },
+    {
+      "start_time": 107.82491666666667,
+      "end_time": 110.74491666666667,
+      "duration": 3.02,
+      "sequence_num": 27
+    }
+  ],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "viator. Travel with an insider",
+      "type": "Text on Screen",
+      "start_time": 0.0
+    },
+    {
+      "scene_number": 2,
+      "text": "Rushing water flows over rocks.",
+      "type": "Visual",
+      "start_time": 3.3783749999999997
+    },
+    {
+      "scene_number": 2,
+      "text": "viator. Juneau. Alaskan Gold Panning at Gold Creek",
+      "type": "Text on Screen",
+      "start_time": 4.878375
+    },
+    {
+      "scene_number": 2,
+      "text": "A person grins, swirling water and sediment in a gold pan. As it settles, hidden gold glints beneath.",
+      "type": "Visual",
+      "start_time": 7.378375
+    },
+    {
+      "scene_number": 4,
+      "text": "A gentle river winds through a lush forest, misty mountains behind. Clear water reveals rocks below. People in bright gear prepare by the riverbank.",
+      "type": "Visual",
+      "start_time": 16.26625
+    },
+    {
+      "scene_number": 5,
+      "text": "A man in plaid bends by a stream, scooping water into a gold pan. Onlookers in rain gear, some with umbrellas, watch with excitement.",
+      "type": "Visual",
+      "start_time": 23.985333333333333
+    },
+    {
+      "scene_number": 5,
+      "text": "Gold specks shimmer in the settling water.",
+      "type": "Visual",
+      "start_time": 25.985333333333333
+    },
+    {
+      "scene_number": 5,
+      "text": "Group's face light up with amazement and joy at the discovery.",
+      "type": "Visual",
+      "start_time": 30.08533333333333
+    },
+    {
+      "scene_number": 9,
+      "text": "A man in a plaid shirt pours water from a bucket into a pan held by someone in a black hooded jacket, both standing at a wooden table outdoors, surrounded by lush greenery.",
+      "type": "Visual",
+      "start_time": 38.78875
+    },
+    {
+      "scene_number": 10,
+      "text": "A woman crouch and kneel by a rocky stream. A hand swirls a gold pan in a stream, removing silt.",
+      "type": "Visual",
+      "start_time": 42.292249999999996
+    },
+    {
+      "scene_number": 10,
+      "text": "She lifts the pan, tilting it to let water and sediment pour out, leaving heavier materials behind.",
+      "type": "Visual",
+      "start_time": 47.09224999999999
+    },
+    {
+      "scene_number": 12,
+      "text": "The person swirls the pan excitedly with one hand, searching for gold, amidst rocky surroundings.",
+      "type": "Visual",
+      "start_time": 53.13491666666666
+    },
+    {
+      "scene_number": 14,
+      "text": "She continues to shake the pan over a clear, flowing stream, with small stones and sediment in the pan.",
+      "type": "Visual",
+      "start_time": 58.767041666666664
+    },
+    {
+      "scene_number": 16,
+      "text": "A hand points to shiny objects in a pan of water and gravel, gesturing towards potential gold pieces.",
+      "type": "Visual",
+      "start_time": 66.02329166666667
+    },
+    {
+      "scene_number": 18,
+      "text": "Other people pan for gold in a shallow, rocky stream, wearing jackets and boots. They sift through water and gravel, surrounded by greenery and rocks.",
+      "type": "Visual",
+      "start_time": 73.90716666666665
+    },
+    {
+      "scene_number": 19,
+      "text": "A serene mountain landscape with lush green trees and a misty river cascading over rocks.",
+      "type": "Visual",
+      "start_time": 76.15941666666666
+    },
+    {
+      "scene_number": 21,
+      "text": "A misty forest and flowing stream. People along the riverbank pan for gold—some stand, others sit on benches.",
+      "type": "Visual",
+      "start_time": 83.24983333333333
+    },
+    {
+      "scene_number": 21,
+      "text": "Zooms in on a pan filled with water and sediment. A woman beams as she shows it to the camera, excited by her find.",
+      "type": "Visual",
+      "start_time": 89.24983333333333
+    },
+    {
+      "scene_number": 24,
+      "text": "A hand holds a clear vial with golden flakes.",
+      "type": "Visual",
+      "start_time": 99.39095833333333
+    },
+    {
+      "scene_number": 25,
+      "text": "The woman crouches by a rocky stream, dips her pan into the water, and continues gold panning.",
+      "type": "Visual",
+      "start_time": 111.68491666666667
+    },
+    {
+      "scene_number": 26,
+      "text": "< Subscribe here",
+      "type": "Text on Screen",
+      "start_time": 113.48837499999999
+    },
+    {
+      "scene_number": 26,
+      "text": "Book today",
+      "type": "Text on Screen",
+      "start_time": 113.48837499999999
+    },
+    {
+      "scene_number": 26,
+      "text": "Watch more videos",
+      "type": "Text on Screen",
+      "start_time": 113.48837499999999
+    }
+  ],
+  "youtube_id": "uC_hnU8LVoI",
+  "video_name": "Gold Panning at Gold Creek from Juneau, Alaska",
+  "video_length": 119,
+  "aiUserId": "650506db3ff1c2140ea10ece"
+}

@@ -1,0 +1,309 @@
+{
+  "dialogue_timestamps": [
+    {
+      "start_time": 28.29,
+      "end_time": 34.44,
+      "duration": 6.15,
+      "audio_text": "I remember I was struck by the harmony of color in the...",
+      "sequence_num": 1
+    },
+    {
+      "start_time": 34.8,
+      "end_time": 36.919999999999995,
+      "duration": 2.22,
+      "audio_text": "Deepening to the browns and purples",
+      "sequence_num": 2
+    },
+    {
+      "start_time": 38.089999999999996,
+      "end_time": 39.38999999999999,
+      "duration": 1.4,
+      "audio_text": "The way the vines go",
+      "sequence_num": 3
+    },
+    {
+      "start_time": 39.6,
+      "end_time": 49.44,
+      "duration": 9.84,
+      "audio_text": "curled up through the trees, clinging to twigs and branches. The gentle breeze rushed through",
+      "sequence_num": 4
+    },
+    {
+      "start_time": 55.04,
+      "end_time": 58.18,
+      "duration": 3.14,
+      "audio_text": "I was keenly aware of secret movements in the...",
+      "sequence_num": 5
+    },
+    {
+      "start_time": 71.92,
+      "end_time": 74.56,
+      "duration": 2.74,
+      "audio_text": "I looked into his large and lustrous eyes.",
+      "sequence_num": 6
+    },
+    {
+      "start_time": 75.10000000000001,
+      "end_time": 78.46000000000001,
+      "duration": 3.46,
+      "audio_text": "They seemed somehow to express his entire personality,",
+      "sequence_num": 7
+    },
+    {
+      "start_time": 79.04,
+      "end_time": 80.92,
+      "duration": 1.98,
+      "audio_text": "his serene self-assurance.",
+      "sequence_num": 8
+    },
+    {
+      "start_time": 81.52,
+      "end_time": 84.34,
+      "duration": 2.92,
+      "audio_text": "What an amazing privilege it was.",
+      "sequence_num": 9
+    },
+    {
+      "start_time": 84.88,
+      "end_time": 88.78,
+      "duration": 4.0,
+      "audio_text": "to be utterly accepted thus by a wild, free animal.",
+      "sequence_num": 10
+    },
+    {
+      "start_time": 95.88,
+      "end_time": 97.74,
+      "duration": 1.96,
+      "audio_text": "I lay there, part of the forest,",
+      "sequence_num": 11
+    },
+    {
+      "start_time": 98.8,
+      "end_time": 101.64,
+      "duration": 2.94,
+      "audio_text": "experienced again that magical enhancement of sound",
+      "sequence_num": 12
+    },
+    {
+      "start_time": 102.13,
+      "end_time": 104.05,
+      "duration": 2.02,
+      "audio_text": "that added richness of perception.",
+      "sequence_num": 13
+    },
+    {
+      "start_time": 109.41000000000001,
+      "end_time": 110.97000000000001,
+      "duration": 1.66,
+      "audio_text": "I was awed by the beauty.",
+      "sequence_num": 14
+    },
+    {
+      "start_time": 112.55,
+      "end_time": 115.9,
+      "duration": 3.35,
+      "audio_text": "And I found my",
+      "sequence_num": 15
+    },
+    {
+      "start_time": 121.66,
+      "end_time": 123.44,
+      "duration": 1.88,
+      "audio_text": "Together, the chimpanzees.",
+      "sequence_num": 16
+    },
+    {
+      "start_time": 123.64,
+      "end_time": 125.04,
+      "duration": 1.5,
+      "audio_text": "and the baboons and the monkeys.",
+      "sequence_num": 17
+    },
+    {
+      "start_time": 126.16,
+      "end_time": 129.78,
+      "duration": 3.72,
+      "audio_text": "Birds and insects, the teeming life of the vibrant forest,",
+      "sequence_num": 18
+    },
+    {
+      "start_time": 131.68,
+      "end_time": 133.72,
+      "duration": 2.14,
+      "audio_text": "of the never-still waters of the Great Lake.",
+      "sequence_num": 19
+    },
+    {
+      "start_time": 135.2,
+      "end_time": 136.2,
+      "duration": 1.1,
+      "audio_text": "formed one whole.",
+      "sequence_num": 20
+    },
+    {
+      "start_time": 138.4,
+      "end_time": 140.60000000000002,
+      "duration": 2.3,
+      "audio_text": "All 1.",
+      "sequence_num": 21
+    }
+  ],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "Earth rotates in space; zoom into northern Africa, focusing on lush landscapes with mountains and a coastline.",
+      "type": "Visual",
+      "start_time": 0.0,
+      "end_time": 8.328,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 2,
+      "text": "\"sunlight filtering through dense green foliage\"",
+      "type": "Visual",
+      "start_time": 11.96,
+      "end_time": 14.004,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 2,
+      "text": "Gombe National Park\nTanzania",
+      "type": "Text on Screen",
+      "start_time": 14.96,
+      "end_time": 17.864,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 3,
+      "text": "With words and narration by Jane Goodall",
+      "type": "Text on Screen",
+      "start_time": 21.76,
+      "end_time": 24.712000000000003,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 10,
+      "text": "\"A vast green forest stretches across rolling hills under a bright blue sky with scattered fluffy clouds.\"",
+      "type": "Visual",
+      "start_time": 50.04,
+      "end_time": 54.168,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 13,
+      "text": "\"A chimpanzee sits among lush green leaves, swatting at insects flying around. It continues reaching out, extending its arm.\"",
+      "type": "Visual",
+      "start_time": 64.96,
+      "end_time": 70.43199999999999,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 14,
+      "text": "In a forest, a chimpanzee gently interacts with a smaller one lying on its back.",
+      "type": "Visual",
+      "start_time": 78.26,
+      "end_time": 78.26,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "\"A baboon walks through a leafy forest. The ground is covered with dry leaves\"",
+      "type": "Visual",
+      "start_time": 91.36,
+      "end_time": 94.408,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 19,
+      "text": "A green snake slithers slowly over a mossy branch.",
+      "type": "Visual",
+      "start_time": 101.8,
+      "end_time": 101.8,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 20,
+      "text": "\"A waterfall cascades down a rocky cliff.\"",
+      "type": "Visual",
+      "start_time": 105.16,
+      "end_time": 108.136,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 21,
+      "text": "A bright green caterpillar climbs a thin vertical branch.",
+      "type": "Visual",
+      "start_time": 108.4,
+      "end_time": 108.4,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 25,
+      "text": "Chimpanzee peeks around a branch",
+      "type": "Visual",
+      "start_time": 119.78,
+      "end_time": 121.46,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 26,
+      "text": "Baboons groom each other in a forest, one picking through the other's fur.",
+      "type": "Visual",
+      "start_time": 123.64,
+      "end_time": 123.64,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 30,
+      "text": "\"Camera tilts to leafy canopy, sunlight streaming through.\"",
+      "type": "Visual",
+      "start_time": 140.70000000000002,
+      "end_time": 145.092,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 31,
+      "text": "Hello Gombe.",
+      "type": "Text on Screen",
+      "start_time": 146.28,
+      "end_time": 147.744,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 31,
+      "text": "Hello world.",
+      "type": "Text on Screen",
+      "start_time": 149.28,
+      "end_time": 150.576,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 32,
+      "text": "Explore Gombe at g.co/treks",
+      "type": "Text on Screen",
+      "start_time": 150.72,
+      "end_time": 150.72,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 32,
+      "text": "Created in partnership with the Jane Goodall Institute\nLearn more at JaneGoodall.org",
+      "type": "Text on Screen",
+      "start_time": 153.72,
+      "end_time": 153.72,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 33,
+      "text": "Audio read by Jane Goodall from Reason for Hope: A Spiritual Journey by Jane Goodall with Phillip Berman",
+      "type": "Text on Screen",
+      "start_time": 157.74,
+      "end_time": 163.72,
+      "track_type": "inline"
+    }
+  ],
+  "youtube_id": "_1DDhUnyvwY",
+  "video_name": "jane goodall",
+  "video_length": 147,
+  "aiUserId": "6881366ec48a17363190231b"
+}

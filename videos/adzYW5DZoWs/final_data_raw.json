@@ -1,0 +1,557 @@
+{
+  "dialogue_timestamps": [
+    {
+      "start_time": 19.299999999999997,
+      "end_time": 20.86,
+      "duration": 1.66,
+      "audio_text": "We've passed on all we know.",
+      "sequence_num": 1
+    },
+    {
+      "start_time": 25.158166666666666,
+      "end_time": 27.598166666666664,
+      "duration": 2.54,
+      "audio_text": "A thousand generations live in you now.",
+      "sequence_num": 2
+    },
+    {
+      "start_time": 33.11275,
+      "end_time": 34.372749999999996,
+      "duration": 1.36,
+      "audio_text": "But this is your fight",
+      "sequence_num": 3
+    },
+    {
+      "start_time": 92.34224999999999,
+      "end_time": 96.84224999999999,
+      "duration": 4.6,
+      "audio_text": "We'll always be with you.",
+      "sequence_num": 4
+    },
+    {
+      "start_time": 98.51508333333332,
+      "end_time": 102.69508333333333,
+      "duration": 4.28,
+      "audio_text": "No one's ever really gone.",
+      "sequence_num": 5
+    }
+  ],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "Lucasfilm Ltd.",
+      "type": "Text on Screen",
+      "start_time": 0.0,
+      "end_time": 0.0,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 1,
+      "text": "The Lucasfilm Ltd. logo appears against a black background, gradually becoming more visible and illuminated.",
+      "type": "Visual",
+      "start_time": 0.0,
+      "end_time": 0.0,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 2,
+      "text": "The Jungle Book",
+      "type": "Text on Screen",
+      "start_time": 6.005999999999999,
+      "end_time": 6.005999999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 2,
+      "text": "A stylized logo of 'The Jungle Book' appears on a black background.",
+      "type": "Visual",
+      "start_time": 6.005999999999999,
+      "end_time": 6.005999999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 3,
+      "text": "A woman stands in a vast desert landscape with mountains in the background. She wears a beige outfit with a cross-body belt and arm wraps. A lightsaber hilt is attached to her belt.",
+      "type": "Visual",
+      "start_time": 10.01,
+      "end_time": 10.01,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 3,
+      "text": "The woman looks intently into the distance, her expression focused and determined. The wind gently blows her hair.",
+      "type": "Visual",
+      "start_time": 15.01,
+      "end_time": 15.01,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 3,
+      "text": "The camera zooms in slightly as she reaches for the lightsaber hilt on her belt.",
+      "type": "Visual",
+      "start_time": 20.009999999999998,
+      "end_time": 20.009999999999998,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "A lone figure stands in a vast desert landscape, with distant mountains under a partly cloudy sky.",
+      "type": "Visual",
+      "start_time": 24.858166666666666,
+      "end_time": 24.858166666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "A figure in a flowing robe stands in a vast desert landscape, holding a metallic object resembling a lightsaber. The background features distant, rugged mountains under a clear blue sky.",
+      "type": "Visual",
+      "start_time": 28.278249999999996,
+      "end_time": 28.278249999999996,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "A woman stands in a vast desert landscape. She has dark hair tied back and wears a light-colored, textured robe. Distant mountains are visible in the background under a cloudy sky.",
+      "type": "Visual",
+      "start_time": 32.78275,
+      "end_time": 32.78275,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 7,
+      "text": "EVERY GENERATION HAS A LEGEND",
+      "type": "Text on Screen",
+      "start_time": 36.119416666666666,
+      "end_time": 38.543416666666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "Text fades to reveal a sandy desert landscape with distant rocky formations.",
+      "type": "Visual",
+      "start_time": 40.119416666666666,
+      "end_time": 40.119416666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 7,
+      "text": "The camera pans over the desert, showcasing expansive dunes and rugged cliffs.",
+      "type": "Visual",
+      "start_time": 44.119416666666666,
+      "end_time": 44.119416666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 7,
+      "text": "A fast-moving vehicle speeds across the desert, kicking up sand.",
+      "type": "Visual",
+      "start_time": 51.119416666666666,
+      "end_time": 51.119416666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 7,
+      "text": "A character in white clothing stands with a lightsaber in hand, poised for action.",
+      "type": "Visual",
+      "start_time": 54.119416666666666,
+      "end_time": 54.119416666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 7,
+      "text": "Close-up of the character's determined face, focusing on their expression.",
+      "type": "Visual",
+      "start_time": 56.119416666666666,
+      "end_time": 56.119416666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 7,
+      "text": "Gloved hands grip the controls of a vehicle, indicating a tense moment.",
+      "type": "Visual",
+      "start_time": 58.119416666666666,
+      "end_time": 58.119416666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 7,
+      "text": "The character runs swiftly across the desert, sand scattering beneath their feet.",
+      "type": "Visual",
+      "start_time": 60.119416666666666,
+      "end_time": 60.119416666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 8,
+      "text": "A vast desert landscape with towering rock formations under a partly cloudy sky. A figure holding a glowing blue lightsaber stands on the sand, facing a rapidly approaching speeder.",
+      "type": "Visual",
+      "start_time": 61.394666666666666,
+      "end_time": 74.73866666666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 9,
+      "text": "A character holding a blue lightsaber runs towards a fast-approaching spacecraft in a desert landscape.",
+      "type": "Visual",
+      "start_time": 65.89916666666666,
+      "end_time": 65.89916666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 9,
+      "text": "The character leaps into the air as the spacecraft speeds underneath.",
+      "type": "Visual",
+      "start_time": 66.89916666666666,
+      "end_time": 66.89916666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 9,
+      "text": "The character flips over the spacecraft, which continues moving through the desert.",
+      "type": "Visual",
+      "start_time": 67.89916666666666,
+      "end_time": 67.89916666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 9,
+      "text": "THIS CHRISTMAS",
+      "type": "Text on Screen",
+      "start_time": 68.39916666666666,
+      "end_time": 68.39916666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 10,
+      "text": "THIS CHRISTMAS",
+      "type": "Text on Screen",
+      "start_time": 69.02729166666666,
+      "end_time": 69.02729166666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 10,
+      "text": "THIS CHRISTMAS",
+      "type": "Text on Screen",
+      "start_time": 69.70729166666666,
+      "end_time": 69.70729166666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 10,
+      "text": "THIS CHRISTMAS",
+      "type": "Text on Screen",
+      "start_time": 70.38729166666666,
+      "end_time": 70.38729166666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 11,
+      "text": "Dark, misty mountains are partially obscured by swirling fog, creating a mysterious atmosphere.",
+      "type": "Visual",
+      "start_time": 71.11270833333333,
+      "end_time": 71.11270833333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 11,
+      "text": "A glowing blue light emerges, moving through the fog around the rocky peaks.",
+      "type": "Visual",
+      "start_time": 72.11270833333333,
+      "end_time": 72.11270833333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 11,
+      "text": "The blue light reveals itself as part of a vehicle navigating through the mountainous terrain.",
+      "type": "Visual",
+      "start_time": 73.61270833333333,
+      "end_time": 73.61270833333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 11,
+      "text": "The vehicle moves towards a distant area illuminated by scattered lights, suggesting a hidden settlement.",
+      "type": "Visual",
+      "start_time": 74.61270833333333,
+      "end_time": 74.61270833333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 12,
+      "text": "A hooded figure wields a glowing red lightsaber in a misty forest with tall trees.",
+      "type": "Visual",
+      "start_time": 75.07499999999999,
+      "end_time": 75.07499999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 12,
+      "text": "The hooded figure engages in combat, swinging the lightsaber at an opponent.",
+      "type": "Visual",
+      "start_time": 76.07499999999999,
+      "end_time": 76.07499999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 12,
+      "text": "The opponent is struck and falls to the ground, illuminated by the red glow.",
+      "type": "Visual",
+      "start_time": 77.07499999999999,
+      "end_time": 77.07499999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "Sparks fly as a helmet is being welded, glowing brightly in the dim environment.",
+      "type": "Visual",
+      "start_time": 77.45237499999999,
+      "end_time": 77.45237499999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "A close-up of a helmet being repaired, with red lines indicating the welding process.",
+      "type": "Visual",
+      "start_time": 78.45237499999999,
+      "end_time": 78.45237499999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "A desert landscape with two characters standing on rocky terrain, looking around.",
+      "type": "Visual",
+      "start_time": 79.45237499999999,
+      "end_time": 79.45237499999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "A close-up of the two characters, focusing on their expressions and surroundings.",
+      "type": "Visual",
+      "start_time": 80.45237499999999,
+      "end_time": 80.45237499999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "Two droids, including BB-8, are seen in a dimly lit room, appearing engaged in conversation.",
+      "type": "Visual",
+      "start_time": 81.45237499999999,
+      "end_time": 81.45237499999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "Inside a spaceship, characters are seated with a view of a swirling space-time tunnel through the cockpit.",
+      "type": "Visual",
+      "start_time": 82.45237499999999,
+      "end_time": 82.45237499999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "A character wearing a headset is shown in a spaceship's control room, looking exhilarated.",
+      "type": "Visual",
+      "start_time": 83.45237499999999,
+      "end_time": 83.45237499999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "The spaceship travels through a vibrant blue tunnel, indicating high-speed movement.",
+      "type": "Visual",
+      "start_time": 84.45237499999999,
+      "end_time": 84.45237499999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "The spaceship enters hyperspace, with streaks of light surrounding it as it accelerates.",
+      "type": "Visual",
+      "start_time": 85.45237499999999,
+      "end_time": 85.45237499999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 14,
+      "text": "THE SAGA COMES TO AN END",
+      "type": "Text on Screen",
+      "start_time": 85.83574999999999,
+      "end_time": 87.94774999999998,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 15,
+      "text": "A desert landscape with rocky formations in the distance. An explosion occurs, sending a large cloud of sand and debris into the air.",
+      "type": "Visual",
+      "start_time": 87.83775,
+      "end_time": 87.83775,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 15,
+      "text": "A figure in white armor is propelled through the air amidst the explosion's smoke.",
+      "type": "Visual",
+      "start_time": 88.83775,
+      "end_time": 88.83775,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 15,
+      "text": "A vehicle with a person leaning out is speeding away from the blast. Sparks fly as a golden humanoid robot stands nearby.",
+      "type": "Visual",
+      "start_time": 89.83775,
+      "end_time": 89.83775,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 15,
+      "text": "Close-up of the person leaning out of the vehicle, holding onto a pole. The golden robot remains in the background.",
+      "type": "Visual",
+      "start_time": 90.83775,
+      "end_time": 90.83775,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "Bright light fills the frame, creating a lens flare effect.",
+      "type": "Visual",
+      "start_time": 92.34224999999999,
+      "end_time": 92.34224999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "Hands hold a golden medallion, examining its intricate design.",
+      "type": "Visual",
+      "start_time": 93.34224999999999,
+      "end_time": 93.34224999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "Two characters embrace warmly, one with braided hair, the other with a ring on their finger.",
+      "type": "Visual",
+      "start_time": 94.34224999999999,
+      "end_time": 94.34224999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "Close-up of two characters hugging, showing emotional connection and comfort.",
+      "type": "Visual",
+      "start_time": 95.34224999999999,
+      "end_time": 95.34224999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "Wide shot of a grassy field, characters walking in formation, including a droid and a Wookiee.",
+      "type": "Visual",
+      "start_time": 96.34224999999999,
+      "end_time": 96.34224999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "Group of characters stands determined on a hill, with cloudy skies above.",
+      "type": "Visual",
+      "start_time": 97.34224999999999,
+      "end_time": 97.34224999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "Two characters stand on a grassy cliff, facing a turbulent sea. In the distance, a massive, partially destroyed structure looms through the misty sky.",
+      "type": "Visual",
+      "start_time": 98.51508333333332,
+      "end_time": 98.51508333333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "The scene focuses on the female character in a white outfit, standing closer to the edge, gazing at the distant structure.",
+      "type": "Visual",
+      "start_time": 100.51508333333332,
+      "end_time": 100.51508333333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "The view shifts to show the rough sea and the towering, fragmented structure in the background, shrouded by stormy clouds.",
+      "type": "Visual",
+      "start_time": 102.51508333333332,
+      "end_time": 102.51508333333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 19,
+      "text": "STAR WARS",
+      "type": "Text on Screen",
+      "start_time": 111.23612499999999,
+      "end_time": 111.23612499999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 19,
+      "text": "The iconic 'STAR WARS' logo appears against a starry background.",
+      "type": "Visual",
+      "start_time": 111.23612499999999,
+      "end_time": 111.23612499999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 19,
+      "text": "THE RISE OF SKYWALKER",
+      "type": "Text on Screen",
+      "start_time": 115.67612499999998,
+      "end_time": 115.67612499999998,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 19,
+      "text": "The title 'THE RISE OF SKYWALKER' fades in beneath the 'STAR WARS' logo.",
+      "type": "Visual",
+      "start_time": 115.67612499999998,
+      "end_time": 115.67612499999998,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 20,
+      "text": "DECEMBER",
+      "type": "Text on Screen",
+      "start_time": 120.16170833333332,
+      "end_time": 120.16170833333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 20,
+      "text": "THIS FILM IS NOT YET RATED",
+      "type": "Text on Screen",
+      "start_time": 120.16170833333332,
+      "end_time": 120.16170833333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 20,
+      "text": "©2019 LUCASFILM LTD. ALL RIGHTS RESERVED.",
+      "type": "Text on Screen",
+      "start_time": 120.16170833333332,
+      "end_time": 120.16170833333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 20,
+      "text": "The word 'DECEMBER' appears prominently in bold blue letters against a starry black background.",
+      "type": "Visual",
+      "start_time": 120.16170833333332,
+      "end_time": 120.16170833333332,
+      "track_type": "extended"
+    }
+  ],
+  "youtube_id": "adzYW5DZoWs",
+  "video_name": "Star Wars: The Rise of Skywalker – Teaser",
+  "video_length": 124,
+  "aiUserId": "693f3ef0864bfcde60dd9b52"
+}

@@ -1,0 +1,523 @@
+[
+    {
+        "scene_number": 1,
+        "start_frame": 0,
+        "end_frame": 424,
+        "start_time": 0.0,
+        "end_time": 14.147466666666666,
+        "duration": 14.147466666666666,
+        "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_001.mp4",
+        "transcript": [
+            {
+                "text": "Bald eagles. Bald eagles are majestic, powerful hunting birds.",
+                "start": 4.69,
+                "end": 12.99
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 4.0,
+                "type": "Text on Screen",
+                "text": "ALL Things ANIMAL TV"
+            },
+            {
+                "start_time": 8.0,
+                "type": "Text on Screen",
+                "text": "Bald Eagles"
+            },
+            {
+                "start_time": 8.0,
+                "type": "Visual",
+                "text": "A bald eagle perched on a snowy beach, facing towards the ocean. Waves gently roll onto the shore, and distant mountains are visible in the background."
+            },
+            {
+                "start_time": 8.0,
+                "type": "Visual",
+                "text": "A wooden signpost with an arrow pointing upwards appears on the left side of the screen, labeled 'SKY'. A yellow parrot perches on the signpost."
+            },
+            {
+                "start_time": 8.0,
+                "type": "Visual",
+                "text": "Several colorful butterflies flutter around the edges of the screen."
+            }
+        ]
+    },
+    {
+        "scene_number": 2,
+        "start_frame": 425,
+        "end_frame": 1027,
+        "start_time": 14.180833333333334,
+        "end_time": 34.26756666666667,
+        "duration": 20.086733333333335,
+        "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_002.mp4",
+        "transcript": [
+            {
+                "text": "They're a type of eagle, with distinct colors.",
+                "start": 0.88,
+                "end": 4.4
+            },
+            {
+                "text": "And despite their name, they actually aren't bald.",
+                "start": 5.97,
+                "end": 9.56
+            },
+            {
+                "text": "They have lovely white feathers on their heads and tails,",
+                "start": 10.48,
+                "end": 13.23
+            },
+            {
+                "text": "rich brown feathers on their body and wings, and yellow beaks.",
+                "start": 13.69,
+                "end": 18.09
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "All Things Animal TV"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A bald eagle perches atop a snow-laden evergreen tree before gracefully taking flight, soaring across a serene, snowy landscape."
+            },
+            {
+                "start_time": 5.0,
+                "type": "Visual",
+                "text": "A close-up of a bald eagle's majestic profile, showcasing its white head, piercing gaze, and powerful yellow beak against a backdrop of snow-capped mountains."
+            },
+            {
+                "start_time": 10.0,
+                "type": "Visual",
+                "text": "Two bald eagles rest on a bare branch high above the ground, surveying their surroundings with keen interest."
+            },
+            {
+                "start_time": 15.0,
+                "type": "Visual",
+                "text": "The two eagles perch together on a branch overlooking a tranquil body of water, bordered by a snowy shoreline and scattered driftwood."
+            },
+            {
+                "start_time": 18.0,
+                "type": "Visual",
+                "text": "A close-up shot captures the intense focus of a bald eagle's face as it looks out over the water, highlighting its sharp features and determined expression."
+            }
+        ]
+    },
+    {
+        "scene_number": 3,
+        "start_frame": 1028,
+        "end_frame": 1198,
+        "start_time": 34.30093333333333,
+        "end_time": 39.97326666666667,
+        "duration": 5.672333333333334,
+        "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_003.mp4",
+        "transcript": [
+            {
+                "text": "The young are called fledglings, and they're all brown.",
+                "start": 0.0,
+                "end": 3.62
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "Fledgling"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A young, all-brown eagle, known as a fledgling, stands on grass by the edge of a calm lake."
+            }
+        ]
+    },
+    {
+        "scene_number": 4,
+        "start_frame": 1199,
+        "end_frame": 1448,
+        "start_time": 40.00663333333333,
+        "end_time": 48.314933333333336,
+        "duration": 8.308300000000003,
+        "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_004.mp4",
+        "transcript": [
+            {
+                "text": "Bald eagles are found in North America.",
+                "start": 0.37,
+                "end": 2.63
+            },
+            {
+                "text": "They're the national animal of the United States of America.",
+                "start": 3.98,
+                "end": 7.04
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A Bald Eagle soars gracefully through the sky, its wings spread wide against a backdrop of fluffy clouds and distant mountain ranges."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "The eagle continues its flight, gliding effortlessly over a landscape dotted with snow-covered trees and rocky terrain."
+            },
+            {
+                "start_time": 5.0,
+                "type": "Visual",
+                "text": "As the camera follows the eagle's path, it flies closer to the ground, revealing more of the wintry forest below."
+            },
+            {
+                "start_time": 7.0,
+                "type": "Visual",
+                "text": "The Bald Eagle maintains its steady flight, showcasing its impressive wingspan and majestic presence in the wilderness."
+            }
+        ]
+    },
+    {
+        "scene_number": 5,
+        "start_frame": 1449,
+        "end_frame": 1623,
+        "start_time": 48.3483,
+        "end_time": 54.1541,
+        "duration": 5.805799999999998,
+        "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_005.mp4",
+        "transcript": [
+            {
+                "text": "and can be found on the Great Seal of the USA.",
+                "start": 0.0,
+                "end": 3.26
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "and can be found on the Great Seal of the USA."
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A split-screen view shows the left side with an illustration of the Great Seal featuring a Bald Eagle holding arrows and an olive branch. The right side displays a real Bald Eagle soaring effortlessly against a backdrop of fluffy white clouds."
+            }
+        ]
+    },
+    {
+        "scene_number": 6,
+        "start_frame": 1624,
+        "end_frame": 1919,
+        "start_time": 54.187466666666666,
+        "end_time": 64.03063333333334,
+        "duration": 9.843166666666676,
+        "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_006.mp4",
+        "transcript": [
+            {
+                "text": "bald eagles live near the sea and lakes in nests high up in trees their favorite food is",
+                "start": 0.21,
+                "end": 9.68
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "ALL Things ANIMAL TV"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A Bald Eagle soars gracefully through the sky, its wings spread wide, flying over a forested area with glimpses of a lake below."
+            },
+            {
+                "start_time": 5.0,
+                "type": "Visual",
+                "text": "The camera shifts focus to show a Bald Eagle perched high in a tree surrounded by autumn leaves, overlooking the area."
+            }
+        ]
+    },
+    {
+        "scene_number": 7,
+        "start_frame": 1920,
+        "end_frame": 2358,
+        "start_time": 64.06400000000001,
+        "end_time": 78.6786,
+        "duration": 14.614599999999996,
+        "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_007.mp4",
+        "transcript": [
+            {
+                "text": "fish and soaring high into the air, they use their great eyesight to spot their next target.",
+                "start": 0.0,
+                "end": 7.44
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "ALL Things ANIMAL TV"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A Bald Eagle glides effortlessly across the clear blue sky, its wings fully extended and its sharp eyes scanning the ground below."
+            },
+            {
+                "start_time": 5.0,
+                "type": "Visual",
+                "text": "The camera zooms in on the eagle, revealing the intricate patterns of its brown and white feathers as it continues its flight."
+            }
+        ]
+    },
+    {
+        "scene_number": 8,
+        "start_frame": 2359,
+        "end_frame": 2693,
+        "start_time": 78.71196666666667,
+        "end_time": 89.85643333333333,
+        "duration": 11.14446666666666,
+        "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_008.mp4",
+        "transcript": [
+            {
+                "text": "The eagle swoops down.",
+                "start": 6.8,
+                "end": 8.34
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "ALL Things ANIMAL TV"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A Bald Eagle soars gracefully through the air, its wings spread wide as it scans the landscape below."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "The eagle spots its prey and begins to dive sharply towards the ground."
+            },
+            {
+                "start_time": 5.0,
+                "type": "Visual",
+                "text": "Another Bald Eagle appears in the frame, flying close by, possibly competing for the same prey."
+            },
+            {
+                "start_time": 8.0,
+                "type": "Visual",
+                "text": "The first eagle continues its descent, focusing intently on capturing its target."
+            }
+        ]
+    },
+    {
+        "scene_number": 9,
+        "start_frame": 2694,
+        "end_frame": 2943,
+        "start_time": 89.88980000000001,
+        "end_time": 98.1981,
+        "duration": 8.308299999999988,
+        "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_009.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A Bald Eagle glides low over the water's surface, its wings slightly angled downward as it prepares to dive."
+            },
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "All Things Animal TV"
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "The eagle dips its talons into the water, creating a small splash as it attempts to catch a fish."
+            },
+            {
+                "start_time": 4.0,
+                "type": "Visual",
+                "text": "The Bald Eagle continues its flight, now without a fish, as it searches for another opportunity."
+            }
+        ]
+    },
+    {
+        "scene_number": 10,
+        "start_frame": 2944,
+        "end_frame": 4028,
+        "start_time": 98.23146666666666,
+        "end_time": 134.40093333333334,
+        "duration": 36.16946666666668,
+        "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_010.mp4",
+        "transcript": [
+            {
+                "text": "grasping a fish with her sharp talons watch out another cheek eagle is trying",
+                "start": 1.33,
+                "end": 15.48
+            },
+            {
+                "text": "to steal her lunch oops splash another drop fish",
+                "start": 15.48,
+                "end": 29.13
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "All Things Animal TV"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A Bald Eagle soars gracefully above a calm sea, its wings fully extended as it scans the water below."
+            },
+            {
+                "start_time": 5.0,
+                "type": "Visual",
+                "text": "Suddenly, the eagle dives swiftly towards the water, talons extended, ready to grasp its prey."
+            },
+            {
+                "start_time": 10.0,
+                "type": "Visual",
+                "text": "Another Bald Eagle appears, attempting to intercept the first eagle's catch mid-air, creating an intense aerial chase."
+            },
+            {
+                "start_time": 15.0,
+                "type": "Visual",
+                "text": "The initial eagle successfully secures its fish, lifting it from the water with powerful talons as the second eagle hovers nearby."
+            },
+            {
+                "start_time": 20.0,
+                "type": "Visual",
+                "text": "The victorious eagle flies away with its catch while the other watches, eventually turning back towards the sea."
+            }
+        ]
+    },
+    {
+        "scene_number": 11,
+        "start_frame": 4029,
+        "end_frame": 4622,
+        "start_time": 134.4343,
+        "end_time": 154.22073333333333,
+        "duration": 19.78643333333332,
+        "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_011.mp4",
+        "transcript": [
+            {
+                "text": "Finally, success for the hungry bird.",
+                "start": 10.64,
+                "end": 13.32
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "All Things Animal TV"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A Bald Eagle dives towards the water's surface, its wings beating powerfully as it approaches. The eagle reaches out with its talons and makes contact with the water, briefly submerging before lifting back into the air with a fish securely held in its grasp."
+            }
+        ]
+    },
+    {
+        "scene_number": 12,
+        "start_frame": 4623,
+        "end_frame": 4875,
+        "start_time": 154.2541,
+        "end_time": 162.6625,
+        "duration": 8.4084,
+        "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_012.mp4",
+        "transcript": [
+            {
+                "text": "High in the tree, the bald eagle eats the fish she's caught,",
+                "start": 0.08,
+                "end": 3.3
+            },
+            {
+                "text": "while the other eagle will have to find her own lunch.",
+                "start": 5.01,
+                "end": 7.53
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A bald eagle perches atop a tree branch, gripping a freshly caught fish in its talons. It begins tearing at the fish with its beak, efficiently consuming its meal."
+            },
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "ALL Things ANIMAL TV"
+            }
+        ]
+    },
+    {
+        "scene_number": 13,
+        "start_frame": 4876,
+        "end_frame": 5709,
+        "start_time": 162.69586666666666,
+        "end_time": 190.52366666666666,
+        "duration": 27.827799999999996,
+        "scene_path": "videos/oKficmlxzaI/oKficmlxzaI_scenes/scene_013.mp4",
+        "transcript": [
+            {
+                "text": "Isn't the bald eagle a wonderful flying creature?",
+                "start": 4.78,
+                "end": 7.54
+            },
+            {
+                "text": "Click on the videos above to see more amazing animals.",
+                "start": 19.69,
+                "end": 23.23
+            },
+            {
+                "text": "And be sure to subscribe!",
+                "start": 23.41,
+                "end": 25.69
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "ALL Things ANIMAL TV"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A bald eagle perches on a rusty metal structure against a pale pink sky. The eagle then spreads its wings and flies away, showcasing its impressive wingspan over a forested landscape."
+            },
+            {
+                "start_time": 25.0,
+                "type": "Text on Screen",
+                "text": "cranes\nsea lions"
+            },
+            {
+                "start_time": 25.0,
+                "type": "Visual",
+                "text": "The video transitions to a split-screen view. On the left, a group of cranes is shown flying in formation against a blue sky. On the right, a sea lion swims gracefully underwater, then transitions to resting on rocky terrain by the ocean."
+            }
+        ]
+    }
+]

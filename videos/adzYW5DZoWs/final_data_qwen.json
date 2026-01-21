@@ -1,0 +1,221 @@
+{
+  "dialogue_timestamps": [
+    {
+      "start_time": 19.299999999999997,
+      "end_time": 20.86,
+      "duration": 1.66,
+      "audio_text": "We've passed on all we know.",
+      "sequence_num": 1
+    },
+    {
+      "start_time": 25.158166666666666,
+      "end_time": 27.598166666666664,
+      "duration": 2.54,
+      "audio_text": "A thousand generations live in you now.",
+      "sequence_num": 2
+    },
+    {
+      "start_time": 33.11275,
+      "end_time": 34.372749999999996,
+      "duration": 1.36,
+      "audio_text": "But this is your fight",
+      "sequence_num": 3
+    },
+    {
+      "start_time": 96.74224999999999,
+      "end_time": 97.94224999999999,
+      "duration": 1.2,
+      "audio_text": "We'll always be with you.",
+      "sequence_num": 4
+    },
+    {
+      "start_time": 101.51508333333332,
+      "end_time": 102.69508333333333,
+      "duration": 1.18,
+      "audio_text": "No one's ever really gone.",
+      "sequence_num": 5
+    }
+  ],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "LUCASFILM Ltd",
+      "type": "Text on Screen",
+      "start_time": 1.5,
+      "end_time": 3.1799999999999997,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 2,
+      "text": "\"Dark screen, text fainting.\"",
+      "type": "Visual",
+      "start_time": 6.005999999999999,
+      "end_time": 9.702,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 3,
+      "text": "Rey stands in a vast desert landscape, dressed in her signature beige outfit under cloudy sky with rocks far off.",
+      "type": "Visual",
+      "start_time": 10.01,
+      "end_time": 16.514,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 3,
+      "text": "\"Rey determined; reaches down her belt and grips her blaster pistol firmly.\"",
+      "type": "Visual",
+      "start_time": 20.96,
+      "end_time": 23.984,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "EVERY GENERATION HAS A LEGEND",
+      "type": "Text on Screen",
+      "start_time": 36.119416666666666,
+      "end_time": 38.543416666666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "A sandy desert landscape unfolds, fine sand swirling across the screen. The camera pans to rocky outcroppings in the distance as Rey charges across the desert, a weapon in hand.",
+      "type": "Visual",
+      "start_time": 38.543416666666666,
+      "end_time": 52.15141666666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "\"Rey sprints with blue saber, speeder bike kicks up dust.\"",
+      "type": "Visual",
+      "start_time": 61.394666666666666,
+      "end_time": 65.81066666666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 9,
+      "text": "\"Rey flips with blue saber over bike.\"",
+      "type": "Visual",
+      "start_time": 65.89916666666666,
+      "end_time": 68.87516666666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 10,
+      "text": "THIS CHRISTMAS",
+      "type": "Text on Screen",
+      "start_time": 69.02729166666666,
+      "end_time": 69.02729166666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 10,
+      "text": "Starry space background.",
+      "type": "Visual",
+      "start_time": 70.02729166666666,
+      "end_time": 70.02729166666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 11,
+      "text": "Blue lights flicker in rock shadows, eerie glow.",
+      "type": "Visual",
+      "start_time": 71.11270833333333,
+      "end_time": 74.83270833333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 12,
+      "text": "\"Kylo Ren charges with his red lightsaber ignited, amidst burning trees and smoke-filled air.\"",
+      "type": "Visual",
+      "start_time": 75.07499999999999,
+      "end_time": 77.93099999999998,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 13,
+      "text": "Red droid, dim light. Finn outside, group behind. BB-8 in dark room. Cockpit, space view. Lando focused. Hyperspace shot.",
+      "type": "Visual",
+      "start_time": 77.45237499999999,
+      "end_time": 89.47637499999999,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 14,
+      "text": "THE SAGA COMES TO AN END",
+      "type": "Text on Screen",
+      "start_time": 85.83574999999999,
+      "end_time": 87.94774999999998,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 15,
+      "text": "\"Desert blast, C-3PO with gun, sparks.\"",
+      "type": "Visual",
+      "start_time": 87.83775,
+      "end_time": 87.83775,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "A golden medallion with intricate designs.",
+      "type": "Visual",
+      "start_time": 92.34224999999999,
+      "end_time": 92.34224999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "Rey embraces another warmly.",
+      "type": "Visual",
+      "start_time": 93.84224999999999,
+      "end_time": 93.84224999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "Rey, Finn, and Poe stand in a field, looking ahead.",
+      "type": "Visual",
+      "start_time": 96.34224999999999,
+      "end_time": 96.34224999999999,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "\"Rey walks towards the edge of a cliff, facing a stormy sea.\"",
+      "type": "Visual",
+      "start_time": 102.79508333333332,
+      "end_time": 105.53108333333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 19,
+      "text": "STAR WARS",
+      "type": "Text on Screen",
+      "start_time": 111.23612499999999,
+      "end_time": 112.65212499999998,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 19,
+      "text": "THE RISE OF SKYWALKER",
+      "type": "Text on Screen",
+      "start_time": 114.23612499999999,
+      "end_time": 116.18012499999999,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 20,
+      "text": "DECEMBER",
+      "type": "Text on Screen",
+      "start_time": 120.16170833333332,
+      "end_time": 121.28970833333332,
+      "track_type": "inline"
+    }
+  ],
+  "youtube_id": "adzYW5DZoWs",
+  "video_name": "Star Wars: The Rise of Skywalker – Teaser",
+  "video_length": 124,
+  "aiUserId": "650506db3ff1c2140ea10ece"
+}

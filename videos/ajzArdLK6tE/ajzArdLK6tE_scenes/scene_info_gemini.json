@@ -1,0 +1,1371 @@
+[
+    {
+        "scene_number": 1,
+        "start_frame": 0,
+        "end_frame": 171,
+        "start_time": 0.0,
+        "end_time": 7.132124999999999,
+        "duration": 7.132124999999999,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_001.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 7.132124999999999
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "SANITIZE"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "1-quart jars"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A large pot of boiling water sits on the stove."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "A hand uses tongs to place mason jars into the boiling water to sanitize them."
+            }
+        ]
+    },
+    {
+        "scene_number": 2,
+        "start_frame": 172,
+        "end_frame": 312,
+        "start_time": 7.173833333333333,
+        "end_time": 13.013,
+        "duration": 5.839166666666667,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_002.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 5.839166666666667
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "DILL:"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "One cup of water is poured into a saucepan."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Text on Screen",
+                "text": "WATER\n1 cup"
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "One-half cup of white vinegar is added."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Text on Screen",
+                "text": "WHITE VINEGAR\n\u00bd cup"
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "One tablespoon of salt is added."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Text on Screen",
+                "text": "SALT\n1 tbsp"
+            },
+            {
+                "start_time": 4.0,
+                "type": "Text on Screen",
+                "text": "SUGAR\n1 tsp"
+            },
+            {
+                "start_time": 4.0,
+                "type": "Visual",
+                "text": "One tablespoon of sugar is added."
+            },
+            {
+                "start_time": 5.0,
+                "type": "Text on Screen",
+                "text": "BLACK PEPPERCORNS\n1 tbsp"
+            },
+            {
+                "start_time": 5.0,
+                "type": "Visual",
+                "text": "One tablespoon of black peppercorns is added."
+            }
+        ]
+    },
+    {
+        "scene_number": 3,
+        "start_frame": 313,
+        "end_frame": 384,
+        "start_time": 13.054708333333332,
+        "end_time": 16.016,
+        "duration": 2.961291666666666,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_003.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 2.961291666666666
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "DILL:"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "PEPPERCORNS"
+            },
+            {
+                "start_time": 0.01,
+                "type": "Visual",
+                "text": "Black peppercorns are added to the saucepan."
+            },
+            {
+                "start_time": 1.01,
+                "type": "Text on Screen",
+                "text": "CARAWAY SEED"
+            },
+            {
+                "start_time": 1.01,
+                "type": "Text on Screen",
+                "text": "1 tsp"
+            },
+            {
+                "start_time": 1.01,
+                "type": "Visual",
+                "text": "Caraway seeds are added to the saucepan."
+            },
+            {
+                "start_time": 2.01,
+                "type": "Visual",
+                "text": "Vinegar is poured into the saucepan."
+            }
+        ]
+    },
+    {
+        "scene_number": 4,
+        "start_frame": 385,
+        "end_frame": 492,
+        "start_time": 16.05770833333333,
+        "end_time": 20.5205,
+        "duration": 4.462791666666668,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_004.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 4.462791666666668
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "DILL:"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Dill seeds are added to the saucepan and stirred into the brine."
+            }
+        ]
+    },
+    {
+        "scene_number": 5,
+        "start_frame": 493,
+        "end_frame": 777,
+        "start_time": 20.56220833333333,
+        "end_time": 32.407374999999995,
+        "duration": 11.845166666666664,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_005.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 11.845166666666664
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A clove of garlic is placed into a sterilized mason jar."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Text on Screen",
+                "text": "garlic"
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "Fresh dill sprigs are added to the jar."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Text on Screen",
+                "text": "fresh dill"
+            },
+            {
+                "start_time": 4.0,
+                "type": "Text on Screen",
+                "text": "Kirby cucumbers"
+            },
+            {
+                "start_time": 5.0,
+                "type": "Visual",
+                "text": "Kirby cucumber spears are placed into the jar."
+            },
+            {
+                "start_time": 9.0,
+                "type": "Visual",
+                "text": "A funnel is placed on top of the jar."
+            },
+            {
+                "start_time": 10.0,
+                "type": "Visual",
+                "text": "The dill pickle brine is poured into the jar through the funnel."
+            }
+        ]
+    },
+    {
+        "scene_number": 6,
+        "start_frame": 778,
+        "end_frame": 835,
+        "start_time": 32.449083333333334,
+        "end_time": 34.82645833333333,
+        "duration": 2.3773749999999936,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_006.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 2.3773749999999936
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Warm brine is poured over sliced cucumbers and spices in a mason jar."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "The mason jar is filled until the brine covers the cucumbers."
+            }
+        ]
+    },
+    {
+        "scene_number": 7,
+        "start_frame": 836,
+        "end_frame": 898,
+        "start_time": 34.86816666666667,
+        "end_time": 37.45408333333333,
+        "duration": 2.5859166666666624,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_007.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 2.5859166666666624
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A hand tightens the lid on a mason jar of Bread & Butter pickles."
+            },
+            {
+                "start_time": 1.04,
+                "type": "Visual",
+                "text": "The jar is placed on a wooden surface."
+            },
+            {
+                "start_time": 1.84,
+                "type": "Visual",
+                "text": "A hand uses a black marker to write on the jar lid."
+            }
+        ]
+    },
+    {
+        "scene_number": 8,
+        "start_frame": 899,
+        "end_frame": 1006,
+        "start_time": 37.49579166666666,
+        "end_time": 41.95858333333333,
+        "duration": 4.462791666666668,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_008.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 4.462791666666668
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A hand writes \"Dill Pickles\" on a black tag using a white marker."
+            },
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "Dill Pickles"
+            },
+            {
+                "start_time": 0.03,
+                "type": "Text on Screen",
+                "text": "2/17/17"
+            },
+            {
+                "start_time": 0.04,
+                "type": "Visual",
+                "text": "The hand places the tag on a jar of Dill pickles."
+            }
+        ]
+    },
+    {
+        "scene_number": 9,
+        "start_frame": 1007,
+        "end_frame": 1057,
+        "start_time": 42.00029166666666,
+        "end_time": 44.08570833333333,
+        "duration": 2.085416666666667,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_009.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 2.085416666666667
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "Dill Pickles"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "2/1/17"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A jar of dill pickles is shown, with a tag attached reading \"Dill Pickles 2/1/17\"."
+            }
+        ]
+    },
+    {
+        "scene_number": 10,
+        "start_frame": 1058,
+        "end_frame": 1154,
+        "start_time": 44.12741666666666,
+        "end_time": 48.13141666666667,
+        "duration": 4.004000000000005,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_010.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 4.004000000000005
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Close-up on a jar of dill pickles.  Dill, garlic, peppercorns, and caraway seeds are visible in the brine."
+            }
+        ]
+    },
+    {
+        "scene_number": 11,
+        "start_frame": 1155,
+        "end_frame": 1255,
+        "start_time": 48.173125,
+        "end_time": 52.34395833333333,
+        "duration": 4.170833333333334,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_011.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 4.170833333333334
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "BREAD & BUTTER:"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A saucepan is placed on a stovetop."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Text on Screen",
+                "text": "WHITE VINEGAR\n\u00bd cup"
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "Water is poured into the saucepan."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "White vinegar is added to the saucepan."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Text on Screen",
+                "text": "CIDER VINEGAR\n\u00bd cup"
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "Cider vinegar is poured into the saucepan."
+            }
+        ]
+    },
+    {
+        "scene_number": 12,
+        "start_frame": 1256,
+        "end_frame": 1415,
+        "start_time": 52.385666666666665,
+        "end_time": 59.017291666666665,
+        "duration": 6.631625,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_012.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 6.631625
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "BREAD & BUTTER:"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A stainless steel saucepan sits on an induction cooktop."
+            },
+            {
+                "start_time": 0.07,
+                "type": "Visual",
+                "text": "\u00bc cup of water is poured from a measuring cup into the saucepan."
+            },
+            {
+                "start_time": 1.07,
+                "type": "Text on Screen",
+                "text": "WATER\n1/4 cup"
+            },
+            {
+                "start_time": 1.2,
+                "type": "Visual",
+                "text": "1 cup of sugar is poured from a measuring cup into the saucepan."
+            },
+            {
+                "start_time": 2.2,
+                "type": "Text on Screen",
+                "text": "SUGAR\n1 cup"
+            },
+            {
+                "start_time": 2.53,
+                "type": "Visual",
+                "text": "1 tablespoon of salt is added to the saucepan from a measuring spoon."
+            },
+            {
+                "start_time": 4.0,
+                "type": "Visual",
+                "text": "1 teaspoon of peppercorns is added to the saucepan from a small bowl."
+            },
+            {
+                "start_time": 4.37,
+                "type": "Text on Screen",
+                "text": "PEPPERCORNS\n1 tsp"
+            }
+        ]
+    },
+    {
+        "scene_number": 13,
+        "start_frame": 1416,
+        "end_frame": 1506,
+        "start_time": 59.059,
+        "end_time": 62.812749999999994,
+        "duration": 3.7537499999999966,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_013.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 3.7537499999999966
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "BREAD & BUTTER:"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Dry mustard is added to the saucepan."
+            },
+            {
+                "start_time": 0.75,
+                "type": "Visual",
+                "text": "Cloves are added to the saucepan."
+            },
+            {
+                "start_time": 1.75,
+                "type": "Text on Screen",
+                "text": "CLOVES\n3-4"
+            },
+            {
+                "start_time": 1.75,
+                "type": "Visual",
+                "text": "Celery seed is added to the saucepan."
+            },
+            {
+                "start_time": 2.5,
+                "type": "Text on Screen",
+                "text": "CELERY SEED\n1 tsp"
+            },
+            {
+                "start_time": 2.75,
+                "type": "Visual",
+                "text": "Turmeric is added to the saucepan."
+            },
+            {
+                "start_time": 3.25,
+                "type": "Text on Screen",
+                "text": "TURMERIC\n\u00bd tsp"
+            }
+        ]
+    },
+    {
+        "scene_number": 14,
+        "start_frame": 1507,
+        "end_frame": 1645,
+        "start_time": 62.854458333333326,
+        "end_time": 68.61020833333333,
+        "duration": 5.755750000000006,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_014.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 5.755750000000006
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "BREAD & BUTTER:"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "CELERY SEED"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "1 tsp"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Turmeric is added to the saucepan with the other Bread & Butter brine ingredients."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "The brine is stirred with a wooden spoon."
+            },
+            {
+                "start_time": 4.0,
+                "type": "Visual",
+                "text": "The bread and butter brine begins to boil."
+            }
+        ]
+    },
+    {
+        "scene_number": 15,
+        "start_frame": 1646,
+        "end_frame": 1869,
+        "start_time": 68.65191666666666,
+        "end_time": 77.95287499999999,
+        "duration": 9.300958333333327,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_015.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 9.300958333333327
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Slices of Kirby cucumbers and red chili pepper are arranged on a wooden cutting board. A small saucepan containing Bread & Butter pickling brine sits to the right of the cutting board on a red and white checkered cloth."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "A sterilized mason jar is placed on the table near the cutting board. Metal tongs are used to place a few slices of red chili into the bottom of the jar."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Text on Screen",
+                "text": "red chili"
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "Slices of cucumber are placed into the mason jar on top of the red chilis."
+            },
+            {
+                "start_time": 4.0,
+                "type": "Text on Screen",
+                "text": "cucumber slices"
+            },
+            {
+                "start_time": 7.0,
+                "type": "Visual",
+                "text": "A metal funnel is placed on top of the mason jar. The Bread & Butter pickling brine is poured from the saucepan into the funnel and into the mason jar."
+            }
+        ]
+    },
+    {
+        "scene_number": 16,
+        "start_frame": 1870,
+        "end_frame": 1944,
+        "start_time": 77.99458333333332,
+        "end_time": 81.08099999999999,
+        "duration": 3.086416666666665,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_016.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 3.086416666666665
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Warm Bread & Butter pickling brine is poured over sliced Kirby cucumbers and red chili pepper in a mason jar."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "The mason jar is filled until the brine covers the cucumbers and chili pepper."
+            }
+        ]
+    },
+    {
+        "scene_number": 17,
+        "start_frame": 1945,
+        "end_frame": 2024,
+        "start_time": 81.12270833333332,
+        "end_time": 84.41766666666666,
+        "duration": 3.2949583333333408,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_017.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 3.2949583333333408
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A hand tightens the lid on a mason jar of Bread & Butter pickles."
+            },
+            {
+                "start_time": 0.01,
+                "type": "Visual",
+                "text": "The jar is lifted and a black tag tied to the neck reads \"Bread & Butter\"."
+            },
+            {
+                "start_time": 1.28,
+                "type": "Text on Screen",
+                "text": "Bread + Butter"
+            }
+        ]
+    },
+    {
+        "scene_number": 18,
+        "start_frame": 2025,
+        "end_frame": 2079,
+        "start_time": 84.459375,
+        "end_time": 86.711625,
+        "duration": 2.2522500000000036,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_018.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 2.2522500000000036
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Close up on a jar of Spicy Pickles. Cucumber spears, jalape\u00f1o slices, peppercorns, garlic cloves, and spices are visible within the golden brine."
+            }
+        ]
+    },
+    {
+        "scene_number": 19,
+        "start_frame": 2080,
+        "end_frame": 2188,
+        "start_time": 86.75333333333333,
+        "end_time": 91.25783333333332,
+        "duration": 4.504499999999993,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_019.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 4.504499999999993
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "SPICY"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "White vinegar is poured into a saucepan."
+            },
+            {
+                "start_time": 0.01,
+                "type": "Visual",
+                "text": "Water is added to the saucepan."
+            },
+            {
+                "start_time": 0.03,
+                "type": "Visual",
+                "text": "Salt is added to the saucepan."
+            },
+            {
+                "start_time": 0.03,
+                "type": "Text on Screen",
+                "text": "SALT\n1 tbsp"
+            }
+        ]
+    },
+    {
+        "scene_number": 20,
+        "start_frame": 2189,
+        "end_frame": 2252,
+        "start_time": 91.29954166666666,
+        "end_time": 93.92716666666666,
+        "duration": 2.627625000000009,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_020.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 2.627625000000009
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "SPICY"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "PEPPERCORNS"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "1 tsp"
+            },
+            {
+                "start_time": 0.01,
+                "type": "Visual",
+                "text": "Salt is added to the saucepan."
+            },
+            {
+                "start_time": 1.01,
+                "type": "Visual",
+                "text": "Red pepper flakes are added into the saucepan."
+            },
+            {
+                "start_time": 1.25,
+                "type": "Text on Screen",
+                "text": "RED PEPPER FLAKES"
+            }
+        ]
+    },
+    {
+        "scene_number": 21,
+        "start_frame": 2253,
+        "end_frame": 2430,
+        "start_time": 93.968875,
+        "end_time": 101.35125,
+        "duration": 7.382374999999996,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_021.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 7.382374999999996
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "SPICY"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Caraway seeds and red pepper flakes are added to a saucepan with vinegar and water."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "Dry mustard is added to the saucepan."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Text on Screen",
+                "text": "DRY MUSTARD"
+            },
+            {
+                "start_time": 2.0,
+                "type": "Text on Screen",
+                "text": "1/2 tsp"
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "The mixture is stirred with a wooden spoon."
+            },
+            {
+                "start_time": 5.0,
+                "type": "Visual",
+                "text": "The brine begins to boil."
+            }
+        ]
+    },
+    {
+        "scene_number": 22,
+        "start_frame": 2431,
+        "end_frame": 2630,
+        "start_time": 101.39295833333333,
+        "end_time": 109.69291666666666,
+        "duration": 8.299958333333336,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_022.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 8.299958333333336
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Sliced Kirby cucumbers, jalape\u00f1o pepper, and garlic clove are arranged on a wooden cutting board. A small metal saucepan containing pickling brine sits on the board. An empty mason jar is positioned nearby."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Text on Screen",
+                "text": "garlic"
+            },
+            {
+                "start_time": 2.0,
+                "type": "Text on Screen",
+                "text": "Kirby cucumbers"
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "The garlic clove is placed into the mason jar. Cucumber spears are added to the jar."
+            },
+            {
+                "start_time": 4.0,
+                "type": "Visual",
+                "text": "Jalape\u00f1o slices are added to the mason jar."
+            },
+            {
+                "start_time": 5.0,
+                "type": "Text on Screen",
+                "text": "jalape\u00f1o pepper"
+            },
+            {
+                "start_time": 6.0,
+                "type": "Visual",
+                "text": "A metal funnel is placed in the jar opening. The pickling brine is poured into the jar through the funnel."
+            }
+        ]
+    },
+    {
+        "scene_number": 23,
+        "start_frame": 2631,
+        "end_frame": 2712,
+        "start_time": 109.734625,
+        "end_time": 113.11299999999999,
+        "duration": 3.3783749999999912,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_023.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 3.3783749999999912
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Warm pickling brine is poured over the sliced cucumbers, jalape\u00f1o, and garlic in the mason jar."
+            },
+            {
+                "start_time": 2.04,
+                "type": "Visual",
+                "text": "The mason jar lid is placed on top of the jar and secured tightly."
+            }
+        ]
+    },
+    {
+        "scene_number": 24,
+        "start_frame": 2713,
+        "end_frame": 2765,
+        "start_time": 113.15470833333333,
+        "end_time": 115.32354166666666,
+        "duration": 2.1688333333333247,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_024.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 2.1688333333333247
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "Spicy Pickles"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A hand holds a mason jar filled with Spicy Pickles."
+            }
+        ]
+    },
+    {
+        "scene_number": 25,
+        "start_frame": 2766,
+        "end_frame": 2835,
+        "start_time": 115.36524999999999,
+        "end_time": 118.24312499999999,
+        "duration": 2.877875000000003,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_025.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 2.877875000000003
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Close up on a jar of Spicy Pickles."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "The jar of Spicy Pickles is placed in the refrigerator."
+            }
+        ]
+    },
+    {
+        "scene_number": 26,
+        "start_frame": 2836,
+        "end_frame": 2900,
+        "start_time": 118.28483333333332,
+        "end_time": 120.95416666666665,
+        "duration": 2.669333333333327,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_026.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 2.669333333333327
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A hand places a jar of Bread & Butter pickles in the refrigerator next to jars of Dill Pickles and Spicy Pickles."
+            },
+            {
+                "start_time": 0.83,
+                "type": "Text on Screen",
+                "text": "Bread & Butter"
+            },
+            {
+                "start_time": 0.83,
+                "type": "Text on Screen",
+                "text": "2/7/17"
+            },
+            {
+                "start_time": 1.67,
+                "type": "Text on Screen",
+                "text": "Dill Pickles"
+            },
+            {
+                "start_time": 1.92,
+                "type": "Text on Screen",
+                "text": "Spicy Pickles"
+            }
+        ]
+    },
+    {
+        "scene_number": 27,
+        "start_frame": 2901,
+        "end_frame": 2951,
+        "start_time": 120.995875,
+        "end_time": 123.08129166666666,
+        "duration": 2.08541666666666,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_027.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 2.08541666666666
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "REFRIGERATE"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "*store up to 2 months*"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The refrigerator door closes, revealing jars of dill pickles, bread and butter pickles, and spicy pickles inside."
+            }
+        ]
+    },
+    {
+        "scene_number": 28,
+        "start_frame": 2952,
+        "end_frame": 3016,
+        "start_time": 123.12299999999999,
+        "end_time": 125.79233333333332,
+        "duration": 2.669333333333327,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_028.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 2.669333333333327
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A plate is presented with a sandwich, chips, and a pickle."
+            },
+            {
+                "start_time": 0.67,
+                "type": "Visual",
+                "text": "A hand reaches in and adjusts the sandwich on the plate."
+            }
+        ]
+    },
+    {
+        "scene_number": 29,
+        "start_frame": 3017,
+        "end_frame": 3117,
+        "start_time": 125.83404166666666,
+        "end_time": 130.004875,
+        "duration": 4.170833333333334,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_029.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 4.170833333333334
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Two pickle slices are placed on the cheeseburger."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "Ketchup is squeezed onto the cheeseburger in a smiling face shape."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "The top bun is placed on the cheeseburger."
+            }
+        ]
+    },
+    {
+        "scene_number": 30,
+        "start_frame": 3118,
+        "end_frame": 3210,
+        "start_time": 130.04658333333333,
+        "end_time": 133.88375,
+        "duration": 3.8371666666666613,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_030.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 3.8371666666666613
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Close-up of a Bloody Mary cocktail garnished with a lime wedge."
+            },
+            {
+                "start_time": 0.64,
+                "type": "Visual",
+                "text": "A celery stalk is placed in the glass next to the lime."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "A small skewer with green olives and pickle slices is added to the glass."
+            }
+        ]
+    },
+    {
+        "scene_number": 31,
+        "start_frame": 3211,
+        "end_frame": 3271,
+        "start_time": 133.92545833333332,
+        "end_time": 136.42795833333332,
+        "duration": 2.5024999999999977,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_031.mp4",
+        "transcript": [
+            {
+                "text": "Oh",
+                "start": 1.8,
+                "end": 2.5
+            }
+        ],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 1.8
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "PICKLES 3 WAYS"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Three mason jars appear on a wooden table covered with a plaid cloth. The jars are labeled \"Dill Pickles,\" \"Bread & Butter,\" and \"Spicy Pickles\"."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Text on Screen",
+                "text": "Dill Pickles\n2/7/17"
+            },
+            {
+                "start_time": 1.0,
+                "type": "Text on Screen",
+                "text": "Bread & Butter\n2/7/17"
+            },
+            {
+                "start_time": 1.0,
+                "type": "Text on Screen",
+                "text": "Spicy Pickles\n2/7/17"
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "The Dill Pickle jar contains cucumber spears, dill sprigs, and garlic cloves. The Bread & Butter jar is filled with sliced cucumbers, sliced red chili, and pickling liquid. The Spicy Pickle jar contains cucumber spears, jalape\u00f1o quarters, and garlic cloves."
+            }
+        ]
+    },
+    {
+        "scene_number": 32,
+        "start_frame": 3272,
+        "end_frame": 3390,
+        "start_time": 136.46966666666665,
+        "end_time": 141.39124999999999,
+        "duration": 4.921583333333331,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_032.mp4",
+        "transcript": [
+            {
+                "text": "Yes!",
+                "start": 0.1,
+                "end": 0.9
+            }
+        ],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0.9,
+                "end_time": 4.921583333333331
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "SUBSCRIBE"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "FOR MORE TASTY THINGS"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A light blue banner appears at the top of the frame with the text \u201cSUBSCRIBE FOR MORE TASTY THINGS\u201d."
+            },
+            {
+                "start_time": 0.04,
+                "type": "Visual",
+                "text": "The three jars of pickles remain on the table."
+            }
+        ]
+    },
+    {
+        "scene_number": 33,
+        "start_frame": 3391,
+        "end_frame": 3441,
+        "start_time": 141.43295833333332,
+        "end_time": 143.56008333333332,
+        "duration": 2.1271250000000066,
+        "scene_path": "videos/ajzArdLK6tE/ajzArdLK6tE_scenes/scene_033.mp4",
+        "transcript": [],
+        "captions": [],
+        "gap": [
+            {
+                "start_time": 0,
+                "end_time": 2.1271250000000066
+            }
+        ],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "TASTY"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The Tasty logo appears on a light blue background surrounded by various food items such as a pink donut with sprinkles, sliced strawberries, green leaves, an orange slice, bacon strips, and almonds."
+            }
+        ]
+    }
+]

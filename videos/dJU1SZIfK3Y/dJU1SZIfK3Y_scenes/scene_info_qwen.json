@@ -1,0 +1,440 @@
+[
+    {
+        "scene_number": 1,
+        "start_frame": 0,
+        "end_frame": 331,
+        "start_time": 0.0,
+        "end_time": 13.805458333333332,
+        "duration": 13.805458333333332,
+        "scene_path": "videos/dJU1SZIfK3Y/dJU1SZIfK3Y_scenes/scene_001.mp4",
+        "transcript": [
+            {
+                "text": "I hate to do this to you, but I think you can help me pick up the slack on those edges catches. No problem",
+                "start": 0.14,
+                "end": 4.8
+            },
+            {
+                "text": "I appreciate it, but he's killing me. I only got lum lum and choo-choo pulling doubles",
+                "start": 4.8,
+                "end": 9.6
+            },
+            {
+                "text": "Quick thinking yesterday with that special talents thing",
+                "start": 10.28,
+                "end": 13.42
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "MOVIECLIPS.COM"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Two elves in red suits chat while holding cups. They stand in front of shelves with toys."
+            },
+            {
+                "start_time": 7.0,
+                "type": "Visual",
+                "text": "Camera pans out to show Buddy peeking down from above."
+            }
+        ]
+    },
+    {
+        "scene_number": 2,
+        "start_frame": 332,
+        "end_frame": 401,
+        "start_time": 13.847166666666666,
+        "end_time": 16.725041666666666,
+        "duration": 2.8778749999999995,
+        "scene_path": "videos/dJU1SZIfK3Y/dJU1SZIfK3Y_scenes/scene_002.mp4",
+        "transcript": [
+            {
+                "text": "I feel bad for the guy. I just hope he doesn't get wise.",
+                "start": 0.0,
+                "end": 2.44
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "MOVIECLIPS.COM"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Buddy peeks between wooden beams."
+            }
+        ]
+    },
+    {
+        "scene_number": 3,
+        "start_frame": 402,
+        "end_frame": 473,
+        "start_time": 16.76675,
+        "end_time": 19.728041666666666,
+        "duration": 2.9612916666666678,
+        "scene_path": "videos/dJU1SZIfK3Y/dJU1SZIfK3Y_scenes/scene_003.mp4",
+        "transcript": [
+            {
+                "text": "Well, he hasn't figured out he's a human by now.",
+                "start": 0.0,
+                "end": 2.66
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "MOVIECLIPS.COM"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Two elves stand in workshop. They wear red suits with white fur. Elf on left holds mug. Elf on right sips from cup. Both look serious. Behind them, shelves hold toys."
+            }
+        ]
+    },
+    {
+        "scene_number": 4,
+        "start_frame": 474,
+        "end_frame": 559,
+        "start_time": 19.76975,
+        "end_time": 23.314958333333333,
+        "duration": 3.545208333333335,
+        "scene_path": "videos/dJU1SZIfK3Y/dJU1SZIfK3Y_scenes/scene_004.mp4",
+        "transcript": [
+            {
+                "text": "I don't think he ever will.",
+                "start": 0.0,
+                "end": 1.1
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Buddy peeks through small gap in wooden wall, eyes wide."
+            },
+            {
+                "start_time": 1.5,
+                "type": "Visual",
+                "text": "Buddy's head disappears behind wood as he listens."
+            }
+        ]
+    },
+    {
+        "scene_number": 5,
+        "start_frame": 560,
+        "end_frame": 772,
+        "start_time": 23.356666666666666,
+        "end_time": 32.19883333333333,
+        "duration": 8.842166666666667,
+        "scene_path": "videos/dJU1SZIfK3Y/dJU1SZIfK3Y_scenes/scene_005.mp4",
+        "transcript": [
+            {
+                "text": "If he hasn't figured out he's a human by now, I don't think he ever will.",
+                "start": 2.96,
+                "end": 6.58
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "MOVIECLIPS.COM"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Buddy stands in room with wood walls."
+            },
+            {
+                "start_time": 3.5,
+                "type": "Visual",
+                "text": "Buddy looks around with wide eyes."
+            },
+            {
+                "start_time": 7.0,
+                "type": "Visual",
+                "text": "Buddy bends down fast."
+            }
+        ]
+    },
+    {
+        "scene_number": 6,
+        "start_frame": 773,
+        "end_frame": 849,
+        "start_time": 32.240541666666665,
+        "end_time": 35.410374999999995,
+        "duration": 3.1698333333333295,
+        "scene_path": "videos/dJU1SZIfK3Y/dJU1SZIfK3Y_scenes/scene_006.mp4",
+        "transcript": [
+            {
+                "text": "I think they're too small.",
+                "start": 0.0,
+                "end": 1.06
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Buddy, in green elf outfit, stands indoors. His face shows confusion."
+            },
+            {
+                "start_time": 1.5,
+                "type": "Visual",
+                "text": "Buddy turns to look at another elf wearing orange clothes holding scissors."
+            }
+        ]
+    },
+    {
+        "scene_number": 7,
+        "start_frame": 850,
+        "end_frame": 1031,
+        "start_time": 35.452083333333334,
+        "end_time": 43.00129166666667,
+        "duration": 7.549208333333333,
+        "scene_path": "videos/dJU1SZIfK3Y/dJU1SZIfK3Y_scenes/scene_007.mp4",
+        "transcript": [
+            {
+                "text": "You just special.",
+                "start": 1.0,
+                "end": 4.3
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "MOVIECLIPS.COM"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Buddy sits in small tub. Steam fills room. Buddy looks confused."
+            },
+            {
+                "start_time": 1.5,
+                "type": "Visual",
+                "text": "Buddy rubs arm. He feels skin texture."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "Buddy turns head sharply. Surprise crosses face."
+            },
+            {
+                "start_time": 5.0,
+                "type": "Visual",
+                "text": "Buddy leans forward in tub. He speaks to self softly."
+            }
+        ]
+    },
+    {
+        "scene_number": 8,
+        "start_frame": 1032,
+        "end_frame": 1118,
+        "start_time": 43.043,
+        "end_time": 46.62991666666667,
+        "duration": 3.586916666666667,
+        "scene_path": "videos/dJU1SZIfK3Y/dJU1SZIfK3Y_scenes/scene_008.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Buddy lies in small bed, then springs up."
+            },
+            {
+                "start_time": 0.8,
+                "type": "Visual",
+                "text": "Buddy falls off bed onto floor."
+            }
+        ]
+    },
+    {
+        "scene_number": 9,
+        "start_frame": 1119,
+        "end_frame": 1168,
+        "start_time": 46.671625,
+        "end_time": 48.71533333333333,
+        "duration": 2.0437083333333277,
+        "scene_path": "videos/dJU1SZIfK3Y/dJU1SZIfK3Y_scenes/scene_009.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "MOVIECLIPS.COM"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Buddy stands in old photo with tiny elves. Frame shakes slightly."
+            }
+        ]
+    },
+    {
+        "scene_number": 10,
+        "start_frame": 1169,
+        "end_frame": 1479,
+        "start_time": 48.757041666666666,
+        "end_time": 61.68662499999999,
+        "duration": 12.929583333333326,
+        "scene_path": "videos/dJU1SZIfK3Y/dJU1SZIfK3Y_scenes/scene_010.mp4",
+        "transcript": [
+            {
+                "text": "You don't look so good, buddy. Are you okay?",
+                "start": 9.68,
+                "end": 12.3
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Buddy holds photo with tiny elves. He stares at clown toy. Buddy looks shocked."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Text on Screen",
+                "text": "MOVIECLIPS.COM"
+            }
+        ]
+    },
+    {
+        "scene_number": 11,
+        "start_frame": 1480,
+        "end_frame": 1611,
+        "start_time": 61.72833333333333,
+        "end_time": 67.19212499999999,
+        "duration": 5.463791666666658,
+        "scene_path": "videos/dJU1SZIfK3Y/dJU1SZIfK3Y_scenes/scene_011.mp4",
+        "transcript": [
+            {
+                "text": "I'll be okay. I just need a glass of water.",
+                "start": 0.0,
+                "end": 1.88
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Buddy stands in elf workshop. He wears green outfit. Buddy looks confused."
+            },
+            {
+                "start_time": 2.5,
+                "type": "Visual",
+                "text": "Orange-clad elf turns to face Buddy. He speaks while gesturing with hands."
+            },
+            {
+                "start_time": 4.0,
+                "type": "Visual",
+                "text": "Blue-capped elf works on teddy bears. He sits at table, focused on task."
+            }
+        ]
+    },
+    {
+        "scene_number": 12,
+        "start_frame": 1612,
+        "end_frame": 2245,
+        "start_time": 67.23383333333332,
+        "end_time": 93.63520833333332,
+        "duration": 26.401375,
+        "scene_path": "videos/dJU1SZIfK3Y/dJU1SZIfK3Y_scenes/scene_012.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "MOVIECLIPS.COM\nWATCH HOTTRAILERS!\nclick below to watch related movie clips"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Buddy lies flat on floor in elf costume, shocked."
+            },
+            {
+                "start_time": 7.0,
+                "type": "Text on Screen",
+                "text": "ACTOR\nWill Ferrell\nACTOR\nPeter Billingsley\nDIRECTOR\nJon Favreau"
+            },
+            {
+                "start_time": 7.0,
+                "type": "Visual",
+                "text": "Scene transitions to black screen with movie credits scrolling up."
+            },
+            {
+                "start_time": 14.0,
+                "type": "Text on Screen",
+                "text": "GENRE\nChildren & Family\nBEST OF THE BEST\nHilarious!\nACTION\nFall"
+            },
+            {
+                "start_time": 14.0,
+                "type": "Visual",
+                "text": "Black screen continues with genre and action labels appearing."
+            },
+            {
+                "start_time": 21.0,
+                "type": "Text on Screen",
+                "text": "OCCASION\nChristmas\nCHARACTER TYPE\nLittle Person\nTHEME\nTruth"
+            },
+            {
+                "start_time": 21.0,
+                "type": "Visual",
+                "text": "Black screen displays occasion, character type, and theme details."
+            },
+            {
+                "start_time": 26.0,
+                "type": "Text on Screen",
+                "text": "watch\nMOVIECLIPS MASHUPS\nplay\nMOVIECLIPS GAMES\nenjoy\nMOVIECLIPS SHOWS"
+            },
+            {
+                "start_time": 26.0,
+                "type": "Visual",
+                "text": "Final black screen lists movie clips website features."
+            }
+        ]
+    },
+    {
+        "scene_number": 13,
+        "start_frame": 2246,
+        "end_frame": 2339,
+        "start_time": 93.67691666666666,
+        "end_time": 97.5975,
+        "duration": 3.92058333333334,
+        "scene_path": "videos/dJU1SZIfK3Y/dJU1SZIfK3Y_scenes/scene_013.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "MOVIECLIPS.COM"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Screen fades to black."
+            }
+        ]
+    }
+]

@@ -1,0 +1,291 @@
+[
+  {
+    "scene_number": 1,
+    "start_time": 6.88,
+    "end_time": 8.224,
+    "duration": 1.344,
+    "type": "Text on Screen",
+    "text": "Bald Eagles"
+  },
+  {
+    "scene_number": 1,
+    "start_time": 6.88,
+    "end_time": 10.432,
+    "duration": 3.552,
+    "type": "Visual",
+    "text": "Bald eagle on snowy shore, watching the sea.",
+    "fits_in_gap": false,
+    "original_text": "A bald eagle is perched on a snowy shoreline, gazing towards the sea."
+  },
+  {
+    "scene_number": 2,
+    "start_time": 17.020833333333336,
+    "end_time": 19.708833333333335,
+    "duration": 2.688,
+    "type": "Visual",
+    "text": "Bald eagle, snowy mountains.",
+    "fits_in_gap": false,
+    "original_text": "Close-up: A bald eagle perched against a backdrop of snow-capped mountains."
+  },
+  {
+    "scene_number": 2,
+    "start_time": 22.020833333333336,
+    "end_time": 24.468833333333336,
+    "duration": 2.448,
+    "type": "Visual",
+    "text": "Bald eagle on a bare branch.",
+    "fits_in_gap": false,
+    "original_text": "A bald eagle is perched on a bare tree branch against a clear blue sky."
+  },
+  {
+    "scene_number": 2,
+    "start_time": 30.060833333333335,
+    "end_time": 32.700833333333335,
+    "duration": 2.64,
+    "type": "Visual",
+    "text": "Bald eagle, ocean background.",
+    "fits_in_gap": false,
+    "original_text": "Close-up: A bald eagle's head and shoulders, with the sea in the background."
+  },
+  {
+    "scene_number": 3,
+    "start_time": 34.30093333333333,
+    "end_time": 35.35693333333333,
+    "duration": 1.056,
+    "type": "Text on Screen",
+    "text": "Fledgling"
+  },
+  {
+    "scene_number": 3,
+    "start_time": 34.30093333333333,
+    "end_time": 38.18893333333333,
+    "duration": 3.888,
+    "type": "Visual",
+    "text": "Young bald eagle on a grassy bank overlooking water.",
+    "fits_in_gap": false,
+    "original_text": "A young, all-brown bald eagle, a fledgling, sits near the edge of a grassy bank overlooking a body of water."
+  },
+  {
+    "scene_number": 4,
+    "start_time": 40.00663333333333,
+    "end_time": 43.94263333333333,
+    "duration": 3.936,
+    "type": "Visual",
+    "text": "Bald eagle soars over snow-capped mountains and water.",
+    "fits_in_gap": false,
+    "original_text": "An adult Bald Eagle soars through the air against a backdrop of snow-capped mountains and a large lake or sea."
+  },
+  {
+    "scene_number": 5,
+    "start_time": 48.3483,
+    "end_time": 50.0763,
+    "duration": 1.728,
+    "type": "Text on Screen",
+    "text": "E PLURIBUS UNUM"
+  },
+  {
+    "scene_number": 5,
+    "start_time": 48.3483,
+    "end_time": 50.0763,
+    "duration": 1.728,
+    "type": "Text on Screen",
+    "text": "ANNUIT COEPTIS"
+  },
+  {
+    "scene_number": 5,
+    "start_time": 48.3483,
+    "end_time": 52.0683,
+    "duration": 3.72,
+    "type": "Visual",
+    "text": "A bald eagle soars, the Great Seal to its left.",
+    "fits_in_gap": false,
+    "original_text": "The Great Seal of the USA is shown on the left side of the screen. An adult Bald Eagle soars in flight on the right side of the screen against a cloudy sky."
+  },
+  {
+    "scene_number": 6,
+    "start_time": 54.187466666666666,
+    "end_time": 56.251466666666666,
+    "duration": 2.064,
+    "type": "Visual",
+    "text": "Eagle soars over water.",
+    "fits_in_gap": false,
+    "original_text": "A Bald Eagle soars over a large body of water."
+  },
+  {
+    "scene_number": 6,
+    "start_time": 58.687466666666666,
+    "end_time": 61.111466666666665,
+    "duration": 2.424,
+    "type": "Visual",
+    "text": "Bald eagle in autumn leaves.",
+    "fits_in_gap": false,
+    "original_text": "The Bald Eagle perches in a tree with fall foliage."
+  },
+  {
+    "scene_number": 7,
+    "start_time": 64.06400000000001,
+    "end_time": 66.92,
+    "duration": 2.856,
+    "type": "Visual",
+    "text": "Eagle soars, scanning the water.",
+    "fits_in_gap": false,
+    "original_text": "A Bald Eagle soars through the sky, scanning the water below."
+  },
+  {
+    "scene_number": 7,
+    "text": "Eagle steals fish, drops it, catches another, flies off.",
+    "type": "Visual",
+    "duration": 5.16,
+    "fits_in_gap": true,
+    "original_texts": [
+      "The eagle snatches a fish from the water with its talons.",
+      "Another eagle appears and tries to steal the fish.",
+      "During the struggle, the first eagle drops the fish.",
+      "The eagle dives again and successfully catches another fish.",
+      "The eagle flies away with the fish."
+    ],
+    "start_time": 71.504,
+    "end_time": 76.664
+  },
+  {
+    "scene_number": 8,
+    "text": "A bald eagle swoops down, snatches a fish, and another eagle tries to steal it.",
+    "type": "Visual",
+    "duration": 6.24,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A Bald Eagle swoops down towards the water.",
+      "The Bald Eagle snatches a fish from the water with its talons.",
+      "Another Bald Eagle attempts to steal the fish."
+    ],
+    "start_time": 78.71196666666667,
+    "end_time": 84.95196666666666
+  },
+  {
+    "scene_number": 9,
+    "text": "A bald eagle swoops low over the river, dipping its talons in the water before soaring again.",
+    "type": "Visual",
+    "duration": 6.768,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A Bald Eagle soars low over a river.",
+      "The Bald Eagle dips its talons in the water briefly and resumes soaring."
+    ],
+    "start_time": 89.88980000000001,
+    "end_time": 96.65780000000001
+  },
+  {
+    "scene_number": 10,
+    "start_time": 98.23146666666666,
+    "end_time": 101.66346666666666,
+    "duration": 3.432,
+    "type": "Visual",
+    "text": "Eagle low over water, fish in talons.",
+    "fits_in_gap": false,
+    "original_text": "A Bald Eagle flies low over the water, carrying a fish in its talons."
+  },
+  {
+    "scene_number": 10,
+    "start_time": 102.23146666666666,
+    "end_time": 105.51946666666666,
+    "duration": 3.288,
+    "type": "Visual",
+    "text": "Eagle approaches, trying to steal the fish.",
+    "fits_in_gap": false,
+    "original_text": "Another Bald Eagle approaches, attempting to steal the fish."
+  },
+  {
+    "scene_number": 10,
+    "start_time": 116.23146666666666,
+    "end_time": 117.95946666666666,
+    "duration": 1.728,
+    "type": "Visual",
+    "text": "Eagle drops fish.",
+    "fits_in_gap": false,
+    "original_text": "The first eagle drops the fish into the water."
+  },
+  {
+    "scene_number": 10,
+    "text": "The second eagle dives for the dropped fish, but misses.",
+    "type": "Visual",
+    "duration": 3.984,
+    "fits_in_gap": true,
+    "original_texts": [
+      "The second eagle dives towards the water where the first eagle dropped the fish and misses."
+    ],
+    "start_time": 127.36146666666666,
+    "end_time": 131.34546666666665
+  },
+  {
+    "scene_number": 11,
+    "text": "A bald eagle swoops low, clutching a fish in its talons.",
+    "type": "Visual",
+    "duration": 4.896,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A Bald Eagle flies low over the water, carrying a fish in its talons."
+    ],
+    "start_time": 134.4343,
+    "end_time": 139.3303
+  },
+  {
+    "scene_number": 11,
+    "text": "Eagle snatches fish and soars away over the water.",
+    "type": "Visual",
+    "duration": 3.672,
+    "fits_in_gap": true,
+    "original_texts": [
+      "The eagle successfully carries the fish away, flying over the water's surface."
+    ],
+    "start_time": 147.7543,
+    "end_time": 151.4263
+  },
+  {
+    "scene_number": 12,
+    "start_time": 154.2541,
+    "end_time": 157.71009999999998,
+    "duration": 3.456,
+    "type": "Visual",
+    "text": "High in a tree, a bald eagle eats a fish.",
+    "fits_in_gap": false,
+    "original_text": "A Bald Eagle is perched high in a tree, eating a fish it has caught."
+  },
+  {
+    "scene_number": 13,
+    "text": "A bald eagle perches on a metal structure.",
+    "type": "Visual",
+    "duration": 3.24,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A bald eagle is perched on a metal structure."
+    ],
+    "start_time": 162.69586666666666,
+    "end_time": 165.93586666666667
+  },
+  {
+    "scene_number": 13,
+    "start_time": 181.44586666666666,
+    "end_time": 182.52586666666667,
+    "duration": 1.08,
+    "type": "Text on Screen",
+    "text": "cranes"
+  },
+  {
+    "scene_number": 13,
+    "start_time": 181.44586666666666,
+    "end_time": 182.78986666666665,
+    "duration": 1.344,
+    "type": "Text on Screen",
+    "text": "sea lions"
+  },
+  {
+    "scene_number": 13,
+    "start_time": 181.44586666666666,
+    "end_time": 184.90186666666665,
+    "duration": 3.456,
+    "type": "Visual",
+    "text": "Cranes fly alongside swimming sea lions.",
+    "fits_in_gap": false,
+    "original_text": "Two videos appear side by side, one showing cranes in flight and the other showing sea lions swimming underwater."
+  }
+]

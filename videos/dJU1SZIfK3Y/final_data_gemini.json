@@ -1,0 +1,183 @@
+{
+  "dialogue_timestamps": [
+    {
+      "start_time": 0.14,
+      "end_time": 4.7,
+      "duration": 4.66,
+      "audio_text": "I hate to do this to you, but I think you can help me pick up the slack on those edges catches. No problem",
+      "sequence_num": 1
+    },
+    {
+      "start_time": 4.8,
+      "end_time": 9.5,
+      "duration": 4.8,
+      "audio_text": "I appreciate it, but he's killing me. I only got lum lum and choo-choo pulling doubles",
+      "sequence_num": 2
+    },
+    {
+      "start_time": 10.28,
+      "end_time": 13.32,
+      "duration": 3.14,
+      "audio_text": "Quick thinking yesterday with that special talents thing",
+      "sequence_num": 3
+    },
+    {
+      "start_time": 13.847166666666666,
+      "end_time": 16.187166666666666,
+      "duration": 2.44,
+      "audio_text": "I feel bad for the guy. I just hope he doesn't get wise.",
+      "sequence_num": 4
+    },
+    {
+      "start_time": 16.76675,
+      "end_time": 19.326749999999997,
+      "duration": 2.66,
+      "audio_text": "Well, he hasn't figured out he's a human by now.",
+      "sequence_num": 5
+    },
+    {
+      "start_time": 19.76975,
+      "end_time": 20.76975,
+      "duration": 1.1,
+      "audio_text": "I don't think he ever will.",
+      "sequence_num": 6
+    },
+    {
+      "start_time": 26.316666666666666,
+      "end_time": 29.836666666666666,
+      "duration": 3.62,
+      "audio_text": "If he hasn't figured out he's a human by now, I don't think he ever will.",
+      "sequence_num": 7
+    },
+    {
+      "start_time": 32.240541666666665,
+      "end_time": 33.200541666666666,
+      "duration": 1.06,
+      "audio_text": "I think they're too small.",
+      "sequence_num": 8
+    },
+    {
+      "start_time": 36.452083333333334,
+      "end_time": 39.65208333333333,
+      "duration": 3.3,
+      "audio_text": "You just special.",
+      "sequence_num": 9
+    },
+    {
+      "start_time": 58.437041666666666,
+      "end_time": 60.95704166666666,
+      "duration": 2.62,
+      "audio_text": "You don't look so good, buddy. Are you okay?",
+      "sequence_num": 10
+    },
+    {
+      "start_time": 61.72833333333333,
+      "end_time": 63.50833333333333,
+      "duration": 1.88,
+      "audio_text": "I'll be okay. I just need a glass of water.",
+      "sequence_num": 11
+    }
+  ],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "Two elves stand by shelves full of toys, holding mugs. Buddy eavesdrops from above.",
+      "type": "Visual",
+      "start_time": 7.01,
+      "end_time": 7.01,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "Close-up on Buddy, his face partially hidden between the ceiling beams. He ducks further out of sight.",
+      "type": "Visual",
+      "start_time": 20.86975,
+      "end_time": 24.9775,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 5,
+      "text": "Buddy looks surprised.",
+      "type": "Visual",
+      "start_time": 25.066666666666666,
+      "end_time": 26.0766666666665,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 5,
+      "text": "The scene warps and fades to white.",
+      "type": "Visual",
+      "start_time": 30.75208333333333,
+      "end_time": 32.175208333333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 6,
+      "text": "Buddy looks down. An elf tries to fit a small black show on a shoe for Buddy",
+      "type": "Visual",
+      "start_time": 34.93666666666667,
+      "end_time": 38.25666666666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "Buddy takes a shower in a small elf-sized stall.",
+      "type": "Visual",
+      "start_time": 38.452083333333334,
+      "end_time": 40.562083333333334,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "Buddy sleeps across two small beds. He rolls over and falls onto the floor.",
+      "type": "Visual",
+      "start_time": 43.043,
+      "end_time": 49.890999999999996,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 9,
+      "text": "A framed photograph shows a group of elves and Buddy is cut out of the frame",
+      "type": "Visual",
+      "start_time": 49.951625,
+      "end_time": 53.141625,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 10,
+      "text": "Buddy is lifted by other elves while playing basketball in a framed photo.",
+      "type": "Visual",
+      "start_time": 48.757041666666666,
+      "end_time": 48.757041666666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 10,
+      "text": "A jack-in-the-box is shown. An elf dressed in orange looks up and speaks to Buddy.",
+      "type": "Visual",
+      "start_time": 50.797041666666665,
+      "end_time": 56.697041666666665,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 11,
+      "text": "Buddy falls down onto the elf.",
+      "type": "Visual",
+      "start_time": 63.608333333333334,
+      "end_time": 66.60833333333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 13,
+      "text": "MOVIECLIPS.COM",
+      "type": "Text on Screen",
+      "start_time": 93.67691666666666,
+      "end_time": 95.67691666666666,
+      "track_type": "inline"
+    }
+  ],
+  "youtube_id": "dJU1SZIfK3Y",
+  "video_name": "Elf (1/5) Movie CLIP - Buddy Realizes He's Human (2003) HD",
+  "video_length": 98,
+  "aiUserId": "6881366ec48a17363190231b"
+}

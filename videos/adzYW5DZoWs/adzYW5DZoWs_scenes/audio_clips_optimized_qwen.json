@@ -1,0 +1,237 @@
+[
+  {
+    "scene_number": 1,
+    "start_time": 1.5,
+    "end_time": 3.1799999999999997,
+    "duration": 1.68,
+    "type": "Text on Screen",
+    "text": "LUCASFILM Ltd"
+  },
+  {
+    "scene_number": 2,
+    "text": "\"Dark screen, text fainting.\"",
+    "type": "Visual",
+    "duration": 3.696,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Dark screen with faint, barely discernible text 'LUCASFILM' at the center."
+    ],
+    "start_time": 6.005999999999999,
+    "end_time": 9.702
+  },
+  {
+    "scene_number": 3,
+    "text": "Rey stands in a vast desert landscape, dressed in her signature beige outfit under cloudy sky with rocks far off.",
+    "type": "Visual",
+    "duration": 6.504,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Rey stands in a vast desert landscape, dressed in her signature beige outfit with a lightsaber at her side. The terrain is barren with distant rock formations under a cloudy sky."
+    ],
+    "start_time": 10.01,
+    "end_time": 16.514
+  },
+  {
+    "scene_number": 3,
+    "text": "\"Rey determined; reaches down her belt and grips her blaster pistol firmly.\"",
+    "type": "Visual",
+    "duration": 3.024,
+    "fits_in_gap": true,
+    "original_texts": [
+      "The camera slowly zooms in on Rey's face, emphasizing her determined expression.",
+      "Rey reaches down to adjust her belt."
+    ],
+    "start_time": 20.96,
+    "end_time": 23.984
+  },
+  {
+    "scene_number": 7,
+    "start_time": 36.119416666666666,
+    "end_time": 38.543416666666666,
+    "duration": 2.424,
+    "type": "Text on Screen",
+    "text": "EVERY GENERATION HAS A LEGEND"
+  },
+  {
+    "scene_number": 7,
+    "text": "A sandy desert landscape unfolds, fine sand swirling across the screen. The camera pans to rocky outcroppings in the distance as Rey charges across the desert, a weapon in hand.",
+    "type": "Visual",
+    "duration": 13.608,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A sandy desert landscape is shown, with fine sand particles blowing across the screen.",
+      "The camera pans over the desert, showing rocky outcroppings in the distance.",
+      "Rey is seen running across the desert, holding a weapon in one hand."
+    ],
+    "start_time": 38.543416666666666,
+    "end_time": 52.15141666666666
+  },
+  {
+    "scene_number": 8,
+    "text": "\"Rey sprints with blue saber, speeder bike kicks up dust.\"",
+    "type": "Visual",
+    "duration": 4.416,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Rey, holding a blue lightsaber, sprints across a vast desert landscape under a partly cloudy sky.",
+      "In the distance, a speeder bike runs across the sand, kicking up dust behind it."
+    ],
+    "start_time": 61.394666666666666,
+    "end_time": 65.81066666666666
+  },
+  {
+    "scene_number": 9,
+    "text": "\"Rey flips with blue saber over bike.\"",
+    "type": "Visual",
+    "duration": 2.976,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Rey leaps into the air with her blue lightsaber ignited, performing an acrobatic flip over a speeder bike racing through a desert landscape."
+    ],
+    "start_time": 65.89916666666666,
+    "end_time": 68.87516666666666
+  },
+  {
+    "scene_number": 10,
+    "start_time": 69.02729166666666,
+    "end_time": 70.44329166666665,
+    "duration": 1.416,
+    "type": "Text on Screen",
+    "text": "THIS CHRISTMAS"
+  },
+  {
+    "scene_number": 10,
+    "start_time": 70.02729166666666,
+    "end_time": 72.11529166666665,
+    "duration": 2.088,
+    "type": "Visual",
+    "text": "Starry space background.",
+    "fits_in_gap": false
+  },
+  {
+    "scene_number": 11,
+    "text": "Blue lights flicker in rock shadows, eerie glow.",
+    "type": "Visual",
+    "duration": 3.72,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Bright blue lights emerge from the shadows of the rocks, casting an eerie glow across the scene. These lights flicker intermittently, adding a sense of mystery and foreboding."
+    ],
+    "start_time": 71.11270833333333,
+    "end_time": 74.83270833333333
+  },
+  {
+    "scene_number": 12,
+    "text": "\"Kylo Ren charges with his red lightsaber ignited, amidst burning trees and smoke-filled air.\"",
+    "type": "Visual",
+    "duration": 2.856,
+    "fits_in_gap": false,
+    "original_texts": [
+      "Kylo Ren charges forward aggressively with red lightsaber ignited, as he lunges toward opponents amidst burning trees and smoke-filled air."
+    ],
+    "start_time": 75.07499999999999,
+    "end_time": 77.93099999999998
+  },
+  {
+    "scene_number": 13,
+    "text": "Red droid, dim light. Finn outside, group behind. BB-8 in dark room. Cockpit, space view. Lando focused. Hyperspace shot.",
+    "type": "Visual",
+    "duration": 12.024,
+    "fits_in_gap": false,
+    "original_texts": [
+      "A droid with a red glowing light on its head is seen in a dimly lit environment.",
+      "The camera shifts to show Finn standing outdoors near rocky terrain with others in the background.",
+      "BB-8 and another spherical droid are inside a dark, cluttered room with various equipment around them.",
+      "The cockpit of a spacecraft is shown with characters seated inside, looking out at space.",
+      "A close-up of Lando Calrissian wearing a headset, appearing focused and intense.",
+      "The view transitions to a spaceship traveling through hyperspace."
+    ],
+    "start_time": 77.45237499999999,
+    "end_time": 89.47637499999999
+  },
+  {
+    "scene_number": 14,
+    "start_time": 85.83574999999999,
+    "end_time": 87.94774999999998,
+    "duration": 2.112,
+    "type": "Text on Screen",
+    "text": "THE SAGA COMES TO AN END"
+  },
+  {
+    "scene_number": 15,
+    "text": "\"Desert blast, C-3PO with gun, sparks.\"",
+    "type": "Visual",
+    "duration": 5.16,
+    "fits_in_gap": false,
+    "original_texts": [
+      "An explosion erupts in a desert landscape with rocky formations and ancient pillars.",
+      "C-3PO, a golden droid, appears to be leaning against a vehicle, holding a weapon, while sparks fly around him."
+    ],
+    "start_time": 87.83775,
+    "end_time": 92.99775
+  },
+  {
+    "scene_number": 16,
+    "start_time": 92.34224999999999,
+    "end_time": 95.67824999999999,
+    "duration": 3.336,
+    "type": "Visual",
+    "text": "A golden medallion with intricate designs.",
+    "fits_in_gap": false
+  },
+  {
+    "scene_number": 16,
+    "start_time": 93.84224999999999,
+    "end_time": 96.19425,
+    "duration": 2.352,
+    "type": "Visual",
+    "text": "Rey embraces another warmly.",
+    "fits_in_gap": false
+  },
+  {
+    "scene_number": 16,
+    "start_time": 96.34224999999999,
+    "end_time": 101.16624999999999,
+    "duration": 4.824,
+    "type": "Visual",
+    "text": "Rey, Finn, and Poe stand in a field, looking ahead.",
+    "fits_in_gap": false
+  },
+  {
+    "scene_number": 17,
+    "text": "\"Rey walks towards the edge of a cliff, facing a stormy sea.\"",
+    "type": "Visual",
+    "duration": 2.736,
+    "fits_in_gap": false,
+    "original_texts": [
+      "Rey as she walks towards the edge of a cliff, facing a stormy sea."
+    ],
+    "start_time": 102.79508333333332,
+    "end_time": 105.53108333333333
+  },
+  
+  {
+    "scene_number": 19,
+    "start_time": 111.23612499999999,
+    "end_time": 112.65212499999998,
+    "duration": 1.416,
+    "type": "Text on Screen",
+    "text": "STAR WARS"
+  },
+  {
+    "scene_number": 19,
+    "start_time": 114.23612499999999,
+    "end_time": 116.18012499999999,
+    "duration": 1.944,
+    "type": "Text on Screen",
+    "text": "THE RISE OF SKYWALKER"
+  },
+  {
+    "scene_number": 20,
+    "start_time": 120.16170833333332,
+    "end_time": 121.28970833333332,
+    "duration": 1.128,
+    "type": "Text on Screen",
+    "text": "DECEMBER"
+  }
+]

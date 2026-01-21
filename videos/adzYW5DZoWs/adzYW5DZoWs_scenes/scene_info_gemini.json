@@ -1,0 +1,527 @@
+[
+    {
+        "scene_number": 1,
+        "start_frame": 0,
+        "end_frame": 143,
+        "start_time": 0.0,
+        "end_time": 5.964291666666666,
+        "duration": 5.964291666666666,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_001.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 1.5,
+                "type": "Text on Screen",
+                "text": "LUCASFILM Ltd"
+            }
+        ]
+    },
+    {
+        "scene_number": 2,
+        "start_frame": 144,
+        "end_frame": 239,
+        "start_time": 6.005999999999999,
+        "end_time": 9.968291666666666,
+        "duration": 3.9622916666666663,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_002.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": []
+    },
+    {
+        "scene_number": 3,
+        "start_frame": 240,
+        "end_frame": 595,
+        "start_time": 10.01,
+        "end_time": 24.816458333333333,
+        "duration": 14.806458333333333,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_003.mp4",
+        "transcript": [
+            {
+                "text": "We've passed on all we know.",
+                "start": 9.29,
+                "end": 10.95
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Rey stands in the desert."
+            },
+            {
+                "start_time": 12.5,
+                "type": "Visual",
+                "text": "Rey draws a lightsaber."
+            }
+        ]
+    },
+    {
+        "scene_number": 4,
+        "start_frame": 596,
+        "end_frame": 677,
+        "start_time": 24.858166666666666,
+        "end_time": 28.236541666666664,
+        "duration": 3.3783749999999984,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_004.mp4",
+        "transcript": [
+            {
+                "text": "A thousand generations live in you now.",
+                "start": 0.3,
+                "end": 2.84
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Rey is looking towards the horizon."
+            },
+            {
+                "start_time": 1.5,
+                "type": "Visual",
+                "text": "Rey wears a light colored robe over white pants."
+            }
+
+        ]
+    },
+    {
+        "scene_number": 5,
+        "start_frame": 678,
+        "end_frame": 785,
+        "start_time": 28.278249999999996,
+        "end_time": 32.74104166666667,
+        "duration": 4.462791666666671,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_005.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Rey has a holster attached to her waist and grips the lightsaber tightly. A ship flies in the distance."
+            }
+        ]
+    },
+    {
+        "scene_number": 6,
+        "start_frame": 786,
+        "end_frame": 865,
+        "start_time": 32.78275,
+        "end_time": 36.077708333333334,
+        "duration": 3.2949583333333337,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_006.mp4",
+        "transcript": [
+            {
+                "text": "But this is your fight",
+                "start": 0.33,
+                "end": 1.69
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 1.25,
+                "type": "Visual",
+                "text": "Rey ignites her lightsaber and assumes a fighting stance."
+            }
+        ]
+    },
+    {
+        "scene_number": 7,
+        "start_frame": 866,
+        "end_frame": 1471,
+        "start_time": 36.119416666666666,
+        "end_time": 61.352958333333326,
+        "duration": 25.23354166666666,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_007.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "EVERY GENERATION HAS A LEGEND"
+            },
+            {
+                "start_time": 18.56,
+                "type": "Visual",
+                "text": "Rey runs through the desert, wielding a lightsaber."
+            },
+            {
+                "start_time": 21.03,
+                "type": "Visual",
+                "text": "Gloved hands grip controls in a cockpit."
+            }
+        ]
+    },
+    {
+        "scene_number": 8,
+        "start_frame": 1472,
+        "end_frame": 1579,
+        "start_time": 61.394666666666666,
+        "end_time": 65.85745833333333,
+        "duration": 4.462791666666661,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_008.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A small, TIE fighter-style craft pursues Rey, kicking up sand."
+            }
+        ]
+    },
+    {
+        "scene_number": 9,
+        "start_frame": 1580,
+        "end_frame": 1654,
+        "start_time": 65.89916666666666,
+        "end_time": 68.98558333333332,
+        "duration": 3.086416666666665,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_009.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Rey ignites her blue lightsaber and faces the pursuing TIE fighter."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "Rey flips over the TIE fighter as it flies low to the ground."
+            }
+        ]
+    },
+    {
+        "scene_number": 10,
+        "start_frame": 1655,
+        "end_frame": 1704,
+        "start_time": 69.02729166666666,
+        "end_time": 71.071,
+        "duration": 2.043708333333342,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_010.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "THIS CHRISTMAS"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Rey stands alone in a desert landscape."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "A TIE fighter approaches Rey from behind."
+            }
+        ]
+    },
+    {
+        "scene_number": 11,
+        "start_frame": 1705,
+        "end_frame": 1799,
+        "start_time": 71.11270833333333,
+        "end_time": 75.03329166666666,
+        "duration": 3.920583333333326,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_011.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Dark, misty mountains emerge from the clouds."
+            },
+            {
+                "start_time": 1.96,
+                "type": "Visual",
+                "text": "A small, glowing vehicle flies through the misty air towards a city nestled among the mountain peaks."
+            }
+        ]
+    },
+    {
+        "scene_number": 12,
+        "start_frame": 1800,
+        "end_frame": 1856,
+        "start_time": 75.07499999999999,
+        "end_time": 77.41066666666666,
+        "duration": 2.3356666666666683,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_012.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Kylo Ren ignites his red lightsaber in a smoky, red-tinged forest. "
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "Kylo Ren attacks and kills an unseen enemy."
+            },
+            {
+                "start_time": 1.5,
+                "type": "Visual",
+                "text": "Two stormtroopers fire their blasters."
+            }
+        ]
+    },
+    {
+        "scene_number": 13,
+        "start_frame": 1857,
+        "end_frame": 2057,
+        "start_time": 77.45237499999999,
+        "end_time": 85.79404166666666,
+        "duration": 8.341666666666669,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_013.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Close-up of welding sparks on Kylo Ren's damaged helmet."
+            },
+            {
+                "start_time": 1.84,
+                "type": "Visual",
+                "text": "Finn stands on a rocky desert overlook with another person."
+            },
+            {
+                "start_time": 2.24,
+                "type": "Visual",
+                "text": "Close-up of BB-8 with D-O."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "Poe Dameron and Chewbacca pilot the Millennium Falcon."
+            },
+            {
+                "start_time": 4.32,
+                "type": "Visual",
+                "text": "Lando Calrissian smiles at the controls of the Millennium Falcon."
+            },
+            {
+                "start_time": 6.52,
+                "type": "Visual",
+                "text": "The Millennium Falcon jumps to hyperspace."
+            }
+        ]
+    },
+    {
+        "scene_number": 14,
+        "start_frame": 2058,
+        "end_frame": 2105,
+        "start_time": 85.83574999999999,
+        "end_time": 87.79604166666667,
+        "duration": 1.9602916666666772,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_014.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "THE SAGA COMES TO AN END"
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "A desert landscape."
+            }
+        ]
+    },
+    {
+        "scene_number": 15,
+        "start_frame": 2106,
+        "end_frame": 2213,
+        "start_time": 87.83775,
+        "end_time": 92.30054166666666,
+        "duration": 4.462791666666661,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_015.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Explosion in the desert landscape"
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "A speeder bike emerges from the explosion"
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "C-3PO and an unknown character ride the speeder bike"
+            }
+        ]
+    },
+    {
+        "scene_number": 16,
+        "start_frame": 2214,
+        "end_frame": 2361,
+        "start_time": 92.34224999999999,
+        "end_time": 98.47337499999999,
+        "duration": 6.131124999999997,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_016.mp4",
+        "transcript": [
+            {
+                "text": "We'll always be with you.",
+                "start": 0.0,
+                "end": 4.6
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A ship flies through the air, trailing flames."
+            },
+            {
+                "start_time": 1.12,
+                "type": "Visual",
+                "text": "A pair of hands holds a golden, circular object."
+            },
+            {
+                "start_time": 2.08,
+                "type": "Visual",
+                "text": "Rey embraces Leia."
+            },
+            {
+                "start_time": 4.18,
+                "type": "Visual",
+                "text": "Rey stands in a grassy field. C-3PO and Poe Dameron stand behind her."
+            }
+        ]
+    },
+    {
+        "scene_number": 17,
+        "start_frame": 2362,
+        "end_frame": 2513,
+        "start_time": 98.51508333333332,
+        "end_time": 104.81304166666666,
+        "duration": 6.297958333333341,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_017.mp4",
+        "transcript": [
+            {
+                "text": "No one's ever really gone.",
+                "start": 0.0,
+                "end": 4.28
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Rey stands on a grassy shore, facing a rough sea.  A large, partially submerged wreckage resembling a spacecraft is visible in the water.  A man stands behind her."
+            },
+            {
+                "start_time": 4.5,
+                "type": "Visual",
+                "text": "The wreckage is revealed to be the ruins of the Death Star."
+            }
+        ]
+    },
+    {
+        "scene_number": 18,
+        "start_frame": 2514,
+        "end_frame": 2666,
+        "start_time": 104.85475,
+        "end_time": 111.19441666666665,
+        "duration": 6.339666666666659,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_018.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Rey ignites her lightsaber."
+            },
+            {
+                "start_time": 1.12,
+                "type": "Visual",
+                "text": "She begins practicing lightsaber combat."
+            },
+            {
+                "start_time": 3.24,
+                "type": "Visual",
+                "text": "A training remote fires at Rey."
+            },
+            {
+                "start_time": 4.32,
+                "type": "Visual",
+                "text": "Rey deflects the training remote's shots using her lightsaber."
+            }
+        ]
+    },
+    {
+        "scene_number": 19,
+        "start_frame": 2667,
+        "end_frame": 2880,
+        "start_time": 111.23612499999999,
+        "end_time": 120.11999999999999,
+        "duration": 8.883875000000003,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_019.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "STAR WARS"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The title card for \"Star Wars: The Rise of Skywalker\" appears against a backdrop of stars."
+            },
+            {
+                "start_time": 3.88,
+                "type": "Text on Screen",
+                "text": "THE RISE OF SKYWALKER"
+            }
+        ]
+    },
+    {
+        "scene_number": 20,
+        "start_frame": 2881,
+        "end_frame": 2968,
+        "start_time": 120.16170833333332,
+        "end_time": 123.83204166666665,
+        "duration": 3.670333333333332,
+        "scene_path": "videos/adzYW5DZoWs/adzYW5DZoWs_scenes/scene_020.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "DECEMBER"
+            },
+            {
+                "start_time": 2.67,
+                "type": "Visual",
+                "text": "Fade to black."
+            }
+        ]
+    }
+]

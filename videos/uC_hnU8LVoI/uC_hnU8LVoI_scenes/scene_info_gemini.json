@@ -1,0 +1,812 @@
+[
+    {
+        "scene_number": 1,
+        "start_frame": 0,
+        "end_frame": 80,
+        "start_time": 0.0,
+        "end_time": 3.3366666666666664,
+        "duration": 3.3366666666666664,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_001.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "viator"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "Travel with an Insider"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A teal background."
+            }
+        ]
+    },
+    {
+        "scene_number": 2,
+        "start_frame": 81,
+        "end_frame": 230,
+        "start_time": 3.3783749999999997,
+        "end_time": 9.592916666666666,
+        "duration": 6.2145416666666655,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_002.mp4",
+        "transcript": [
+            {
+                "text": "Alaska is no",
+                "start": 5.23,
+                "end": 6.09
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Water rushes over rocks in a creek."
+            },
+            {
+                "start_time": 0.9,
+                "type": "Visual",
+                "text": "A person dips a gold pan into the creek."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Text on Screen",
+                "text": "viator"
+            },
+            {
+                "start_time": 1.0,
+                "type": "Text on Screen",
+                "text": "Juneau"
+            },
+            {
+                "start_time": 1.0,
+                "type": "Text on Screen",
+                "text": "Alaskan Gold Panning at Gold Creek"
+            },
+            {
+                "start_time": 2.9,
+                "type": "Visual",
+                "text": "A smiling person holds up a gold pan."
+            },
+            {
+                "start_time": 4.7,
+                "type": "Visual",
+                "text": "Gold flakes are visible in the bottom of the pan."
+            }
+        ]
+    },
+    {
+        "scene_number": 3,
+        "start_frame": 231,
+        "end_frame": 389,
+        "start_time": 9.634625,
+        "end_time": 16.224541666666667,
+        "duration": 6.589916666666667,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_003.mp4",
+        "transcript": [
+            {
+                "text": "known as the Great Northern Frontier and today we're going",
+                "start": 0.0,
+                "end": 2.58
+            },
+            {
+                "text": "to experience a little bit of what the gold rush might have",
+                "start": 2.58,
+                "end": 5.2
+            },
+            {
+                "text": "been like. We're going",
+                "start": 5.2,
+                "end": 6.32
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A woman stands by the creek and speaks to the camera."
+            }
+        ]
+    },
+    {
+        "scene_number": 4,
+        "start_frame": 390,
+        "end_frame": 447,
+        "start_time": 16.26625,
+        "end_time": 18.643625,
+        "duration": 2.3773750000000007,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_004.mp4",
+        "transcript": [
+            {
+                "text": "Tanning.",
+                "start": 0.0,
+                "end": 0.7
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A creek flows through a lush green valley."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "A group of people gathers near the creek."
+            }
+        ]
+    },
+    {
+        "scene_number": 5,
+        "start_frame": 448,
+        "end_frame": 764,
+        "start_time": 18.685333333333332,
+        "end_time": 31.865166666666664,
+        "duration": 13.179833333333331,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_005.mp4",
+        "transcript": [
+            {
+                "text": "You could look at this pan and think there is nothing in here, but you got to check to see what's at the bottom",
+                "start": 0.72,
+                "end": 5.54
+            },
+            {
+                "text": "Tour guide knew what he was talking about. Gold, gold, gold. This is so fun. So we started at gold",
+                "start": 5.6,
+                "end": 13.01
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A group of people in rain gear stand by a creek as a tour guide pans for gold."
+            },
+            {
+                "start_time": 0.5,
+                "type": "Visual",
+                "text": "The tour guide steps into the creek with a gold pan."
+            },
+            {
+                "start_time": 5.0,
+                "type": "Visual",
+                "text": "The tour guide shows the group his gold pan."
+            },
+            {
+                "start_time": 6.0,
+                "type": "Visual",
+                "text": "Close-up of the gold pan reveals small gold flakes."
+            },
+            {
+                "start_time": 8.0,
+                "type": "Visual",
+                "text": "A woman in the group reacts with excitement."
+            },
+            {
+                "start_time": 10.0,
+                "type": "Visual",
+                "text": "The tour guide shows the woman the gold in the pan."
+            },
+            {
+                "start_time": 11.0,
+                "type": "Visual",
+                "text": "The woman expresses her excitement to the camera."
+            }
+        ]
+    },
+    {
+        "scene_number": 6,
+        "start_frame": 765,
+        "end_frame": 812,
+        "start_time": 31.906875,
+        "end_time": 33.86716666666666,
+        "duration": 1.960291666666663,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_006.mp4",
+        "transcript": [
+            {
+                "text": "Creek, our tour guide is so knowledgeable",
+                "start": 0.0,
+                "end": 1.66
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "Gold Creek"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The creek flows over rocks."
+            }
+        ]
+    },
+    {
+        "scene_number": 7,
+        "start_frame": 813,
+        "end_frame": 864,
+        "start_time": 33.908874999999995,
+        "end_time": 36.035999999999994,
+        "duration": 2.1271249999999995,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_007.mp4",
+        "transcript": [
+            {
+                "text": "hilarious. He shows us the entire",
+                "start": 0.0,
+                "end": 1.88
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "Gold Creek"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A man in a plaid shirt and hat crouches by the creek, holding a gold pan."
+            }
+        ]
+    },
+    {
+        "scene_number": 8,
+        "start_frame": 865,
+        "end_frame": 929,
+        "start_time": 36.077708333333334,
+        "end_time": 38.74704166666666,
+        "duration": 2.669333333333327,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_008.mp4",
+        "transcript": [
+            {
+                "text": "process of panning for gold, and now we're ready to do it",
+                "start": 0.14,
+                "end": 2.54
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A group of people stand outdoors, some wearing rain gear. A woman in the center smiles."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "The man in the plaid shirt and hat submerges the gold pan in the creek."
+            }
+        ]
+    },
+    {
+        "scene_number": 9,
+        "start_frame": 930,
+        "end_frame": 1013,
+        "start_time": 38.78875,
+        "end_time": 42.25054166666666,
+        "duration": 3.461791666666663,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_009.mp4",
+        "transcript": [
+            {
+                "text": "yourself.",
+                "start": 0.0,
+                "end": 0.34
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Next to a creek, a woman in a dark raincoat and gloves receives a gold pan.  Other people are panning nearby in the creek."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "The woman walks towards the creek, carrying the gold pan."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "Crouching by the creek, the woman dips the pan into the water."
+            }
+        ]
+    },
+    {
+        "scene_number": 10,
+        "start_frame": 1014,
+        "end_frame": 1169,
+        "start_time": 42.292249999999996,
+        "end_time": 48.757041666666666,
+        "duration": 6.46479166666667,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_010.mp4",
+        "transcript": [
+            {
+                "text": "Step number one, I'm cleaning all the silt out of my dirt.",
+                "start": 0.0,
+                "end": 4.42
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The woman dips the gold pan into the creek and swirls the water inside."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "She removes larger rocks from the pan."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "The woman looks at the camera and smiles."
+            },
+            {
+                "start_time": 4.0,
+                "type": "Visual",
+                "text": "She continues to remove debris from the pan."
+            }
+        ]
+    },
+    {
+        "scene_number": 11,
+        "start_frame": 1170,
+        "end_frame": 1237,
+        "start_time": 48.79875,
+        "end_time": 51.59320833333333,
+        "duration": 2.7944583333333313,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_011.mp4",
+        "transcript": [
+            {
+                "text": "Number two, I think this is going to be my favorite, is shaking.",
+                "start": 0.0,
+                "end": 2.62
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The woman holds the gold pan, containing small stones and what appears to be a few flakes of gold, and makes a peace sign with her fingers."
+            }
+        ]
+    },
+    {
+        "scene_number": 12,
+        "start_frame": 1238,
+        "end_frame": 1313,
+        "start_time": 51.63491666666666,
+        "end_time": 54.763041666666666,
+        "duration": 3.1281250000000043,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_012.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The woman looks at the gold pan's contents."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "She looks up and smiles at the camera."
+            }
+        ]
+    },
+    {
+        "scene_number": 13,
+        "start_frame": 1314,
+        "end_frame": 1408,
+        "start_time": 54.80475,
+        "end_time": 58.72533333333333,
+        "duration": 3.920583333333333,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_013.mp4",
+        "transcript": [
+            {
+                "text": "So you want to shake the pan because the gold is so heavy that it's gonna sink to the bottom.",
+                "start": 0.0,
+                "end": 3.46
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The woman shakes the gold pan."
+            }
+        ]
+    },
+    {
+        "scene_number": 14,
+        "start_frame": 1409,
+        "end_frame": 1476,
+        "start_time": 58.767041666666664,
+        "end_time": 61.561499999999995,
+        "duration": 2.7944583333333313,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_014.mp4",
+        "transcript": [
+            {
+                "text": "I'm feeling lucky man. Oh my god",
+                "start": 0.0,
+                "end": 2.72
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The woman dips the gold pan into the stream, letting some of the contents wash away."
+            }
+        ]
+    },
+    {
+        "scene_number": 15,
+        "start_frame": 1477,
+        "end_frame": 1558,
+        "start_time": 61.60320833333333,
+        "end_time": 64.98158333333333,
+        "duration": 3.3783750000000055,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_015.mp4",
+        "transcript": [
+            {
+                "text": "I think I found a little bit of gold check this out look at look",
+                "start": 0.24,
+                "end": 3.22
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The woman excitedly points at something in her gold pan."
+            }
+        ]
+    },
+    {
+        "scene_number": 16,
+        "start_frame": 1559,
+        "end_frame": 1721,
+        "start_time": 65.02329166666667,
+        "end_time": 71.78004166666666,
+        "duration": 6.756749999999997,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_016.mp4",
+        "transcript": [
+            {
+                "text": "It's a big deal because there might be a lot more.",
+                "start": 3.6,
+                "end": 5.76
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Close-up of a finger pointing to a small gold nugget amidst other rocks and sediment in a gold pan."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "The woman looks up excitedly, still holding the gold pan."
+            }
+        ]
+    },
+    {
+        "scene_number": 17,
+        "start_frame": 1722,
+        "end_frame": 1771,
+        "start_time": 71.82175,
+        "end_time": 73.86545833333332,
+        "duration": 2.0437083333333277,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_017.mp4",
+        "transcript": [
+            {
+                "text": "The story of gold in this",
+                "start": 0.0,
+                "end": 1.78
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A group of people pan for gold in a shallow stream in Alaska."
+            }
+        ]
+    },
+    {
+        "scene_number": 18,
+        "start_frame": 1772,
+        "end_frame": 1825,
+        "start_time": 73.90716666666665,
+        "end_time": 76.11770833333333,
+        "duration": 2.2105416666666713,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_018.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A group of people continue panning for gold in a shallow stream in Alaska."
+            }
+        ]
+    },
+    {
+        "scene_number": 19,
+        "start_frame": 1826,
+        "end_frame": 1912,
+        "start_time": 76.15941666666666,
+        "end_time": 79.74633333333333,
+        "duration": 3.586916666666667,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_019.mp4",
+        "transcript": [
+            {
+                "text": "mountain there's a glacier up there that's melting and grinding away the",
+                "start": 0.0,
+                "end": 3.5
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A view of a mountain stream flowing down a lush green mountainside."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "The view changes to show a close-up of the stream flowing over rocks."
+            }
+        ]
+    },
+    {
+        "scene_number": 20,
+        "start_frame": 1913,
+        "end_frame": 1995,
+        "start_time": 79.78804166666666,
+        "end_time": 83.208125,
+        "duration": 3.420083333333338,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_020.mp4",
+        "transcript": [
+            {
+                "text": "pieces of gold and then they make their way down here.",
+                "start": 0.0,
+                "end": 3.14
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A person in a black raincoat and gloves stands by the creek, gesturing towards the mountainside."
+            }
+        ]
+    },
+    {
+        "scene_number": 21,
+        "start_frame": 1996,
+        "end_frame": 2214,
+        "start_time": 83.24983333333333,
+        "end_time": 92.34224999999999,
+        "duration": 9.092416666666665,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_021.mp4",
+        "transcript": [
+            {
+                "text": "Oh baby! Look at this! Look at this!",
+                "start": 1.49,
+                "end": 4.75
+            },
+            {
+                "text": "I found a little gold today. I think it's great.",
+                "start": 4.99,
+                "end": 8.72
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A creek flows between green, tree-covered hillsides under a cloudy sky."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "A group of people in rain gear stands near the creek."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "A woman smiles at the camera."
+            },
+            {
+                "start_time": 5.0,
+                "type": "Visual",
+                "text": "Close-up of a gold pan with small flecks of gold visible in the water."
+            },
+            {
+                "start_time": 6.0,
+                "type": "Visual",
+                "text": "The woman excitedly shows the gold pan to the camera."
+            },
+            {
+                "start_time": 8.0,
+                "type": "Visual",
+                "text": "A person picks up something small from the creek bed."
+            }
+        ]
+    },
+    {
+        "scene_number": 22,
+        "start_frame": 2215,
+        "end_frame": 2317,
+        "start_time": 92.38395833333333,
+        "end_time": 96.63820833333332,
+        "duration": 4.254249999999999,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_022.mp4",
+        "transcript": [
+            {
+                "text": "I think it's great to learn the history of how they did this 100 years ago.",
+                "start": 0.0,
+                "end": 3.72
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Two individuals wearing rain gear are by the creek.  One is wearing a black jacket and the other is wearing a brown jacket."
+            }
+        ]
+    },
+    {
+        "scene_number": 23,
+        "start_frame": 2318,
+        "end_frame": 2382,
+        "start_time": 96.67991666666666,
+        "end_time": 99.34925,
+        "duration": 2.6693333333333413,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_023.mp4",
+        "transcript": [
+            {
+                "text": "So we learned how to do this and",
+                "start": 0.62,
+                "end": 2.02
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "The person in the pink jacket is showing something small in their hand to the other person."
+            }
+        ]
+    },
+    {
+        "scene_number": 24,
+        "start_frame": 2383,
+        "end_frame": 2437,
+        "start_time": 99.39095833333333,
+        "end_time": 101.64320833333332,
+        "duration": 2.2522499999999894,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_024.mp4",
+        "transcript": [
+            {
+                "text": "It's such a surprise when you think, oh!",
+                "start": 0.14,
+                "end": 2.06
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A small vial filled with gold flakes is displayed."
+            }
+        ]
+    },
+    {
+        "scene_number": 25,
+        "start_frame": 2438,
+        "end_frame": 2720,
+        "start_time": 101.68491666666667,
+        "end_time": 113.44666666666666,
+        "duration": 11.761749999999992,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_025.mp4",
+        "transcript": [
+            {
+                "text": "Well I may not have found my fortune in gold but today was a fun way to",
+                "start": 2.16,
+                "end": 6.14
+            },
+            {
+                "text": "experience the history that put this region on the map.",
+                "start": 6.14,
+                "end": 9.16
+            }
+        ],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Two women are panning by the creek side. One is wearing a brown rain jacket and the other a pink rain jacket."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "The host stands in front of the panning area, near a stream and some leafy bushes."
+            },
+            {
+                "start_time": 9.0,
+                "type": "Visual",
+                "text": "The host squats near the stream and dips her gold pan into the water."
+            }
+        ]
+    },
+    {
+        "scene_number": 26,
+        "start_frame": 2721,
+        "end_frame": 2862,
+        "start_time": 113.48837499999999,
+        "end_time": 119.41095833333333,
+        "duration": 5.9225833333333355,
+        "scene_path": "videos/uC_hnU8LVoI/uC_hnU8LVoI_scenes/scene_026.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "viator\nA Tripadvisor Company"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "Subscribe here"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "Watch more videos"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Text on Screen",
+                "text": "Book today"
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "A blurred video plays in the background. In the foreground, the Viator logo is displayed on the left, with \"Subscribe here\" text next to it and \"Watch more videos\" on the far right, accompanied by three video thumbnails. Below the Viator logo is a thumbs-up icon and the text \"Book today\"."
+            }
+        ]
+    }
+]

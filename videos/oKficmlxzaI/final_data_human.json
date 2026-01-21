@@ -1,0 +1,276 @@
+{
+  "dialogue_timestamps": [
+    {
+      "start_time": 4.69,
+      "end_time": 12.89,
+      "duration": 8.3,
+      "audio_text": "Bald eagles. Bald eagles are majestic, powerful hunting birds.",
+      "sequence_num": 1
+    },
+    {
+      "start_time": 15.060833333333335,
+      "end_time": 18.480833333333333,
+      "duration": 3.52,
+      "audio_text": "They're a type of eagle, with distinct colors.",
+      "sequence_num": 2
+    },
+    {
+      "start_time": 20.150833333333335,
+      "end_time": 23.640833333333333,
+      "duration": 3.59,
+      "audio_text": "And despite their name, they actually aren't bald.",
+      "sequence_num": 3
+    },
+    {
+      "start_time": 24.660833333333336,
+      "end_time": 27.310833333333335,
+      "duration": 2.75,
+      "audio_text": "They have lovely white feathers on their heads and tails,",
+      "sequence_num": 4
+    },
+    {
+      "start_time": 27.870833333333334,
+      "end_time": 32.170833333333334,
+      "duration": 4.4,
+      "audio_text": "rich brown feathers on their body and wings, and yellow beaks.",
+      "sequence_num": 5
+    },
+    {
+      "start_time": 34.30093333333333,
+      "end_time": 37.82093333333333,
+      "duration": 3.62,
+      "audio_text": "The young are called fledglings, and they're all brown.",
+      "sequence_num": 6
+    },
+    {
+      "start_time": 40.37663333333333,
+      "end_time": 42.536633333333334,
+      "duration": 2.26,
+      "audio_text": "Bald eagles are found in North America.",
+      "sequence_num": 7
+    },
+    {
+      "start_time": 43.98663333333333,
+      "end_time": 46.94663333333333,
+      "duration": 3.06,
+      "audio_text": "They're the national animal of the United States of America.",
+      "sequence_num": 8
+    },
+    {
+      "start_time": 48.3483,
+      "end_time": 51.5083,
+      "duration": 3.26,
+      "audio_text": "and can be found on the Great Seal of the USA.",
+      "sequence_num": 9
+    },
+    {
+      "start_time": 54.397466666666666,
+      "end_time": 63.767466666666664,
+      "duration": 9.47,
+      "audio_text": "bald eagles live near the sea and lakes in nests high up in trees their favorite food is",
+      "sequence_num": 10
+    },
+    {
+      "start_time": 64.06400000000001,
+      "end_time": 71.40400000000001,
+      "duration": 7.44,
+      "audio_text": "fish and soaring high into the air, they use their great eyesight to spot their next target.",
+      "sequence_num": 11
+    },
+    {
+      "start_time": 85.51196666666667,
+      "end_time": 86.95196666666668,
+      "duration": 1.54,
+      "audio_text": "The eagle swoops down.",
+      "sequence_num": 12
+    },
+    {
+      "start_time": 99.56146666666666,
+      "end_time": 113.61146666666667,
+      "duration": 14.15,
+      "audio_text": "grasping a fish with her sharp talons watch out another cheek eagle is trying",
+      "sequence_num": 13
+    },
+    {
+      "start_time": 113.71146666666667,
+      "end_time": 127.26146666666666,
+      "duration": 13.65,
+      "audio_text": "to steal her lunch oops splash another drop fish",
+      "sequence_num": 14
+    },
+    {
+      "start_time": 145.0743,
+      "end_time": 147.6543,
+      "duration": 2.68,
+      "audio_text": "Finally, success for the hungry bird.",
+      "sequence_num": 15
+    },
+    {
+      "start_time": 154.3341,
+      "end_time": 157.4541,
+      "duration": 3.22,
+      "audio_text": "High in the tree, the bald eagle eats the fish she's caught,",
+      "sequence_num": 16
+    },
+    {
+      "start_time": 159.26409999999998,
+      "end_time": 161.6841,
+      "duration": 2.52,
+      "audio_text": "while the other eagle will have to find her own lunch.",
+      "sequence_num": 17
+    },
+    {
+      "start_time": 167.47586666666666,
+      "end_time": 170.13586666666666,
+      "duration": 2.76,
+      "audio_text": "Isn't the bald eagle a wonderful flying creature?",
+      "sequence_num": 18
+    },
+    {
+      "start_time": 182.38586666666666,
+      "end_time": 185.82586666666666,
+      "duration": 3.54,
+      "audio_text": "Click on the videos above to see more amazing animals.",
+      "sequence_num": 19
+    },
+    {
+      "start_time": 186.10586666666666,
+      "end_time": 188.28586666666666,
+      "duration": 2.28,
+      "audio_text": "And be sure to subscribe!",
+      "sequence_num": 20
+    }
+  ],
+  "audio_clips": [
+    {
+      "start_time": 6.457,
+      "end_time": 6.457,
+      "description_style": "extended",
+      "text": "Paw prints going across the screen. All Things Animal TV.",
+      "type": "Text on Screen"
+    },
+    {
+      "start_time": 9.499,
+      "end_time": 9.499,
+      "description_style": "extended",
+      "text": "A bald eagle sits on a snow-covered beach. There are waves in the ocean. An arrow with the word sky appears.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 17.373,
+      "end_time": 17.373,
+      "description_style": "extended",
+      "text": "A bald eagle flies from a snow-covered tree through a valley.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 23.674,
+      "end_time": 23.674,
+      "description_style": "extended",
+      "text": "A bald eagle sits on a tree branch.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 27.495,
+      "end_time": 27.495,
+      "description_style": "extended",
+      "text": "Two bald eagles sit on a tree branch.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 30.555,
+      "end_time": 30.555,
+      "description_style": "extended",
+      "text": "Two bald eagles sit on a snow-covered log near a body of water.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 33.495,
+      "end_time": 33.495,
+      "description_style": "extended",
+      "text": "A bald eagle turns his head.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 39.521,
+      "end_time": 39.521,
+      "description_style": "extended",
+      "text": "A fledgling sits in the grass near a body of water.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 47.437,
+      "end_time": 47.437,
+      "description_style": "extended",
+      "text": "A bald eagle flies through the sky.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 52.363,
+      "end_time": 52.363,
+      "description_style": "extended",
+      "text": "The Great Seal of the USA appears on the screen.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 58.27,
+      "end_time": 58.27,
+      "description_style": "extended",
+      "text": "A bald eagle flies over a body of water.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 61.523,
+      "end_time": 61.523,
+      "description_style": "extended",
+      "text": "A bald eagle sits on a nest.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 85.447,
+      "end_time": 85.447,
+      "description_style": "extended",
+      "text": "A bald eagle flies through the sky.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 94.55,
+      "end_time": 94.55,
+      "description_style": "extended",
+      "text": "The bald eagle flies over a body of water.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 140.364,
+      "end_time": 140.364,
+      "description_style": "extended",
+      "text": "The bald eagle grasps another fish from the body of water.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 163.534,
+      "end_time": 163.534,
+      "description_style": "extended",
+      "text": "The other bald eagle sits on a metal frame tower.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 178.257,
+      "end_time": 178.257,
+      "description_style": "extended",
+      "text": "A bald eagle flies through the sky over tree covered mountains.",
+      "type": "Visual"
+    },
+    {
+      "start_time": 182.486,
+      "end_time": 182.486,
+      "description_style": "extended",
+      "text": "Cranes and sea lions appear on the screen. All things Animal TV.",
+      "type": "Text on Screen"
+    }
+  ],
+  "youtube_id": "oKficmlxzaI",
+  "video_name": "* BALD EAGLE * | Animals For Kids | All Things Animal TV",
+  "video_length": 191,
+  "aiUserId": "6845e4375506faa0752b8d62"
+}

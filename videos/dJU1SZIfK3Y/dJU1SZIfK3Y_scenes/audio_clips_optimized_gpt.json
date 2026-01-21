@@ -1,0 +1,177 @@
+[
+  {
+    "scene_number": 1,
+    "start_time": 0.0,
+    "end_time": 5.016,
+    "duration": 5.016,
+    "type": "Visual",
+    "text": "Two elves in red outfits chat over cups in a toy-filled workshop.",
+    "fits_in_gap": false,
+    "original_text": "Two elves in red outfits stand in a workshop with shelves of toys behind them. They hold cups and are engaged in conversation."
+  },
+  {
+    "scene_number": 2,
+    "start_time": 13.847166666666666,
+    "end_time": 20.975166666666667,
+    "duration": 7.128,
+    "type": "Visual",
+    "text": "Buddy peeks through two wooden beams, wearing a green elf hat with a yellow band, looking concerned.",
+    "fits_in_gap": false,
+    "original_text": "Buddy peeks through a narrow opening between two wooden beams. He wears a green elf hat with a yellow band and looks concerned."
+  },
+  {
+    "scene_number": 5,
+    "text": "\"Buddy's expression changes from curious to shocked as he begins to realize something.\"",
+    "type": "Visual",
+    "duration": 2.952,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Buddy stands in a wooden room with a peaked roof, wearing a green elf outfit with a yellow and red hat.",
+      "Buddy listens to two elves talking in the background, looking concerned.",
+      "Buddy's expression changes from curious to shocked as he begins to realize something important."
+    ],
+    "start_time": 23.356666666666666,
+    "end_time": 26.308666666666667
+  },
+  {
+    "scene_number": 5,
+    "start_time": 26.356666666666666,
+    "end_time": 29.188666666666666,
+    "duration": 2.832,
+    "type": "Visual",
+    "text": "Buddy's eyes widen in disbelief.",
+    "fits_in_gap": false,
+    "original_text": "Buddy's eyes widen, and he slightly opens his mouth in disbelief."
+  },
+  {
+    "scene_number": 5,
+    "start_time": 27.356666666666666,
+    "end_time": 31.172666666666665,
+    "duration": 3.816,
+    "type": "Visual",
+    "text": "Buddy scans the room, digesting what he overheard.",
+    "fits_in_gap": false,
+    "original_text": "Buddy looks around the room, processing the information he just overheard."
+  },
+  {
+    "scene_number": 5,
+    "start_time": 28.356666666666666,
+    "end_time": 31.788666666666664,
+    "duration": 3.432,
+    "type": "Visual",
+    "text": "A flashback shows a smaller elf putting on a shoe for Buddy.",
+    "fits_in_gap": false,
+    "original_text": "A flashback shows a smaller elf working on a shoe with Buddy watching."
+  },
+  {
+    "scene_number": 7,
+    "start_time": 35.452083333333334,
+    "end_time": 41.90808333333334,
+    "duration": 6.456,
+    "type": "Visual",
+    "text": "Buddy sits in a small bathtub.",
+    "fits_in_gap": false,
+    "original_text": "Buddy is sitting in a small bathtub, surrounded by white wooden walls, with a shower curtain partially drawn."
+  },
+  {
+    "scene_number": 7,
+    "text": "\"Buddy adjusts his position in the bathtub, looking slightly uncomfortable due to the small size.\"",
+    "type": "Visual",
+    "duration": 3.216,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Buddy, still in the bathtub, appears to be deep in thought as he continues washing.",
+      "Buddy adjusts his position in the bathtub, looking slightly uncomfortable due to the small size.",
+      "Buddy splashes water onto his face with a thoughtful expression."
+    ],
+    "start_time": 39.75208333333333,
+    "end_time": 42.96808333333333
+  },
+  {
+    "scene_number": 8,
+    "text": "\"Buddy is lying in a small, ornate bed. He rolls over awkwardly, indicating the bed is too small for him. His legs hang over the side.\"",
+    "type": "Visual",
+    "duration": 3.36,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Buddy is lying in a small, ornate bed, wearing a red elf outfit. The room is decorated in a traditional, wooden style with a small lamp on the bedside table.",
+      "Buddy rolls over awkwardly, indicating the bed is too small for him. His legs hang over the side.",
+      "Buddy struggles to get comfortable, further emphasizing the bed's small size. His movements are exaggerated and clumsy."
+    ],
+    "start_time": 43.043,
+    "end_time": 46.403
+  },
+  {
+    "scene_number": 9,
+    "text": "\"A group of elves stands. Buddy, much taller than the elves, is in the center.\"",
+    "type": "Visual",
+    "duration": 2.016,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A group of elves stands in a wooden room, holding papers. Buddy, much taller than the elves, is in the center wearing a red elf outfit."
+    ],
+    "start_time": 46.671625,
+    "end_time": 48.687625
+  },
+  {
+    "scene_number": 10,
+    "start_time": 48.757041666666666,
+    "end_time": 54.82904166666667,
+    "duration": 6.072,
+    "type": "Visual",
+    "text": "Buddy, taller than the elves, jumps to dunk a basketball as they try to block him.",
+    "fits_in_gap": false,
+    "original_text": "A faded image shows Buddy, much taller than the other elves, jumping to dunk a basketball. The elves around him reach up trying to block him."
+  },
+  {
+    "scene_number": 10,
+    "text": "\"Colorful jack-in-the-box bobs. Concerned elf in orange outfit looks up.\"",
+    "type": "Visual",
+    "duration": 5.76,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A soft-focused, colorful jack-in-the-box appears, overlapping the previous image.",
+      "The colorful jack-in-the-box bobs back and forth, with its red, blue, and yellow colors prominent.",
+      "An elf in an orange outfit with white pom-poms and a pointed hat looks up, concerned."
+    ],
+    "start_time": 50.797041666666665,
+    "end_time": 56.55704166666666
+  },
+  {
+    "scene_number": 11,
+    "text": "\"Buddy walks past toys and an elf.\"",
+    "type": "Visual",
+    "duration": 2.832,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Buddy looks down at the elf, who appears to be speaking to him. The setting is a workshop with wooden beams and shelves filled with toys.",
+      "Buddy walks away from the elf, passing a table covered with brown teddy bears. Another elf, dressed in blue, is seated at the table, working."
+    ],
+    "start_time": 63.608333333333334,
+    "end_time": 66.44033333333333
+  },
+  {
+    "scene_number": 12,
+    "text": "Buddy, in a green elf outfit, lies face down on the floor, arms spread.", 
+    "type": "Visual",
+    "duration": 22.368,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Buddy in a green elf outfit lies face down on the floor, arms spread out.",
+      "A display shows multiple scenes from the movie 'Elf,' including Buddy in various settings.",
+      "Buddy appears surprised, standing in a festive room with Christmas lights.",
+      "Buddy looks distressed in a snowy outdoor setting.",
+      "A split screen shows Buddy with different expressions, including a close-up of his face."
+    ],
+    "start_time": 67.23383333333332,
+    "end_time": 89.60183333333332
+  },
+  {
+    "scene_number": 13,
+    "start_time": 93.67691666666666,
+    "end_time": 95.71691666666666,
+    "duration": 2.04,
+    "type": "Text on Screen",
+    "text": "MOVIECLIPS.COM"
+  }
+]

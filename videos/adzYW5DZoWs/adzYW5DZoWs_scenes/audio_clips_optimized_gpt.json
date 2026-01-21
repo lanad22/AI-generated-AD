@@ -1,0 +1,232 @@
+[
+  {
+    "scene_number": 1,
+    "start_time": 0.0,
+    "end_time": 1.68,
+    "duration": 1.68,
+    "type": "Text on Screen",
+    "text": "LUCASFILM Ltd."
+  },
+  {
+    "scene_number": 3,
+    "text": "\"Rey stands in the desert, scanning the horizon, lightsaber hilt at her waist.\"",
+    "type": "Visual",
+    "duration": 6.216,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Rey stands in a desert landscape, wearing a light-colored outfit with arm wraps. Mountains are visible in the background.",
+      "Rey looks determined, scanning the horizon. Her hair is tied back, and she holds a lightsaber hilt at her waist."
+    ],
+    "start_time": 10.01,
+    "end_time": 16.226
+  },
+  {
+    "scene_number": 7,
+    "start_time": 36.119416666666666,
+    "end_time": 38.519416666666665,
+    "duration": 2.4,
+    "type": "Text on Screen",
+    "text": "Every generation has a legend"
+  },
+  {
+    "scene_number": 7,
+    "text": "\"Desert landscape with distant mountains. Rey, with lightsaber, looks focused. A vehicle speeds by. Rey assumes a defensive stance, then sprints, glancing over her shoulder.\"",
+    "type": "Visual",
+    "duration": 14.88,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A vast desert landscape with scattered rocks and distant mountains.",
+      "A fast-moving vehicle speeds across the desert.",
+      "Rey stands holding a lightsaber, looking focused.",
+      "Rey assumes a defensive stance with her lightsaber ignited.",
+      "Close-up of gloved hands gripping a vehicle's controls.",
+      "Rey turns and looks determinedly over her shoulder.",
+      "Rey's feet sprint across the sandy terrain."
+    ],
+    "start_time": 38.519416666666665,
+    "end_time": 53.39941666666667
+  },
+  {
+    "scene_number": 8,
+    "text": "\"Figure runs with blue saber, vehicle speeds in.\"",
+    "type": "Visual",
+    "duration": 3.864,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A figure runs across a vast desert landscape, holding a blue lightsaber. The sky is filled with clouds, and rocky formations are visible in the distance.",
+      "A vehicle approaches quickly from the right, stirring up dust as it moves toward the running figure."
+    ],
+    "start_time": 61.394666666666666,
+    "end_time": 65.25866666666667
+  },
+  {
+    "scene_number": 9,
+    "text": "\"Rey leaps over the TIE fighter.\"",
+    "type": "Visual",
+    "duration": 2.496,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Rey, with a blue lightsaber, stands in a desert with a large mechanical structure behind her.",
+      "Rey runs forward as a TIE fighter approaches rapidly from behind.",
+      "Rey leaps into the air, performing a flip over the TIE fighter."
+    ],
+    "start_time": 65.89916666666666,
+    "end_time": 68.39516666666665
+  },
+  {
+    "scene_number": 9,
+    "start_time": 68.39916666666666,
+    "end_time": 69.81516666666666,
+    "duration": 1.416,
+    "type": "Text on Screen",
+    "text": "This Christmas"
+  },
+  {
+    "scene_number": 11,
+    "text": "\"Blue light flies through misty mountains, lighting terrain.\"",
+    "type": "Visual",
+    "duration": 3.888,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Dark, misty landscape with jagged, rocky mountains partially obscured by clouds.",
+      "A small, bright blue light appears, moving swiftly through the mist near the mountains.",
+      "The blue light reveals itself as a flying vehicle, illuminating the rocky terrain below.",
+      "The vehicle continues to navigate through the fog, with golden lights visible on the ground beneath."
+    ],
+    "start_time": 71.11270833333333,
+    "end_time": 75.00070833333334
+  },
+  {
+    "scene_number": 12,
+    "text": "Cloaked fighter triumphs over armored opponent.",
+    "type": "Visual",
+    "duration": 3.384,
+    "fits_in_gap": false,
+    "original_texts": [
+      "A character in a dark cloak wields a red lightsaber in a forest with tall, bare trees. The scene is lit with a red hue, giving it an ominous appearance.",
+      "The character engages in combat with a large, armored opponent, swinging the red lightsaber with force.",
+      "The armored opponent is knocked back and falls to the ground, with the red lightsaber glowing intensely."
+    ],
+    "start_time": 75.07499999999999,
+    "end_time": 78.45899999999999,
+    "original_text": "\"Cloaked fighter defeats armored foe.\""
+  },
+  {
+    "scene_number": 13,
+    "text": "\"Lightsaber clash. Welding helmet. Man in desert. BB-8 with droid. Smiling in hyperspace.\"",
+    "type": "Visual",
+    "duration": 8.232,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Sparks fly as a red lightsaber clashes with another object, creating a bright flash.",
+      "A character with gloved hands welds pieces of a helmet together, red lines glowing at the seams.",
+      "In a desert landscape, a young man with short hair looks up, a rocky cliff behind him. Another character stands above on the cliff.",
+      "BB-8, the spherical droid, stands next to a smaller green and white droid in a dimly lit room.",
+      "Inside a spaceship cockpit, a character with long hair sits next to another person. They are traveling through a blue hyperspace tunnel.",
+      "A man with a headset smiles broadly in the cockpit, surrounded by glowing control panels.",
+      "The spaceship speeds through hyperspace, blue and white streaks filling the screen."
+    ],
+    "start_time": 77.45237499999999,
+    "end_time": 85.68437499999999
+  },
+  {
+    "scene_number": 14,
+    "start_time": 85.83574999999999,
+    "end_time": 87.94774999999998,
+    "duration": 2.112,
+    "type": "Text on Screen",
+    "text": "THE SAGA COMES TO AN END"
+  },
+  {
+    "scene_number": 15,
+    "text": "Explosion hits armored figure; C-3PO and man flee quickly.",
+    "type": "Visual",
+    "duration": 6.12,
+    "fits_in_gap": false,
+    "original_texts": [
+      "A desert landscape with rocky formations and a clear sky. An explosion occurs, sending a cloud of sand into the air.",
+      "A figure in white armor is propelled from the explosion, surrounded by dust and debris.",
+      "A vehicle speeds through the desert, carrying several passengers. Sparks fly as they maneuver sharply.",
+      "A golden droid, C-3PO, stands on the vehicle. A man in a scarf is steering, gripping the controls tightly."
+    ],
+    "start_time": 87.83775,
+    "end_time": 93.95775,
+    "original_text": "\"Explosion blasts armor-clad figure; C-3PO and man escape fast.\""
+  },
+  {
+    "scene_number": 16,
+    "start_time": 93.34224999999999,
+    "end_time": 96.07825,
+    "duration": 2.736,
+    "type": "Visual",
+    "text": "Hands hold a detailed golden medal.",
+    "fits_in_gap": false,
+    "original_text": "A pair of hands holds a golden medal with intricate designs."
+  },
+  {
+    "scene_number": 16,
+    "start_time": 94.34224999999999,
+    "end_time": 97.46225,
+    "duration": 3.12,
+    "type": "Visual",
+    "text": "Two women hug; one has braided hair.",
+    "fits_in_gap": false,
+    "original_text": "A woman with braided hair embraces another woman in a heartfelt hug."
+  },
+  {
+    "scene_number": 16,
+    "start_time": 96.34224999999999,
+    "end_time": 102.03025,
+    "duration": 5.688,
+    "type": "Visual",
+    "text": "A woman in white leads a group, including a droid, across a grassy field.",
+    "fits_in_gap": false,
+    "original_text": "Several characters, including a woman in a white outfit, walk across a grassy field. A droid and other companions follow."
+  },
+  {
+    "scene_number": 17,
+    "start_time": 98.51508333333332,
+    "end_time": 105.11508333333332,
+    "duration": 6.6,
+    "type": "Visual",
+    "text": "Rey stands on a cliff, facing waves with the misty remains of the Death Star in the distance.",
+    "fits_in_gap": false,
+    "original_text": "Rey stands on a grassy cliff, facing turbulent waves. In the distance, a massive, partially destroyed structure resembling the Death Star looms in the mist."
+  },
+  {
+    "scene_number": 17,
+    "text": "\"Waves hit rocks.\"",
+    "type": "Visual",
+    "duration": 1.728,
+    "fits_in_gap": true,
+    "original_texts": [
+      "The ocean waves crash against the rocky shore, adding to the dramatic atmosphere."
+    ],
+    "start_time": 102.79508333333332,
+    "end_time": 104.52308333333332
+  },
+  {
+    "scene_number": 19,
+    "start_time": 111.23612499999999,
+    "end_time": 112.65212499999998,
+    "duration": 1.416,
+    "type": "Text on Screen",
+    "text": "STAR WARS"
+  },
+  {
+    "scene_number": 19,
+    "start_time": 116.23612499999999,
+    "end_time": 118.18012499999999,
+    "duration": 1.944,
+    "type": "Text on Screen",
+    "text": "THE RISE OF SKYWALKER"
+  },
+  {
+    "scene_number": 20,
+    "start_time": 120.16170833333332,
+    "end_time": 121.28970833333332,
+    "duration": 1.128,
+    "type": "Text on Screen",
+    "text": "DECEMBER"
+  }
+]
