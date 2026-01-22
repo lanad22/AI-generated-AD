@@ -1,0 +1,156 @@
+[
+  {
+    "scene_number": 1,
+    "start_frame": 0,
+    "end_frame": 93,
+    "start_time": 0.0,
+    "end_time": 3.878875,
+    "duration": 3.878875,
+    "scene_path": "videos/HDv9s5vYEyI/HDv9s5vYEyI_scenes/scene_001.mp4",
+    "transcript": [],
+    "captions": []
+  },
+  {
+    "scene_number": 2,
+    "start_frame": 94,
+    "end_frame": 285,
+    "start_time": 3.920583333333333,
+    "end_time": 11.886875,
+    "duration": 7.966291666666667,
+    "scene_path": "videos/HDv9s5vYEyI/HDv9s5vYEyI_scenes/scene_002.mp4",
+    "transcript": [],
+    "captions": []
+  },
+  {
+    "scene_number": 3,
+    "start_frame": 286,
+    "end_frame": 340,
+    "start_time": 11.928583333333332,
+    "end_time": 14.180833333333332,
+    "duration": 2.25225,
+    "scene_path": "videos/HDv9s5vYEyI/HDv9s5vYEyI_scenes/scene_003.mp4",
+    "transcript": [],
+    "captions": []
+  },
+  {
+    "scene_number": 4,
+    "start_frame": 341,
+    "end_frame": 576,
+    "start_time": 14.222541666666666,
+    "end_time": 24.023999999999997,
+    "duration": 9.801458333333331,
+    "scene_path": "videos/HDv9s5vYEyI/HDv9s5vYEyI_scenes/scene_004.mp4",
+    "transcript": [],
+    "captions": []
+  },
+  {
+    "scene_number": 5,
+    "start_frame": 577,
+    "end_frame": 630,
+    "start_time": 24.065708333333333,
+    "end_time": 26.276249999999997,
+    "duration": 2.210541666666664,
+    "scene_path": "videos/HDv9s5vYEyI/HDv9s5vYEyI_scenes/scene_005.mp4",
+    "transcript": [],
+    "captions": []
+  },
+  {
+    "scene_number": 6,
+    "start_frame": 631,
+    "end_frame": 1167,
+    "start_time": 26.31795833333333,
+    "end_time": 48.673624999999994,
+    "duration": 22.355666666666664,
+    "scene_path": "videos/HDv9s5vYEyI/HDv9s5vYEyI_scenes/scene_006.mp4",
+    "transcript": [],
+    "captions": []
+  },
+  {
+    "scene_number": 7,
+    "start_frame": 1168,
+    "end_frame": 1237,
+    "start_time": 48.71533333333333,
+    "end_time": 51.59320833333333,
+    "duration": 2.877875000000003,
+    "scene_path": "videos/HDv9s5vYEyI/HDv9s5vYEyI_scenes/scene_007.mp4",
+    "transcript": [],
+    "captions": []
+  },
+  {
+    "scene_number": 8,
+    "start_frame": 1238,
+    "end_frame": 1702,
+    "start_time": 51.63491666666666,
+    "end_time": 70.98758333333333,
+    "duration": 19.35266666666667,
+    "scene_path": "videos/HDv9s5vYEyI/HDv9s5vYEyI_scenes/scene_008.mp4",
+    "transcript": [],
+    "captions": []
+  },
+  {
+    "scene_number": 9,
+    "start_frame": 1703,
+    "end_frame": 1975,
+    "start_time": 71.02929166666667,
+    "end_time": 82.37395833333333,
+    "duration": 11.344666666666669,
+    "scene_path": "videos/HDv9s5vYEyI/HDv9s5vYEyI_scenes/scene_009.mp4",
+    "transcript": [],
+    "captions": []
+  },
+  {
+    "scene_number": 10,
+    "start_frame": 1976,
+    "end_frame": 2088,
+    "start_time": 82.41566666666667,
+    "end_time": 87.08699999999999,
+    "duration": 4.6713333333333225,
+    "scene_path": "videos/HDv9s5vYEyI/HDv9s5vYEyI_scenes/scene_010.mp4",
+    "transcript": [],
+    "captions": []
+  },
+  {
+    "scene_number": 11,
+    "start_frame": 2089,
+    "end_frame": 2343,
+    "start_time": 87.12870833333332,
+    "end_time": 97.722625,
+    "duration": 10.593916666666672,
+    "scene_path": "videos/HDv9s5vYEyI/HDv9s5vYEyI_scenes/scene_011.mp4",
+    "transcript": [],
+    "captions": []
+  },
+  {
+    "scene_number": 12,
+    "start_frame": 2344,
+    "end_frame": 2961,
+    "start_time": 97.76433333333333,
+    "end_time": 123.498375,
+    "duration": 25.73404166666667,
+    "scene_path": "videos/HDv9s5vYEyI/HDv9s5vYEyI_scenes/scene_012.mp4",
+    "transcript": [],
+    "captions": []
+  },
+  {
+    "scene_number": 13,
+    "start_frame": 2962,
+    "end_frame": 3040,
+    "start_time": 123.54008333333333,
+    "end_time": 126.79333333333332,
+    "duration": 3.253249999999994,
+    "scene_path": "videos/HDv9s5vYEyI/HDv9s5vYEyI_scenes/scene_013.mp4",
+    "transcript": [],
+    "captions": []
+  },
+  {
+    "scene_number": 14,
+    "start_frame": 3041,
+    "end_frame": 3178,
+    "start_time": 126.83504166666665,
+    "end_time": 132.59079166666666,
+    "duration": 5.755750000000006,
+    "scene_path": "videos/HDv9s5vYEyI/HDv9s5vYEyI_scenes/scene_014.mp4",
+    "transcript": [],
+    "captions": []
+  }
+]

@@ -1,0 +1,305 @@
+{
+  "dialogue_timestamps": [],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "A close-up of several mochi ice cream balls on a black plate. The mochi balls are sliced open, revealing pink and green ice cream inside.",
+      "type": "Visual",
+      "start_time": 0.0,
+      "end_time": 0.0,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 1,
+      "text": "Mochi Ice Cream",
+      "type": "Text on Screen",
+      "start_time": 0.5,
+      "end_time": 0.5,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 1,
+      "text": "A hand enters the frame and adjusts one of the mochi balls, rotating it slightly to show more of the ice cream filling.",
+      "type": "Visual",
+      "start_time": 1.0,
+      "end_time": 1.0,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 2,
+      "text": "Ice Cream",
+      "type": "Text on Screen",
+      "start_time": 3.920583333333333,
+      "end_time": 4.952583333333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 2,
+      "text": "\"Hand scoops ice cream into silicone liners in a tray.\"",
+      "type": "Visual",
+      "start_time": 4.952583333333333,
+      "end_time": 9.032583333333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 2,
+      "text": "Freeze",
+      "type": "Text on Screen",
+      "start_time": 9.920583333333333,
+      "end_time": 10.880583333333334,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 2,
+      "text": "The muffin tray is full of various colored ice cream scoops in different silicone liners. A striped cloth is seen on the side.",
+      "type": "Visual",
+      "start_time": 10.920583333333333,
+      "end_time": 19.728583333333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 3,
+      "text": "Mochiko (Sweet Rice Flour) 3/4 cup",
+      "type": "Text on Screen",
+      "start_time": 11.928583333333332,
+      "end_time": 11.928583333333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 3,
+      "text": "A clear glass bowl is placed on a gray surface with a striped cloth underneath. A hand adds 3/4 cup of Mochiko (Sweet Rice Flour) into the bowl.",
+      "type": "Visual",
+      "start_time": 11.928583333333332,
+      "end_time": 11.928583333333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "Sugar\n1/4 cup",
+      "type": "Text on Screen",
+      "start_time": 14.222541666666666,
+      "end_time": 14.222541666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "A hand pours 1/4 cup of sugar into a clear glass bowl containing sweet rice flour.",
+      "type": "Visual",
+      "start_time": 14.222541666666666,
+      "end_time": 14.222541666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "The hand uses a whisk to mix the sugar and rice flour in the bowl.",
+      "type": "Visual",
+      "start_time": 16.222541666666665,
+      "end_time": 16.222541666666665,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "Water\n3/4 cup",
+      "type": "Text on Screen",
+      "start_time": 17.222541666666665,
+      "end_time": 17.222541666666665,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "\"Whisk water into the mixture.\"",
+      "type": "Visual",
+      "start_time": 19.118541666666665,
+      "end_time": 19.118541666666665,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "cover with plastic wrap",
+      "type": "Text on Screen",
+      "start_time": 23.222541666666665,
+      "end_time": 23.222541666666665,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "A hand covers the bowl with plastic wrap.",
+      "type": "Visual",
+      "start_time": 23.222541666666665,
+      "end_time": 23.222541666666665,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "microwave for 2 mins",
+      "type": "Text on Screen",
+      "start_time": 24.065708333333333,
+      "end_time": 24.065708333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "A clear glass bowl containing a white mixture is covered with plastic wrap. The bowl is placed on a striped cloth on a gray countertop.",
+      "type": "Visual",
+      "start_time": 24.065708333333333,
+      "end_time": 24.065708333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "Hands adjust the position of the bowl, ensuring the plastic wrap is secure.",
+      "type": "Visual",
+      "start_time": 25.065708333333333,
+      "end_time": 25.065708333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "The bowl is covered with the striped cloth.",
+      "type": "Visual",
+      "start_time": 26.065708333333333,
+      "end_time": 26.065708333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "Hands place a clear glass bowl with a white mixture on a striped cloth on a gray countertop. They peel back the plastic wrap, introduce a green spatula, and gently stir the mixture. After folding and mixing, the plastic wrap is replaced over the bowl.",
+      "type": "Visual",
+      "start_time": 26.31795833333333,
+      "end_time": 44.43795833333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 6,
+      "text": "microwave for 30 seconds",
+      "type": "Text on Screen",
+      "start_time": 46.31795833333333,
+      "end_time": 46.31795833333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "The bowl is lifted from the countertop.",
+      "type": "Visual",
+      "start_time": 48.31795833333333,
+      "end_time": 48.31795833333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 7,
+      "text": "A hand holds a small bowl, sprinkling white cornstarch onto a surface covered with parchment paper.",
+      "type": "Visual",
+      "start_time": 48.71533333333333,
+      "end_time": 48.71533333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 7,
+      "text": "Cornstarch",
+      "type": "Text on Screen",
+      "start_time": 49.21533333333333,
+      "end_time": 49.21533333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 8,
+      "text": "\"Hands sprinkle cornstarch on parchment. Dough is placed, shaped, and dusted with cornstarch. It's evenly flattened with a rolling pin, and circular shapes are cut out.\"",
+      "type": "Visual",
+      "start_time": 51.63491666666666,
+      "end_time": 64.45091666666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 9,
+      "text": "\"Hands fold mochi dough with cornstarch on parchment, shape it, then flatten and cut rounds with a purple cutter.\"",
+      "type": "Visual",
+      "start_time": 71.02929166666667,
+      "end_time": 79.14129166666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 10,
+      "text": "\"Hand dusts mochi dough with cornstarch on a tray.\"",
+      "type": "Visual",
+      "start_time": 82.41566666666667,
+      "end_time": 86.15966666666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 11,
+      "text": "\"On a wrapped plate, mochi dough pieces are stacked and sealed.\"",
+      "type": "Visual",
+      "start_time": 87.12870833333332,
+      "end_time": 91.80870833333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 11,
+      "text": "chill 10 mins",
+      "type": "Text on Screen",
+      "start_time": 95.62870833333332,
+      "end_time": 95.62870833333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 11,
+      "text": "The wrapped mochi is lifted off the countertop.",
+      "type": "Visual",
+      "start_time": 97.12870833333332,
+      "end_time": 97.12870833333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 12,
+      "text": "chill 10 mins",
+      "type": "Text on Screen",
+      "start_time": 97.76433333333333,
+      "end_time": 97.76433333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 12,
+      "text": "A piece of plastic wrap is spread on a gray countertop with a round mochi dough piece on it. The text 'chill 10 mins' appears above.",
+      "type": "Visual",
+      "start_time": 97.76433333333333,
+      "end_time": 97.76433333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 12,
+      "text": "Hands place a light blue cupcake liner on mochi dough and scoop green ice cream onto it. The liner is removed, leaving the ice cream on the dough. The dough is folded over the ice cream, pinched and sealed into a ball. Plastic wrap is twisted around the mochi ball, which is then placed back on the countertop.",
+      "type": "Visual",
+      "start_time": 99.39633333333333,
+      "end_time": 99.39633333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "\"Hands place mochi in a muffin tin.\"",
+      "type": "Visual",
+      "start_time": 123.54008333333333,
+      "end_time": 126.44408333333332,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 14,
+      "text": "\"Plate with mochi; hand adds one; screen turquoise.\"",
+      "type": "Visual",
+      "start_time": 126.83504166666665,
+      "end_time": 131.39504166666666,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 14,
+      "text": "TipBuzz\nRecipes, Life Hacks, DIY + More!\nwww.TipBuzz.com",
+      "type": "Text on Screen",
+      "start_time": 131.83504166666665,
+      "end_time": 140.61904166666665,
+      "track_type": "inline"
+    }
+  ],
+  "youtube_id": "HDv9s5vYEyI",
+  "video_name": "The Best and Easiest Mochi Ice Cream Recipe!",
+  "video_length": 133,
+  "aiUserId": "68798f57c48a173631902319"
+}
