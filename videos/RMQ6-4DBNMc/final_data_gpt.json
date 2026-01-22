@@ -1,0 +1,665 @@
+{
+  "dialogue_timestamps": [],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "\"Maya the Husky vocalizes at Alexa, head tilted.\"",
+      "type": "Visual",
+      "start_time": 0.0,
+      "end_time": 4.224,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 2,
+      "text": "i am ready",
+      "type": "Text on Screen",
+      "start_time": 3.533333333333333,
+      "end_time": 3.533333333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 2,
+      "text": "Maya the Husky sits on a fuzzy rug, vocalizing towards an Alexa device on a stand near her. Her ears are perked up, and she appears alert and expressive.",
+      "type": "Visual",
+      "start_time": 3.533333333333333,
+      "end_time": 3.533333333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 3,
+      "text": "Maya the Husky sits attentively on a fuzzy rug, looking towards an Alexa device on a stand.",
+      "type": "Visual",
+      "start_time": 6.1,
+      "end_time": 6.1,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 3,
+      "text": "let's go",
+      "type": "Text on Screen",
+      "start_time": 7.6,
+      "end_time": 7.6,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 3,
+      "text": "\"Maya speaks; Alexa glows.\"",
+      "type": "Visual",
+      "start_time": 8.584,
+      "end_time": 8.584,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 3,
+      "text": "hello",
+      "type": "Text on Screen",
+      "start_time": 11.1,
+      "end_time": 11.1,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 3,
+      "text": "Close-up of Maya's face, looking intently at the Alexa device.",
+      "type": "Visual",
+      "start_time": 12.1,
+      "end_time": 12.1,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "no i not ugly",
+      "type": "Text on Screen",
+      "start_time": 13.8,
+      "end_time": 15.264000000000001,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 4,
+      "text": "\"Maya the Husky, ears perked.\"",
+      "type": "Visual",
+      "start_time": 15.264000000000001,
+      "end_time": 15.264000000000001,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "fluff u",
+      "type": "Text on Screen",
+      "start_time": 17.3,
+      "end_time": 17.3,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "Maya the Husky sits on a fuzzy rug, facing the Alexa device, with a determined expression.",
+      "type": "Visual",
+      "start_time": 17.3,
+      "end_time": 17.3,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "Maya the Husky sits beside a black Alexa device on a beige stand, looking at it intently.",
+      "type": "Visual",
+      "start_time": 18.4,
+      "end_time": 18.4,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "hey you..",
+      "type": "Text on Screen",
+      "start_time": 19.4,
+      "end_time": 19.4,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "Maya tilts her head slightly, maintaining eye contact with the Alexa device.",
+      "type": "Visual",
+      "start_time": 20.4,
+      "end_time": 20.4,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "fluff right off",
+      "type": "Text on Screen",
+      "start_time": 21.4,
+      "end_time": 21.4,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "Maya's ears twitch as she continues to focus on the Alexa device.",
+      "type": "Visual",
+      "start_time": 22.4,
+      "end_time": 22.4,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "no!",
+      "type": "Text on Screen",
+      "start_time": 23.4,
+      "end_time": 23.4,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "Maya moves her head closer to the Alexa device as if listening.",
+      "type": "Visual",
+      "start_time": 24.4,
+      "end_time": 24.4,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "you are!",
+      "type": "Text on Screen",
+      "start_time": 25.4,
+      "end_time": 25.4,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "Maya's expression changes, looking more curious.",
+      "type": "Visual",
+      "start_time": 26.4,
+      "end_time": 26.4,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "robot woman",
+      "type": "Text on Screen",
+      "start_time": 27.4,
+      "end_time": 27.4,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "\"Maya stares at Alexa.\"",
+      "type": "Visual",
+      "start_time": 31.5,
+      "end_time": 33.516,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 6,
+      "text": "answer me",
+      "type": "Text on Screen",
+      "start_time": 34.5,
+      "end_time": 34.5,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "Maya leans closer to the Alexa device, looking expectant.",
+      "type": "Visual",
+      "start_time": 34.5,
+      "end_time": 34.5,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "fluff u",
+      "type": "Text on Screen",
+      "start_time": 37.5,
+      "end_time": 37.5,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "Maya appears to 'speak' to the Alexa device, mouth slightly open.",
+      "type": "Visual",
+      "start_time": 37.5,
+      "end_time": 37.5,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "Maya looks upwards, possibly howling or barking, as the Alexa device lights up blue.",
+      "type": "Visual",
+      "start_time": 38.5,
+      "end_time": 38.5,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 7,
+      "text": "u don’t know me",
+      "type": "Text on Screen",
+      "start_time": 40.03333333333333,
+      "end_time": 40.03333333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 7,
+      "text": "Maya the Husky is sitting on a gray rug next to a beige stand with a black Alexa device. Maya looks up with her mouth open, as if barking or howling.",
+      "type": "Visual",
+      "start_time": 40.03333333333333,
+      "end_time": 40.03333333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 8,
+      "text": "Maya the Husky is sitting next to a black Alexa device on a beige stand, looking upward with her mouth slightly open.",
+      "type": "Visual",
+      "start_time": 42.13333333333333,
+      "end_time": 42.13333333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 8,
+      "text": "no please don’t!",
+      "type": "Text on Screen",
+      "start_time": 43.13333333333333,
+      "end_time": 43.13333333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 8,
+      "text": "\"Maya focuses; Alexa lights; cart icon appears.\"",
+      "type": "Visual",
+      "start_time": 44.477333333333334,
+      "end_time": 44.477333333333334,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 9,
+      "text": "\"Maya watches glowing Alexa.\"",
+      "type": "Visual",
+      "start_time": 48.3,
+      "end_time": 50.628,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 10,
+      "text": "translate me",
+      "type": "Text on Screen",
+      "start_time": 50.8,
+      "end_time": 52.071999999999996,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 10,
+      "text": "\"Maya the Husky looks surprised at Alexa.\"",
+      "type": "Visual",
+      "start_time": 52.071999999999996,
+      "end_time": 55.263999999999996,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 10,
+      "text": "I HATE HER!",
+      "type": "Text on Screen",
+      "start_time": 55.8,
+      "end_time": 55.8,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 10,
+      "text": "Maya opens her mouth as if barking or speaking, showing a clear reaction to the interaction with Alexa.",
+      "type": "Visual",
+      "start_time": 56.8,
+      "end_time": 56.8,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 11,
+      "text": "\"Husky eyes Alexa.\"",
+      "type": "Visual",
+      "start_time": 58.2,
+      "end_time": 59.976000000000006,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 11,
+      "text": "no never!",
+      "type": "Text on Screen",
+      "start_time": 60.2,
+      "end_time": 60.2,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 11,
+      "text": "Maya the Husky opens her mouth slightly, appearing to respond to the Alexa device.",
+      "type": "Visual",
+      "start_time": 60.2,
+      "end_time": 60.2,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 12,
+      "text": "\"Maya sits by Alexa.\"",
+      "type": "Visual",
+      "start_time": 61.7,
+      "end_time": 63.692,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 12,
+      "text": "no",
+      "type": "Text on Screen",
+      "start_time": 64.2,
+      "end_time": 64.2,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 12,
+      "text": "Maya closes her mouth and looks slightly away from Alexa.",
+      "type": "Visual",
+      "start_time": 64.7,
+      "end_time": 64.7,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 12,
+      "text": "thanks",
+      "type": "Text on Screen",
+      "start_time": 65.7,
+      "end_time": 65.7,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 12,
+      "text": "Maya turns her head slightly towards the Alexa device.",
+      "type": "Visual",
+      "start_time": 65.7,
+      "end_time": 65.7,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "\"Maya howls at Alexa.\"",
+      "type": "Visual",
+      "start_time": 66.23333333333333,
+      "end_time": 68.17733333333334,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 13,
+      "text": "alexa",
+      "type": "Text on Screen",
+      "start_time": 68.23333333333333,
+      "end_time": 68.23333333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "Maya the Husky stares intently at the Alexa device as its light glows blue.",
+      "type": "Visual",
+      "start_time": 68.23333333333333,
+      "end_time": 68.23333333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "am not",
+      "type": "Text on Screen",
+      "start_time": 70.23333333333333,
+      "end_time": 70.23333333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "Maya the Husky appears to respond to the Alexa device, with a focused expression.",
+      "type": "Visual",
+      "start_time": 70.23333333333333,
+      "end_time": 70.23333333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 14,
+      "text": "\"Maya eyes Alexa.\"",
+      "type": "Visual",
+      "start_time": 70.83333333333333,
+      "end_time": 72.53733333333332,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 14,
+      "text": "wut u just say?",
+      "type": "Text on Screen",
+      "start_time": 72.83333333333333,
+      "end_time": 72.83333333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 14,
+      "text": "Maya tilts her head slightly, maintaining eye contact with the Alexa device.",
+      "type": "Visual",
+      "start_time": 72.83333333333333,
+      "end_time": 72.83333333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 15,
+      "text": "Maya the Husky sits attentively in front of a black Alexa device on a beige stand.",
+      "type": "Visual",
+      "start_time": 75.3,
+      "end_time": 75.3,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 15,
+      "text": "HEY!",
+      "type": "Text on Screen",
+      "start_time": 75.8,
+      "end_time": 75.8,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 15,
+      "text": "watch out!",
+      "type": "Text on Screen",
+      "start_time": 76.8,
+      "end_time": 76.8,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "\"Maya glances at Alexa, then turns away.\"",
+      "type": "Visual",
+      "start_time": 78.0,
+      "end_time": 78.0,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "NO!",
+      "type": "Text on Screen",
+      "start_time": 81.0,
+      "end_time": 81.0,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "Maya looks directly at the Alexa device, her expression serious.",
+      "type": "Visual",
+      "start_time": 82.0,
+      "end_time": 82.0,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "don't like her",
+      "type": "Text on Screen",
+      "start_time": 83.0,
+      "end_time": 83.0,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "\"Maya glances contemplatively at the Alexa.\"",
+      "type": "Visual",
+      "start_time": 84.128,
+      "end_time": 84.128,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 16,
+      "text": "just wait til u leave",
+      "type": "Text on Screen",
+      "start_time": 88.0,
+      "end_time": 89.968,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 17,
+      "text": "how’d that feel?",
+      "type": "Text on Screen",
+      "start_time": 89.26666666666667,
+      "end_time": 89.26666666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "Maya the Husky is looking intently at the black Alexa device, which is placed on a soft, beige surface. Her ears are perked up, indicating alertness.",
+      "type": "Visual",
+      "start_time": 89.26666666666667,
+      "end_time": 89.26666666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 17,
+      "text": "Maya the Husky leans slightly forward, maintaining her focus on the Alexa device, with a curious expression.",
+      "type": "Visual",
+      "start_time": 90.76666666666667,
+      "end_time": 90.76666666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 18,
+      "text": "Kung Fu",
+      "type": "Text on Screen",
+      "start_time": 92.16666666666667,
+      "end_time": 92.16666666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 18,
+      "text": "Maya the Husky is staring at the black Alexa device on a soft, beige surface. Her ears are perked forward, showing attentiveness.",
+      "type": "Visual",
+      "start_time": 92.16666666666667,
+      "end_time": 92.16666666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 18,
+      "text": "I don't suck",
+      "type": "Text on Screen",
+      "start_time": 94.16666666666667,
+      "end_time": 94.16666666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 19,
+      "text": "alexa?",
+      "type": "Text on Screen",
+      "start_time": 96.83333333333333,
+      "end_time": 97.79333333333332,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 19,
+      "text": "\"Maya the Husky intently watches Alexa, tail wagging.\"",
+      "type": "Visual",
+      "start_time": 97.79333333333332,
+      "end_time": 102.20933333333332,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 20,
+      "text": "\"Maya the Husky curiously eyes Alexa.\"",
+      "type": "Visual",
+      "start_time": 101.53333333333333,
+      "end_time": 104.79733333333333,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 21,
+      "text": "u deserve it",
+      "type": "Text on Screen",
+      "start_time": 104.56666666666666,
+      "end_time": 104.56666666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 21,
+      "text": "Maya the Husky is on a dark shaggy rug, looking towards a black Alexa device on a beige platform. Her mouth is open, appearing to 'talk' or bark.",
+      "type": "Visual",
+      "start_time": 104.56666666666666,
+      "end_time": 104.56666666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 22,
+      "text": "\"Maya 'talks' to Alexa.\"",
+      "type": "Visual",
+      "start_time": 106.6,
+      "end_time": 108.952,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 22,
+      "text": "don't like her!",
+      "type": "Text on Screen",
+      "start_time": 109.1,
+      "end_time": 110.252,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 22,
+      "text": "Maya raises a paw towards the Alexa device, which is held by a hand.",
+      "type": "Visual",
+      "start_time": 110.6,
+      "end_time": 110.6,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 22,
+      "text": "fluff u",
+      "type": "Text on Screen",
+      "start_time": 111.6,
+      "end_time": 111.6,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 22,
+      "text": "Maya stares intently at the Alexa device placed on a beige platform.",
+      "type": "Visual",
+      "start_time": 113.1,
+      "end_time": 113.1,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 22,
+      "text": "i warned u",
+      "type": "Text on Screen",
+      "start_time": 113.6,
+      "end_time": 113.6,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 23,
+      "text": "stupid robot",
+      "type": "Text on Screen",
+      "start_time": 114.33333333333333,
+      "end_time": 114.33333333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 23,
+      "text": "Maya the Husky stares intently at a black smart speaker placed on a beige cat tree platform.",
+      "type": "Visual",
+      "start_time": 114.33333333333333,
+      "end_time": 114.33333333333333,
+      "track_type": "extended"
+    }
+  ],
+  "youtube_id": "RMQ6-4DBNMc",
+  "video_name": "My HUSKY Talks To ALEXA |  (She Beat up Alexa!)",
+  "video_length": 116,
+  "aiUserId": "68798f57c48a173631902319"
+}
