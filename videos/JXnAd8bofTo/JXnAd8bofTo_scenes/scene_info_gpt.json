@@ -13,37 +13,22 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "Flynn Rider stands in a lush, green forest, looking up at a tall, rocky cliff with a waterfall cascading down."
-            },
-            {
-                "start_time": 1.0,
-                "type": "Visual",
-                "text": "A tall tower with a pointed roof appears at the top of the cliff, surrounded by greenery."
-            },
-            {
-                "start_time": 2.0,
-                "type": "Visual",
-                "text": "Flynn Rider turns his head slightly, observing the tower with curiosity."
+                "text": "A man with brown hair, wearing a vest and carrying a satchel, stands in a lush, green forest looking at a tall tower nestled between cliffs."
             },
             {
                 "start_time": 3.0,
                 "type": "Visual",
-                "text": "Flynn Rider looks back at the tower, appearing thoughtful and slightly apprehensive."
-            },
-            {
-                "start_time": 4.0,
-                "type": "Visual",
-                "text": "Flynn Rider begins to approach the cliff, preparing to climb towards the tower."
-            },
-            {
-                "start_time": 5.0,
-                "type": "Visual",
-                "text": "Flynn Rider uses an arrow with a rope attached to start climbing the rocky surface."
+                "text": "The tower becomes visible, with a pointed roof and vines covering its walls. It is surrounded by tall cliffs."
             },
             {
                 "start_time": 6.0,
                 "type": "Visual",
-                "text": "Flynn Rider grips the arrow tightly, looking determined as he scales the cliff."
+                "text": "The man turns to look back, appearing cautious or concerned."
+            },
+            {
+                "start_time": 9.0,
+                "type": "Visual",
+                "text": "Close-up of the man's face as he reaches up with an arrow in his hand."
             }
         ]
     },
@@ -61,7 +46,7 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "A tall, ivy-covered tower stands against a bright blue sky with fluffy clouds. The tower has a wooden balcony and a conical roof."
+                "text": "A tall, cylindrical tower covered in greenery, located between rocky cliffs under a blue sky with clouds."
             }
         ]
     },
@@ -79,52 +64,52 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "A window with sunlight streaming in reveals a view of the outside."
+                "text": "A bright window with flowers visible outside, casting light into the room."
             },
             {
                 "start_time": 1.0,
                 "type": "Visual",
-                "text": "Flynn Rider climbs through the window into the tower."
+                "text": "A figure climbs through the window, entering the room."
             },
             {
-                "start_time": 2.5,
+                "start_time": 2.0,
                 "type": "Visual",
-                "text": "Flynn Rider stands up inside the tower, looking around."
+                "text": "The figure stands up, revealing a person wearing a green vest and brown pants."
             },
             {
-                "start_time": 3.5,
+                "start_time": 3.0,
                 "type": "Visual",
-                "text": "Flynn leans against the wall, sliding down to sit."
+                "text": "The person looks around the room, appearing cautious."
+            },
+            {
+                "start_time": 4.0,
+                "type": "Visual",
+                "text": "The person holds a brown satchel and examines its contents."
             },
             {
                 "start_time": 5.0,
                 "type": "Visual",
-                "text": "Flynn examines a satchel he is holding, looking pleased."
+                "text": "The person appears pleased with what they see inside the satchel."
+            },
+            {
+                "start_time": 6.0,
+                "type": "Visual",
+                "text": "A woman with long blonde hair, wearing a pink dress, appears holding a frying pan defensively."
+            },
+            {
+                "start_time": 7.0,
+                "type": "Visual",
+                "text": "The woman looks surprised and cautious, holding the frying pan up as if ready to defend herself."
             },
             {
                 "start_time": 8.0,
                 "type": "Visual",
-                "text": "Flynn continues to look inside the satchel with a satisfied expression."
+                "text": "The room is decorated with colorful murals and has a lantern on a small table."
             },
             {
-                "start_time": 10.0,
+                "start_time": 9.0,
                 "type": "Visual",
-                "text": "Flynn smiles and appears to be talking to himself."
-            },
-            {
-                "start_time": 12.0,
-                "type": "Visual",
-                "text": "Rapunzel appears behind Flynn, holding a frying pan defensively."
-            },
-            {
-                "start_time": 14.0,
-                "type": "Visual",
-                "text": "Rapunzel looks surprised and cautious, holding the frying pan up."
-            },
-            {
-                "start_time": 16.0,
-                "type": "Visual",
-                "text": "The camera pans to show the interior of the tower, decorated with colorful murals."
+                "text": "A wardrobe and a mannequin with long hair draped over it are visible in the room."
             }
         ]
     },
@@ -142,7 +127,7 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "Flynn Rider is lying unconscious on the floor of the tower, with his arms and legs sprawled out. A frying pan is on the ground nearby."
+                "text": "A character is lying face down on the floor in a room with colorful tiled flooring. The character is wearing a blue vest, white shirt, and brown pants with boots. There is a bag on the floor nearby."
             }
         ]
     },
@@ -160,27 +145,37 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "Rapunzel peeks nervously over the top of a dress form, holding it tightly."
+                "text": "A character with long blonde hair is peeking over a purple object, appearing cautious and curious."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "The character is holding and looking over the purple object, showing a worried expression."
             },
             {
                 "start_time": 2.0,
                 "type": "Visual",
-                "text": "Flynn Rider lies unconscious on the floor, with a frying pan nearby."
+                "text": "A scene shows a person lying on the floor, wearing a blue vest and brown pants, with a bag nearby."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "The blonde-haired character is standing near the person on the floor, holding the purple object."
             },
             {
                 "start_time": 4.0,
                 "type": "Visual",
-                "text": "Rapunzel cautiously moves closer to Flynn, still holding the dress form."
+                "text": "The character adjusts the purple object, revealing her long hair flowing onto the floor."
+            },
+            {
+                "start_time": 5.0,
+                "type": "Visual",
+                "text": "The character looks concerned, holding the purple object with both hands."
             },
             {
                 "start_time": 6.0,
                 "type": "Visual",
-                "text": "Rapunzel looks worried as she examines Flynn, her long hair trailing behind her."
-            },
-            {
-                "start_time": 8.0,
-                "type": "Visual",
-                "text": "Rapunzel appears conflicted, glancing between Flynn and the dress form."
+                "text": "The character is near a decorative wall, showing a mix of concern and determination."
             }
         ]
     },
@@ -198,12 +193,12 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "Flynn Rider is lying unconscious on the floor with his face down, wearing a teal jacket."
+                "text": "A character is lying face down on the floor, partially visible with brown hair and wearing a teal outfit."
             },
             {
-                "start_time": 0.5,
+                "start_time": 1.0,
                 "type": "Visual",
-                "text": "A cast iron frying pan is held above Flynn Rider's head, indicating he has been struck."
+                "text": "A large, dark frying pan is being held above the character's head."
             }
         ]
     },
@@ -221,17 +216,17 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "Rapunzel, with long blonde hair and wearing a purple dress, looks down with a concerned expression."
-            },
-            {
-                "start_time": 0.5,
-                "type": "Visual",
-                "text": "Rapunzel grips a frying pan, appearing worried as she glances at Flynn Rider."
+                "text": "A character with long blonde hair and a purple dress looks concerned, holding someone's head gently in her lap. The background features a decorative wall."
             },
             {
                 "start_time": 1.0,
                 "type": "Visual",
-                "text": "Rapunzel's expression changes to surprise as she continues to hold the frying pan."
+                "text": "The character's expression remains worried as she continues to hold the person's head. Her dress has puffed sleeves and lace details."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "The character's eyes widen in surprise or realization. The setting remains the same, with a focus on her facial expression."
             }
         ]
     },
@@ -249,17 +244,12 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "A green chameleon with large eyes stands on the floor, looking up."
+                "text": "A small green chameleon with large eyes is sitting on the floor, looking upward."
             },
             {
                 "start_time": 1.0,
                 "type": "Visual",
-                "text": "Rapunzel, with long blonde hair and wearing a purple dress, looks worriedly at something off-screen."
-            },
-            {
-                "start_time": 2.0,
-                "type": "Visual",
-                "text": "Rapunzel holds a frying pan in her hands, appearing thoughtful."
+                "text": "A young woman with long blonde hair, wearing a purple dress, looks concerned and is holding a frying pan."
             }
         ]
     },
@@ -277,12 +267,22 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "Flynn Rider lies unconscious on the floor, face down."
+                "text": "A person with brown hair is lying face down on a stone floor, wearing a blue jacket."
             },
             {
                 "start_time": 1.0,
                 "type": "Visual",
-                "text": "Rapunzel holds a frying pan above Flynn's head, ready to strike."
+                "text": "A hand holding a frying pan is positioned above the person's head."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "The scene remains the same, with the frying pan still above the person's head."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "The person is still lying on the floor, with the frying pan above the head."
             }
         ]
     },
@@ -300,12 +300,7 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "Rapunzel, with long blonde hair, is looking down with concern, holding a frying pan."
-            },
-            {
-                "start_time": 1.0,
-                "type": "Visual",
-                "text": "Rapunzel glances to her right, still gripping the frying pan tightly."
+                "text": "A character with long blonde hair and a worried expression is holding a frying pan inside a dimly lit room with patterned walls."
             }
         ]
     },
@@ -323,22 +318,22 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "Pascal, the chameleon, stands on the floor looking up with wide eyes."
-            },
-            {
-                "start_time": 1.0,
-                "type": "Visual",
-                "text": "Pascal glances at a red chalk drawing of a fierce face on the floor."
+                "text": "A small green chameleon with large eyes is looking up."
             },
             {
                 "start_time": 2.0,
                 "type": "Visual",
-                "text": "Pascal changes color from green to yellow while looking at the drawing."
+                "text": "The chameleon is next to a red drawing of a face with sharp teeth on the ground."
             },
             {
-                "start_time": 2.5,
+                "start_time": 4.0,
                 "type": "Visual",
-                "text": "Pascal's color shifts to orange as he continues to stare at the drawing."
+                "text": "The chameleon changes color to yellowish-orange while looking at the drawing."
+            },
+            {
+                "start_time": 6.0,
+                "type": "Visual",
+                "text": "The chameleon turns red, still beside the drawing."
             }
         ]
     },
@@ -356,17 +351,37 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "Flynn Rider is lying unconscious on the floor, face down, with his cheek against the ground."
+                "text": "A young man is unconscious on the ground, with his head resting on his side. He has brown hair and is wearing a blue vest. A hand holding a frying pan is visible near his head."
             },
             {
                 "start_time": 1.0,
                 "type": "Visual",
-                "text": "Rapunzel's hand holding a frying pan moves into view, pressing the pan against Flynn's face."
+                "text": "The frying pan is pressed closer to the young man's face, and a hand holding it is visible."
             },
             {
                 "start_time": 2.0,
                 "type": "Visual",
-                "text": "Rapunzel leans over Flynn, looking concerned and holding the frying pan firmly."
+                "text": "The scene focuses on the young man's face, showing him still unconscious, with the frying pan held against him."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "The young man's face shows a slight grimace as the frying pan is pressed against him."
+            },
+            {
+                "start_time": 4.0,
+                "type": "Visual",
+                "text": "The camera zooms out slightly, showing the young man's face in discomfort as the frying pan is held firmly."
+            },
+            {
+                "start_time": 5.0,
+                "type": "Visual",
+                "text": "A young woman with long blonde hair and a worried expression is holding the frying pan. She is wearing a purple dress with lace trim."
+            },
+            {
+                "start_time": 6.0,
+                "type": "Visual",
+                "text": "The young woman looks down with a concerned expression, still holding the frying pan."
             }
         ]
     },
@@ -384,17 +399,7 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "Flynn Rider is lying unconscious on the floor with his cheek against the ground."
-            },
-            {
-                "start_time": 1.0,
-                "type": "Visual",
-                "text": "A frying pan is placed near Flynn Rider's head."
-            },
-            {
-                "start_time": 2.0,
-                "type": "Visual",
-                "text": "Rapunzel's hand is holding the frying pan near Flynn Rider."
+                "text": "A character with brown hair is lying on the ground, eyes closed, wearing a teal vest. A hand holding a black object is approaching the character's head."
             }
         ]
     },
@@ -412,17 +417,22 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "Rapunzel is holding a frying pan, looking surprised and cautious."
+                "text": "A young woman with long blonde hair and a surprised expression holds a frying pan. She is wearing a purple dress and is in a dimly lit room with a decorative wall."
             },
             {
                 "start_time": 1.0,
                 "type": "Visual",
-                "text": "Rapunzel's expression changes to a more thoughtful look as she lowers the frying pan slightly."
+                "text": "The young woman lowers the frying pan slightly, maintaining a curious expression. The background remains the same."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "The woman's expression changes to a more relaxed and thoughtful look. She still holds the frying pan and wears the purple dress."
             },
             {
                 "start_time": 3.0,
                 "type": "Visual",
-                "text": "Rapunzel's eyes widen again, returning to a surprised expression."
+                "text": "The woman appears startled again, with wide eyes, as she continues to hold the frying pan in the same setting."
             }
         ]
     },
@@ -440,7 +450,7 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "Flynn Rider is lying unconscious on the floor, his head resting on the ground."
+                "text": "A male character with brown hair is lying on the ground with his eyes closed. He is wearing a blue jacket."
             }
         ]
     },
@@ -458,7 +468,7 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "Rapunzel, with long blonde hair and wearing a purple dress, looks surprised and slightly worried as she gazes downward."
+                "text": "A young woman with long blonde hair and large green eyes, wearing a purple dress, looks surprised. The background appears to be a decorated wall with a tapestry or mural."
             }
         ]
     },
@@ -476,12 +486,17 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "Flynn Rider is lying on the floor, unconscious, with his face resting on the ground."
+                "text": "A character with brown hair and a teal jacket is lying down with eyes closed."
             },
             {
                 "start_time": 1.0,
                 "type": "Visual",
-                "text": "Flynn Rider's eyes suddenly open wide as he wakes up, appearing surprised."
+                "text": "The character is in the same position, eyes still closed."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "The character opens his eyes, appearing surprised or alert."
             }
         ]
     },
@@ -499,17 +514,17 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "Rapunzel holds a frying pan, looking surprised and determined."
+                "text": "A character with long, blonde hair wearing a purple dress is holding a frying pan with a surprised expression."
             },
             {
                 "start_time": 1.0,
                 "type": "Visual",
-                "text": "Rapunzel raises the frying pan above her head with her eyes closed."
+                "text": "The character raises the frying pan as if preparing to swing it, eyes closed tightly."
             },
             {
                 "start_time": 2.0,
                 "type": "Visual",
-                "text": "Rapunzel opens one eye slightly, maintaining her grip on the frying pan."
+                "text": "The character is still in a stance ready to swing the frying pan, winking with one eye open."
             }
         ]
     },
@@ -527,57 +542,62 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "Rapunzel cautiously approaches Flynn Rider, who is lying unconscious on the floor."
+                "text": "A room with ornate decorations, a wooden door, a mirror, and a wardrobe."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "A character in a purple dress enters the scene, approaching the wardrobe."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "The character drags an unconscious person by their hair across the floor."
             },
             {
                 "start_time": 3.0,
                 "type": "Visual",
-                "text": "Rapunzel uses her long hair to drag Flynn across the floor."
+                "text": "The character looks concernedly at the unconscious person."
+            },
+            {
+                "start_time": 4.0,
+                "type": "Visual",
+                "text": "The character attempts to lift the unconscious person into the wardrobe."
+            },
+            {
+                "start_time": 5.0,
+                "type": "Visual",
+                "text": "The unconscious person is partially inside the wardrobe, legs sticking out."
             },
             {
                 "start_time": 6.0,
                 "type": "Visual",
-                "text": "Flynn starts to regain consciousness as Rapunzel continues to pull him."
+                "text": "The character closes the wardrobe door."
+            },
+            {
+                "start_time": 7.0,
+                "type": "Visual",
+                "text": "The character observes the wardrobe, appearing thoughtful."
             },
             {
                 "start_time": 8.0,
                 "type": "Visual",
-                "text": "Rapunzel manages to drag Flynn into a wardrobe."
+                "text": "The wardrobe door opens slightly, revealing the unconscious person's hand."
+            },
+            {
+                "start_time": 9.0,
+                "type": "Visual",
+                "text": "The character pushes the hand back inside the wardrobe."
             },
             {
                 "start_time": 10.0,
                 "type": "Visual",
-                "text": "Flynn is awkwardly positioned upside down inside the wardrobe."
+                "text": "A small animal appears on the floor beside the wardrobe."
             },
             {
-                "start_time": 12.0,
+                "start_time": 11.0,
                 "type": "Visual",
-                "text": "Rapunzel closes the wardrobe door, leaving Flynn inside."
-            },
-            {
-                "start_time": 15.0,
-                "type": "Visual",
-                "text": "Rapunzel looks around nervously, checking if anyone saw her."
-            },
-            {
-                "start_time": 18.0,
-                "type": "Visual",
-                "text": "Rapunzel opens the wardrobe slightly to peek inside, checking on Flynn."
-            },
-            {
-                "start_time": 20.0,
-                "type": "Visual",
-                "text": "Flynn's hand reaches out from the wardrobe, causing Rapunzel to react."
-            },
-            {
-                "start_time": 22.0,
-                "type": "Visual",
-                "text": "Rapunzel pushes Flynn's hand back inside and closes the wardrobe again."
-            },
-            {
-                "start_time": 24.0,
-                "type": "Visual",
-                "text": "Rapunzel stands with her hands on her hips, contemplating her next move."
+                "text": "The character looks at the wardrobe, appearing satisfied."
             }
         ]
     },
@@ -595,57 +615,37 @@
             {
                 "start_time": 0.0,
                 "type": "Visual",
-                "text": "Rapunzel cautiously approaches a wardrobe in the tower with a frying pan in hand."
+                "text": "A young woman with long blonde hair and a purple dress rushes towards a wardrobe, pulling a green chair with her."
             },
             {
                 "start_time": 2.0,
                 "type": "Visual",
-                "text": "Rapunzel places a green chair against the wardrobe door as a barricade."
+                "text": "She props the chair against the wardrobe and picks up a frying pan."
             },
             {
                 "start_time": 4.0,
                 "type": "Visual",
-                "text": "She peers into the wardrobe, holding the frying pan defensively."
+                "text": "The woman cautiously approaches a mirror, holding the frying pan defensively."
             },
             {
                 "start_time": 6.0,
                 "type": "Visual",
-                "text": "Rapunzel looks at her reflection in a nearby mirror, appearing determined."
+                "text": "She looks at her reflection in the mirror, appearing curious and slightly worried."
             },
             {
                 "start_time": 8.0,
                 "type": "Visual",
-                "text": "Her expression changes to surprise as she realizes something."
+                "text": "Her expression changes from surprise to a smile as she examines the frying pan."
             },
             {
                 "start_time": 10.0,
                 "type": "Visual",
-                "text": "Rapunzel smiles with newfound confidence while holding the frying pan."
+                "text": "She seems to playfully swing the frying pan, appearing more confident."
             },
             {
                 "start_time": 12.0,
                 "type": "Visual",
-                "text": "She twirls with the frying pan, looking pleased and playful."
-            },
-            {
-                "start_time": 14.0,
-                "type": "Visual",
-                "text": "Rapunzel examines the frying pan, appearing thoughtful."
-            },
-            {
-                "start_time": 16.0,
-                "type": "Visual",
-                "text": "She holds the frying pan confidently with one hand on her hip."
-            },
-            {
-                "start_time": 18.0,
-                "type": "Visual",
-                "text": "Her expression turns contemplative as she considers her next move."
-            },
-            {
-                "start_time": 20.0,
-                "type": "Visual",
-                "text": "Rapunzel touches her forehead, deep in thought, still holding the frying pan."
+                "text": "The woman continues to admire the frying pan, showing a range of emotions from curiosity to amusement."
             }
         ]
     },
@@ -667,8 +667,18 @@
             },
             {
                 "start_time": 0.0,
+                "type": "Visual",
+                "text": "Characters from Disney movies: Simba, Mufasa, Mirabel, Moana, Maui, Woody, Buzz Lightyear, Joy, Sadness, Olaf, Elsa, Anna, Kristoff, Sulley, Mike Wazowski, Lilo, Stitch."
+            },
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "Backgrounds include tropical islands, snowy landscapes, and animated worlds."
+            },
+            {
+                "start_time": 1.0,
                 "type": "Text on Screen",
-                "text": "Disney Kids"
+                "text": "KIDS"
             }
         ]
     }

@@ -1,0 +1,193 @@
+{
+  "dialogue_timestamps": [],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "In a forest, a man with a satchel eyes a vine-clad tower between cliffs, then turns cautiously with an arrow.",
+      "type": "Visual",
+      "start_time": 0.0,
+      "end_time": 8.76,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 2,
+      "text": "\"Green tower between cliffs.\"",
+      "type": "Visual",
+      "start_time": 9.16,
+      "end_time": 11.44,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 3,
+      "text": "\"Light shines through a window with flowers. A person in a green vest climbs in, looking pleased. A woman in a pink dress raises a frying pan defensively. The room has colorful murals and a mannequin.\"",
+      "type": "Visual",
+      "start_time": 11.88,
+      "end_time": 26.568,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 4,
+      "text": "Face down, bag nearby.",
+      "type": "Visual",
+      "start_time": 28.88,
+      "end_time": 31.304,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 5,
+      "text": "\"A blonde character cautiously peeks over a purple object near a person on the floor, showing concern by a decorative wall.\"",
+      "type": "Visual",
+      "start_time": 30.92,
+      "end_time": 39.800000000000004,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 6,
+      "text": "\"Teal figure under pan.\"",
+      "type": "Visual",
+      "start_time": 40.04,
+      "end_time": 41.984,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "Blonde in purple, eyes wide with worry.",
+      "type": "Visual",
+      "start_time": 42.52,
+      "end_time": 45.736000000000004,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "Worried woman holds pan; chameleon gazes up.",
+      "type": "Visual",
+      "start_time": 44.6,
+      "end_time": 48.584,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 9,
+      "text": "\"Face down on stone floor; pan held overhead.\"",
+      "type": "Visual",
+      "start_time": 47.92,
+      "end_time": 51.736000000000004,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 10,
+      "text": "\"Blonde holds pan in dim room.\"",
+      "type": "Visual",
+      "start_time": 51.92,
+      "end_time": 54.464,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 11,
+      "text": "Chameleon with a vivid red face and sharp teeth.",
+      "type": "Visual",
+      "start_time": 54.92,
+      "end_time": 58.544000000000004,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 11,
+      "text": "A chameleon shifts to yellow-orange as it examines a drawing.",
+      "type": "Visual",
+      "start_time": 58.92,
+      "end_time": 63.264,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 12,
+      "text": "\"Worried woman in a purple dress presses a frying pan to an unconscious man's face.\"",
+      "type": "Visual",
+      "start_time": 58.08,
+      "end_time": 64.344,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 13,
+      "text": "\"Closed-eyed, brown-haired figure; object nears.\"",
+      "type": "Visual",
+      "start_time": 64.92,
+      "end_time": 69.096,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 14,
+      "text": "Blonde woman in purple dress holds a pan, looking curious then startled.",
+      "type": "Visual",
+      "start_time": 69.16,
+      "end_time": 74.848,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 16,
+      "text": "\"Surprised blonde in purple.\"",
+      "type": "Visual",
+      "start_time": 75.88,
+      "end_time": 78.03999999999999,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 17,
+      "text": "A surprised man with brown hair opens his eyes.",
+      "type": "Visual",
+      "start_time": 78.24,
+      "end_time": 81.91199999999999,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 18,
+      "text": "\"Blonde, purple dress, lifts pan.\"",
+      "type": "Visual",
+      "start_time": 80.84,
+      "end_time": 83.96000000000001,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 19,
+      "text": "A lavish room features a wardrobe. A character in a purple dress drags an unconscious person inside. After struggling to fit them, the character shuts the door and pushes in a revealed hand. A small animal appears; the character seems satisfied.",
+      "type": "Visual",
+      "start_time": 84.2,
+      "end_time": 101.744,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 20,
+      "text": "\"A young woman with blonde hair and a purple dress rushes to a wardrobe, pulling a green chair. She props it against the wardrobe, grabs a frying pan, and approaches a mirror. Her expression shifts from curiosity to a playful smile as she admires the pan.\"",
+      "type": "Visual",
+      "start_time": 111.44,
+      "end_time": 130.376,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 21,
+      "text": "Available on Disney+",
+      "type": "Text on Screen",
+      "start_time": 133.44,
+      "end_time": 133.44,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 21,
+      "text": "Tropical islands, snowy landscapes, and animated worlds fill the backdrop.",
+      "type": "Visual",
+      "start_time": 133.44,
+      "end_time": 133.44,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 21,
+      "text": "KIDS",
+      "type": "Text on Screen",
+      "start_time": 134.44,
+      "end_time": 134.44,
+      "track_type": "extended"
+    }
+  ],
+  "youtube_id": "JXnAd8bofTo",
+  "video_name": "Flynn Rider Meets Rapunzel… and Her Frying Pan! 🍳 | Tangled | Disney Kids",
+  "video_length": 139,
+  "aiUserId": "68798f57c48a173631902319"
+}
