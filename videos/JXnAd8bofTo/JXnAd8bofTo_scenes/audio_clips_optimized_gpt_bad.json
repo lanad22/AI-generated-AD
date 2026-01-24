@@ -1,0 +1,328 @@
+[
+  {
+    "scene_number": 1,
+    "text": "In a forest, a man with a satchel eyes a vine-clad tower between cliffs, then turns cautiously with an arrow.",
+    "type": "Visual",
+    "duration": 8.76,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A man with brown hair, wearing a vest and carrying a satchel, stands in a lush, green forest looking at a tall tower nestled between cliffs.",
+      "The tower becomes visible, with a pointed roof and vines covering its walls. It is surrounded by tall cliffs.",
+      "The man turns to look back, appearing cautious or concerned.",
+      "Close-up of the man's face as he reaches up with an arrow in his hand."
+    ],
+    "start_time": 0.0,
+    "end_time": 8.76
+  },
+  {
+    "scene_number": 2,
+    "text": "\"Green tower between cliffs.\"",
+    "type": "Visual",
+    "duration": 2.28,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A tall, cylindrical tower covered in greenery, located between rocky cliffs under a blue sky with clouds."
+    ],
+    "start_time": 9.16,
+    "end_time": 11.44
+  },
+  {
+    "scene_number": 3,
+    "text": "\"Light shines through a window with flowers. A person in a green vest climbs in, looking pleased. A woman in a pink dress raises a frying pan defensively. The room has colorful murals and a mannequin.\"",
+    "type": "Visual",
+    "duration": 14.688,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A bright window with flowers visible outside, casting light into the room.",
+      "A figure climbs through the window, entering the room.",
+      "The figure stands up, revealing a person wearing a green vest and brown pants.",
+      "The person looks around the room, appearing cautious.",
+      "The person holds a brown satchel and examines its contents.",
+      "The person appears pleased with what they see inside the satchel.",
+      "A woman with long blonde hair, wearing a pink dress, appears holding a frying pan defensively.",
+      "The woman looks surprised and cautious, holding the frying pan up as if ready to defend herself.",
+      "The room is decorated with colorful murals and has a lantern on a small table.",
+      "A wardrobe and a mannequin with long hair draped over it are visible in the room."
+    ],
+    "start_time": 11.88,
+    "end_time": 26.568
+  },
+  {
+    "scene_number": 4,
+    "text": "Face down, bag nearby.",
+    "type": "Visual",
+    "duration": 2.424,
+    "fits_in_gap": false,
+    "original_texts": [
+      "A character is lying face down on the floor in a room with colorful tiled flooring. The character is wearing a blue vest, white shirt, and brown pants with boots. There is a bag on the floor nearby."
+    ],
+    "start_time": 28.88,
+    "end_time": 31.304,
+    "original_text": "\"Face down, bag close.\""
+  },
+  {
+    "scene_number": 5,
+    "text": "\"A blonde character cautiously peeks over a purple object near a person on the floor, showing concern by a decorative wall.\"",
+    "type": "Visual",
+    "duration": 8.88,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A character with long blonde hair is peeking over a purple object, appearing cautious and curious.",
+      "The character is holding and looking over the purple object, showing a worried expression.",
+      "A scene shows a person lying on the floor, wearing a blue vest and brown pants, with a bag nearby.",
+      "The blonde-haired character is standing near the person on the floor, holding the purple object.",
+      "The character adjusts the purple object, revealing her long hair flowing onto the floor.",
+      "The character looks concerned, holding the purple object with both hands.",
+      "The character is near a decorative wall, showing a mix of concern and determination."
+    ],
+    "start_time": 30.92,
+    "end_time": 39.800000000000004
+  },
+  {
+    "scene_number": 6,
+    "text": "\"Teal figure under pan.\"",
+    "type": "Visual",
+    "duration": 1.944,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A character is lying face down on the floor, partially visible with brown hair and wearing a teal outfit.",
+      "A large, dark frying pan is being held above the character's head."
+    ],
+    "start_time": 40.04,
+    "end_time": 41.984
+  },
+  {
+    "scene_number": 7,
+    "text": "Blonde in purple, eyes wide with worry.",
+    "type": "Visual",
+    "duration": 3.216,
+    "fits_in_gap": false,
+    "original_texts": [
+      "A character with long blonde hair and a purple dress looks concerned, holding someone's head gently in her lap. The background features a decorative wall.",
+      "The character's expression remains worried as she continues to hold the person's head. Her dress has puffed sleeves and lace details.",
+      "The character's eyes widen in surprise or realization. The setting remains the same, with a focus on her facial expression."
+    ],
+    "start_time": 42.52,
+    "end_time": 45.736000000000004,
+    "original_text": "\"Worried blonde in purple, eyes widen.\""
+  },
+  {
+    "scene_number": 8,
+    "text": "Worried woman holds pan; chameleon gazes up.",
+    "type": "Visual",
+    "duration": 3.984,
+    "fits_in_gap": false,
+    "original_texts": [
+      "A small green chameleon with large eyes is sitting on the floor, looking upward.",
+      "A young woman with long blonde hair, wearing a purple dress, looks concerned and is holding a frying pan."
+    ],
+    "start_time": 44.6,
+    "end_time": 48.584,
+    "original_text": "\"Worried woman holds pan, chameleon looks up.\""
+  },
+  {
+    "scene_number": 9,
+    "text": "\"Face down on stone floor; pan held overhead.\"",
+    "type": "Visual",
+    "duration": 3.816,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A person with brown hair is lying face down on a stone floor, wearing a blue jacket.",
+      "A hand holding a frying pan is positioned above the person's head.",
+      "The scene remains the same, with the frying pan still above the person's head.",
+      "The person is still lying on the floor, with the frying pan above the head."
+    ],
+    "start_time": 47.92,
+    "end_time": 51.736000000000004
+  },
+  {
+    "scene_number": 10,
+    "text": "\"Blonde holds pan in dim room.\"",
+    "type": "Visual",
+    "duration": 2.544,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A character with long blonde hair and a worried expression is holding a frying pan inside a dimly lit room with patterned walls."
+    ],
+    "start_time": 51.92,
+    "end_time": 54.464
+  },
+  {
+    "scene_number": 11,
+    "text": "Chameleon with a vivid red face and sharp teeth.",
+    "type": "Visual",
+    "duration": 3.624,
+    "fits_in_gap": false,
+    "original_texts": [
+      "A small green chameleon with large eyes is looking up.",
+      "The chameleon is next to a red drawing of a face with sharp teeth on the ground."
+    ],
+    "start_time": 54.92,
+    "end_time": 58.544000000000004,
+    "original_text": "\"Chameleon by red sharp-tooth face.\""
+  },
+  {
+    "scene_number": 11,
+    "start_time": 58.92,
+    "end_time": 63.264,
+    "duration": 4.344,
+    "type": "Visual",
+    "text": "A chameleon shifts to yellow-orange as it examines a drawing.",
+    "fits_in_gap": false,
+    "original_text": "The chameleon changes color to yellowish-orange while looking at the drawing."
+  },
+  {
+    "scene_number": 12,
+    "text": "\"Worried woman in a purple dress presses a frying pan to an unconscious man's face.\"",
+    "type": "Visual",
+    "duration": 6.264,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A young man is unconscious on the ground, with his head resting on his side. He has brown hair and is wearing a blue vest. A hand holding a frying pan is visible near his head.",
+      "The frying pan is pressed closer to the young man's face, and a hand holding it is visible.",
+      "The scene focuses on the young man's face, showing him still unconscious, with the frying pan held against him.",
+      "The young man's face shows a slight grimace as the frying pan is pressed against him.",
+      "The camera zooms out slightly, showing the young man's face in discomfort as the frying pan is held firmly.",
+      "A young woman with long blonde hair and a worried expression is holding the frying pan. She is wearing a purple dress with lace trim.",
+      "The young woman looks down with a concerned expression, still holding the frying pan."
+    ],
+    "start_time": 58.08,
+    "end_time": 64.344
+  },
+  {
+    "scene_number": 13,
+    "text": "\"Closed-eyed, brown-haired figure; object nears.\"",
+    "type": "Visual",
+    "duration": 4.176,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A character with brown hair is lying on the ground, eyes closed, wearing a teal vest. A hand holding a black object is approaching the character's head."
+    ],
+    "start_time": 64.92,
+    "end_time": 69.096
+  },
+  {
+    "scene_number": 14,
+    "text": "Blonde woman in purple dress holds a pan, looking curious then startled.",
+    "type": "Visual",
+    "duration": 5.688,
+    "fits_in_gap": false,
+    "original_texts": [
+      "A young woman with long blonde hair and a surprised expression holds a frying pan. She is wearing a purple dress and is in a dimly lit room with a decorative wall.",
+      "The young woman lowers the frying pan slightly, maintaining a curious expression. The background remains the same.",
+      "The woman's expression changes to a more relaxed and thoughtful look. She still holds the frying pan and wears the purple dress.",
+      "The woman appears startled again, with wide eyes, as she continues to hold the frying pan in the same setting."
+    ],
+    "start_time": 69.16,
+    "end_time": 74.848,
+    "original_text": "\"Blonde woman in purple dress holds pan, curious then startled.\""
+  },
+  {
+    "scene_number": 16,
+    "text": "\"Surprised blonde in purple.\"",
+    "type": "Visual",
+    "duration": 2.16,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A young woman with long blonde hair and large green eyes, wearing a purple dress, looks surprised. The background appears to be a decorated wall with a tapestry or mural."
+    ],
+    "start_time": 75.88,
+    "end_time": 78.03999999999999
+  },
+  {
+    "scene_number": 17,
+    "text": "A surprised man with brown hair opens his eyes.",
+    "type": "Visual",
+    "duration": 3.672,
+    "fits_in_gap": false,
+    "original_texts": [
+      "A character with brown hair and a teal jacket is lying down with eyes closed.",
+      "The character is in the same position, eyes still closed.",
+      "The character opens his eyes, appearing surprised or alert."
+    ],
+    "start_time": 78.24,
+    "end_time": 81.91199999999999,
+    "original_text": "\"Brown-haired man opens eyes, surprised.\""
+  },
+  {
+    "scene_number": 18,
+    "text": "\"Blonde, purple dress, lifts pan.\"",
+    "type": "Visual",
+    "duration": 3.12,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A character with long, blonde hair wearing a purple dress is holding a frying pan with a surprised expression.",
+      "The character raises the frying pan as if preparing to swing it, eyes closed tightly.",
+      "The character is still in a stance ready to swing the frying pan, winking with one eye open."
+    ],
+    "start_time": 80.84,
+    "end_time": 83.96000000000001
+  },
+  {
+    "scene_number": 19,
+    "text": "A lavish room features a wardrobe. A character in a purple dress drags an unconscious person inside. After struggling to fit them, the character shuts the door and pushes in a revealed hand. A small animal appears; the character seems satisfied.",
+    "type": "Visual",
+    "duration": 17.544,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A room with ornate decorations, a wooden door, a mirror, and a wardrobe.",
+      "A character in a purple dress enters the scene, approaching the wardrobe.",
+      "The character drags an unconscious person by their hair across the floor.",
+      "The character looks concernedly at the unconscious person.",
+      "The character attempts to lift the unconscious person into the wardrobe.",
+      "The unconscious person is partially inside the wardrobe, legs sticking out.",
+      "The character closes the wardrobe door.",
+      "The character observes the wardrobe, appearing thoughtful.",
+      "The wardrobe door opens slightly, revealing the unconscious person's hand.",
+      "The character pushes the hand back inside the wardrobe.",
+      "A small animal appears on the floor beside the wardrobe.",
+      "The character looks at the wardrobe, appearing satisfied."
+    ],
+    "start_time": 84.2,
+    "end_time": 101.744
+  },
+  {
+    "scene_number": 20,
+    "text": "\"A young woman with blonde hair and a purple dress rushes to a wardrobe, pulling a green chair. She props it against the wardrobe, grabs a frying pan, and approaches a mirror. Her expression shifts from curiosity to a playful smile as she admires the pan.\"",
+    "type": "Visual",
+    "duration": 18.936,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A young woman with long blonde hair and a purple dress rushes towards a wardrobe, pulling a green chair with her.",
+      "She props the chair against the wardrobe and picks up a frying pan.",
+      "The woman cautiously approaches a mirror, holding the frying pan defensively.",
+      "She looks at her reflection in the mirror, appearing curious and slightly worried.",
+      "Her expression changes from surprise to a smile as she examines the frying pan.",
+      "She seems to playfully swing the frying pan, appearing more confident.",
+      "The woman continues to admire the frying pan, showing a range of emotions from curiosity to amusement."
+    ],
+    "start_time": 111.44,
+    "end_time": 130.376
+  },
+  {
+    "scene_number": 21,
+    "start_time": 133.44,
+    "end_time": 135.648,
+    "duration": 2.208,
+    "type": "Text on Screen",
+    "text": "Available on Disney+"
+  },
+  {
+    "scene_number": 21,
+    "start_time": 133.44,
+    "end_time": 139.512,
+    "duration": 6.072,
+    "type": "Visual",
+    "text": "Tropical islands, snowy landscapes, and animated worlds fill the backdrop.",
+    "fits_in_gap": false,
+    "original_text": "Backgrounds include tropical islands, snowy landscapes, and animated worlds."
+  },
+  {
+    "scene_number": 21,
+    "start_time": 134.44,
+    "end_time": 135.4,
+    "duration": 0.96,
+    "type": "Text on Screen",
+    "text": "KIDS"
+  }
+]

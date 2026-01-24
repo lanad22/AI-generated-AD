@@ -1,0 +1,322 @@
+[
+  {
+    "scene_number": 1,
+    "start_time": 0.0,
+    "end_time": 4.008,
+    "duration": 4.008,
+    "type": "Text on Screen",
+    "text": "Swaddle Your Baby Like a Pro: Pediatrician Tips"
+  },
+  {
+    "scene_number": 1,
+    "start_time": 0.0,
+    "end_time": 7.44,
+    "duration": 7.44,
+    "type": "Visual",
+    "text": "Doctor Kurt Bjorkman, in a teal shirt, swaddles a baby in a green blanket beside a changing table.",
+    "fits_in_gap": false,
+    "original_text": "Doctor Kurt Bjorkman, wearing a teal shirt, stands by a changing table. He is swaddling a baby in a green blanket. The room has white walls with bookshelves and a plant."
+  },
+  {
+    "scene_number": 2,
+    "start_time": 7.0,
+    "end_time": 13.552,
+    "duration": 6.552,
+    "type": "Visual",
+    "text": "Dr. Kurt Bjorkman shows how to swaddle a baby using the 'baseball method' with a blanket.",
+    "fits_in_gap": false,
+    "original_text": "Doctor Kurt Bjorkman demonstrates the 'baseball method' with the blanket, preparing to swaddle a baby."
+  },
+  {
+    "scene_number": 3,
+    "start_time": 15.208333333333334,
+    "end_time": 19.216333333333335,
+    "duration": 4.008,
+    "type": "Text on Screen",
+    "text": "Swaddle Your Baby Like a Pro: Pediatrician Tips"
+  },
+  {
+    "scene_number": 3,
+    "start_time": 15.208333333333334,
+    "end_time": 22.048333333333332,
+    "duration": 6.84,
+    "type": "Visual",
+    "text": "Doctor Kurt Bjorkman, in a teal shirt, holds a striped blanket in a room with a changing table.",
+    "fits_in_gap": false,
+    "original_text": "Doctor Kurt Bjorkman, in a teal shirt, is holding a white blanket with colored stripes. He stands in a room with a changing table, a lamp, and a bookshelf."
+  },
+  {
+    "scene_number": 4,
+    "start_time": 21.708333333333332,
+    "end_time": 23.172333333333334,
+    "duration": 1.464,
+    "type": "Text on Screen",
+    "text": "BASEBALL DIAMOND"
+  },
+  {
+    "scene_number": 4,
+    "start_time": 22.208333333333332,
+    "end_time": 23.672333333333334,
+    "duration": 1.464,
+    "type": "Text on Screen",
+    "text": "BASEBALL DIAMOND"
+  },
+  {
+    "scene_number": 5,
+    "start_time": 23.875,
+    "end_time": 25.339,
+    "duration": 1.464,
+    "type": "Text on Screen",
+    "text": "BASEBALL DIAMOND"
+  },
+  {
+    "scene_number": 5,
+    "start_time": 23.875,
+    "end_time": 34.507,
+    "duration": 10.632,
+    "type": "Visual",
+    "text": "Doctor Kurt Bjorkman demonstrates a swaddling technique in a room, with a white cloth on a surface; a baseball diamond diagram appears on screen.",
+    "fits_in_gap": false,
+    "original_text": "Doctor Kurt Bjorkman stands in a room with a white swaddle cloth laid out on a surface. He folds the cloth, demonstrating a swaddling technique. A diagram of a baseball diamond appears on screen."
+  },
+  {
+    "scene_number": 6,
+    "start_time": 26.541666666666668,
+    "end_time": 27.62166666666667,
+    "duration": 1.08,
+    "type": "Text on Screen",
+    "text": "Home Plate"
+  },
+  {
+    "scene_number": 6,
+    "start_time": 26.541666666666668,
+    "end_time": 33.093666666666664,
+    "duration": 6.552,
+    "type": "Visual",
+    "text": "Doctor Kurt Bjorkman stands by a table with a baseball diamond diagram on a white cloth.",
+    "fits_in_gap": false,
+    "original_text": "Doctor Kurt Bjorkman stands beside a table with a white swaddle cloth laid out. A diagram of a baseball diamond is displayed over the cloth."
+  },
+  {
+    "scene_number": 6,
+    "start_time": 31.541666666666668,
+    "end_time": 39.053666666666665,
+    "duration": 7.512,
+    "type": "Visual",
+    "text": "Doctor Bjorkman points to each corner of the swaddle cloth, comparing their positions to baseball bases.",
+    "fits_in_gap": false,
+    "original_text": "Doctor Bjorkman points to different corners of the swaddle cloth, explaining positions like first base and third base."
+  },
+  {
+    "scene_number": 6,
+    "text": "\"He swaddles a doll.\"",
+    "type": "Visual",
+    "duration": 1.68,
+    "fits_in_gap": true,
+    "original_texts": [
+      "He places a baby doll gently on the swaddle cloth, preparing to demonstrate the swaddling technique."
+    ],
+    "start_time": 35.40166666666667,
+    "end_time": 37.08166666666667
+  },
+  {
+    "scene_number": 6,
+    "start_time": 44.54166666666667,
+    "end_time": 49.91766666666667,
+    "duration": 5.376,
+    "type": "Visual",
+    "text": "Doctor Bjorkman wraps cloth around the doll, securing it at the sides.",
+    "fits_in_gap": false,
+    "original_text": "Doctor Bjorkman adjusts the doll's arms and begins wrapping the cloth around it, securing it at the sides."
+  },
+  {
+    "scene_number": 6,
+    "start_time": 54.54166666666667,
+    "end_time": 57.229666666666674,
+    "duration": 2.688,
+    "type": "Visual",
+    "text": "Tucks cloth securely under doll.",
+    "fits_in_gap": false,
+    "original_text": "He tucks the cloth under the doll, ensuring it is snug and secure."
+  },
+  {
+    "scene_number": 6,
+    "start_time": 64.54166666666667,
+    "end_time": 67.10966666666667,
+    "duration": 2.568,
+    "type": "Visual",
+    "text": "He wraps the cloth around the doll.",
+    "fits_in_gap": false,
+    "original_text": "He lifts one corner of the cloth, wrapping it over the doll's body and tucking it in."
+  },
+  {
+    "scene_number": 6,
+    "text": "The doctor adjusts the swaddle, positioning the doll's arms correctly.",
+    "type": "Visual",
+    "duration": 4.896,
+    "fits_in_gap": true,
+    "original_texts": [
+      "The doctor continues to adjust the swaddle, ensuring the doll's arms are positioned correctly."
+    ],
+    "start_time": 71.10166666666667,
+    "end_time": 75.99766666666667
+  },
+  {
+    "scene_number": 6,
+    "text": "Doctor Bjorkman swaddles the doll and gently checks it for comfort and security.",
+    "type": "Visual",
+    "duration": 5.784,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Doctor Bjorkman finishes the swaddle and gently checks the doll to ensure it is comfortable and secure."
+    ],
+    "start_time": 83.50166666666667,
+    "end_time": 89.28566666666667
+  },
+  {
+    "scene_number": 7,
+    "start_time": 92.54166666666667,
+    "end_time": 96.40566666666668,
+    "duration": 3.864,
+    "type": "Text on Screen",
+    "text": "Doctor Kurt Bjorkman demonstrates swaddling technique"
+  },
+  {
+    "scene_number": 7,
+    "start_time": 93.54166666666667,
+    "end_time": 97.54966666666667,
+    "duration": 4.008,
+    "type": "Visual",
+    "text": "Doctor Bjorkman snugly tucks the cloth under the baby.",
+    "fits_in_gap": false,
+    "original_text": "Doctor Kurt Bjorkman tucks the cloth under the baby's side, ensuring a snug fit."
+  },
+  {
+    "scene_number": 7,
+    "start_time": 95.54166666666667,
+    "end_time": 98.70966666666668,
+    "duration": 3.168,
+    "type": "Visual",
+    "text": "Dr. Bjorkman swaddles the calm baby.",
+    "fits_in_gap": false,
+    "original_text": "Doctor Kurt Bjorkman adjusts the cloth, completing the swaddle, while the baby remains calm."
+  },
+  {
+    "scene_number": 8,
+    "start_time": 96.25,
+    "end_time": 103.402,
+    "duration": 7.152,
+    "type": "Text on Screen",
+    "text": "0in, 2in, 4in, 6in, 8in, 10in"
+  },
+  {
+    "scene_number": 8,
+    "start_time": 96.25,
+    "end_time": 102.874,
+    "duration": 6.624,
+    "type": "Visual",
+    "text": "Dr. Kurt Bjorkman adjusts a swaddled baby with a pacifier on a marked changing table.",
+    "fits_in_gap": false,
+    "original_text": "Doctor Kurt Bjorkman is gently adjusting a baby's swaddle on a changing table. The baby has a pacifier in its mouth, and the table has measurement markings on the side."
+  },
+  {
+    "scene_number": 9,
+    "start_time": 98.70833333333333,
+    "end_time": 99.47633333333333,
+    "duration": 0.768,
+    "type": "Text on Screen",
+    "text": "KUB"
+  },
+  {
+    "scene_number": 9,
+    "start_time": 100.70833333333333,
+    "end_time": 104.81233333333333,
+    "duration": 4.104,
+    "type": "Visual",
+    "text": "A baby snug in a striped swaddle holds a pacifier.",
+    "fits_in_gap": false,
+    "original_text": "The baby is wrapped snugly in a striped swaddle, holding a pacifier in its mouth."
+  },
+  {
+    "scene_number": 9,
+    "start_time": 114.70833333333333,
+    "end_time": 118.42833333333333,
+    "duration": 3.72,
+    "type": "Visual",
+    "text": "Dr. Bjorkman gently adjusts the baby's swaddle.",
+    "fits_in_gap": false,
+    "original_text": "Doctor Kurt Bjorkman adjusts the baby's position slightly, checking the swaddle's fit."
+  },
+  {
+    "scene_number": 10,
+    "start_time": 118.29166666666667,
+    "end_time": 119.05966666666667,
+    "duration": 0.768,
+    "type": "Text on Screen",
+    "text": "KUB"
+  },
+  {
+    "scene_number": 10,
+    "start_time": 118.29166666666667,
+    "end_time": 125.05966666666667,
+    "duration": 6.768,
+    "type": "Visual",
+    "text": "Dr. Bjorkman gently adjusts a swaddled baby with a pacifier on a marked changing table.",
+    "fits_in_gap": false,
+    "original_text": "Doctor Kurt Bjorkman is gently adjusting the swaddle around a baby lying on a changing table with measurement markings. The baby has a pacifier in its mouth."
+  },
+  {
+    "scene_number": 11,
+    "start_time": 124.25,
+    "end_time": 125.018,
+    "duration": 0.768,
+    "type": "Text on Screen",
+    "text": "KUB"
+  },
+  {
+    "scene_number": 11,
+    "start_time": 124.25,
+    "end_time": 130.85,
+    "duration": 6.6,
+    "type": "Visual",
+    "text": "Doctor Bjorkman adjusts a swaddle on a baby with a pacifier on a marked changing table.",
+    "fits_in_gap": false,
+    "original_text": "Doctor Kurt Bjorkman is adjusting the swaddle around a baby lying on a changing table with measurement markings. The baby has a pacifier in its mouth."
+  },
+  {
+    "scene_number": 11,
+    "start_time": 125.25,
+    "end_time": 129.498,
+    "duration": 4.248,
+    "type": "Visual",
+    "text": "Doctor Kurt Bjorkman snugly secures the baby's swaddle.",
+    "fits_in_gap": false,
+    "original_text": "Doctor Kurt Bjorkman ensures the top rail of the swaddle is snug around the baby."
+  },
+  {
+    "scene_number": 12,
+    "start_time": 128.375,
+    "end_time": 129.143,
+    "duration": 0.768,
+    "type": "Text on Screen",
+    "text": "KUB"
+  },
+  {
+    "scene_number": 13,
+    "start_time": 135.79166666666666,
+    "end_time": 136.65566666666666,
+    "duration": 0.864,
+    "type": "Text on Screen",
+    "text": "Pluii"
+  },
+  {
+    "scene_number": 13,
+    "start_time": 135.79166666666666,
+    "end_time": 144.07166666666666,
+    "duration": 8.28,
+    "type": "Visual",
+    "text": "Doctor Kurt Bjorkman adjusts a baby's swaddle on a marked changing table, with a plant and bookshelf in the background.",
+    "fits_in_gap": false,
+    "original_text": "Doctor Kurt Bjorkman stands beside a changing table, adjusting the swaddle around a baby. The table is marked with measurements. A plant and a shelf with books and decor are visible in the background."
+  }
+]

@@ -29,7 +29,13 @@
     "end_time": 28.84,
     "duration": 16.96,
     "scene_path": "videos/JXnAd8bofTo/JXnAd8bofTo_scenes/scene_003.mp4",
-    "transcript": [],
+    "transcript": [
+      {
+        "text": "Alone at last.",
+        "start": 7.28,
+        "end": 8.52
+      }
+    ],
     "captions": []
   },
   {
@@ -128,7 +134,13 @@
     "end_time": 64.88,
     "duration": 6.799999999999997,
     "scene_path": "videos/JXnAd8bofTo/JXnAd8bofTo_scenes/scene_012.mp4",
-    "transcript": [],
+    "transcript": [
+      {
+        "text": "Huh.",
+        "start": 5.56,
+        "end": 5.58
+      }
+    ],
     "captions": []
   },
   {
@@ -172,7 +184,13 @@
     "end_time": 78.2,
     "duration": 2.3200000000000074,
     "scene_path": "videos/JXnAd8bofTo/JXnAd8bofTo_scenes/scene_016.mp4",
-    "transcript": [],
+    "transcript": [
+      {
+        "text": "\u4f18\u4f18\u72ec\u64ad\u5267\u573a\u2014\u2014YoYo Television Series Exclusive",
+        "start": 0.08,
+        "end": 2.3
+      }
+    ],
     "captions": []
   },
   {
@@ -183,7 +201,13 @@
     "end_time": 80.8,
     "duration": 2.5600000000000023,
     "scene_path": "videos/JXnAd8bofTo/JXnAd8bofTo_scenes/scene_017.mp4",
-    "transcript": [],
+    "transcript": [
+      {
+        "text": "Huh?",
+        "start": 1.69,
+        "end": 2.17
+      }
+    ],
     "captions": []
   },
   {
@@ -216,7 +240,38 @@
     "end_time": 133.4,
     "duration": 21.960000000000008,
     "scene_path": "videos/JXnAd8bofTo/JXnAd8bofTo_scenes/scene_020.mp4",
-    "transcript": [],
+    "transcript": [
+      {
+        "text": "Okay, okay, okay.",
+        "start": 1.42,
+        "end": 2.38
+      },
+      {
+        "text": "I've got a person in my closet.",
+        "start": 2.38,
+        "end": 3.98
+      },
+      {
+        "text": "I've got a person in my closet.",
+        "start": 4.2,
+        "end": 6.38
+      },
+      {
+        "text": "I've got a person in my closet?",
+        "start": 6.76,
+        "end": 11.19
+      },
+      {
+        "text": "Too weak to handle myself out there, huh, Mother?",
+        "start": 14.05,
+        "end": 16.43
+      },
+      {
+        "text": "Well, tell that to my friend, Penny.",
+        "start": 16.67,
+        "end": 19.79
+      }
+    ],
     "captions": []
   },
   {

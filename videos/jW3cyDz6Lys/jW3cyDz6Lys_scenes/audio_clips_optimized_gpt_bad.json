@@ -1,0 +1,32 @@
+[
+  {
+    "scene_number": 1,
+    "start_time": 0.0,
+    "end_time": 2.28,
+    "duration": 2.28,
+    "type": "Text on Screen",
+    "text": "Swaddle Your Baby Like a Pro"
+  },
+  {
+    "scene_number": 1,
+    "text": "A man in a teal shirt stands by a changing table, ready to demonstrate swaddling. He unfolds a large white cloth with colored stripes, over which a baseball field diagram appears, illustrating the 'baseball method.' Holding a baby dressed in green, he gently places it on the changing table, aligning it with the diagram. He begins wrapping the cloth around the baby using the baseball method, carefully tucking it under for a snug fit. After securing the baby comfortably, he checks the swaddle, ensuring the baby is secure with a pacifier in its mouth. Satisfied, he steps back slightly.",
+    "type": "Visual",
+    "duration": 42.816,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A man in a teal shirt stands beside a changing table, preparing to demonstrate swaddling.",
+      "He unfolds a large white cloth with colored stripes.",
+      "A diagram of a baseball field appears over the cloth, illustrating the 'baseball method.'",
+      "The man holds a baby, dressed in green, and gently places it on the changing table.",
+      "He positions the baby on the cloth, aligning it with the diagram.",
+      "The man begins wrapping the cloth around the baby, following the baseball method.",
+      "He carefully tucks the cloth under the baby, ensuring a snug fit.",
+      "The man adjusts the cloth, securing the baby comfortably.",
+      "The baby is now fully swaddled, with a pacifier in its mouth.",
+      "The man gently checks the swaddle, making sure the baby is secure.",
+      "He looks satisfied with the swaddle and steps back slightly."
+    ],
+    "start_time": 2.28,
+    "end_time": 45.096000000000004
+  }
+]
