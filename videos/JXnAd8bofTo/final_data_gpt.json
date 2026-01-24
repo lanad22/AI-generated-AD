@@ -1,0 +1,185 @@
+{
+  "dialogue_timestamps": [],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "\"Flynn Rider stands in a forest, eyes on a cliff's tower. He shoots an arrow and starts climbing.\"",
+      "type": "Visual",
+      "start_time": 0.0,
+      "end_time": 7.512,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 2,
+      "text": "\"Ivy tower with balcony.\"",
+      "type": "Visual",
+      "start_time": 9.16,
+      "end_time": 11.224,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 3,
+      "text": "Flynn Rider climbs into the sunlit tower, inspects a satchel, and talks to himself. Rapunzel appears behind him, surprised, holding a frying pan. The camera reveals colorful murals inside the tower.",
+      "type": "Visual",
+      "start_time": 11.88,
+      "end_time": 27.624000000000002,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 4,
+      "text": "\"Flynn unconscious, pan nearby.\"",
+      "type": "Visual",
+      "start_time": 28.88,
+      "end_time": 31.735999999999997,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 5,
+      "text": "\"Rapunzel nervously peeks at unconscious Flynn on the floor, frying pan beside him.\"",
+      "type": "Visual",
+      "start_time": 30.92,
+      "end_time": 37.400000000000006,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 6,
+      "text": "\"Flynn down, teal coat, pan up.\"",
+      "type": "Visual",
+      "start_time": 40.04,
+      "end_time": 42.896,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "\"Rapunzel, surprised, grips pan.\"",
+      "type": "Visual",
+      "start_time": 42.52,
+      "end_time": 45.808,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "\"Chameleon looks up; Rapunzel, worried, holds pan.\"",
+      "type": "Visual",
+      "start_time": 44.6,
+      "end_time": 49.136,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 9,
+      "text": "\"Flynn is out cold; Rapunzel holds a frying pan.\"",
+      "type": "Visual",
+      "start_time": 47.92,
+      "end_time": 51.856,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 10,
+      "text": "\"Rapunzel, worried, grips pan, looks right.\"",
+      "type": "Visual",
+      "start_time": 51.92,
+      "end_time": 55.856,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 11,
+      "text": "\"Pascal stares at a red face, turning orange.\"",
+      "type": "Visual",
+      "start_time": 54.92,
+      "end_time": 58.616,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 12,
+      "text": "\"Flynn lies unconscious. Rapunzel, concerned, presses a frying pan to his face.\"",
+      "type": "Visual",
+      "start_time": 58.08,
+      "end_time": 64.608,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 13,
+      "text": "\"Rapunzel holds a frying pan near unconscious Flynn.\"",
+      "type": "Visual",
+      "start_time": 64.92,
+      "end_time": 68.808,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 14,
+      "text": "\"Rapunzel's expression shifts from surprised to thoughtful.\"",
+      "type": "Visual",
+      "start_time": 69.16,
+      "end_time": 73.216,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 15,
+      "text": "\"Flynn unconscious on floor.\"",
+      "type": "Visual",
+      "start_time": 73.6,
+      "end_time": 75.832,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 16,
+      "text": "\"Rapunzel looks down, concerned.\"",
+      "type": "Visual",
+      "start_time": 75.88,
+      "end_time": 78.68799999999999,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 17,
+      "text": "\"Flynn's eyes snap open.\"",
+      "type": "Visual",
+      "start_time": 78.24,
+      "end_time": 80.136,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 18,
+      "text": "\"Rapunzel raises a pan, eyes shut.\"",
+      "type": "Visual",
+      "start_time": 80.84,
+      "end_time": 83.888,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 19,
+      "text": "\"Rapunzel drags an unconscious Flynn with her hair into a wardrobe. He starts waking up, so she hurriedly closes the door. Nervously, she checks around, then peeks inside. Flynn's hand emerges, but she shoves it back, closes the door, and stands contemplating.\"",
+      "type": "Visual",
+      "start_time": 84.2,
+      "end_time": 104.26400000000001,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 20,
+      "text": "\"Rapunzel approaches a wardrobe with a frying pan, barricades it with a chair, and checks inside. Seeing her reflection, she shifts from determined to surprised, then smiles confidently. She twirls the pan, appearing thoughtful and holds it on her hip, considering her next move.\"",
+      "type": "Visual",
+      "start_time": 111.44,
+      "end_time": 131.864,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 21,
+      "text": "Available on Disney+",
+      "type": "Text on Screen",
+      "start_time": 133.44,
+      "end_time": 133.44,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 21,
+      "text": "Disney Kids",
+      "type": "Text on Screen",
+      "start_time": 133.44,
+      "end_time": 133.44,
+      "track_type": "extended"
+    }
+  ],
+  "youtube_id": "JXnAd8bofTo",
+  "video_name": "Flynn Rider Meets Rapunzel… and Her Frying Pan! 🍳 | Tangled | Disney Kids",
+  "video_length": 139,
+  "aiUserId": "68798f57c48a173631902319"
+}

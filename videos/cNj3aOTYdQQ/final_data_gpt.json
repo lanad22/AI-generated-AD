@@ -3,187 +3,59 @@
   "audio_clips": [
     {
       "scene_number": 1,
-      "text": "\"Fritters and chili sauce on a white plate.\"",
+      "text": "A white plate holds crispy cabbage and carrot fritters with a dish of chili sauce.",
       "type": "Visual",
       "start_time": 0.0,
-      "end_time": 2.952,
+      "end_time": 6.0,
       "track_type": "inline"
     },
     {
       "scene_number": 2,
-      "text": "A wooden cutting board sits on a kitchen counter with a carrot, a cabbage, and two empty glass bowls nearby. A hand peels and slices the carrot into thick pieces, then chops them into thin strips, transferring them to a bowl. The cabbage is cut in half; one half is placed on the board and sliced into thin shreds, which are put into the second bowl. The remaining cabbage half is also shredded and added to the bowl.",
+      "text": "A wooden cutting board sits on a kitchen counter, accompanied by a carrot, a cabbage, and two empty glass bowls. A hand peels the carrot, collecting the peels on a white plate. The carrot is sliced into thick pieces, then chopped into thin strips and placed in one bowl. The cabbage is halved; one half is shredded, then transferred to the second bowl. The other half is also shredded and added to the bowl, completing the preparation.",
       "type": "Visual",
       "start_time": 6.633333333333334,
-      "end_time": 37.20933333333333,
+      "end_time": 37.68933333333334,
       "track_type": "inline"
     },
     {
       "scene_number": 3,
-      "text": "3/4 Cup Flour",
-      "type": "Text on Screen",
-      "start_time": 42.46666666666667,
-      "end_time": 42.46666666666667,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 3,
-      "text": "Ingredients are neatly arranged on a table: flour, chopped cabbage, chopped carrots, water, an egg, and a small dish of salt.",
+      "text": "On a table, ingredients are arranged: 3/4 cup flour, 1 tsp salt, 1 egg, 3/4 cup water, 3/4 cup chopped cabbage, and 1/2 cup chopped carrots. Hands add flour and salt to a large mixing bowl. An egg is cracked in, followed by water poured gradually while stirring. The mixture becomes a smooth dough. Chopped cabbage and carrots are then mixed into the dough.",
       "type": "Visual",
       "start_time": 42.46666666666667,
-      "end_time": 42.46666666666667,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 3,
-      "text": "\"Flour added.\"",
-      "type": "Visual",
-      "start_time": 44.458666666666666,
-      "end_time": 44.458666666666666,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 3,
-      "text": "1 tsp salt",
-      "type": "Text on Screen",
-      "start_time": 46.46666666666667,
-      "end_time": 46.46666666666667,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 3,
-      "text": "\"Salt added to flour.\"",
-      "type": "Visual",
-      "start_time": 48.29066666666667,
-      "end_time": 48.29066666666667,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 3,
-      "text": "1 egg",
-      "type": "Text on Screen",
-      "start_time": 50.46666666666667,
-      "end_time": 50.46666666666667,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 3,
-      "text": "\"Egg cracked into flour.\"",
-      "type": "Visual",
-      "start_time": 51.498666666666665,
-      "end_time": 51.498666666666665,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 3,
-      "text": "3/4 cup water\nAdd gradually",
-      "type": "Text on Screen",
-      "start_time": 54.46666666666667,
-      "end_time": 57.68266666666667,
-      "track_type": "inline"
-    },
-    {
-      "scene_number": 3,
-      "text": "Water is slowly added while stirring until a smooth dough forms.",
-      "type": "Visual",
-      "start_time": 57.68266666666667,
-      "end_time": 62.07466666666667,
-      "track_type": "inline"
-    },
-    {
-      "scene_number": 3,
-      "text": "3/4 cup cabbage",
-      "type": "Text on Screen",
-      "start_time": 67.46666666666667,
-      "end_time": 69.50666666666666,
-      "track_type": "inline"
-    },
-    {
-      "scene_number": 3,
-      "text": "Cabbage is mixed into the dough.",
-      "type": "Visual",
-      "start_time": 69.50666666666666,
-      "end_time": 71.85866666666666,
-      "track_type": "inline"
-    },
-    {
-      "scene_number": 3,
-      "text": "1/2 cup carrot",
-      "type": "Text on Screen",
-      "start_time": 73.46666666666667,
-      "end_time": 75.17066666666668,
-      "track_type": "inline"
-    },
-    {
-      "scene_number": 3,
-      "text": "Carrots are chopped, added to the dough, and mixed thoroughly.",
-      "type": "Visual",
-      "start_time": 75.17066666666668,
-      "end_time": 79.73066666666668,
+      "end_time": 72.65866666666668,
       "track_type": "inline"
     },
     {
       "scene_number": 4,
-      "text": "Fry both side till golden brown",
-      "type": "Text on Screen",
-      "start_time": 87.96666666666667,
-      "end_time": 87.96666666666667,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 4,
-      "text": "A bowl with cabbage and carrot mixture is beside a pan filled with hot oil on a stovetop.",
+      "text": "\"Chopsticks drop cabbage and carrot in oil.\"",
       "type": "Visual",
       "start_time": 87.96666666666667,
-      "end_time": 87.96666666666667,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 4,
-      "text": "A hand using chopsticks picks up a portion of the vegetable mixture.",
-      "type": "Visual",
-      "start_time": 88.96666666666667,
-      "end_time": 88.96666666666667,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 4,
-      "text": "The vegetable mixture is placed into the hot oil, starting to fry.",
-      "type": "Visual",
-      "start_time": 89.96666666666667,
-      "end_time": 89.96666666666667,
-      "track_type": "extended"
+      "end_time": 91.27866666666667,
+      "track_type": "inline"
     },
     {
       "scene_number": 5,
-      "text": "\"Chopsticks drop cabbage and carrot mix into hot oil, frying until golden brown. The fritters are flipped, then lifted out, and set on a paper-lined plate, revealing their crispy texture.\"",
+      "text": "A hand uses chopsticks to place a spoonful of cabbage and carrot mixture into hot oil, frying and bubbling. The fritters are flipped until golden brown, then lifted onto a paper-lined plate to drain excess oil, showing their crispy texture.",
       "type": "Visual",
       "start_time": 91.4,
-      "end_time": 105.248,
+      "end_time": 108.70400000000001,
       "track_type": "inline"
     },
     {
       "scene_number": 6,
-      "text": "\"Golden fritters with chili sauce on a white plate.\"",
+      "text": "A white plate holds crispy cabbage and carrot fritters with chili sauce.",
       "type": "Visual",
       "start_time": 109.9,
-      "end_time": 113.33200000000001,
+      "end_time": 115.372,
       "track_type": "inline"
     },
     {
       "scene_number": 7,
-      "text": "Thank you for watching\nPlease subscribe for more videos",
-      "type": "Text on Screen",
-      "start_time": 115.63333333333334,
-      "end_time": 115.63333333333334,
-      "track_type": "extended"
-    },
-    {
-      "scene_number": 7,
-      "text": "A close-up of golden brown cabbage and carrot fritters on a white plate, accompanied by a small square dish of red chili sauce.",
+      "text": "Close-up of fritters with sauce.",
       "type": "Visual",
       "start_time": 115.63333333333334,
-      "end_time": 115.63333333333334,
-      "track_type": "extended"
+      "end_time": 118.17733333333334,
+      "track_type": "inline"
     }
   ],
   "youtube_id": "cNj3aOTYdQQ",
