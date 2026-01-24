@@ -1,0 +1,51 @@
+[
+  {
+    "scene_number": 1,
+    "start_time": 0.0,
+    "type": "Visual",
+    "text": "A white plate holds crispy cabbage and carrot fritters with a dish of chili sauce.",
+    "tts_duration": 6.0
+  },
+  {
+    "scene_number": 2,
+    "start_time": 6.633333333333334,
+    "type": "Visual",
+    "text": "A wooden cutting board sits on a kitchen counter, accompanied by a carrot, a cabbage, and two empty glass bowls. A hand peels the carrot, collecting the peels on a white plate. The carrot is sliced into thick pieces, then chopped into thin strips and placed in one bowl. The cabbage is halved; one half is shredded, then transferred to the second bowl. The other half is also shredded and added to the bowl, completing the preparation.",
+    "tts_duration": 31.056
+  },
+  {
+    "scene_number": 3,
+    "start_time": 42.46666666666667,
+    "type": "Visual",
+    "text": "On a table, ingredients are arranged: 3/4 cup flour, 1 tsp salt, 1 egg, 3/4 cup water, 3/4 cup chopped cabbage, and 1/2 cup chopped carrots. Hands add flour and salt to a large mixing bowl. An egg is cracked in, followed by water poured gradually while stirring. The mixture becomes a smooth dough. Chopped cabbage and carrots are then mixed into the dough.",
+    "tts_duration": 30.192
+  },
+  {
+    "scene_number": 4,
+    "start_time": 87.96666666666667,
+    "type": "Visual",
+    "text": "\"Chopsticks drop cabbage and carrot in oil.\"",
+    "tts_duration": 3.312
+  },
+  {
+    "scene_number": 5,
+    "start_time": 91.4,
+    "type": "Visual",
+    "text": "A hand uses chopsticks to place a spoonful of cabbage and carrot mixture into hot oil, frying and bubbling. The fritters are flipped until golden brown, then lifted onto a paper-lined plate to drain excess oil, showing their crispy texture.",
+    "tts_duration": 17.304
+  },
+  {
+    "scene_number": 6,
+    "start_time": 109.9,
+    "type": "Visual",
+    "text": "A white plate holds crispy cabbage and carrot fritters with chili sauce.",
+    "tts_duration": 5.472
+  },
+  {
+    "scene_number": 7,
+    "start_time": 115.63333333333334,
+    "type": "Visual",
+    "text": "Close-up of fritters with sauce.",
+    "tts_duration": 2.544
+  }
+]

@@ -157,7 +157,7 @@ def compile_final_data(video_id, model_choice):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Compile dialogue timestamps and audio clips into final_data.json")
     parser.add_argument("video_id", help="YouTube video ID (e.g., dQw4w9WgXcQ)")
-    parser.add_argument("--model", type=str, choices=["gemini", "qwen", "gpt"], required=True, 
+    parser.add_argument("--model", type=str, choices=["gemini", "qwen", "gpt"], default="gpt",
                         help="The model used to generate the audio clips, which determines the input file and AI User ID.")
     args = parser.parse_args()
 
