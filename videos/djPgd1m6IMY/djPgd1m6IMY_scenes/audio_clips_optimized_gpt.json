@@ -1,0 +1,149 @@
+[
+  {
+    "scene_number": 1,
+    "text": "\"Hands fold a pink square into a triangle, creasing sharply.\"",
+    "type": "Visual",
+    "duration": 4.584,
+    "fits_in_gap": true,
+    "original_texts": [
+      "A pink square sheet of paper is placed on a white surface.",
+      "Two hands appear, beginning to fold the paper diagonally into a triangle.",
+      "The paper is now a triangle, and the hands press down on the fold to create a crease.",
+      "The hands adjust the paper, ensuring the crease is sharp and aligned.",
+      "The hands hold the folded triangle, preparing for the next step in folding."
+    ],
+    "start_time": 0.0,
+    "end_time": 4.584
+  },
+  {
+    "scene_number": 2,
+    "text": "\"Hands fold and unfold a pink paper square into diagonal and horizontal creases, creating an X and horizontal line. They form a smaller triangle by bringing corners together.\"",
+    "type": "Visual",
+    "duration": 13.104,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Two hands fold a pink square sheet of paper diagonally, creating a triangle.",
+      "The hands unfold the paper, revealing a crease in the center.",
+      "The hands fold the paper again along the other diagonal, forming a triangle.",
+      "The paper is unfolded once more, showing an X-shaped crease.",
+      "The hands fold the paper in half horizontally, aligning the edges.",
+      "The paper is unfolded to reveal a horizontal crease.",
+      "The hands fold the paper into a smaller triangle by bringing two corners together.",
+      "The hands adjust the folds, smoothing the edges of the triangle."
+    ],
+    "start_time": 8.866666666666667,
+    "end_time": 21.970666666666666
+  },
+  {
+    "scene_number": 3,
+    "text": "\"Fold pink paper in half, crease, unfold. Fold top to crease, reinforce.\"",
+    "type": "Visual",
+    "duration": 6.792,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Two hands hold a pink rectangular paper, folding it in half horizontally.",
+      "The hands crease the fold, pressing firmly along the edge.",
+      "The paper is unfolded, revealing a horizontal crease in the center.",
+      "The hands fold the top edge down to meet the center crease, creating a smaller rectangle.",
+      "The paper is creased again, reinforcing the new fold."
+    ],
+    "start_time": 25.3,
+    "end_time": 32.092
+  },
+  {
+    "scene_number": 4,
+    "text": "\"Fold pink paper vertically.\"",
+    "type": "Visual",
+    "duration": 2.28,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Two hands hold a pink rectangular paper, unfolding it to reveal creases in the shape of a cross.",
+      "The paper is folded in half vertically, aligning the edges carefully.",
+      "The paper is opened again, showing intersecting creases."
+    ],
+    "start_time": 34.5,
+    "end_time": 36.78
+  },
+  {
+    "scene_number": 5,
+    "text": "\"Hands fold a pink paper into a smaller rectangle, press the edges, flip it, and adjust the corners.\"",
+    "type": "Visual",
+    "duration": 7.92,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Two hands hold a pink rectangular paper, folding it along the creases to form a smaller rectangular shape.",
+      "The hands press along the folded edges to sharpen the creases.",
+      "The paper is flipped over, and the hands continue reinforcing the folds on the opposite side.",
+      "The hands slightly adjust the corners, ensuring the paper maintains its shape."
+    ],
+    "start_time": 37.7,
+    "end_time": 45.620000000000005
+  },
+  {
+    "scene_number": 6,
+    "text": "Hands fold pink paper diagonally into a triangle, then lift and fold edges inward to form a 3D fish shape with sharp creases.",
+    "type": "Visual",
+    "duration": 10.08,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Two hands hold a pink rectangular paper, folding it inward along diagonal creases.",
+      "The hands create a triangular shape by folding the top corners towards the center.",
+      "The paper is manipulated to form a 3D shape by lifting and folding the edges inward.",
+      "The hands adjust the folds to refine the triangular structure, ensuring creases are sharp.",
+      "The paper is now partially folded into a fish-like shape, with visible creases and angles."
+    ],
+    "start_time": 49.266666666666666,
+    "end_time": 59.346666666666664
+  },
+  {
+    "scene_number": 7,
+    "text": "\"Fold pink paper diagonally into a triangle, aligning and pressing creases.\"",
+    "type": "Visual",
+    "duration": 6.216,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Two hands are folding a pink rectangular paper inward along its diagonal creases, creating a triangular shape.",
+      "The hands adjust the paper, ensuring the edges align perfectly, emphasizing precision in the fold.",
+      "The paper is manipulated to form a more defined triangular shape, with the hands pressing down on the creases."
+    ],
+    "start_time": 63.1,
+    "end_time": 69.316
+  },
+  {
+    "scene_number": 8,
+    "text": "Hands fold a pink paper into a triangle, creasing sharply. The left corner is folded up to the top, forming a smaller triangle, then the right corner mirrors this. The result resembles an origami fish base.",
+    "type": "Visual",
+    "duration": 15.72,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Two hands are folding a pink paper, creating a triangular shape by bringing the corners together.",
+      "The hands press along the crease to sharpen the fold, ensuring the triangle is well-defined.",
+      "The left corner of the triangle is lifted and folded towards the top point of the triangle.",
+      "The fold is pressed down firmly to hold its shape, forming a smaller triangle on top.",
+      "The process is repeated on the right side, creating symmetry with the previous fold.",
+      "Both folds are adjusted to ensure they align perfectly along the center crease.",
+      "The resulting shape resembles the base of an origami fish, with triangular fins extending outward."
+    ],
+    "start_time": 69.4,
+    "end_time": 85.12
+  },
+  {
+    "scene_number": 9,
+    "text": "Two hands fold a pink triangular paper into a fish shape, adding a smaller triangle as the tail. A black pen draws and fills in a circle near the pointed end, creating an eye. The origami fish is complete and placed flat on the surface.",
+    "type": "Visual",
+    "duration": 17.28,
+    "fits_in_gap": true,
+    "original_texts": [
+      "Two hands hold a pink triangular paper shape, adjusting its folds.",
+      "The hands fold the paper to create a smaller triangular flap on one side.",
+      "The triangular paper now resembles a fish shape with a smaller triangle as the tail.",
+      "The hands hold a black pen, poised to draw.",
+      "The pen draws a small circle on the paper, near the pointed end.",
+      "The circle is filled in to create the appearance of an eye on the fish.",
+      "The fish shape is complete, with a distinct eye drawn on the pink paper.",
+      "The origami fish is placed flat on the surface, fully formed."
+    ],
+    "start_time": 94.5,
+    "end_time": 111.78
+  }
+]

@@ -1,0 +1,83 @@
+[
+  {
+    "scene_number": 1,
+    "start_frame": 0,
+    "end_frame": 265,
+    "start_time": 0.0,
+    "end_time": 8.833333333333334,
+    "duration": 8.833333333333334,
+    "scene_path": "videos/djPgd1m6IMY/djPgd1m6IMY_scenes/scene_001.mp4"
+  },
+  {
+    "scene_number": 2,
+    "start_frame": 266,
+    "end_frame": 758,
+    "start_time": 8.866666666666667,
+    "end_time": 25.266666666666666,
+    "duration": 16.4,
+    "scene_path": "videos/djPgd1m6IMY/djPgd1m6IMY_scenes/scene_002.mp4"
+  },
+  {
+    "scene_number": 3,
+    "start_frame": 759,
+    "end_frame": 1034,
+    "start_time": 25.3,
+    "end_time": 34.46666666666667,
+    "duration": 9.166666666666668,
+    "scene_path": "videos/djPgd1m6IMY/djPgd1m6IMY_scenes/scene_003.mp4"
+  },
+  {
+    "scene_number": 4,
+    "start_frame": 1035,
+    "end_frame": 1130,
+    "start_time": 34.5,
+    "end_time": 37.666666666666664,
+    "duration": 3.1666666666666643,
+    "scene_path": "videos/djPgd1m6IMY/djPgd1m6IMY_scenes/scene_004.mp4"
+  },
+  {
+    "scene_number": 5,
+    "start_frame": 1131,
+    "end_frame": 1477,
+    "start_time": 37.7,
+    "end_time": 49.233333333333334,
+    "duration": 11.533333333333331,
+    "scene_path": "videos/djPgd1m6IMY/djPgd1m6IMY_scenes/scene_005.mp4"
+  },
+  {
+    "scene_number": 6,
+    "start_frame": 1478,
+    "end_frame": 1892,
+    "start_time": 49.266666666666666,
+    "end_time": 63.06666666666667,
+    "duration": 13.800000000000004,
+    "scene_path": "videos/djPgd1m6IMY/djPgd1m6IMY_scenes/scene_006.mp4"
+  },
+  {
+    "scene_number": 7,
+    "start_frame": 1893,
+    "end_frame": 2081,
+    "start_time": 63.1,
+    "end_time": 69.36666666666666,
+    "duration": 6.266666666666659,
+    "scene_path": "videos/djPgd1m6IMY/djPgd1m6IMY_scenes/scene_007.mp4"
+  },
+  {
+    "scene_number": 8,
+    "start_frame": 2082,
+    "end_frame": 2834,
+    "start_time": 69.4,
+    "end_time": 94.46666666666667,
+    "duration": 25.066666666666663,
+    "scene_path": "videos/djPgd1m6IMY/djPgd1m6IMY_scenes/scene_008.mp4"
+  },
+  {
+    "scene_number": 9,
+    "start_frame": 2835,
+    "end_frame": 3380,
+    "start_time": 94.5,
+    "end_time": 112.7,
+    "duration": 18.200000000000003,
+    "scene_path": "videos/djPgd1m6IMY/djPgd1m6IMY_scenes/scene_009.mp4"
+  }
+]

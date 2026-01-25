@@ -1,0 +1,81 @@
+{
+  "dialogue_timestamps": [],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "A pink square rests on a white surface. Two hands fold it diagonally into a triangle.",
+      "type": "Visual",
+      "start_time": 0.0,
+      "end_time": 6.624,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 2,
+      "text": "Two hands fold a pink square sheet of paper diagonally, creating an X-shaped crease, then fold it in half horizontally, and unfold it. They bring two corners together to form a smaller triangle.",
+      "type": "Visual",
+      "start_time": 8.866666666666667,
+      "end_time": 23.17066666666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 3,
+      "text": "Two hands fold a pink paper in half, pressing the edge. They fold the top down to the center crease.",
+      "type": "Visual",
+      "start_time": 25.3,
+      "end_time": 32.956,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 4,
+      "text": "Two hands unfold pink paper.",
+      "type": "Visual",
+      "start_time": 34.5,
+      "end_time": 37.116,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 5,
+      "text": "Two hands fold a pink rectangular paper into a smaller rectangle, pressing and reinforcing the edges.",
+      "type": "Visual",
+      "start_time": 37.7,
+      "end_time": 45.212,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 6,
+      "text": "Two hands hold a pink rectangular paper, folding it inward along diagonal creases to form a triangular shape, refining it into a fish-like shape with sharp creases.",
+      "type": "Visual",
+      "start_time": 49.266666666666666,
+      "end_time": 61.36266666666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "Two hands fold a pink paper into a triangle along its diagonal creases.",
+      "type": "Visual",
+      "start_time": 63.1,
+      "end_time": 68.956,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 8,
+      "text": "Two hands fold pink paper into a triangle by bringing corners together and pressing the crease. The left corner is lifted and folded to the top, forming a smaller triangle, then pressed down. This is mirrored on the right side, aligning both folds along the center. The shape resembles the base of an origami fish with triangular fins.",
+      "type": "Visual",
+      "start_time": 69.4,
+      "end_time": 93.688,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 9,
+      "text": "Two hands hold a pink triangle, adjusting its folds into a fish shape. A black pen draws a circle for an eye. The origami fish is placed flat on the surface.",
+      "type": "Visual",
+      "start_time": 94.5,
+      "end_time": 106.428,
+      "track_type": "inline"
+    }
+  ],
+  "youtube_id": "djPgd1m6IMY",
+  "video_name": "origami fish easy for kids",
+  "video_length": 113,
+  "aiUserId": "68798f57c48a173631902319"
+}
