@@ -1,0 +1,499 @@
+{
+  "dialogue_timestamps": [
+    {
+      "start_time": 0.0,
+      "end_time": 3.7199999999999998,
+      "duration": 3.82,
+      "audio_text": "I'm going to start out by showing you is that that classic receiving blanket that you're going to",
+      "sequence_num": 1
+    },
+    {
+      "start_time": 4.0,
+      "end_time": 5.58,
+      "duration": 1.68,
+      "audio_text": "see at most US hospitals.",
+      "sequence_num": 2
+    },
+    {
+      "start_time": 5.68,
+      "end_time": 8.040000000000001,
+      "duration": 2.46,
+      "audio_text": "I don't know what it is about the company that makes these,",
+      "sequence_num": 3
+    },
+    {
+      "start_time": 8.14,
+      "end_time": 9.1,
+      "duration": 1.06,
+      "audio_text": "but they're just everywhere.",
+      "sequence_num": 4
+    },
+    {
+      "start_time": 9.68,
+      "end_time": 11.82,
+      "duration": 2.24,
+      "audio_text": "The key trick here, I'm gonna show you the baseball method",
+      "sequence_num": 5
+    },
+    {
+      "start_time": 11.92,
+      "end_time": 12.8,
+      "duration": 0.98,
+      "audio_text": "for little babies.",
+      "sequence_num": 6
+    },
+    {
+      "start_time": 12.9,
+      "end_time": 14.38,
+      "duration": 1.58,
+      "audio_text": "Sometimes you can get away with another method.",
+      "sequence_num": 7
+    },
+    {
+      "start_time": 15.208333333333334,
+      "end_time": 17.328333333333333,
+      "duration": 2.22,
+      "audio_text": "wrapping this lengthwise but mr hank",
+      "sequence_num": 8
+    },
+    {
+      "start_time": 17.708333333333332,
+      "end_time": 21.208333333333332,
+      "duration": 3.6,
+      "audio_text": "being almost nine pounds is too big for that. So the baseball method is something great.",
+      "sequence_num": 9
+    },
+    {
+      "start_time": 21.308333333333334,
+      "end_time": 23.32833333333333,
+      "duration": 2.12,
+      "audio_text": "So I think about using this as a diamond.",
+      "sequence_num": 10
+    },
+    {
+      "start_time": 23.875,
+      "end_time": 26.294999999999998,
+      "duration": 2.52,
+      "audio_text": "so we've got our baseball diamond here we fold it",
+      "sequence_num": 11
+    },
+    {
+      "start_time": 26.541666666666668,
+      "end_time": 31.381666666666668,
+      "duration": 4.94,
+      "audio_text": "one corner this is gonna be home plate okay then this is a little bit oblong I",
+      "sequence_num": 12
+    },
+    {
+      "start_time": 31.48166666666667,
+      "end_time": 35.30166666666667,
+      "duration": 3.92,
+      "audio_text": "usually have the short corner being first base second base third base back",
+      "sequence_num": 13
+    },
+    {
+      "start_time": 39.281666666666666,
+      "end_time": 44.60166666666667,
+      "duration": 5.42,
+      "audio_text": "his head and gently setting him down and then one thing a lot of people will talk",
+      "sequence_num": 14
+    },
+    {
+      "start_time": 44.70166666666667,
+      "end_time": 47.681666666666665,
+      "duration": 3.08,
+      "audio_text": "about wants to do this with all the wraps about hand position for most of",
+      "sequence_num": 15
+    },
+    {
+      "start_time": 50.62166666666667,
+      "end_time": 53.98166666666666,
+      "duration": 3.46,
+      "audio_text": "to the face you are able to swallow them with their hands closer to their face",
+      "sequence_num": 16
+    },
+    {
+      "start_time": 54.08166666666666,
+      "end_time": 57.88166666666667,
+      "duration": 3.9,
+      "audio_text": "sometimes that works well I will say they are more likely to squiggle out if",
+      "sequence_num": 17
+    },
+    {
+      "start_time": 63.741666666666674,
+      "end_time": 67.30166666666668,
+      "duration": 3.66,
+      "audio_text": "I take first base and I'm coming around catching that first arm and tucking",
+      "sequence_num": 18
+    },
+    {
+      "start_time": 67.40166666666667,
+      "end_time": 71.00166666666668,
+      "duration": 3.7,
+      "audio_text": "first base in actually getting it around behind him because then his weight when",
+      "sequence_num": 19
+    },
+    {
+      "start_time": 81.34166666666667,
+      "end_time": 83.40166666666667,
+      "duration": 2.16,
+      "audio_text": "while we're doing this today and you know babies are",
+      "sequence_num": 20
+    },
+    {
+      "start_time": 92.54166666666667,
+      "end_time": 96.02166666666668,
+      "duration": 3.58,
+      "audio_text": "me, I feel, and then taking third base in, coming across.",
+      "sequence_num": 21
+    },
+    {
+      "start_time": 96.25,
+      "end_time": 98.39,
+      "duration": 2.24,
+      "audio_text": "Ross again, using the tension of his.",
+      "sequence_num": 22
+    },
+    {
+      "start_time": 98.70833333333333,
+      "end_time": 103.38833333333334,
+      "duration": 4.78,
+      "audio_text": "body getting this nice and snug here kind of thinking about this almost as a top rail",
+      "sequence_num": 23
+    },
+    {
+      "start_time": 103.48833333333333,
+      "end_time": 110.14833333333334,
+      "duration": 6.76,
+      "audio_text": "bringing that in around kind of straighten this out and come behind now for all the labor and",
+      "sequence_num": 24
+    },
+    {
+      "start_time": 110.24833333333333,
+      "end_time": 113.74833333333333,
+      "duration": 3.6,
+      "audio_text": "delivery nurses and NICU nurses out there definitely may be able to get this a little",
+      "sequence_num": 25
+    },
+    {
+      "start_time": 113.84833333333333,
+      "end_time": 122.61166666666668,
+      "duration": 8.76,
+      "audio_text": "bit tighter you know the goal is just to be snug now you'll say like hey can I make this",
+      "sequence_num": 26
+    },
+    {
+      "start_time": 122.71166666666667,
+      "end_time": 123.79166666666667,
+      "duration": 1.18,
+      "audio_text": "wiggling those arms out.",
+      "sequence_num": 27
+    },
+    {
+      "start_time": 124.25,
+      "end_time": 127.87,
+      "duration": 3.72,
+      "audio_text": "And so I really try to make this top rail almost here snug around here.",
+      "sequence_num": 28
+    },
+    {
+      "start_time": 128.375,
+      "end_time": 133.975,
+      "duration": 5.7,
+      "audio_text": "see how much babies just love being swaddled that tight squeeze that mimics being in the uterus",
+      "sequence_num": 29
+    },
+    {
+      "start_time": 134.075,
+      "end_time": 140.41166666666666,
+      "duration": 6.34,
+      "audio_text": "almost just this is",
+      "sequence_num": 30
+    },
+    {
+      "start_time": 140.51166666666666,
+      "end_time": 144.47166666666666,
+      "duration": 4.06,
+      "audio_text": "but flat place for them to lay nothing else in the crib etc",
+      "sequence_num": 31
+    }
+  ],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "Swaddle Your Baby Like a Pro: Pediatrician Tips",
+      "type": "Text on Screen",
+      "start_time": 0.0,
+      "end_time": 0.0,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 1,
+      "text": "Doctor Kurt Bjorkman, in a teal shirt, swaddles a baby in a green blanket beside a changing table.",
+      "type": "Visual",
+      "start_time": 0.0,
+      "end_time": 0.0,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 2,
+      "text": "Dr. Kurt Bjorkman shows how to swaddle a baby using the 'baseball method' with a blanket.",
+      "type": "Visual",
+      "start_time": 7.0,
+      "end_time": 7.0,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 3,
+      "text": "Swaddle Your Baby Like a Pro: Pediatrician Tips",
+      "type": "Text on Screen",
+      "start_time": 15.208333333333334,
+      "end_time": 15.208333333333334,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 3,
+      "text": "Doctor Kurt Bjorkman, in a teal shirt, holds a striped blanket in a room with a changing table.",
+      "type": "Visual",
+      "start_time": 15.208333333333334,
+      "end_time": 15.208333333333334,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "BASEBALL DIAMOND",
+      "type": "Text on Screen",
+      "start_time": 21.708333333333332,
+      "end_time": 21.708333333333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 4,
+      "text": "BASEBALL DIAMOND",
+      "type": "Text on Screen",
+      "start_time": 22.208333333333332,
+      "end_time": 22.208333333333332,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "BASEBALL DIAMOND",
+      "type": "Text on Screen",
+      "start_time": 23.875,
+      "end_time": 23.875,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 5,
+      "text": "Doctor Kurt Bjorkman demonstrates a swaddling technique in a room, with a white cloth on a surface; a baseball diamond diagram appears on screen.",
+      "type": "Visual",
+      "start_time": 23.875,
+      "end_time": 23.875,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "Home Plate",
+      "type": "Text on Screen",
+      "start_time": 26.541666666666668,
+      "end_time": 26.541666666666668,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "Doctor Kurt Bjorkman stands by a table with a baseball diamond diagram on a white cloth.",
+      "type": "Visual",
+      "start_time": 26.541666666666668,
+      "end_time": 26.541666666666668,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "Doctor Bjorkman points to each corner of the swaddle cloth, comparing their positions to baseball bases.",
+      "type": "Visual",
+      "start_time": 31.541666666666668,
+      "end_time": 31.541666666666668,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "\"He swaddles a doll.\"",
+      "type": "Visual",
+      "start_time": 35.40166666666667,
+      "end_time": 35.40166666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "Doctor Bjorkman wraps cloth around the doll, securing it at the sides.",
+      "type": "Visual",
+      "start_time": 44.54166666666667,
+      "end_time": 44.54166666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "Tucks cloth securely under doll.",
+      "type": "Visual",
+      "start_time": 54.54166666666667,
+      "end_time": 54.54166666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "He wraps the cloth around the doll.",
+      "type": "Visual",
+      "start_time": 64.54166666666667,
+      "end_time": 64.54166666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 6,
+      "text": "The doctor adjusts the swaddle, positioning the doll's arms correctly.",
+      "type": "Visual",
+      "start_time": 71.10166666666667,
+      "end_time": 75.99766666666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 6,
+      "text": "Doctor Bjorkman swaddles the doll and gently checks it for comfort and security.",
+      "type": "Visual",
+      "start_time": 83.50166666666667,
+      "end_time": 89.28566666666667,
+      "track_type": "inline"
+    },
+    {
+      "scene_number": 7,
+      "text": "Doctor Kurt Bjorkman demonstrates swaddling technique",
+      "type": "Text on Screen",
+      "start_time": 92.54166666666667,
+      "end_time": 92.54166666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 7,
+      "text": "Doctor Bjorkman snugly tucks the cloth under the baby.",
+      "type": "Visual",
+      "start_time": 93.54166666666667,
+      "end_time": 93.54166666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 7,
+      "text": "Dr. Bjorkman swaddles the calm baby.",
+      "type": "Visual",
+      "start_time": 95.54166666666667,
+      "end_time": 95.54166666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 8,
+      "text": "0in, 2in, 4in, 6in, 8in, 10in",
+      "type": "Text on Screen",
+      "start_time": 96.25,
+      "end_time": 96.25,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 8,
+      "text": "Dr. Kurt Bjorkman adjusts a swaddled baby with a pacifier on a marked changing table.",
+      "type": "Visual",
+      "start_time": 96.25,
+      "end_time": 96.25,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 9,
+      "text": "KUB",
+      "type": "Text on Screen",
+      "start_time": 98.70833333333333,
+      "end_time": 98.70833333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 9,
+      "text": "A baby snug in a striped swaddle holds a pacifier.",
+      "type": "Visual",
+      "start_time": 100.70833333333333,
+      "end_time": 100.70833333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 9,
+      "text": "Dr. Bjorkman gently adjusts the baby's swaddle.",
+      "type": "Visual",
+      "start_time": 114.70833333333333,
+      "end_time": 114.70833333333333,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 10,
+      "text": "KUB",
+      "type": "Text on Screen",
+      "start_time": 118.29166666666667,
+      "end_time": 118.29166666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 10,
+      "text": "Dr. Bjorkman gently adjusts a swaddled baby with a pacifier on a marked changing table.",
+      "type": "Visual",
+      "start_time": 118.29166666666667,
+      "end_time": 118.29166666666667,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 11,
+      "text": "KUB",
+      "type": "Text on Screen",
+      "start_time": 124.25,
+      "end_time": 124.25,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 11,
+      "text": "Doctor Bjorkman adjusts a swaddle on a baby with a pacifier on a marked changing table.",
+      "type": "Visual",
+      "start_time": 124.25,
+      "end_time": 124.25,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 11,
+      "text": "Doctor Kurt Bjorkman snugly secures the baby's swaddle.",
+      "type": "Visual",
+      "start_time": 125.25,
+      "end_time": 125.25,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 12,
+      "text": "KUB",
+      "type": "Text on Screen",
+      "start_time": 128.375,
+      "end_time": 128.375,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "Pluii",
+      "type": "Text on Screen",
+      "start_time": 135.79166666666666,
+      "end_time": 135.79166666666666,
+      "track_type": "extended"
+    },
+    {
+      "scene_number": 13,
+      "text": "Doctor Kurt Bjorkman adjusts a baby's swaddle on a marked changing table, with a plant and bookshelf in the background.",
+      "type": "Visual",
+      "start_time": 135.79166666666666,
+      "end_time": 135.79166666666666,
+      "track_type": "extended"
+    }
+  ],
+  "youtube_id": "jW3cyDz6Lys",
+  "video_name": "Swaddle Your Baby Like a Pro: Pediatrician Tips",
+  "video_length": 145,
+  "aiUserId": "68798f57c48a173631902319"
+}
