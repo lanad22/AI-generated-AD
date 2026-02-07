@@ -36,6 +36,7 @@ class DataType(str, Enum):
     QWEN = "qwen"
     GEMINI = "gemini"
     GPT = "gpt"
+    BAD = "bad"
 
 # Unified request model for both endpoints
 class UnifiedVideoRequest(BaseModel):
