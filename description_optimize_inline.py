@@ -4,7 +4,6 @@ import subprocess
 import os
 import argparse
 import time
-from gtts import gTTS
 from typing import List, Dict
 import torch
 import google as genai
@@ -20,25 +19,21 @@ MODEL_GEMINI = "gemini"
 MODEL_GPT4 = "gpt"
 
 
-def get_tts_duration(text: str) -> float:
+def get_tts_duration(text: str, speaking_rate: float = 1.25) -> float:
     if not text or text.isspace():
         return 0.0
-    with tempfile.NamedTemporaryFile(suffix='.mp3', delete=True) as temp_file:
-        try:
-            tts = gTTS(text=text, lang='en')
-            tts.save(temp_file.name)
-            cmd = (f'ffprobe -v error -select_streams a:0 -show_entries format=duration '
-                   f'-of csv="p=0" "{temp_file.name}"')
-            duration_str = subprocess.check_output(cmd, shell=True, text=True).strip()
-            if not duration_str:
-                print(f"Warning: ffprobe returned no duration for text: '{text[:50]}...'")
-                return 5.0
-            return float(duration_str)
-        except Exception as e:
-            print(f"Error in get_tts_duration for text '{text[:50]}...': {e}. Returning estimated duration.")
-            words = len(text.split())
-            estimated_duration = words / 2.5
-            return max(1.0, estimated_duration)
+    
+    # Count words
+    words = len(text.split())
+    
+    # Google TTS speaks ~150 words per minute at normal speed
+    # At 1.25x: 150 * 1.25 = 187.5 words per minute
+    words_per_minute = 150 * speaking_rate
+    
+    # Convert to seconds
+    duration = (words / words_per_minute) * 60
+    
+    return max(0.5, duration)
 
 def get_scene_clips(scene: Dict) -> List[Dict]:
     clips = []
@@ -46,7 +41,7 @@ def get_scene_clips(scene: Dict) -> List[Dict]:
         text = clip_data.get('text')
         if not text:
             continue
-        duration = get_tts_duration(text)
+        duration = get_tts_duration(text)  # Simple call
         clips.append({
             'start_time': clip_data.get('start_time', 0),
             'text': text,
@@ -58,7 +53,7 @@ def get_scene_clips(scene: Dict) -> List[Dict]:
     clips.sort(key=lambda x: x['start_time'])
     return clips
 
-def separate_clip_types(clips: List[Dict]) -> (List[Dict], List[Dict]):
+def separate_clip_types(clips: List[Dict]) -> tuple[List[Dict], List[Dict]]:
     text_clips = [clip for clip in clips if clip['type'] == 'Text on Screen']
     visual_clips = [clip for clip in clips if clip['type'] == 'Visual']
     return text_clips, visual_clips
@@ -236,32 +231,85 @@ def process_scene(scene: Dict, optimizer_client, optimizer_model_type: str, min_
     print(f"\n-- Scene {scene_number}: Found {len(eligible_gaps)} eligible gaps >= {min_gap_duration}s")
 
     processed_clip_ids = set()
+    current_placement_time = 0  # Track where we are in absolute time
+    
     for gap_idx, gap in enumerate(eligible_gaps):
         clips_in_gap_timeframe = [c for c in visual_clips if id(c) not in processed_clip_ids and gap['start_time'] - 1.5 <= c['start_time'] < gap['end_time']]
         clips_in_gap_timeframe.sort(key=lambda x: x['start_time'])
         if not clips_in_gap_timeframe: continue
 
         print(f"\nProcessing Gap {gap_idx+1} (Duration: {gap['duration']:.2f}s) with {len(clips_in_gap_timeframe)} associated clips.")
+        
+        # Start placing clips at the beginning of this gap
+        gap_start_abs = gap['start_time'] + scene_start_abs
+        gap_end_abs = gap['end_time'] + scene_start_abs
+        clip_placement_cursor = gap_start_abs
+        
         optimized_clip_data, fits = optimize_combined_clips(optimizer_client, optimizer_model_type, clips_in_gap_timeframe, gap['duration'], scene_number_for_logging=scene_number)
 
         if optimized_clip_data:
-            optimized_clip_data['start_time'] = gap['start_time'] + scene_start_abs
-            optimized_clip_data['end_time'] = optimized_clip_data['start_time'] + optimized_clip_data['duration']
-            if optimized_clip_data['end_time'] > (gap['end_time'] + scene_start_abs):
+            # Place the optimized clip at the current cursor position
+            optimized_clip_data['start_time'] = clip_placement_cursor
+            optimized_clip_data['end_time'] = clip_placement_cursor + optimized_clip_data['duration']
+            
+            # Check if it fits in the gap
+            if optimized_clip_data['end_time'] > gap_end_abs:
                 optimized_clip_data['fits_in_gap'] = False
+            
             placed_clips.append(optimized_clip_data)
+            
+            # Update cursor for next potential clip in this gap
+            clip_placement_cursor = optimized_clip_data['end_time']
+            
             for clip in clips_in_gap_timeframe:
                 processed_clip_ids.add(id(clip))
 
     remaining_visual_clips = [c for c in visual_clips if id(c) not in processed_clip_ids]
     if remaining_visual_clips:
         print(f"\n-- Scene {scene_number}: Placing {len(remaining_visual_clips)} remaining individual clips.")
-        for clip in remaining_visual_clips:
-            placed_clips.append({'scene_number': scene_number, 'start_time': clip['start_time'] + scene_start_abs,
-                                 'end_time': clip['end_time'] + scene_start_abs, 'duration': clip['duration'],
-                                 'type': 'Visual', 'text': clip['text'], 'fits_in_gap': False})
+        
+        # Sort remaining clips by their original start time
+        remaining_visual_clips.sort(key=lambda x: x['start_time'])
+        
+        # Place them sequentially, respecting their original relative timing
+        for i, clip in enumerate(remaining_visual_clips):
+            clip_start_abs = clip['start_time'] + scene_start_abs
+            
+            # Check if this overlaps with any already placed clip
+            overlaps = False
+            for placed in placed_clips:
+                if not (clip_start_abs >= placed['end_time'] or 
+                       (clip_start_abs + clip['duration']) <= placed['start_time']):
+                    overlaps = True
+                    break
+            
+            # If it overlaps, find the next available slot
+            if overlaps:
+                # Find the earliest time after all placed clips in this region
+                relevant_clips = [p for p in placed_clips if p['start_time'] <= clip_start_abs + 10]  # within 10s window
+                if relevant_clips:
+                    latest_end = max(p['end_time'] for p in relevant_clips)
+                    clip_start_abs = max(clip_start_abs, latest_end + 0.1)  # small buffer
+            
+            placed_clips.append({
+                'scene_number': scene_number, 
+                'start_time': clip_start_abs,
+                'end_time': clip_start_abs + clip['duration'], 
+                'duration': clip['duration'],
+                'type': 'Visual', 
+                'text': clip['text'], 
+                'fits_in_gap': False
+            })
 
     placed_clips.sort(key=lambda x: x['start_time'])
+    
+    # Final check: verify no duplicate start times
+    start_times = [clip['start_time'] for clip in placed_clips]
+    if len(start_times) != len(set(start_times)):
+        print(f"WARNING: Scene {scene_number} has duplicate start times after processing!")
+        for i, clip in enumerate(placed_clips):
+            print(f"  Clip {i}: {clip['start_time']:.2f}s - {clip['text'][:50]}")
+    
     return placed_clips
 
 
