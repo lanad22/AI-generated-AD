@@ -14,7 +14,12 @@ dependencies:
   - torchvision
   - torchaudio
   - opencv
+  - setuptools
+  - wheel
   - pip:
+    - ftfy
+    - regex
+    - tqdm
     - git+https://github.com/openai/CLIP.git
     - whisper-timestamped
     - onnxruntime
