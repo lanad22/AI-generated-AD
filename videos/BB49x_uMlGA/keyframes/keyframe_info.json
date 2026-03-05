@@ -1,0 +1,102 @@
+[
+  {
+    "frame_index": 0,
+    "timestamp": 0.0,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000000.jpg"
+  },
+  {
+    "frame_index": 30,
+    "timestamp": 1.2,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000030.jpg"
+  },
+  {
+    "frame_index": 42,
+    "timestamp": 1.68,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000042.jpg"
+  },
+  {
+    "frame_index": 54,
+    "timestamp": 2.16,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000054.jpg"
+  },
+  {
+    "frame_index": 66,
+    "timestamp": 2.64,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000066.jpg"
+  },
+  {
+    "frame_index": 82,
+    "timestamp": 3.28,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000082.jpg"
+  },
+  {
+    "frame_index": 90,
+    "timestamp": 3.6,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000090.jpg"
+  },
+  {
+    "frame_index": 92,
+    "timestamp": 3.68,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000092.jpg"
+  },
+  {
+    "frame_index": 98,
+    "timestamp": 3.92,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000098.jpg"
+  },
+  {
+    "frame_index": 102,
+    "timestamp": 4.08,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000102.jpg"
+  },
+  {
+    "frame_index": 104,
+    "timestamp": 4.16,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000104.jpg"
+  },
+  {
+    "frame_index": 109,
+    "timestamp": 4.36,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000109.jpg"
+  },
+  {
+    "frame_index": 110,
+    "timestamp": 4.4,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000110.jpg"
+  },
+  {
+    "frame_index": 111,
+    "timestamp": 4.44,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000111.jpg"
+  },
+  {
+    "frame_index": 112,
+    "timestamp": 4.48,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000112.jpg"
+  },
+  {
+    "frame_index": 113,
+    "timestamp": 4.52,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000113.jpg"
+  },
+  {
+    "frame_index": 114,
+    "timestamp": 4.56,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000114.jpg"
+  },
+  {
+    "frame_index": 122,
+    "timestamp": 4.88,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000122.jpg"
+  },
+  {
+    "frame_index": 228,
+    "timestamp": 9.12,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000228.jpg"
+  },
+  {
+    "frame_index": 251,
+    "timestamp": 10.04,
+    "image_path": "videos/BB49x_uMlGA/keyframes/keyframe_000251.jpg"
+  }
+]
