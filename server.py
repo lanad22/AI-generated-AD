@@ -253,7 +253,7 @@ async def forward_final_data(data: UnifiedVideoRequest):
                 detail=f"Failed to load {filename}: {str(e)}"
             )
         
-        target_url = "http://54.193.118.198:4000/api/audio-descriptions/newaidescription"
+        target_url = "https://ydx-dev.youdescribe.org/api/audio-descriptions/newaidescription"
         headers = {"Content-Type": "application/json"}
         
         try:
@@ -263,7 +263,7 @@ async def forward_final_data(data: UnifiedVideoRequest):
             logger.info(f"json_response: {json_response}")
 
             if json_response.get('_id'):
-                generateAudioClips = f"http://54.193.118.198:4000/api/audio-clips/processAllClipsInDB/{json_response['_id']}"
+                generateAudioClips = f"https://ydx-dev.youdescribe.org/api/audio-clips/processAllClipsInDB/{json_response['_id']}"
                 r = requests.get(generateAudioClips)
 
                 if r.status_code == 200:
