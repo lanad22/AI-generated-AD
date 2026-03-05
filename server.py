@@ -233,7 +233,7 @@ async def forward_final_data(data: UnifiedVideoRequest):
     
     try:
         # Construct the file path based on data_type
-        filename = f"final_data_{data.data_type.value}.json"
+        filename = f"final_data.json"
         final_data_path = os.path.join("videos", data.youtube_id, filename)
         
         # Check if the specified file exists
