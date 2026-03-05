@@ -22,7 +22,7 @@ load_dotenv()
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
 # Constants
-WHISPER_MODEL = "large-v3"
+WHISPER_MODEL = "base"
 
 def match_captions(scene_start, scene_end, scene_duration, captions):
     scene_captions = []
