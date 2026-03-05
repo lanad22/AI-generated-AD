@@ -1,0 +1,17 @@
+{
+  "dialogue_timestamps": [],
+  "audio_clips": [
+    {
+      "scene_number": 1,
+      "text": "\"An older man in a field throws a red ball. The white dog runs but returns with a bone.\"",
+      "type": "Visual",
+      "start_time": 0.0,
+      "end_time": 6.08,
+      "track_type": "inline"
+    }
+  ],
+  "youtube_id": "BB49x_uMlGA",
+  "video_name": "10 sec 2D Test animation",
+  "video_length": 11,
+  "aiUserId": "68798f57c48a173631902319"
+}

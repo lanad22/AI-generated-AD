@@ -1,0 +1,55 @@
+[
+    {
+        "scene_number": 1,
+        "start_frame": 0,
+        "end_frame": 265,
+        "start_time": 0.0,
+        "end_time": 10.64,
+        "duration": 10.64,
+        "scene_path": "videos/BB49x_uMlGA/BB49x_uMlGA_scenes/scene_001.mp4",
+        "transcript": [],
+        "captions": [],
+        "audio_clips": [
+            {
+                "start_time": 0.0,
+                "type": "Visual",
+                "text": "An older man with a beard and long coat stands in a grassy field, looking at a small white dog."
+            },
+            {
+                "start_time": 1.0,
+                "type": "Visual",
+                "text": "The white dog jumps up playfully in front of the man."
+            },
+            {
+                "start_time": 2.0,
+                "type": "Visual",
+                "text": "The man raises a red ball above his head, preparing to throw it."
+            },
+            {
+                "start_time": 3.0,
+                "type": "Visual",
+                "text": "The dog crouches down, ready to chase the ball."
+            },
+            {
+                "start_time": 4.0,
+                "type": "Visual",
+                "text": "The man throws the ball, and the dog runs off to fetch it."
+            },
+            {
+                "start_time": 5.0,
+                "type": "Visual",
+                "text": "The man watches the dog run away, shielding his eyes from the sun."
+            },
+            {
+                "start_time": 7.0,
+                "type": "Visual",
+                "text": "The man continues to look into the distance, waiting for the dog to return."
+            },
+            {
+                "start_time": 9.0,
+                "type": "Visual",
+                "text": "The dog returns holding a bone in its mouth, standing in front of the man."
+            }
+        ]
+    }
+]
