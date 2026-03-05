@@ -1,4 +1,3 @@
-# info_bot_api.py
 from typing import Optional
 from enum import Enum
 from fastapi import FastAPI, HTTPException, BackgroundTasks
@@ -25,6 +24,9 @@ logging.basicConfig(
 logger = logging.getLogger("info_bot")
 
 app = FastAPI()
+
+# Full path to conda environment's Python
+PYTHON = "/home/ubuntu/miniconda3/envs/video_describe/bin/python"
 
 class QueryModel(BaseModel):
     question: Optional[str] = None
@@ -76,7 +78,7 @@ async def receive_data(data: QueryModel):
     video_query_script = "video_query_keyframe.py"  # Path to your script
     
     command = [
-        "python", 
+        PYTHON, 
         video_query_script,
         data.video_id,
         data.current_time,
@@ -123,7 +125,7 @@ async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_use
         logger.info(f"Starting background pipeline processing for {video_id}")
         
         # Run the pipeline asynchronously
-        command = ["python", "test_pipeline.py", "--video_id", video_id]
+        command = [PYTHON, "test_pipeline.py", "--video_id", video_id]
         process = await asyncio.create_subprocess_exec(
             *command,
             stdout=sys.stdout,

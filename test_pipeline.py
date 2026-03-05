@@ -5,9 +5,13 @@ import logging
 import sys
 import json
 import glob
+import argparse
 
 logger = logging.getLogger("narration_bot")
 logging.basicConfig(level=logging.DEBUG)
+
+# Full path to conda environment's Python
+PYTHON = "/home/ubuntu/miniconda3/envs/video_describe/bin/python"
 
 def check_youtube_downloaded(video_id: str) -> bool:
     output_dir = os.path.join("videos", video_id)
@@ -183,18 +187,18 @@ def get_description_optimization_step(video_id: str):
     if should_use_combined_optimization(video_id):
         logger.info(f"Using combined optimization for video {video_id}")
         return {
-            "command": f"python description_optimize_combined.py videos/{video_id}".strip(),
+            "command": f"{PYTHON} description_optimize_combined.py videos/{video_id}".strip(),
             "check": lambda: check_description_optimize_combined(video_id)
         }
     else:
         logger.info(f"Using standard optimization for video {video_id}")
         return [
             {
-                "command": f"python description_optimize_inline.py videos/{video_id} --output audio_clips_optimized_gpt.json".strip(),
+                "command": f"{PYTHON} description_optimize_inline.py videos/{video_id} --output audio_clips_optimized_gpt.json".strip(),
                 "check": lambda: False  # Always run inline first
             },
             {
-                "command": f"python description_optimize_extended.py videos/{video_id}".strip(),
+                "command": f"{PYTHON} description_optimize_extended.py videos/{video_id}".strip(),
                 "check": lambda: check_description_optimize(video_id)
             }
         ]
@@ -211,19 +215,19 @@ def run_pipeline(video_id: str) -> bool:
     #define pipeline
     base_pipeline_steps = [
         {
-            "command": f"python youtube_downloader.py {video_id}",
+            "command": f"{PYTHON} youtube_downloader.py {video_id}",
             "check": lambda: check_youtube_downloaded(video_id)
         },
         {
-            "command": f"python keyframe_scene_detector.py videos/{video_id} {device_flag}",
+            "command": f"{PYTHON} keyframe_scene_detector.py videos/{video_id} {device_flag}",
             "check": lambda: check_keyframe_scene_detector(video_id)
         },
         {
-            "command": f"python transcribe_scenes.py videos/{video_id} {device_flag}",
+            "command": f"{PYTHON} transcribe_scenes.py videos/{video_id} {device_flag}",
             "check": lambda: check_transcribe_scene(video_id)
         },
         {
-            "command": f"python video_caption.py videos/{video_id}",
+            "command": f"{PYTHON} video_caption.py videos/{video_id}",
             "check": lambda: check_video_caption(video_id)
         }
     ]
@@ -234,7 +238,7 @@ def run_pipeline(video_id: str) -> bool:
 
     # Add final step
     base_pipeline_steps.append({
-        "command": f"python prepare_final_data.py {video_id} --model gpt",
+        "command": f"{PYTHON} prepare_final_data.py {video_id} --model gpt",
         "check": lambda: check_final_data(video_id)
     })
 
@@ -270,7 +274,7 @@ def run_pipeline(video_id: str) -> bool:
     return True
 
 if __name__ == "__main__":
-    import argparse
+
     parser = argparse.ArgumentParser(description="Run video processing pipeline with resume capability.")
     parser.add_argument("--video_id", required=True, help="YouTube video ID to process (e.g., dQw4w9WgXcQ)")
     args = parser.parse_args()
