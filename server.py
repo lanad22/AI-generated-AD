@@ -119,7 +119,15 @@ async def receive_data(data: QueryModel):
         logger.error(f"Error running script: {str(e)}")
         return {"status": "error", "message": f"Error: {str(e)}"}
 
-
+async def safe_forward(data: UnifiedVideoRequest):
+    """Wrapper to safely call forward_final_data in background tasks without HTTPException issues."""
+    try:
+        await forward_final_data(data)
+        logger.info(f"Background forward succeeded for {data.youtube_id}")
+    except Exception as e:
+        logger.error(f"Background forward failed for {data.youtube_id}: {str(e)}")
+        
+        
 async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_user_id: Optional[str], data_type: DataType):
     try:
         logger.info(f"Starting background pipeline processing for {video_id}")
@@ -158,12 +166,8 @@ async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_use
             data_type=data_type
         )
         
-        # Call the forward function directly
-        try:
-            await forward_final_data(forward_request)
-            logger.info(f"Successfully forwarded {video_id} to production")
-        except Exception as e:
-            logger.error(f"Failed to forward {video_id}: {str(e)}")
+        # Call the safe_fowrad function directly
+        await safe_forward(forward_request)
                         
     except Exception as e:
         logger.error(f"Error in background pipeline processing for {video_id}: {str(e)}")
@@ -191,7 +195,7 @@ async def narration_bot(data: UnifiedVideoRequest, background_tasks: BackgroundT
         logger.info(f"File {pattern} exists. Skipping pipeline and JUMPING to forwarding.")
         
         # skip run pipeline but still sends the data to the backend
-        background_tasks.add_task(forward_final_data, data)
+        background_tasks.add_task(safe_forward, data)
         
         return {
             "status": "already_exists",
