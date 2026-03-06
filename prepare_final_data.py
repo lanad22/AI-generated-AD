@@ -111,7 +111,7 @@ def compile_final_data(video_id, model_choice):
         output_path = os.path.join(base_dir, "final_data_qwen.json")
         
     elif model_choice == "gpt":
-        ai_user_id = "68798f57c48a173631902319"
+        ai_user_id = "69a9f939c790c5b449fa3350"
         audio_clips_filename = "audio_clips_optimized_gpt.json"
         output_path = os.path.join(base_dir, "final_data_gpt.json")
         
