@@ -215,6 +215,21 @@ def query_frames_with_api(keyframe_path, exact_frame_path, scene, scene_info, sc
         traceback.print_exc()
         return f"Error calling API: {str(e)}"
 
+def ensure_data_from_s3(video_id: str, base_dir: str = "videos"):
+    """
+    If keyframes, scene_info, or the full video are not available locally,
+    attempt to download them from S3 (they persist there after pipeline cleanup).
+    """
+    try:
+        from s3_fetcher import S3Fetcher
+        fetcher = S3Fetcher()
+        fetcher.ensure_video_for_query(video_id, base_dir)
+    except ImportError:
+        print("S3 fetcher not available (boto3 not installed). Using local files only.")
+    except Exception as e:
+        print(f"S3 fetch warning: {e}. Continuing with local files if available.")
+
+
 def main():
     """Main function to parse arguments and run the analysis pipeline."""
     parser = argparse.ArgumentParser(description="Find the keyframe closest to a given timestamp and the exact frame at that timestamp, then query the API.")
@@ -224,8 +239,12 @@ def main():
                       help="Query to send to the API (default: 'describe the scene')")
     
     args = parser.parse_args()
-    
-    scene_info_path = f"videos/{args.video_id}/{args.video_id}_scenes/scene_info.json"
+    base_dir = "videos"
+
+    # Ensure keyframes, scene_info, and video are available (download from S3 if needed)
+    ensure_data_from_s3(args.video_id, base_dir)
+
+    scene_info_path = f"{base_dir}/{args.video_id}/{args.video_id}_scenes/scene_info.json"
     try:
         with open(scene_info_path, "r") as f:
             scene_info = json.load(f)
@@ -246,12 +265,21 @@ def main():
     print(f"Found scene {scene['scene_number']} for timestamp {args.timestamp}s")
     print(f"Scene range: {scene['start_time']:.2f}s - {scene['end_time']:.2f}s (duration: {scene['duration']:.2f}s)")
     
+    # For exact frame extraction: prefer scene clip, fall back to full video
     scene_path = scene.get("scene_path", "")
+    full_video_path = f"{base_dir}/{args.video_id}/{args.video_id}.mp4"
+    use_full_video = False
+
     if not os.path.exists(scene_path):
-        print(f"Error: Scene video not found at {scene_path}")
-        return
+        if os.path.exists(full_video_path):
+            print(f"Scene clip not found, using full video for frame extraction.")
+            scene_path = full_video_path
+            use_full_video = True
+        else:
+            print(f"Error: Neither scene clip nor full video found for frame extraction.")
+            return
     
-    keyframes_json_path = f"videos/{args.video_id}/keyframes/keyframe_info.json"
+    keyframes_json_path = f"{base_dir}/{args.video_id}/keyframes/keyframe_info.json"
     try:
         with open(keyframes_json_path, "r") as f:
             keyframes_info = json.load(f)
@@ -259,12 +287,21 @@ def main():
         print(f"Error: Keyframes JSON file not found at {keyframes_json_path}")
         return
 
-    keyframes_dict = {entry["timestamp"]: entry["image_path"] for entry in keyframes_info}
+    # Remap keyframe image_path to use current base_dir (handles path changes after S3 download)
+    keyframes_dict = {}
+    for entry in keyframes_info:
+        ts = entry["timestamp"]
+        fname = os.path.basename(entry["image_path"])
+        local_path = os.path.join(base_dir, args.video_id, "keyframes", fname)
+        keyframes_dict[ts] = local_path
     print(f"Loaded {len(keyframes_dict)} keyframes from JSON.")
     
-    exact_frame_dir = f"videos/{args.video_id}/exact_frames"
+    exact_frame_dir = f"{base_dir}/{args.video_id}/exact_frames"
     print(f"\nExtracting frame at exact timestamp {args.timestamp}s...")
-    exact_frame_path = extract_frame_at_timestamp(scene_path, exact_frame_dir, args.timestamp, scene["start_time"])
+
+    # When using full video, scene_start_time=0 so timestamp is absolute
+    scene_start_for_extraction = 0.0 if use_full_video else scene["start_time"]
+    exact_frame_path = extract_frame_at_timestamp(scene_path, exact_frame_dir, args.timestamp, scene_start_for_extraction)
     
     if keyframes_dict and exact_frame_path:
         keyframe_path, keyframe_time = find_closest_keyframe(keyframes_dict, args.timestamp)
@@ -277,7 +314,7 @@ def main():
             
             response = query_frames_with_api(keyframe_path, exact_frame_path, scene, scene_info, scene_idx, keyframe_time, args.timestamp, args.video_id, query=args.query)
             
-            output_file = f"videos/{args.video_id}/{args.video_id}_{int(args.timestamp)}s.txt"
+            output_file = f"{base_dir}/{args.video_id}/{args.video_id}_{int(args.timestamp)}s.txt"
             with open(output_file, "w") as f:
                 f.write(response)
             print(f"\n=== API RESPONSE ===\n")

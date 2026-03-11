@@ -26,6 +26,7 @@ dependencies:
     - uvicorn
     - python-dotenv
     - pydantic
+    - boto3
     - gtts
     - yt-dlp
     - youtube-transcript-api

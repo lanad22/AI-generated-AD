@@ -185,16 +185,12 @@ def process_video_folder(video_folder, sample_rate, keyframe_threshold, scene_bo
         json.dump(keyframe_info, f, indent=2)
     print(f"Candidate keyframe info saved to: {keyframes_json_path}")
 
-    scene_dir = os.path.join(video_folder, "scene_boundaries")
-    os.makedirs(scene_dir, exist_ok=True)
-    for idx in scene_boundaries:
-        src = frame_files[idx]
-        dst = os.path.join(scene_dir, f"scene_boundary_{idx:06d}.jpg")
-        shutil.copy2(src, dst)
-    print(f"Scene boundary images saved to: {scene_dir}")
+    # scene_boundaries images are not used downstream (data is used in-memory),
+    # so we skip saving them to disk to save space.
 
-    # Remove temporary folder.
+    # Remove temporary frames folder (largest disk consumer).
     shutil.rmtree(temp_folder)
+    print(f"Cleaned up temporary frames folder: {temp_folder}")
     
     # natural segmentation
     segments = segment_video_indices(scene_boundaries, total_frames)

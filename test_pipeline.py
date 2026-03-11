@@ -1,3 +1,7 @@
+"""
+Main video processing pipeline: download (or fetch from S3) -> keyframes -> transcribe -> caption -> optimize -> final_data.
+Invoked by server.py for AI description generation, or run directly via CLI.
+"""
 import os
 import subprocess
 import torch
@@ -5,6 +9,14 @@ import logging
 import sys
 import json
 import glob
+
+from dotenv import load_dotenv
+load_dotenv()
+
+try:
+    from config import S3_VIDEO_BUCKET as DEFAULT_S3_BUCKET
+except ImportError:
+    DEFAULT_S3_BUCKET = os.getenv("S3_VIDEO_BUCKET", "youdescribe-downloaded-youtube-videos")
 
 logger = logging.getLogger("narration_bot")
 logging.basicConfig(level=logging.DEBUG)
@@ -199,7 +211,62 @@ def get_description_optimization_step(video_id: str):
             }
         ]
 
-def run_pipeline(video_id: str) -> bool:
+def fetch_from_s3_if_available(video_id: str, s3_video_path: str = None, s3_metadata_path: str = None) -> bool:
+    """Try to fetch the video from S3. Bucket comes from config (DEFAULT_S3_BUCKET). Returns True if successful or already local."""
+    if check_youtube_downloaded(video_id):
+        logger.info(f"Video {video_id} already exists locally. Skipping download.")
+        return True
+
+    try:
+        from s3_fetcher import S3Fetcher
+        fetcher = S3Fetcher(bucket_name=DEFAULT_S3_BUCKET)
+        success = fetcher.fetch_video_package(
+            video_id,
+            output_dir="videos",
+            s3_video_path=s3_video_path,
+            s3_metadata_path=s3_metadata_path,
+        )
+        if success:
+            logger.info(f"Video {video_id} fetched from S3 successfully.")
+            return True
+        else:
+            logger.warning(f"S3 fetch failed for {video_id}, will try YouTube download.")
+            return False
+    except ImportError:
+        logger.info("S3 fetcher not available (boto3 not installed). Using YouTube download.")
+        return False
+    except Exception as e:
+        logger.warning(f"S3 fetch error for {video_id}: {e}. Will try YouTube download.")
+        return False
+
+
+def cleanup_scene_clips(video_id: str, base_dir: str = "videos"):
+    """
+    Delete scene clip .mp4 files after captioning is complete.
+    These are only needed during transcription and captioning steps.
+    JSON files in the scene dir are preserved (scene_info, audio_clips, etc.).
+    Also removes legacy scene_boundaries/ dir if present from older pipeline runs.
+    """
+    import shutil as _shutil
+
+    scene_dir = os.path.join(base_dir, video_id, f"{video_id}_scenes")
+    if os.path.isdir(scene_dir):
+        clip_files = glob.glob(os.path.join(scene_dir, "*.mp4"))
+        total_size = sum(os.path.getsize(f) for f in clip_files)
+        for f in clip_files:
+            os.remove(f)
+        if clip_files:
+            logger.info(f"Cleaned up {len(clip_files)} scene clips ({total_size / (1024*1024):.2f} MB freed)")
+
+    # Remove legacy scene_boundaries/ dir (no longer generated, but may exist from old runs)
+    boundaries_dir = os.path.join(base_dir, video_id, "scene_boundaries")
+    if os.path.isdir(boundaries_dir):
+        _shutil.rmtree(boundaries_dir)
+        logger.info(f"Cleaned up legacy scene_boundaries/ directory")
+
+
+def run_pipeline(video_id: str, s3_video_path: str = None, s3_metadata_path: str = None) -> bool:
+    # S3 bucket is always from config (DEFAULT_S3_BUCKET); only paths are passed per run.
     # Check if CUDA is available.
     if torch.cuda.is_available():
         logger.info("CUDA is available. Using CUDA for processing.")
@@ -208,11 +275,14 @@ def run_pipeline(video_id: str) -> bool:
         logger.info("CUDA is not available. Using CPU for processing.")
         device_flag = "--device cpu"
 
+    # Step 0: Try to fetch from S3 first, then fall back to YouTube download
+    s3_fetched = fetch_from_s3_if_available(video_id, s3_video_path, s3_metadata_path)
+
     #define pipeline
     base_pipeline_steps = [
         {
             "command": f"python youtube_downloader.py {video_id}",
-            "check": lambda: check_youtube_downloaded(video_id)
+            "check": lambda: check_youtube_downloaded(video_id) or s3_fetched
         },
         {
             "command": f"python keyframe_scene_detector.py videos/{video_id} {device_flag}",
@@ -239,7 +309,7 @@ def run_pipeline(video_id: str) -> bool:
     })
 
     pipeline_steps = base_pipeline_steps
-    for step in pipeline_steps:
+    for i, step in enumerate(pipeline_steps):
         cmd = step["command"]
         if step["check"]():
             logger.info(f"Skipping command (already done): {cmd}")
@@ -261,21 +331,54 @@ def run_pipeline(video_id: str) -> bool:
         if result.returncode != 0:
             logger.error(f"Command failed: {cmd}\nReturn code: {result.returncode}")
             return False
-        
+
+        # After video_caption step (step index 3), clean up scene clip .mp4 files
+        # They are no longer needed — only JSON outputs matter from here on.
+        if i == 3:
+            cleanup_scene_clips(video_id)
+
     if not check_final_data(video_id):
         logger.error(f"final_data.json was not created for video {video_id}.")
         return False
 
     logger.debug("Pipeline completed successfully and final_data.json exists.")
+
+    # Post-processing: upload results to S3 and optionally clean up local files
+    cleanup_enabled = os.getenv("CLEANUP_AFTER_PROCESSING", "false").lower() == "true"
+    try:
+        from s3_fetcher import S3Fetcher
+        fetcher = S3Fetcher(bucket_name=DEFAULT_S3_BUCKET)
+        uploaded = fetcher.upload_pipeline_results(video_id)
+        if uploaded:
+            logger.info(f"Pipeline results uploaded to S3: {list(uploaded.keys())}")
+            if cleanup_enabled:
+                fetcher.cleanup_local_files(video_id)
+            else:
+                logger.info("Local cleanup disabled (set CLEANUP_AFTER_PROCESSING=true to enable)")
+        else:
+            logger.warning("No results uploaded to S3. Keeping local files.")
+    except ImportError:
+        logger.info("S3 upload not available (boto3 not installed). Results kept locally.")
+    except Exception as e:
+        logger.warning(f"S3 result upload failed: {e}. Results kept locally.")
+
     return True
 
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Run video processing pipeline with resume capability.")
     parser.add_argument("--video_id", required=True, help="YouTube video ID to process (e.g., dQw4w9WgXcQ)")
+    parser.add_argument("--s3_video_path", default=None, help="S3 key for the video file (bucket from config)")
+    parser.add_argument("--s3_metadata_path", default=None, help="S3 key for the metadata JSON")
     args = parser.parse_args()
 
-    if run_pipeline(args.video_id):
-        print("Pipeline executed successfully.")
-    else:
-        print("Pipeline execution failed. Check logs for details.")
+    try:
+        if run_pipeline(args.video_id, s3_video_path=args.s3_video_path, s3_metadata_path=args.s3_metadata_path):
+            print("Pipeline executed successfully.")
+        else:
+            print("Pipeline execution failed. Check logs for details.", file=sys.stderr)
+            sys.exit(1)
+    except Exception as e:
+        print(f"Pipeline error: {e}", file=sys.stderr)
+        logger.exception("Pipeline failed with exception")
+        sys.exit(2)

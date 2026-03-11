@@ -7,4 +7,4 @@ __pycache__/
 !requirements.txt
 google_credentials.json
 sa_speech_to_text.json
-sa_speech_to_text.json
+videos/

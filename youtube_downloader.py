@@ -70,15 +70,15 @@ def get_video_metadata(video_id: str) -> dict:
         result = subprocess.run(duration_cmd, capture_output=True, text=True, check=True)
         duration_str = result.stdout.strip()
         
-        # Make sure duration is in the expected format (HH:MM:SS)
-        if re.match(r'^\d+:\d+:\d+$', duration_str) or re.match(r'^\d+:\d+$', duration_str):
+        # Make sure duration is in the expected format (HH:MM:SS, MM:SS, or plain seconds)
+        if duration_str.isdigit():
+            video_length = int(duration_str)
+        elif re.match(r'^\d+:\d+:\d+$', duration_str) or re.match(r'^\d+:\d+$', duration_str):
             parts = [int(p) for p in duration_str.split(':')]
             if len(parts) == 3:
                 video_length = int(timedelta(hours=parts[0], minutes=parts[1], seconds=parts[2]).total_seconds())
             elif len(parts) == 2:
                 video_length = int(timedelta(minutes=parts[0], seconds=parts[1]).total_seconds())
-            elif len(parts) == 1:
-                video_length = int(parts[0])
         else:
             print(f"Invalid duration format: {duration_str}")
             # Try to get duration through a different method
@@ -126,10 +126,11 @@ def download_with_captions(video_id: str):
         "captions": []
     }
 
-    # Try downloading captions
+    # Try downloading captions (youtube-transcript-api v1.x API)
     try:
-        transcript = YouTubeTranscriptApi.get_transcript(video_id)
-        captions_data["captions"] = transcript
+        ytt_api = YouTubeTranscriptApi()
+        fetched_transcript = ytt_api.fetch(video_id)
+        captions_data["captions"] = fetched_transcript.to_raw_data()
         print("Captions successfully downloaded.")
     except Exception as e:
         print(f"Captions not available: {str(e)}")
