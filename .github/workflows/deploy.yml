@@ -50,7 +50,7 @@ jobs:
               echo "No environment changes. Skipping update."
             fi
 
-            pkill -f "python server.py" || true
+            pgrep -f "python server\.py" | grep -v $$ | xargs -r kill || true
             sleep 2
 
             setsid nohup python server.py > server.log 2>&1 &
