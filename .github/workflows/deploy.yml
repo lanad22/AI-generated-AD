@@ -15,12 +15,16 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          command_timeout: 20m
           envs: API_KEY,GOOGLE_APPLICATION_CREDENTIALS,GEMINI_API_KEY,OPENAI_API_KEY,S3_VIDEO_BUCKET,AWS_REGION,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,YOUTUBE_DOWNLOADER_URL,YDX_API_URL,CLEANUP_AFTER_PROCESSING
           script: |
             cd ~/AI-generated-AD
+
+            git fetch origin main
+            ENV_CHANGED=$(git diff --name-only HEAD origin/main | grep -E "environment.yml|requirements.txt" || true)
+
             git pull origin main
 
-            # Write .env from CI/CD secrets
             cat > .env << ENVEOF
             API_KEY=${API_KEY}
             GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
@@ -35,24 +39,27 @@ jobs:
             CLEANUP_AFTER_PROCESSING=${CLEANUP_AFTER_PROCESSING}
             ENVEOF
 
-            # Update conda environment if environment.yml changed
             source ~/miniconda3/etc/profile.d/conda.sh
             conda activate video_describe
-            conda env update -f environment.yml --prune 2>/dev/null || true
-            pip install -r requirements.txt 2>/dev/null || true
 
-            # Restart the server
+            if [ ! -z "$ENV_CHANGED" ]; then
+              echo "Changes detected in environment files. Updating..."
+              conda env update -f environment.yml --prune
+              pip install -r requirements.txt
+            else
+              echo "No environment changes. Skipping update."
+            fi
+
             pkill -f "python server.py" || true
             sleep 2
 
-            nohup python server.py > server.log 2>&1 &
-            sleep 3
+            setsid nohup python server.py > server.log 2>&1 &
+            sleep 5
 
-            # Verify server started
             if curl -sf http://localhost:8000/health > /dev/null; then
               echo "Server started successfully"
             else
-              echo "WARNING: Server health check failed, check server.log"
-              tail -20 server.log
+              echo "ERROR: Server health check failed."
+              tail -n 50 server.log
               exit 1
             fi
