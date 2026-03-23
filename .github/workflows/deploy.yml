@@ -1,0 +1,58 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          envs: API_KEY,GOOGLE_APPLICATION_CREDENTIALS,GEMINI_API_KEY,OPENAI_API_KEY,S3_VIDEO_BUCKET,AWS_REGION,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,YOUTUBE_DOWNLOADER_URL,YDX_API_URL,CLEANUP_AFTER_PROCESSING
+          script: |
+            cd ~/AI-generated-AD
+            git pull origin main
+
+            # Write .env from CI/CD secrets
+            cat > .env << ENVEOF
+            API_KEY=${API_KEY}
+            GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
+            GEMINI_API_KEY=${GEMINI_API_KEY}
+            OPENAI_API_KEY=${OPENAI_API_KEY}
+            S3_VIDEO_BUCKET=${S3_VIDEO_BUCKET}
+            AWS_REGION=${AWS_REGION}
+            AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+            AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+            YOUTUBE_DOWNLOADER_URL=${YOUTUBE_DOWNLOADER_URL}
+            YDX_API_URL=${YDX_API_URL}
+            CLEANUP_AFTER_PROCESSING=${CLEANUP_AFTER_PROCESSING}
+            ENVEOF
+
+            # Update conda environment if environment.yml changed
+            source ~/miniconda3/etc/profile.d/conda.sh
+            conda activate video_describe
+            conda env update -f environment.yml --prune 2>/dev/null || true
+            pip install -r requirements.txt 2>/dev/null || true
+
+            # Restart the server
+            pkill -f "python server.py" || true
+            sleep 2
+
+            nohup python server.py > server.log 2>&1 &
+            sleep 3
+
+            # Verify server started
+            if curl -sf http://localhost:8000/health > /dev/null; then
+              echo "Server started successfully"
+            else
+              echo "WARNING: Server health check failed, check server.log"
+              tail -20 server.log
+              exit 1
+            fi
