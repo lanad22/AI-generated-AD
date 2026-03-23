@@ -11,12 +11,24 @@ jobs:
     steps:
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1
+        env:
+          API_KEY: ${{ vars.API_KEY }}
+          GOOGLE_CREDENTIALS_JSON: ${{ vars.GOOGLE_CREDENTIALS_JSON }}
+          GEMINI_API_KEY: ${{ vars.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ vars.OPENAI_API_KEY }}
+          S3_VIDEO_BUCKET: ${{ vars.S3_VIDEO_BUCKET }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ vars.AWS_SECRET_ACCESS_KEY }}
+          YOUTUBE_DOWNLOADER_URL: ${{ vars.YOUTUBE_DOWNLOADER_URL }}
+          YDX_API_URL: ${{ vars.YDX_API_URL }}
+          CLEANUP_AFTER_PROCESSING: ${{ vars.CLEANUP_AFTER_PROCESSING }}
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          host: ${{ vars.EC2_HOST }}
+          username: ${{ vars.EC2_USER }}
+          key: ${{ vars.EC2_SSH_KEY }}
           command_timeout: 20m
-          envs: API_KEY,GOOGLE_APPLICATION_CREDENTIALS,GEMINI_API_KEY,OPENAI_API_KEY,S3_VIDEO_BUCKET,AWS_REGION,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,YOUTUBE_DOWNLOADER_URL,YDX_API_URL,CLEANUP_AFTER_PROCESSING
+          envs: API_KEY,GOOGLE_CREDENTIALS_JSON,GEMINI_API_KEY,OPENAI_API_KEY,S3_VIDEO_BUCKET,AWS_REGION,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,YOUTUBE_DOWNLOADER_URL,YDX_API_URL,CLEANUP_AFTER_PROCESSING
           script: |
             cd ~/AI-generated-AD
 
@@ -25,9 +37,11 @@ jobs:
 
             git pull origin main
 
+            echo "${GOOGLE_CREDENTIALS_JSON}" > google_credentials.json
+
             cat > .env << ENVEOF
             API_KEY=${API_KEY}
-            GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
+            GOOGLE_APPLICATION_CREDENTIALS=google_credentials.json
             GEMINI_API_KEY=${GEMINI_API_KEY}
             OPENAI_API_KEY=${OPENAI_API_KEY}
             S3_VIDEO_BUCKET=${S3_VIDEO_BUCKET}
