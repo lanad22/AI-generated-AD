@@ -1,8 +1,8 @@
 from typing import Optional
 from enum import Enum
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import subprocess
+import shutil
 import json
 import os
 import asyncio
@@ -11,8 +11,11 @@ import uvicorn
 import sys
 import requests
 import glob
+import boto3
+from dotenv import load_dotenv
 
-# Set up logging
+load_dotenv()
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -25,8 +28,79 @@ logger = logging.getLogger("info_bot")
 
 app = FastAPI()
 
-# Full path to conda environment's Python
-PYTHON = "/home/ubuntu/miniconda3/envs/video_describe/bin/python"
+PYTHON = sys.executable
+CLEANUP_AFTER_PROCESSING = os.getenv("CLEANUP_AFTER_PROCESSING", "false").lower() == "true"
+YDX_API_URL = os.getenv("YDX_API_URL", "http://localhost:4001")
+
+S3_VIDEO_BUCKET = os.getenv("S3_VIDEO_BUCKET", "youdescribe-downloaded-youtube-videos")
+AWS_REGION = os.getenv("AWS_REGION", "us-west-1")
+
+s3_client = boto3.client(
+    "s3",
+    region_name=AWS_REGION,
+    aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+    aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
+)
+
+
+def download_results_from_s3(video_id: str) -> bool:
+    s3_prefix = f"results/{video_id}/"
+    local_base = os.path.join("videos", video_id)
+
+    try:
+        paginator = s3_client.get_paginator("list_objects_v2")
+        pages = paginator.paginate(Bucket=S3_VIDEO_BUCKET, Prefix=s3_prefix)
+
+        found_any = False
+        for page in pages:
+            for obj in page.get("Contents", []):
+                s3_key = obj["Key"]
+                relative_path = s3_key[len(s3_prefix):]
+                if not relative_path:
+                    continue
+                local_path = os.path.join(local_base, relative_path)
+                os.makedirs(os.path.dirname(local_path), exist_ok=True)
+                logger.info(f"Downloading s3://{S3_VIDEO_BUCKET}/{s3_key} -> {local_path}")
+                s3_client.download_file(S3_VIDEO_BUCKET, s3_key, local_path)
+                found_any = True
+
+        return found_any
+    except Exception as e:
+        logger.error(f"Failed to download results from S3 for {video_id}: {e}")
+        return False
+
+
+def check_and_download_final_data_from_s3(video_id: str) -> bool:
+    s3_prefix = f"results/{video_id}/"
+    local_base = os.path.join("videos", video_id)
+
+    try:
+        paginator = s3_client.get_paginator("list_objects_v2")
+        pages = paginator.paginate(Bucket=S3_VIDEO_BUCKET, Prefix=s3_prefix)
+
+        found_final = False
+        for page in pages:
+            for obj in page.get("Contents", []):
+                s3_key = obj["Key"]
+                filename = os.path.basename(s3_key)
+                if filename.startswith("final_data") and filename.endswith(".json"):
+                    local_path = os.path.join(local_base, filename)
+                    os.makedirs(local_base, exist_ok=True)
+                    logger.info(f"Downloading s3://{S3_VIDEO_BUCKET}/{s3_key} -> {local_path}")
+                    s3_client.download_file(S3_VIDEO_BUCKET, s3_key, local_path)
+                    found_final = True
+
+        return found_final
+    except Exception as e:
+        logger.error(f"Failed to check S3 for final_data of {video_id}: {e}")
+        return False
+
+
+def cleanup_video_dir(video_id: str):
+    video_dir = os.path.join("videos", video_id)
+    if os.path.exists(video_dir):
+        shutil.rmtree(video_dir)
+        logger.info(f"Cleaned up local directory: {video_dir}")
 
 class QueryModel(BaseModel):
     question: Optional[str] = None
@@ -73,20 +147,25 @@ async def receive_data(data: QueryModel):
 
     if data.question is None:
         data.question = "describe the scene"
-    
-    # Create command to run the video_query.py script
-    video_query_script = "video_query_keyframe.py"  # Path to your script
-    
+
+    scene_info_path = os.path.join("videos", data.video_id, f"{data.video_id}_scenes", "scene_info.json")
+    if not os.path.exists(scene_info_path):
+        logger.info(f"Scene info not found locally for {data.video_id}, downloading results from S3...")
+        downloaded = await asyncio.to_thread(download_results_from_s3, data.video_id)
+        if not downloaded:
+            return {"status": "error", "message": f"No processed data found for video {data.video_id}"}
+
+    video_query_script = "video_query_keyframe.py"
+
     command = [
-        PYTHON, 
+        PYTHON,
         video_query_script,
         data.video_id,
         data.current_time,
         data.question
     ]
-    
+
     try:
-        # Run the script
         logger.info(f"Running command: {' '.join(command)}")
         result = await run_query_script(command)
         
@@ -120,7 +199,6 @@ async def receive_data(data: QueryModel):
         return {"status": "error", "message": f"Error: {str(e)}"}
 
 async def safe_forward(data: UnifiedVideoRequest):
-    """Wrapper to safely call forward_final_data in background tasks without HTTPException issues."""
     try:
         await forward_final_data(data)
         logger.info(f"Background forward succeeded for {data.youtube_id}")
@@ -132,7 +210,6 @@ async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_use
     try:
         logger.info(f"Starting background pipeline processing for {video_id}")
         
-        # Run the pipeline asynchronously
         command = [PYTHON, "test_pipeline.py", "--video_id", video_id]
         process = await asyncio.create_subprocess_exec(
             *command,
@@ -143,12 +220,11 @@ async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_use
         await process.wait()
 
         if process.returncode != 0:
-            logger.error(f"Pipeline failed for {video_id}")
+            logger.error(f"Pipeline failed for {video_id} (exit code {process.returncode})")
             return
         
         logger.info(f"Pipeline completed successfully for {video_id}")
         
-        # Update aiUserId if provided
         final_data_path = os.path.join("videos", video_id, "final_data.json")
         if ai_user_id and os.path.exists(final_data_path):
             with open(final_data_path, "r") as f:
@@ -157,7 +233,6 @@ async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_use
             with open(final_data_path, "w") as f:
                 json.dump(final_data, f, indent=2, ensure_ascii=False)
         
-        # Forward to newaidescription endpoint
         logger.info(f"Forwarding {video_id} with data_type={data_type.value}")
         forward_request = UnifiedVideoRequest(
             youtube_id=video_id,
@@ -166,9 +241,12 @@ async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_use
             data_type=data_type
         )
         
-        # Call the safe_fowrad function directly
         await safe_forward(forward_request)
-                        
+
+        if CLEANUP_AFTER_PROCESSING:
+            logger.info(f"Cleaning up local files for {video_id}...")
+            cleanup_video_dir(video_id)
+
     except Exception as e:
         logger.error(f"Error in background pipeline processing for {video_id}: {str(e)}")
 
@@ -184,34 +262,33 @@ async def health_check():
     }
     
 @app.post("/api/generate-ai-description")
-async def narration_bot(data: UnifiedVideoRequest, background_tasks: BackgroundTasks):
+async def narration_bot(data: UnifiedVideoRequest):
     logger.info(f"Received narration bot request: {data}")
     
     video_id = data.youtube_id
     pattern = os.path.join("videos", video_id, "final_data*.json")
-    
-    # glob.glob returns a list of matching files
+
     if glob.glob(pattern):
-        logger.info(f"File {pattern} exists. Skipping pipeline and JUMPING to forwarding.")
-        
-        # skip run pipeline but still sends the data to the backend
-        background_tasks.add_task(safe_forward, data)
-        
+        logger.info(f"Final data exists locally for {video_id}. Skipping pipeline and forwarding.")
+        asyncio.create_task(safe_forward(data))
         return {
             "status": "already_exists",
             "message": "Video found. Forwarding existing data now."
         }
 
-    # Start the heavy lifting in the background
-    background_tasks.add_task(
-        run_pipeline_and_forward, 
-        video_id, 
-        data.user_id, 
-        data.ai_user_id, 
-        data.data_type
+    if check_and_download_final_data_from_s3(video_id) and glob.glob(pattern):
+        logger.info(f"Final data found in S3 for {video_id}. Skipping pipeline and forwarding.")
+        asyncio.create_task(safe_forward(data))
+        return {
+            "status": "already_exists",
+            "message": "Video found in S3. Forwarding existing data now."
+        }
+
+    logger.info(f"No existing data found for {video_id}. Starting pipeline.")
+    asyncio.create_task(
+        run_pipeline_and_forward(video_id, data.user_id, data.ai_user_id, data.data_type)
     )
     
-    # Return immediately so Node.js doesn't time out
     return {
         "status": "processing",
         "message": f"Pipeline started in background for {video_id}"
@@ -232,18 +309,15 @@ async def forward_final_data(data: UnifiedVideoRequest):
     logger.info(f"Received request to forward final_data_{data.data_type.value}.json for YouTube ID: {data.youtube_id}")
     
     try:
-        # Construct the file path based on data_type
         filename = f"final_data_{data.data_type.value}.json"
         final_data_path = os.path.join("videos", data.youtube_id, filename)
         
-        # Check if the specified file exists
         if not os.path.exists(final_data_path):
             raise HTTPException(
                 status_code=404,
                 detail=f"{filename} not found for YouTube ID: {data.youtube_id}"
             )
         
-        # Load the final_data file
         try:
             with open(final_data_path, "r") as f:
                 final_data = json.load(f)
@@ -253,7 +327,7 @@ async def forward_final_data(data: UnifiedVideoRequest):
                 detail=f"Failed to load {filename}: {str(e)}"
             )
         
-        target_url = "https://ydx-dev-api.youdescribe.org/api/audio-descriptions/newaidescription"
+        target_url = f"{YDX_API_URL}/api/audio-descriptions/newaidescription"
         headers = {"Content-Type": "application/json"}
         
         try:
@@ -263,7 +337,7 @@ async def forward_final_data(data: UnifiedVideoRequest):
             logger.info(f"json_response: {json_response}")
 
             if json_response.get('_id'):
-                generateAudioClips = f"https://ydx-dev-api.youdescribe.org/api/audio-clips/processAllClipsInDB/{json_response['_id']}"
+                generateAudioClips = f"{YDX_API_URL}/api/audio-clips/processAllClipsInDB/{json_response['_id']}"
                 r = requests.get(generateAudioClips)
 
                 if r.status_code == 200:
@@ -279,11 +353,9 @@ async def forward_final_data(data: UnifiedVideoRequest):
                 detail=f"Failed to forward data: {str(e)}"
             )
         
-        # Parse the JSON response
         try:
             json_response = response.json()
             logger.info(f"Successfully forwarded {filename} to {target_url}")
-            logger.info(f"Response: {json_response}")
             return {
                 "status": "success", 
                 "message": f"Data forwarded successfully from {filename}", 

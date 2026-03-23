@@ -1,17 +1,21 @@
 import os
 import subprocess
+import shutil
 import torch
 import logging
 import sys
 import json
 import glob
 import argparse
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logger = logging.getLogger("narration_bot")
 logging.basicConfig(level=logging.DEBUG)
 
-# Full path to conda environment's Python
-PYTHON = "/home/ubuntu/miniconda3/envs/video_describe/bin/python"
+PYTHON = sys.executable
+CLEANUP_AFTER_PROCESSING = os.getenv("CLEANUP_AFTER_PROCESSING", "false").lower() == "true"
 
 def check_youtube_downloaded(video_id: str) -> bool:
     output_dir = os.path.join("videos", video_id)
@@ -212,10 +216,9 @@ def run_pipeline(video_id: str) -> bool:
         logger.info("CUDA is not available. Using CPU for processing.")
         device_flag = "--device cpu"
 
-    #define pipeline
     base_pipeline_steps = [
         {
-            "command": f"{PYTHON} youtube_downloader.py {video_id}",
+            "command": f"{PYTHON} fetch_video.py {video_id}",
             "check": lambda: check_youtube_downloaded(video_id)
         },
         {
@@ -270,7 +273,17 @@ def run_pipeline(video_id: str) -> bool:
         logger.error(f"final_data.json was not created for video {video_id}.")
         return False
 
-    logger.debug("Pipeline completed successfully and final_data.json exists.")
+    logger.info("Pipeline completed successfully and final_data.json exists.")
+
+    logger.info(f"Uploading results for {video_id} to S3...")
+    upload_cmd = f"{PYTHON} upload_results.py {video_id}"
+    try:
+        result = subprocess.run(upload_cmd, shell=True, stdout=sys.stdout, stderr=sys.stderr, text=True)
+        if result.returncode != 0:
+            logger.warning(f"Results upload failed for {video_id}, but pipeline succeeded")
+    except Exception as e:
+        logger.warning(f"Results upload exception for {video_id}: {e}")
+
     return True
 
 if __name__ == "__main__":
@@ -283,3 +296,4 @@ if __name__ == "__main__":
         print("Pipeline executed successfully.")
     else:
         print("Pipeline execution failed. Check logs for details.")
+        sys.exit(1)
