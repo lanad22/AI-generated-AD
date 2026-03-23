@@ -43,12 +43,13 @@ jobs:
             conda activate video_describe
 
             if [ ! -z "$ENV_CHANGED" ]; then
-              echo "Changes detected in environment files. Updating..."
+              echo "Changes detected in environment files. Running full conda update..."
               conda env update -f environment.yml --prune
-              pip install -r requirements.txt
             else
-              echo "No environment changes. Skipping update."
+              echo "No conda environment changes. Skipping full update."
             fi
+
+            pip install boto3 python-dotenv requests fastapi uvicorn pydantic 2>/dev/null || true
 
             pgrep -f "python server\.py" | grep -v $$ | xargs -r kill || true
             sleep 2
