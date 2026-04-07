@@ -47,33 +47,41 @@ PROMPT_TEMPLATE = """
 
         You are analyzing a video scene. Identify specific characters, locations, and any important elements mentioned in the context.
 
-        First, generate a JSON array of Text on Screen events.
-            Text Events ("type": "Text on Screen"):
-            - Capture visible on-screen text.
-            - DO NOT include transcript or dialogue.
-            - CRITICAL: For each text event, include the EXACT `start_time` in seconds when the text appears.
-            - Combine events that have the same start_time or appear within 2s. 
-            
-            INCLUDE:
-            - Titles, headings, names
-            - Informational text
-            - Important dates or events
+        ============================================================
+        STEP 1: Text on Screen Events ("type": "Text on Screen")
+        ============================================================
+        Capture ONLY on-screen text that meets ALL of the following criteria:
+        1. It is clearly visible, intentional overlay text (titles, headings, names, dates, locations, informational text).
+        2. It is NOT already spoken in the transcript above. If the narrator reads the text aloud — even approximately or paraphrased — DO NOT include it.
+        3. It is NOT any of the following (ALWAYS EXCLUDE these):
+            - Brand logos, channel logos, or watermarks (even stylized or semi-transparent ones)
+            - Network logos or station identifiers
+            - Social media handles, URLs, or hashtags
+            - Copyright notices or legal text
+            - Subtitles or closed captions
+            - Incidental background text (signs, posters, book spines, labels on objects) UNLESS the text is clearly the focal point of the scene
+            - Decorative or ambient text that is part of the set/environment
 
-            EXCLUDE:
-            - Brand logos and watermarks
-            - Network logos
-            - Social media handles
-            - Copyright notices
-            
-        Second, generate a JSON array of Visual event.
-            - Provide a precise, context-rich visual description using minimal but impactful words.
-            - Describe each action in this scene in every specific details. 
-            - ALWAYS use specific CHARACTER names from context (not "person" or "woman"). 
-            - Focus on key actions, settings, objects that aren't mentioned in previous description
-            - Include clear start times for each visual event
-            - IMPORTANT: DO NOT repeat Text on Screen as Visual events.
-            - DO NOT REPEAT visual events from previous scenes. 
-            
+        CRITICAL FILTERING TEST: Before including ANY text event, ask yourself:
+        - "Would a blind viewer miss important information without this?" If NO → exclude it.
+        - "Is this text already conveyed by the audio/narration?" If YES → exclude it.
+        - "Is this background/environmental text?" If YES → exclude it.
+
+        If no text passes these filters, return an EMPTY array for text events. Having zero text events is perfectly acceptable and often correct.
+
+        For text that does pass: include the EXACT `start_time` in seconds when the text appears. Combine events that have the same start_time or appear within 2 seconds of each other.
+
+        ============================================================
+        STEP 2: Visual Events ("type": "Visual")
+        ============================================================
+        - Provide a precise, context-rich visual description using minimal but impactful words.
+        - Describe each action in this scene in specific detail.
+        - ALWAYS use specific CHARACTER names from context (not "person" or "woman").
+        - Focus on key actions, settings, objects that aren't mentioned in previous description.
+        - Include clear start times for each visual event.
+        - IMPORTANT: DO NOT repeat any Text on Screen content as a Visual event.
+        - DO NOT REPEAT visual events from previous scenes.
+
         ### RULES FOR DESCRIBING PEOPLE:
             - CRITICAL: It is STRICTLY PROHIBITED to use the real names of actors, celebrities, or any public figures, even if you recognize them. This is a top-priority rule.
             - If character names are provided in the context above, you must use them.
@@ -115,12 +123,12 @@ MODEL_CONFIGS = {
         }
     },
     MODEL_GPT4: {
-        "model_name": "gpt-4o",  # Use "gpt-4.1-..." when available
-        "system_instruction": f"You are an expert video analysis AI...\n{AUDIO_DESCRIPTION_GUIDELINES}",
+        "model_name": "gpt-4o",
+        "system_instruction": f"You are an expert video analysis AI. You are VERY selective about Text on Screen events — most visible text in videos is NOT worth describing. Only include text that a blind viewer absolutely needs to know and that is not already in the audio.\n{AUDIO_DESCRIPTION_GUIDELINES}",
         "max_retries": 2,
         "generation_config": {
             "max_tokens": 512,
-            "temperature": 0.6,
+            "temperature": 0.4,
             "response_format": {"type": "json_object"}
         }
     }
@@ -188,10 +196,9 @@ def extract_video_frames(video_path: str, seconds_per_frame: int = 1) -> list:
         return []
 
     fps = video.get(cv2.CAP_PROP_FPS)
-    # Handle cases where fps is 0 to avoid division by zero error
     if fps == 0:
         print(f"Warning: Could not determine FPS for video {video_path}. Using default frame interval.")
-        frame_interval = 25 # Default to extracting approximately 1 frame per second for a 25fps video
+        frame_interval = 25
     else:
         frame_interval = int(fps * seconds_per_frame)
 
@@ -208,6 +215,69 @@ def extract_video_frames(video_path: str, seconds_per_frame: int = 1) -> list:
     video.release()
     print(f"Extracted {len(base64_frames)} frames from scene.")
     return base64_frames
+
+
+def post_filter_text_events(events: list, transcript_data: list) -> list:
+    """Post-processing filter to remove Text on Screen events that overlap with transcript content."""
+    if not events:
+        return events
+
+    # Build a single string of all transcript text for fuzzy matching
+    all_transcript_text = " ".join(
+        seg.get('text', '') for seg in transcript_data
+    ).lower()
+
+    filtered_events = []
+    for event in events:
+        if event.get('type') != 'Text on Screen':
+            filtered_events.append(event)
+            continue
+
+        text_content = event.get('text', '').strip().lower()
+        if not text_content:
+            continue
+
+        # Check if the text (or significant portion) appears in transcript
+        words = text_content.split()
+        if len(words) <= 2:
+            # For very short text, check exact substring match
+            if text_content in all_transcript_text:
+                print(f"  [POST-FILTER] Removed Text on Screen (in transcript): \"{event['text']}\"")
+                continue
+        else:
+            # For longer text, check if most words appear in transcript
+            matching_words = sum(1 for w in words if w in all_transcript_text)
+            overlap_ratio = matching_words / len(words)
+            if overlap_ratio >= 0.6:
+                print(f"  [POST-FILTER] Removed Text on Screen (60%+ word overlap with transcript): \"{event['text']}\"")
+                continue
+
+        # Check against common watermark/irrelevant patterns
+        skip_patterns = [
+            r'^https?://',           # URLs
+            r'^@',                   # Social media handles
+            r'^#',                   # Hashtags
+            r'©|®|™',               # Copyright symbols
+            r'subscribe',            # YouTube-isms
+            r'follow\s+(me|us)',
+            r'like\s+and\s+share',
+            r'\.(com|org|net|io)',   # Domain names
+        ]
+        should_skip = False
+        for pattern in skip_patterns:
+            if re.search(pattern, text_content, re.IGNORECASE):
+                print(f"  [POST-FILTER] Removed Text on Screen (matches skip pattern): \"{event['text']}\"")
+                should_skip = True
+                break
+
+        if not should_skip:
+            filtered_events.append(event)
+
+    removed_count = len(events) - len(filtered_events)
+    if removed_count > 0:
+        print(f"  [POST-FILTER] Removed {removed_count} Text on Screen events total")
+
+    return filtered_events
 
 
 def get_scene_events_from_model(chosen_model_type, model_client, scene_data, video_path,
@@ -344,6 +414,12 @@ def process_video_folder(video_folder_path, model_client, chosen_model_type, out
 
     context_for_api_call += "\n\nPREVIOUS SCENE INFORMATION: This is the first scene, or previous visual not available."
 
+    # Build full transcript data for post-filtering
+    all_transcript_data = []
+    for scene_data in scene_list:
+        for segment in scene_data.get('transcript', []):
+            all_transcript_data.append(segment)
+
     for i, scene_data in enumerate(scene_list):
         original_scene_path = scene_data.get('scene_path')
         scene_number = scene_data.get('scene_number', i + 1)
@@ -376,6 +452,10 @@ def process_video_folder(video_folder_path, model_client, chosen_model_type, out
                     if event["type"] == "Visual":
                         current_scene_visual_texts.append(event["text"].strip())
                     processed_events.append(event)
+
+            # Apply post-filter to remove redundant Text on Screen events
+            scene_transcript = scene_data.get('transcript', [])
+            processed_events = post_filter_text_events(processed_events, scene_transcript + all_transcript_data)
 
             scene_data['audio_clips'] = sorted(processed_events, key=lambda e: e.get("start_time", 0))
 

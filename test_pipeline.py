@@ -199,11 +199,11 @@ def get_description_optimization_step(video_id: str):
         return [
             {
                 "command": f"{PYTHON} description_optimize_inline.py videos/{video_id} --output audio_clips_optimized_gpt.json".strip(),
-                "check": lambda: False  # Always run inline first
+                "check": lambda: False  # always run inline optimization
             },
             {
                 "command": f"{PYTHON} description_optimize_extended.py videos/{video_id}".strip(),
-                "check": lambda: check_description_optimize(video_id)
+                "check": lambda: False # always run extended optimization
             }
         ]
 

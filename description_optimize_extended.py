@@ -10,14 +10,14 @@ from dotenv import load_dotenv
 import torch
 from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor, BitsAndBytesConfig
 import google as genai
-import openai # Added import
+import openai
 
 load_dotenv()
 
-# Added new model constant
 MODEL_QWEN = "qwen"
 MODEL_GEMINI = "gemini"
 MODEL_GPT = "gpt"
+
 
 def get_tts_duration(text):
     if not text or text.isspace():
@@ -35,6 +35,7 @@ def get_tts_duration(text):
             words = len(text.split())
             estimated_duration = words / 2.5
             return max(1.0, estimated_duration)
+
 
 def _generate_with_qwen(client, prompt, max_tokens, temperature):
     model = client['model']
@@ -59,49 +60,54 @@ def _generate_with_qwen(client, prompt, max_tokens, temperature):
     return response_text.strip()
 
 
-def evaluate_clip_necessity(client, model_name, clip, transcript_data, previous_descriptions):
+def evaluate_clip_necessity(client, model_name, clip, transcript_data, previous_descriptions, total_candidates):
     scene_number = clip.get('scene_number', 0)
     scene_transcript = [t for t in transcript_data if t.get('scene_number') == scene_number]
-    
+
     transcript_text = " ".join([segment.get('text', '') for segment in scene_transcript])
     cumulative_transcript = " ".join([seg.get('text', '') for seg in transcript_data if seg.get('scene_number') <= scene_number])
     previous_desc_text = " ".join([f"[Scene {desc.get('scene_number')}] {desc.get('type')}: {desc.get('text')}" for desc in previous_descriptions])
-    
-    prompt = f"""
-            You are an accessibility expert selecting ONE visual description per scene to convert to audio description for blind and low-vision users.
 
-            ### CONTEXT
-            - IMPORTANT: You must select ONLY ONE description per scene - the most important one.
-            - Audio descriptions interrupt the natural flow of content and should be MINIMAL.
-            - The video's spoken audio (transcript) is the primary source of information.
-            - Audio descriptions should be used SPARINGLY - only for truly critical visual information.
+    prompt = f"""You are an accessibility expert performing STRICT filtering of visual descriptions for audio description. Your goal is to MINIMIZE interruptions to the viewer's experience. Extended audio descriptions pause the video and disrupt flow, so they must only be used when absolutely essential.
 
-            ### INPUT
-            CURRENT SCENE TRANSCRIPT:
-            {transcript_text}
+DEFAULT DECISION: necessary = false. Only override this if the description is truly essential.
 
-            CUMULATIVE TRANSCRIPT SO FAR:
-            {cumulative_transcript}
-            
-            CUMULATIVE DESCRIPTION SO FAR:
-            {previous_desc_text}
+IMPORTANT: Out of {total_candidates} candidate descriptions in this video, only 1-3 should survive this filter. Most candidates should be rejected. Be extremely selective.
 
-            VISUAL DESCRIPTIONS TO EVALUATE:
-            {clip['text']}
+### CONTEXT
+CURRENT SCENE TRANSCRIPT:
+{transcript_text}
 
-            ### EVALUATION CRITERIA
-            Include this visual description (necessary = true) if it meets **any** one of these essential conditions:
-            - Important Visual Information: Conveys visual details not in the audio (new actions, expressions, settings).
-            - Unspoken Actions & Key Events: Describes important silent actions or events (e.g. a character’s meaningful gesture, a key object movement).
-            - Scene Context & Characters: Identifies who or where when audio alone is ambiguous (e.g. new character entry, location change).
-            - Novelty & Variation: Introduces a distinct visual element or scene detail that has not been described before (e.g. a flowing stream, a perched butterfly).
-            - Scene Changes & Time Jumps: Notes unannounced transitions (e.g. “cut to: a hospital corridor, later that night”).
+CUMULATIVE TRANSCRIPT SO FAR:
+{cumulative_transcript}
 
-            ### OUTPUT FORMAT
-            Return a JSON object with the following keys:
-            - "necessary": boolean (true or false).
-            - "reason": A clear explanation of why this was selected or why none were necessary.
-            """
+DESCRIPTIONS ALREADY INCLUDED:
+{previous_desc_text}
+
+CANDIDATE DESCRIPTION:
+{clip['text']}
+
+### EXCLUSION RULES — If ANY of the following apply, set necessary = false:
+- The transcript already conveys this information, even partially or indirectly
+- A previous description already covers similar or overlapping content
+- It describes static background, scenery, or setting that does not affect comprehension of the narrative
+- It describes appearance details, clothing, or decorative elements that are not plot-critical
+- It describes something that can be inferred from audio cues (sounds, music, dialogue tone)
+- Removing this description would NOT cause a blind viewer to be confused about what is happening in the video
+- The description adds atmosphere or detail but is not essential for following the content
+
+### INCLUSION CRITERIA — ALL of the following must be true to set necessary = true:
+- The information is completely absent from the transcript AND from audio cues
+- It has NOT been covered by any previous description
+- A blind viewer would be meaningfully confused or would miss a critical event without this description
+- It describes an action, event, or significant change that directly affects understanding of what happens next
+- There is no other way for a blind viewer to know this information
+
+### OUTPUT FORMAT
+Return a JSON object with:
+- "necessary": boolean (true or false)
+- "reason": A clear explanation of why this was kept or rejected
+"""
 
     try:
         result = ""
@@ -110,29 +116,29 @@ def evaluate_clip_necessity(client, model_name, clip, transcript_data, previous_
             response = client.generate_content(
                 prompt,
                 generation_config={
-                    "temperature": 0.7,
+                    "temperature": 0.2,
                     "max_output_tokens": 300,
                     "response_mime_type": "application/json",
                 }
             )
             result = response.text
         elif model_name == 'local_qwen':
-            result = _generate_with_qwen(client, prompt, 300, 0.7)
-        else: # This block handles GPT models
+            result = _generate_with_qwen(client, prompt, 300, 0.2)
+        else:  # GPT models
             response = client.chat.completions.create(
                 model=model_name,
                 messages=[
-                    {"role": "system", "content": "You are an accessibility expert evaluating audio descriptions."},
+                    {"role": "system", "content": "You are an accessibility expert performing strict filtering. Your default answer is necessary=false. Only mark necessary=true for truly essential descriptions that a blind viewer cannot do without."},
                     {"role": "user", "content": prompt}
                 ],
-                temperature=0.7,
+                temperature=0.2,
                 max_tokens=300,
                 response_format={"type": "json_object"}
             )
             result = response.choices[0].message.content.strip()
-        
+
         print(f"MODEL RESPONSE: {result}")
-        
+
         try:
             matches = re.search(r'\{.*\}', result, re.DOTALL)
             json_str = matches.group(0) if matches else result
@@ -141,34 +147,34 @@ def evaluate_clip_necessity(client, model_name, clip, transcript_data, previous_
         except json.JSONDecodeError:
             print(f"Failed to parse JSON for clip in scene {scene_number}.")
             return False, "Failed to parse model response"
-            
+
     except Exception as e:
         print(f"Error evaluating necessity with model {model_name}: {e}")
         return False, f"Error: {str(e)}"
 
+
 def optimize_description(client, model_name, clip):
     if not clip:
         return None
-    
-    prompt = f"""
-            TASK: Create an extremely concise version of this visual description for an audio description track.
 
-            ORIGINAL DESCRIPTION:
-            {clip['text']}
+    prompt = f"""TASK: Create an extremely concise version of this visual description for an audio description track.
 
-            GUIDELINES:
-            - Focus ONLY on the most essential visual elements.
-            - Make it significantly more concise while keeping the most critical information.
-            - Use natural, conversational language.
-            - Use clear, vivid language suitable for audio description.
-            - Maintain a flowing sentence structure.
-            - Start with the most important element.
-            - Be extremely concise - every word must earn its place.
+ORIGINAL DESCRIPTION:
+{clip['text']}
 
-            OUTPUT:
-            Provide only the optimized description text, with no extra commentary or quotation marks.
-            """
-    
+GUIDELINES:
+- Focus ONLY on the most essential visual elements.
+- Make it significantly more concise while keeping the most critical information.
+- Use natural, conversational language.
+- Use clear, vivid language suitable for audio description.
+- Maintain a flowing sentence structure.
+- Start with the most important element.
+- Be extremely concise - every word must earn its place.
+
+OUTPUT:
+Provide only the optimized description text, with no extra commentary or quotation marks.
+"""
+
     try:
         optimized_text = ""
         if model_name.startswith('gemini'):
@@ -179,7 +185,7 @@ def optimize_description(client, model_name, clip):
             optimized_text = response.text.strip()
         elif model_name == 'local_qwen':
             optimized_text = _generate_with_qwen(client, prompt, 100, 1.0)
-        else: # This block handles GPT models
+        else:  # GPT models
             response = client.chat.completions.create(
                 model=model_name,
                 messages=[
@@ -190,33 +196,34 @@ def optimize_description(client, model_name, clip):
                 max_tokens=100
             )
             optimized_text = response.choices[0].message.content.strip()
-        
+
         optimized_text = optimized_text.strip('"')
 
         tts_duration = get_tts_duration(optimized_text)
-        
+
         optimized_clip = clip.copy()
         optimized_clip['text'] = optimized_text
         optimized_clip['duration'] = tts_duration
         optimized_clip['end_time'] = clip['start_time'] + tts_duration
         optimized_clip['original_text'] = clip['text']
-        
+
         return optimized_clip
-        
+
     except Exception as e:
         print(f"Error optimizing clip with model {model_name}: {e}")
-        return clip  
+        return clip
+
 
 def main():
     parser = argparse.ArgumentParser(description="Analyze and optimize visual descriptions for accessibility")
     parser.add_argument("video_folder", help="Path to the video folder containing relevant JSON files")
     parser.add_argument("--model", type=str, choices=[MODEL_GEMINI, MODEL_QWEN, MODEL_GPT], default=MODEL_GPT,
-                         help="Choose the model for optimizing descriptions: 'gemini', 'qwen', or 'gpt-4'.")
-    parser.add_argument("--no-analyze-necessity", action="store_true", 
+                        help="Choose the model for optimizing descriptions: 'gemini', 'qwen', or 'gpt'.")
+    parser.add_argument("--no-analyze-necessity", action="store_true",
                         help="Skip analyzing whether descriptions are necessary (default is to analyze)")
-    
+
     args = parser.parse_args()
-    
+
     client = None
     model_to_use = ""
     if args.model == MODEL_GEMINI:
@@ -234,22 +241,21 @@ def main():
             return
     elif args.model == MODEL_QWEN:
         model_to_use = "local_qwen"
-        print(f"\nSetting up LOCAL Qwen model...")           
+        print(f"\nSetting up LOCAL Qwen model...")
         os.environ["TOKENIZERS_PARALLELISM"] = "false"
         quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.bfloat16)
         model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
-            "Qwen/Qwen2.5-VL-72B-Instruct", 
-            torch_dtype=torch.bfloat16, 
-            attn_implementation="flash_attention_2", 
-            device_map="auto", 
+            "Qwen/Qwen2.5-VL-72B-Instruct",
+            torch_dtype=torch.bfloat16,
+            attn_implementation="flash_attention_2",
+            device_map="auto",
             quantization_config=quantization_config,
             cache_dir="../.cache")
         processor = AutoProcessor.from_pretrained("Qwen/Qwen2.5-VL-72B-Instruct")
         client = {'model': model, 'processor': processor}
-    # Added block to initialize the GPT client
     elif args.model == MODEL_GPT:
         try:
-            model_to_use = "gpt-4o" # Specify your desired GPT model here
+            model_to_use = "gpt-4o"
             print(f"\nSetting up OpenAI GPT client for model: {model_to_use}...")
             api_key = os.getenv("OPENAI_API_KEY")
             if not api_key:
@@ -264,10 +270,9 @@ def main():
         print("Client setup failed. Exiting.")
         return
 
-    video_id = os.path.basename(os.path.normpath(args.video_folder))  
+    video_id = os.path.basename(os.path.normpath(args.video_folder))
     scenes_folder = os.path.join(args.video_folder, f"{video_id}_scenes")
-    
-    # File path logic now correctly handles the 'gpt' suffix
+
     audio_clips_path = os.path.join(scenes_folder, f"audio_clips_optimized_{args.model}.json")
     preferred_scene_info_path = os.path.join(scenes_folder, f"scene_info_{args.model}.json")
     fallback_scene_info_path = os.path.join(scenes_folder, "scene_info.json")
@@ -285,7 +290,7 @@ def main():
 
     print(f"\nUsing scene info file: {os.path.basename(scene_info_path)}")
     print(f"Processing audio clips file: {os.path.basename(audio_clips_path)}")
-    
+
     if not os.path.exists(scene_info_path) or not os.path.exists(audio_clips_path):
         print(f"Error: Required input files not found.")
         if not os.path.exists(scene_info_path):
@@ -293,12 +298,12 @@ def main():
         if not os.path.exists(audio_clips_path):
             print(f"  - Missing: {audio_clips_path}")
         return
-    
+
     with open(scene_info_path, "r") as f:
         scene_info = json.load(f)
     with open(audio_clips_path, "r") as f:
         audio_clips = json.load(f)
-    
+
     transcript_data = []
     for scene in scene_info:
         scene_number = scene.get('scene_number', 0)
@@ -306,13 +311,14 @@ def main():
             transcript_segment = segment.copy()
             transcript_segment['scene_number'] = scene_number
             transcript_data.append(transcript_segment)
-    
+
     print(f"Loaded transcript with {len(transcript_data)} segments")
     print(f"Loaded {len(audio_clips)} descriptions from {os.path.basename(audio_clips_path)}")
-    
+
     non_gap_visuals = [desc for desc in audio_clips if not desc.get('fits_in_gap', True) and desc.get('type') == 'Visual']
-    print(f"\nFound {len(non_gap_visuals)} Visual descriptions where fits_in_gap is false")
-    
+    total_candidates = len(non_gap_visuals)
+    print(f"\nFound {total_candidates} Visual descriptions where fits_in_gap is false")
+
     if not non_gap_visuals and not args.no_analyze_necessity:
         print("No Visual descriptions with fits_in_gap=false to process.")
         return
@@ -320,17 +326,19 @@ def main():
     audio_clips.sort(key=lambda x: (x.get('scene_number', 0), x.get('start_time', 0)))
     final_clips, previous_descriptions = [], []
     clips_kept, clips_removed = 0, 0
-    
+
     for clip in audio_clips:
         is_non_gap_visual = clip.get('type') == 'Visual' and not clip.get('fits_in_gap', True)
-        
+
         if not args.no_analyze_necessity and is_non_gap_visual:
             print(f"\n===== EVALUATING CLIP IN SCENE {clip['scene_number']} =====")
             print(f"Description: \"{clip['text']}\"")
-            
-            is_necessary, reason = evaluate_clip_necessity(client, model_to_use, clip, transcript_data, previous_descriptions)
+
+            is_necessary, reason = evaluate_clip_necessity(
+                client, model_to_use, clip, transcript_data, previous_descriptions, total_candidates
+            )
             print(f"REASON: {reason}")
-            
+
             if is_necessary:
                 clips_kept += 1
                 print("STATUS: Kept. Optimizing description...")
@@ -351,13 +359,19 @@ def main():
     with open(audio_clips_path, 'w') as f:
         json.dump(final_clips, f, indent=2)
 
-    print(f"\nResults saved back to: {audio_clips_path}")
+    print(f"\n{'='*50}")
+    print(f"FILTERING SUMMARY")
+    print(f"{'='*50}")
+    print(f"Results saved to: {audio_clips_path}")
     print(f"Final output: {len(final_clips)} clips total")
-    
+
     if not args.no_analyze_necessity:
-        print(f"Non-gap visual descriptions evaluated: {len(non_gap_visuals)}")
+        print(f"Non-gap visual descriptions evaluated: {total_candidates}")
         print(f"  - Kept and optimized: {clips_kept}")
         print(f"  - Removed as unnecessary: {clips_removed}")
+        if total_candidates > 0:
+            print(f"  - Rejection rate: {clips_removed / total_candidates:.0%}")
+
 
 if __name__ == "__main__":
     main()
