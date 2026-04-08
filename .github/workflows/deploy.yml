@@ -3,13 +3,92 @@ name: Deploy to EC2
 on:
   push:
     branches:
+      - dev
       - main
 
 jobs:
-  deploy:
+  deploy-dev:
+    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
+    environment: dev
     steps:
-      - name: Deploy to EC2
+      - name: Deploy to Dev EC2
+        uses: appleboy/ssh-action@v1
+        env:
+          API_KEY: ${{ vars.API_KEY }}
+          GOOGLE_CREDENTIALS_JSON: ${{ vars.GOOGLE_CREDENTIALS_JSON }}
+          GEMINI_API_KEY: ${{ vars.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ vars.OPENAI_API_KEY }}
+          S3_VIDEO_BUCKET: ${{ vars.S3_VIDEO_BUCKET }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ vars.AWS_SECRET_ACCESS_KEY }}
+          YOUTUBE_DOWNLOADER_URL: ${{ vars.YOUTUBE_DOWNLOADER_URL }}
+          YDX_API_URL: ${{ vars.YDX_API_URL }}
+          CLEANUP_AFTER_PROCESSING: ${{ vars.CLEANUP_AFTER_PROCESSING }}
+        with:
+          host: ${{ vars.EC2_HOST }}
+          username: ${{ vars.EC2_USER }}
+          key: ${{ vars.EC2_SSH_KEY }}
+          command_timeout: 20m
+          envs: API_KEY,GOOGLE_CREDENTIALS_JSON,GEMINI_API_KEY,OPENAI_API_KEY,S3_VIDEO_BUCKET,AWS_REGION,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,YOUTUBE_DOWNLOADER_URL,YDX_API_URL,CLEANUP_AFTER_PROCESSING
+          script: |
+            cd ~/AI-generated-AD
+
+            git fetch origin dev
+            git checkout dev 2>/dev/null || git checkout -b dev origin/dev
+            ENV_CHANGED=$(git diff --name-only HEAD origin/dev | grep -E "environment.yml|requirements.txt" || true)
+
+            git pull origin dev
+
+            echo "${GOOGLE_CREDENTIALS_JSON}" > google_credentials.json
+
+            cat > .env << ENVEOF
+            API_KEY=${API_KEY}
+            GOOGLE_APPLICATION_CREDENTIALS=google_credentials.json
+            GEMINI_API_KEY=${GEMINI_API_KEY}
+            OPENAI_API_KEY=${OPENAI_API_KEY}
+            S3_VIDEO_BUCKET=${S3_VIDEO_BUCKET}
+            AWS_REGION=${AWS_REGION}
+            AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+            AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+            YOUTUBE_DOWNLOADER_URL=${YOUTUBE_DOWNLOADER_URL}
+            YDX_API_URL=${YDX_API_URL}
+            CLEANUP_AFTER_PROCESSING=${CLEANUP_AFTER_PROCESSING}
+            ENVEOF
+
+            source ~/miniconda3/etc/profile.d/conda.sh
+            conda activate video_describe
+
+            if [ ! -z "$ENV_CHANGED" ]; then
+              echo "Changes detected in environment files. Running full conda update..."
+              conda env update -f environment.yml --prune
+            else
+              echo "No conda environment changes. Skipping full update."
+            fi
+
+            pip install boto3 python-dotenv requests fastapi uvicorn pydantic 2>/dev/null || true
+
+            pgrep -f "python server\.py" | grep -v $$ | xargs -r kill || true
+            sleep 2
+
+            setsid nohup python server.py > server.log 2>&1 &
+            sleep 5
+
+            if curl -sf http://localhost:8000/health > /dev/null; then
+              echo "Server started successfully"
+            else
+              echo "ERROR: Server health check failed."
+              tail -n 50 server.log
+              exit 1
+            fi
+
+  deploy-prod:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - name: Deploy to Prod EC2
         uses: appleboy/ssh-action@v1
         env:
           API_KEY: ${{ vars.API_KEY }}
@@ -33,6 +112,7 @@ jobs:
             cd ~/AI-generated-AD
 
             git fetch origin main
+            git checkout main 2>/dev/null || git checkout -b main origin/main
             ENV_CHANGED=$(git diff --name-only HEAD origin/main | grep -E "environment.yml|requirements.txt" || true)
 
             git pull origin main
