@@ -326,7 +326,14 @@ async def forward_final_data(data: UnifiedVideoRequest):
                 status_code=500,
                 detail=f"Failed to load {filename}: {str(e)}"
             )
-        
+
+        if not final_data.get("audio_clips"):
+            logger.error(f"No audio clips in {filename} for {data.youtube_id}. Skipping forward.")
+            raise HTTPException(
+                status_code=400,
+                detail=f"audio_clips is empty in {filename} for {data.youtube_id}. Pipeline produced no descriptions."
+            )
+
         target_url = f"{YDX_API_URL}/api/audio-descriptions/newaidescription"
         headers = {"Content-Type": "application/json"}
         

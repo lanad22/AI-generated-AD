@@ -356,6 +356,21 @@ def main():
 
     final_clips.sort(key=lambda x: (x.get('scene_number', 0), x.get('start_time', 0)))
 
+    # Safety net: if filtering removed ALL clips, keep the first visual clip from each scene
+    # so we never produce an empty result
+    if not any(c.get('type') == 'Visual' for c in final_clips) and non_gap_visuals:
+        print("\nWARNING: All visual descriptions were filtered out. Keeping one per scene as fallback.")
+        seen_scenes = set()
+        for clip in sorted(non_gap_visuals, key=lambda x: (x.get('scene_number', 0), x.get('start_time', 0))):
+            scene = clip.get('scene_number', 0)
+            if scene not in seen_scenes:
+                optimized_clip = optimize_description(client, model_to_use, clip)
+                if optimized_clip:
+                    final_clips.append(optimized_clip)
+                    seen_scenes.add(scene)
+        final_clips.sort(key=lambda x: (x.get('scene_number', 0), x.get('start_time', 0)))
+        clips_kept = len(seen_scenes)
+
     with open(audio_clips_path, 'w') as f:
         json.dump(final_clips, f, indent=2)
 
