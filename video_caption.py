@@ -10,7 +10,7 @@ import google as genai
 from google.genai.types import HarmCategory, HarmBlockThreshold
 import openai
 import base64
-import cv2  
+import cv2
 
 from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor, BitsAndBytesConfig
 from qwen_vl_utils import process_vision_info
@@ -76,31 +76,36 @@ PROMPT_TEMPLATE = """
         ============================================================
         - Provide a precise, context-rich visual description using minimal but impactful words.
         - Describe each action in this scene in specific detail.
-        - ALWAYS use specific CHARACTER names from context (not "person" or "woman").
         - Focus on key actions, settings, objects that aren't mentioned in previous description.
         - Include clear start times for each visual event.
         - IMPORTANT: DO NOT repeat any Text on Screen content as a Visual event.
         - DO NOT REPEAT visual events from previous scenes.
 
         ### RULES FOR DESCRIBING PEOPLE:
-            - CRITICAL: It is STRICTLY PROHIBITED to use the real names of actors, celebrities, or any public figures, even if you recognize them. This is a top-priority rule.
-            - If character names are provided in the context above, you must use them.
-            - If NO character names are available in the context, you MUST describe people using neutral, descriptive terms based on their appearance (e.g., "a young woman with reddish-brown hair," "the older woman driving the car," "a man in a red shirt"). Do NOT default to using actor names as a substitute for character names.
+            - STRICTLY PROHIBITED: Never use the real names of actors, celebrities, or public figures, even if you recognize them. Use the character's name from context, never the performer's real name.
+            - If character names are provided anywhere in the context above (including in the visual history of previous scenes), you MUST use them.
+            - If NO character names are available anywhere in the context, describe people using neutral, descriptive terms based on their appearance.
 
-        ### OUTPUT:
-            - Format the output as a JSON array. Each event should include:
-            - `start_time` (in seconds) - exact time when event happened.
-            - `type` ("Text on Screen" or "Visual")
-            - `text` (description or on-screen text)       
-            Now generate the JSON array of events for this scene.
+        ### SELF-CHECK BEFORE RESPONDING
+        For each Visual event you wrote, ask yourself: "Is there a character name anywhere in the context — including the visual history from previous scenes — that I could have used here instead of a generic term like 'person', 'man', 'woman', 'cat', 'dog', 'child', 'boy', 'girl'?" If yes, REWRITE that description using the name before returning your answer.
+
+        ### OUTPUT FORMAT (STRICT):
+            Return ONLY a JSON object with this EXACT structure:
+            {{"events": [ {{"start_time": <number>, "type": "Visual" or "Text on Screen", "text": "<description>"}}, ... ]}}
+
+            - The `events` field MUST always be an array, even if there is only one event or zero events.
+            - Do NOT return a bare event object. Do NOT return a bare array. Do NOT wrap in markdown fences.
+            - If there are no events at all, return: {{"events": []}}
+
+            Now generate the JSON for this scene.
         """
 
 MODEL_CONFIGS = {
     MODEL_GEMINI: {
         "model_name": "gemini-2.5-pro",
-        "system_instruction": f"You are an expert video analysis AI...\n{AUDIO_DESCRIPTION_GUIDELINES}",
+        "system_instruction": f"You are an expert video analysis AI. You describe ONLY what is visibly present in the video. You never invent or infer objects, characters, or actions that are not clearly shown. You ALWAYS use character names from the provided context (including visual history from previous scenes) instead of generic terms like 'man' or 'woman' whenever any name is available.\n{AUDIO_DESCRIPTION_GUIDELINES}",
         "generation_config": {
-            "temperature": 0.6,
+            "temperature": 0.4,
             "max_output_tokens": 512,
             "response_mime_type": "application/json",
         },
@@ -124,13 +129,18 @@ MODEL_CONFIGS = {
     },
     MODEL_GPT4: {
         "model_name": "gpt-4o",
-        "system_instruction": f"You are an expert video analysis AI. You are VERY selective about Text on Screen events — most visible text in videos is NOT worth describing. Only include text that a blind viewer absolutely needs to know and that is not already in the audio.\n{AUDIO_DESCRIPTION_GUIDELINES}",
+        "system_instruction": f"You are an expert video analysis AI. You describe ONLY what is clearly visible in the frames. You NEVER invent objects, characters, or actions that are not actually shown — hallucinating content is the worst possible failure. You ALWAYS use character names from the provided context (including visual history from previous scenes) instead of generic terms like 'man' or 'woman' whenever any name is available. You are also VERY selective about Text on Screen events — most visible text in videos is NOT worth describing. Only include text that a blind viewer absolutely needs to know and that is not already in the audio.\n{AUDIO_DESCRIPTION_GUIDELINES}",
         "max_retries": 2,
         "generation_config": {
             "max_tokens": 512,
-            "temperature": 0.4,
+            "temperature": 0.3,
             "response_format": {"type": "json_object"}
-        }
+        },
+        # Frame sampling: scales with scene duration.
+        "image_detail": "low",
+        "seconds_per_frame": 0.5,
+        "min_frames_per_scene": 4,
+        "max_frames_per_scene": 60
     }
 }
 
@@ -151,24 +161,60 @@ def standardize_video_for_processing(input_path: str) -> str:
         return input_path
 
 
+def _coerce_to_event_list(data) -> list:
+    if isinstance(data, list):
+        return [e for e in data if isinstance(e, dict)]
+
+    if isinstance(data, dict):
+        for key in ("events", "audio_clips", "clips", "results", "data"):
+            if key in data and isinstance(data[key], list):
+                return [e for e in data[key] if isinstance(e, dict)]
+
+        if "text" in data and ("type" in data or "start_time" in data):
+            return [data]
+
+        for v in data.values():
+            if isinstance(v, list) and all(isinstance(e, dict) for e in v):
+                return v
+
+    return []
+
+
 def extract_and_parse_json(response_text: str) -> list:
-    if not response_text: return []
-    try:
-        response_text = re.sub(r'```json|```', '', response_text).strip()
-        json_match = re.search(r'^\s*\[[\s\S]*?\]\s*$', response_text, re.MULTILINE)
-        if not json_match: json_match = re.search(r'\[\s*{[\s\S]*?}\s*\]', response_text, re.DOTALL)
-        if json_match:
-            json_str = json_match.group(0)
-            try:
-                return json.loads(json_str)
-            except json.JSONDecodeError:
-                return ast.literal_eval(json_str)
-        else:
-            print(f"Warning: No valid JSON array found in response: {response_text[:200]}...")
-            return []
-    except Exception as e:
-        print(f"Error parsing JSON response: {e}")
+    if not response_text:
         return []
+
+    cleaned = re.sub(r'```(?:json)?', '', response_text).replace('```', '').strip()
+
+    for loader in (json.loads, ast.literal_eval):
+        try:
+            data = loader(cleaned)
+            events = _coerce_to_event_list(data)
+            if events or isinstance(data, (list, dict)):
+                return events
+        except (json.JSONDecodeError, ValueError, SyntaxError):
+            pass
+
+    array_match = re.search(r'\[\s*{[\s\S]*?}\s*\]', cleaned, re.DOTALL)
+    if array_match:
+        snippet = array_match.group(0)
+        for loader in (json.loads, ast.literal_eval):
+            try:
+                return _coerce_to_event_list(loader(snippet))
+            except (json.JSONDecodeError, ValueError, SyntaxError):
+                continue
+
+    object_match = re.search(r'\{[\s\S]*\}', cleaned, re.DOTALL)
+    if object_match:
+        snippet = object_match.group(0)
+        for loader in (json.loads, ast.literal_eval):
+            try:
+                return _coerce_to_event_list(loader(snippet))
+            except (json.JSONDecodeError, ValueError, SyntaxError):
+                continue
+
+    print(f"Warning: Could not parse JSON from response: {response_text[:200]}...")
+    return []
 
 
 def prepare_context_block_for_scene(base_context, video_category, current_scene_data, scene_idx):
@@ -187,8 +233,8 @@ def prepare_context_block_for_scene(base_context, video_category, current_scene_
     return "\n\n".join(context_parts)
 
 
-def extract_video_frames(video_path: str, seconds_per_frame: int = 1) -> list:
-    """Extracts frames from a video file at a given interval."""
+def extract_video_frames(video_path: str, seconds_per_frame: float = 1.0, max_frames: int = None) -> list:
+    """Extracts frames from a video file at a given interval, optionally capped at max_frames."""
     base64_frames = []
     video = cv2.VideoCapture(video_path)
     if not video.isOpened():
@@ -200,7 +246,7 @@ def extract_video_frames(video_path: str, seconds_per_frame: int = 1) -> list:
         print(f"Warning: Could not determine FPS for video {video_path}. Using default frame interval.")
         frame_interval = 25
     else:
-        frame_interval = int(fps * seconds_per_frame)
+        frame_interval = max(1, int(fps * seconds_per_frame))
 
     frame_count = 0
     while video.isOpened():
@@ -210,10 +256,12 @@ def extract_video_frames(video_path: str, seconds_per_frame: int = 1) -> list:
         if frame_count % frame_interval == 0:
             _, buffer = cv2.imencode(".jpg", frame)
             base64_frames.append(base64.b64encode(buffer).decode("utf-8"))
+            if max_frames is not None and len(base64_frames) >= max_frames:
+                break
         frame_count += 1
 
     video.release()
-    print(f"Extracted {len(base64_frames)} frames from scene.")
+    print(f"Extracted {len(base64_frames)} frames from scene (interval: {seconds_per_frame:.2f}s).")
     return base64_frames
 
 
@@ -222,7 +270,6 @@ def post_filter_text_events(events: list, transcript_data: list) -> list:
     if not events:
         return events
 
-    # Build a single string of all transcript text for fuzzy matching
     all_transcript_text = " ".join(
         seg.get('text', '') for seg in transcript_data
     ).lower()
@@ -237,31 +284,27 @@ def post_filter_text_events(events: list, transcript_data: list) -> list:
         if not text_content:
             continue
 
-        # Check if the text (or significant portion) appears in transcript
         words = text_content.split()
         if len(words) <= 2:
-            # For very short text, check exact substring match
             if text_content in all_transcript_text:
                 print(f"  [POST-FILTER] Removed Text on Screen (in transcript): \"{event['text']}\"")
                 continue
         else:
-            # For longer text, check if most words appear in transcript
             matching_words = sum(1 for w in words if w in all_transcript_text)
             overlap_ratio = matching_words / len(words)
             if overlap_ratio >= 0.6:
                 print(f"  [POST-FILTER] Removed Text on Screen (60%+ word overlap with transcript): \"{event['text']}\"")
                 continue
 
-        # Check against common watermark/irrelevant patterns
         skip_patterns = [
-            r'^https?://',           # URLs
-            r'^@',                   # Social media handles
-            r'^#',                   # Hashtags
-            r'©|®|™',               # Copyright symbols
-            r'subscribe',            # YouTube-isms
+            r'^https?://',
+            r'^@',
+            r'^#',
+            r'©|®|™',
+            r'subscribe',
             r'follow\s+(me|us)',
             r'like\s+and\s+share',
-            r'\.(com|org|net|io)',   # Domain names
+            r'\.(com|org|net|io)',
         ]
         should_skip = False
         for pattern in skip_patterns:
@@ -342,23 +385,35 @@ def get_scene_events_from_model(chosen_model_type, model_client, scene_data, vid
                 return extract_and_parse_json(response_text)
 
             elif chosen_model_type == MODEL_GPT4:
-                approx_tokens_per_frame = 2000
-                target_frames = 30000 // approx_tokens_per_frame  
-                interval = max(1, int(scene_duration / target_frames))        
-                base64_frames = extract_video_frames(video_path, seconds_per_frame=interval)
+                # Frame count scales with scene duration.
+                seconds_per_frame = model_specific_config.get("seconds_per_frame", 1.0)
+                min_frames = model_specific_config.get("min_frames_per_scene", 4)
+                max_frames = model_specific_config.get("max_frames_per_scene", 60)
+
+                if scene_duration > 0:
+                    target_count = int(round(scene_duration / seconds_per_frame))
+                else:
+                    target_count = min_frames
+                target_count = max(min_frames, min(max_frames, target_count))
+
+                interval = scene_duration / target_count if scene_duration > 0 else seconds_per_frame
+
+                base64_frames = extract_video_frames(
+                    video_path, seconds_per_frame=interval, max_frames=target_count
+                )
 
                 if not base64_frames:
                     print("Skipping API call as no frames were extracted.")
                     return []
 
+                image_detail = model_specific_config.get("image_detail", "high")
                 prompt_content = [{"type": "text", "text": user_prompt}]
-
                 for frame in base64_frames:
                     prompt_content.append({
                         "type": "image_url",
                         "image_url": {
                             "url": f"data:image/jpeg;base64,{frame}",
-                            "detail": "low"
+                            "detail": image_detail
                         }
                     })
 
@@ -407,18 +462,20 @@ def process_video_folder(video_folder_path, model_client, chosen_model_type, out
         scene_list = json.load(f)
     print(f"Processing {len(scene_list)} scenes for video: '{video_title}'...")
 
+    # Initial context for scene 1
     context_for_api_call = f"Video Title: {video_title}"
-
     if video_description:
         context_for_api_call += f"\nVideo Description: {video_description}"
+    context_for_api_call += "\n\nPREVIOUS SCENE INFORMATION: This is the first scene."
 
-    context_for_api_call += "\n\nPREVIOUS SCENE INFORMATION: This is the first scene, or previous visual not available."
-
-    # Build full transcript data for post-filtering
     all_transcript_data = []
     for scene_data in scene_list:
         for segment in scene_data.get('transcript', []):
             all_transcript_data.append(segment)
+
+    # Accumulate every Visual description from every processed scene.
+    # Each entry: {"scene_number": int, "visuals": [str, ...]}
+    all_prior_scene_visuals = []
 
     for i, scene_data in enumerate(scene_list):
         original_scene_path = scene_data.get('scene_path')
@@ -453,18 +510,39 @@ def process_video_folder(video_folder_path, model_client, chosen_model_type, out
                         current_scene_visual_texts.append(event["text"].strip())
                     processed_events.append(event)
 
-            # Apply post-filter to remove redundant Text on Screen events
             scene_transcript = scene_data.get('transcript', [])
             processed_events = post_filter_text_events(processed_events, scene_transcript + all_transcript_data)
 
             scene_data['audio_clips'] = sorted(processed_events, key=lambda e: e.get("start_time", 0))
 
+            # Record ALL visuals from this scene so later scenes see them.
+            all_prior_scene_visuals.append({
+                "scene_number": scene_number,
+                "visuals": list(current_scene_visual_texts)
+            })
+
+            # Rebuild context from scratch with the full history of prior visuals.
             next_base_context = f"Video Title: {video_title}"
-            if video_description: next_base_context += f"\nVideo Description: {video_description}"
-            if current_scene_visual_texts:
-                next_base_context += f"\n\nPREVIOUS SCENE INFORMATION (Scene {scene_number}):\nKey Visual: {current_scene_visual_texts[0]}"
+            if video_description:
+                next_base_context += f"\nVideo Description: {video_description}"
+
+            history_lines = []
+            for entry in all_prior_scene_visuals:
+                if not entry["visuals"]:
+                    continue
+                for v in entry["visuals"]:
+                    history_lines.append(f"[Scene {entry['scene_number']}] {v}")
+
+            if history_lines:
+                history_block = "\n".join(history_lines)
+                next_base_context += (
+                    "\n\nPREVIOUS SCENES — VISUAL HISTORY "
+                    "(use character names that appear here whenever those characters reappear):\n"
+                    f"{history_block}"
+                )
             else:
-                next_base_context += f"\n\nPREVIOUS SCENE INFORMATION (Scene {scene_number}): No distinct key visual identified."
+                next_base_context += "\n\nPREVIOUS SCENE INFORMATION: No prior visuals recorded yet."
+
             context_for_api_call = next_base_context
 
             end_time = time.time()

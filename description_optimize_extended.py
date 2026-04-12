@@ -3,9 +3,11 @@ import tempfile
 import subprocess
 import os
 import re
+import base64
 import argparse
+import cv2
 from gtts import gTTS
-from typing import Dict
+from typing import Dict, List
 from dotenv import load_dotenv
 import torch
 from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor, BitsAndBytesConfig
@@ -17,6 +19,13 @@ load_dotenv()
 MODEL_QWEN = "qwen"
 MODEL_GEMINI = "gemini"
 MODEL_GPT = "gpt"
+
+# How many frames to sample per scene when verifying a description visually
+# How many frames to sample per scene when verifying a description visually
+VERIFICATION_SECONDS_PER_FRAME = 0.5
+VERIFICATION_MIN_FRAMES = 4
+VERIFICATION_MAX_FRAMES = 30
+VERIFICATION_IMAGE_DETAIL = "low"
 
 
 def get_tts_duration(text):
@@ -35,7 +44,46 @@ def get_tts_duration(text):
             words = len(text.split())
             estimated_duration = words / 2.5
             return max(1.0, estimated_duration)
+def extract_scene_frames(video_path: str) -> List[str]:
+    """Extract frames evenly spaced across the scene, count scaled by duration."""
+    if not video_path or not os.path.exists(video_path):
+        return []
 
+    video = cv2.VideoCapture(video_path)
+    if not video.isOpened():
+        print(f"Could not open scene video for verification: {video_path}")
+        return []
+
+    total_frames = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
+    fps = video.get(cv2.CAP_PROP_FPS) or 25
+    duration = total_frames / fps if fps else 0
+
+    if total_frames <= 0:
+        video.release()
+        return []
+
+    # Scale with duration, clamp to [min, max]
+    target = int(round(duration / VERIFICATION_SECONDS_PER_FRAME))
+    num_frames = max(VERIFICATION_MIN_FRAMES, min(VERIFICATION_MAX_FRAMES, target))
+
+    if num_frames >= total_frames:
+        target_indices = list(range(total_frames))
+    else:
+        step = total_frames / num_frames
+        target_indices = [int(i * step) for i in range(num_frames)]
+
+    base64_frames = []
+    for idx in target_indices:
+        video.set(cv2.CAP_PROP_POS_FRAMES, idx)
+        success, frame = video.read()
+        if not success:
+            continue
+        _, buffer = cv2.imencode(".jpg", frame)
+        base64_frames.append(base64.b64encode(buffer).decode("utf-8"))
+
+    video.release()
+    print(f"  Extracted {len(base64_frames)} verification frames ({duration:.1f}s scene)")
+    return base64_frames
 
 def _generate_with_qwen(client, prompt, max_tokens, temperature):
     model = client['model']
@@ -60,19 +108,12 @@ def _generate_with_qwen(client, prompt, max_tokens, temperature):
     return response_text.strip()
 
 
-def evaluate_clip_necessity(client, model_name, clip, transcript_data, previous_descriptions, total_candidates):
-    scene_number = clip.get('scene_number', 0)
-    scene_transcript = [t for t in transcript_data if t.get('scene_number') == scene_number]
+def _build_evaluation_prompt(clip, transcript_text, cumulative_transcript, previous_desc_text, total_candidates):
+    return f"""You are an accessibility expert deciding whether a visual description should be included in an audio description track for a blind viewer.
 
-    transcript_text = " ".join([segment.get('text', '') for segment in scene_transcript])
-    cumulative_transcript = " ".join([seg.get('text', '') for seg in transcript_data if seg.get('scene_number') <= scene_number])
-    previous_desc_text = " ".join([f"[Scene {desc.get('scene_number')}] {desc.get('type')}: {desc.get('text')}" for desc in previous_descriptions])
+You are looking at frames from the actual scene the description was generated for. Use them to judge whether the description is BOTH accurate AND necessary.
 
-    prompt = f"""You are an accessibility expert performing STRICT filtering of visual descriptions for audio description. Your goal is to MINIMIZE interruptions to the viewer's experience. Extended audio descriptions pause the video and disrupt flow, so they must only be used when absolutely essential.
-
-DEFAULT DECISION: necessary = false. Only override this if the description is truly essential.
-
-IMPORTANT: Out of {total_candidates} candidate descriptions in this video, only 1-3 should survive this filter. Most candidates should be rejected. Be extremely selective.
+PHILOSOPHY: LESS IS MORE. Extended audio descriptions interrupt the video's natural pacing. A sparse, well-chosen set of descriptions is far better than a dense one. Most candidate descriptions should be rejected. Default to REJECT and only override when truly justified.
 
 ### CONTEXT
 CURRENT SCENE TRANSCRIPT:
@@ -84,55 +125,98 @@ CUMULATIVE TRANSCRIPT SO FAR:
 DESCRIPTIONS ALREADY INCLUDED:
 {previous_desc_text}
 
-CANDIDATE DESCRIPTION:
+CANDIDATE DESCRIPTION TO EVALUATE:
 {clip['text']}
 
-### EXCLUSION RULES — If ANY of the following apply, set necessary = false:
-- The transcript already conveys this information, even partially or indirectly
-- A previous description already covers similar or overlapping content
-- It describes static background, scenery, or setting that does not affect comprehension of the narrative
-- It describes appearance details, clothing, or decorative elements that are not plot-critical
-- It describes something that can be inferred from audio cues (sounds, music, dialogue tone)
-- Removing this description would NOT cause a blind viewer to be confused about what is happening in the video
-- The description adds atmosphere or detail but is not essential for following the content
+TOTAL CANDIDATES IN THIS VIDEO: {total_candidates}
 
-### INCLUSION CRITERIA — ALL of the following must be true to set necessary = true:
-- The information is completely absent from the transcript AND from audio cues
-- It has NOT been covered by any previous description
-- A blind viewer would be meaningfully confused or would miss a critical event without this description
-- It describes an action, event, or significant change that directly affects understanding of what happens next
-- There is no other way for a blind viewer to know this information
+### HOW TO DECIDE
+
+STEP 1 — ACCURACY CHECK (look at the frames):
+- Are the objects, characters, and actions in the description ACTUALLY VISIBLE in the frames?
+- If the description mentions specific things (e.g. "a donut, a wedge of cheese, a strawberry") — verify each one is really there.
+- If ANY significant part of the description is not visible in the frames, set accurate = false and necessary = false. Note in the reason that the description appears hallucinated.
+
+STEP 2 — NECESSITY CHECK (only if STEP 1 passes):
+
+REJECT (necessary = false) — DEFAULT TO THIS — if ANY of these apply:
+- The description is inaccurate or hallucinated (failed STEP 1).
+- A reasonable blind viewer could follow the video without it.
+- The transcript, audio cues (music, sound effects, tone of voice), or a prior description already conveys the gist — even partially.
+- It describes appearance, setting, decoration, atmosphere, or background — rather than a discrete action or change.
+- It restates something already established (same character still on screen, same setting continuing, ongoing state).
+- It would feel like an interruption to a sighted viewer watching with the audio description on.
+- The visual is decorative rather than informational.
+
+KEEP (necessary = true) — ONLY if ALL of these are true:
+- The description is accurate (passed STEP 1).
+- It conveys an ACTION, REACTION, CHANGE, REVEAL, or VISUAL GAG — not a static state or appearance.
+- That information is genuinely missing from the transcript, audio cues, AND every prior description.
+- A blind viewer would be confused or would miss something meaningful without it.
+- It is one of the few most important visual moments in the video.
+
+When in doubt, REJECT. The cost of one missing description is small; the cost of cluttered, interrupting descriptions is large.
 
 ### OUTPUT FORMAT
 Return a JSON object with:
-- "necessary": boolean (true or false)
-- "reason": A clear explanation of why this was kept or rejected
+- "necessary": boolean
+- "accurate": boolean (whether the description matches what is in the frames)
+- "reason": brief explanation that mentions both accuracy and necessity
 """
+
+def evaluate_clip_necessity(client, model_name, clip, transcript_data, previous_descriptions,
+                            total_candidates, scene_frames):
+    scene_number = clip.get('scene_number', 0)
+    scene_transcript = [t for t in transcript_data if t.get('scene_number') == scene_number]
+
+    transcript_text = " ".join([segment.get('text', '') for segment in scene_transcript])
+    cumulative_transcript = " ".join([seg.get('text', '') for seg in transcript_data if seg.get('scene_number') <= scene_number])
+    previous_desc_text = " ".join([f"[Scene {desc.get('scene_number')}] {desc.get('type')}: {desc.get('text')}" for desc in previous_descriptions])
+
+    prompt = _build_evaluation_prompt(
+        clip, transcript_text, cumulative_transcript, previous_desc_text, total_candidates
+    )
 
     try:
         result = ""
         if model_name.startswith('gemini'):
             prompt += '\n\nIMPORTANT: Respond with ONLY the raw JSON object, without using markdown ```json ... ``` wrappers.'
+            # Pass frames as inline image parts
+            content_parts = [prompt]
+            for f_b64 in scene_frames:
+                content_parts.append({"mime_type": "image/jpeg", "data": base64.b64decode(f_b64)})
             response = client.generate_content(
-                prompt,
+                content_parts,
                 generation_config={
                     "temperature": 0.2,
-                    "max_output_tokens": 300,
+                    "max_output_tokens": 400,
                     "response_mime_type": "application/json",
                 }
             )
             result = response.text
+
         elif model_name == 'local_qwen':
-            result = _generate_with_qwen(client, prompt, 300, 0.2)
+            # Qwen path stays text-only — local multimodal pipeline isn't wired here.
+            result = _generate_with_qwen(client, prompt, 400, 0.2)
+
         else:  # GPT models
+            user_content = [{"type": "text", "text": prompt}]
+            for f_b64 in scene_frames:
+                user_content.append({
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/jpeg;base64,{f_b64}",
+                        "detail": VERIFICATION_IMAGE_DETAIL
+                    }
+                })
             response = client.chat.completions.create(
                 model=model_name,
                 messages=[
-                    {"role": "system", "content": "You are an accessibility expert performing strict filtering. Your default answer is necessary=false. Only mark necessary=true for truly essential descriptions that a blind viewer cannot do without."},
-                    {"role": "user", "content": prompt}
+                    {"role": "system", "content": "You are an accessibility expert deciding which visual descriptions a blind viewer needs. You MUST verify accuracy by examining the provided frames before considering necessity. Hallucinated or inaccurate descriptions must be rejected."},
+                    {"role": "user", "content": user_content}
                 ],
-                temperature=0.2,
-                max_tokens=300,
+                temperature=0.1,
+                max_tokens=400,
                 response_format={"type": "json_object"}
             )
             result = response.choices[0].message.content.strip()
@@ -143,7 +227,13 @@ Return a JSON object with:
             matches = re.search(r'\{.*\}', result, re.DOTALL)
             json_str = matches.group(0) if matches else result
             analysis = json.loads(json_str)
-            return analysis.get('necessary', False), analysis.get('reason', "No reason provided")
+            necessary = analysis.get('necessary', False)
+            accurate = analysis.get('accurate', None)
+            reason = analysis.get('reason', "No reason provided")
+            # Defensive: if model says inaccurate but somehow set necessary=true, override.
+            if accurate is False:
+                necessary = False
+            return necessary, reason
         except json.JSONDecodeError:
             print(f"Failed to parse JSON for clip in scene {scene_number}.")
             return False, "Failed to parse model response"
@@ -192,7 +282,7 @@ Provide only the optimized description text, with no extra commentary or quotati
                     {"role": "system", "content": "You are an expert audio describer who writes concise text."},
                     {"role": "user", "content": prompt}
                 ],
-                temperature=1.0,
+                temperature=0.1,
                 max_tokens=100
             )
             optimized_text = response.choices[0].message.content.strip()
@@ -312,6 +402,14 @@ def main():
             transcript_segment['scene_number'] = scene_number
             transcript_data.append(transcript_segment)
 
+    # Build a lookup from scene_number -> scene_path so we can extract verification frames
+    scene_path_by_number = {}
+    for scene in scene_info:
+        sn = scene.get('scene_number')
+        sp = scene.get('scene_path')
+        if sn is not None and sp:
+            scene_path_by_number[sn] = sp
+
     print(f"Loaded transcript with {len(transcript_data)} segments")
     print(f"Loaded {len(audio_clips)} descriptions from {os.path.basename(audio_clips_path)}")
 
@@ -327,6 +425,22 @@ def main():
     final_clips, previous_descriptions = [], []
     clips_kept, clips_removed = 0, 0
 
+    # Cache scene frames so we don't re-extract for every clip in the same scene
+    frames_cache = {}
+
+    def get_frames_for_scene(scene_num):
+        if scene_num in frames_cache:
+            return frames_cache[scene_num]
+        path = scene_path_by_number.get(scene_num)
+        if not path:
+            print(f"  [warn] No scene_path for scene {scene_num}; verification will fall back to text-only context.")
+            frames = []
+        else:
+            frames = extract_scene_frames(path)
+            print(f"  Extracted {len(frames)} verification frames for scene {scene_num}")
+        frames_cache[scene_num] = frames
+        return frames
+
     for clip in audio_clips:
         is_non_gap_visual = clip.get('type') == 'Visual' and not clip.get('fits_in_gap', True)
 
@@ -334,8 +448,11 @@ def main():
             print(f"\n===== EVALUATING CLIP IN SCENE {clip['scene_number']} =====")
             print(f"Description: \"{clip['text']}\"")
 
+            scene_frames = get_frames_for_scene(clip.get('scene_number'))
+
             is_necessary, reason = evaluate_clip_necessity(
-                client, model_to_use, clip, transcript_data, previous_descriptions, total_candidates
+                client, model_to_use, clip, transcript_data, previous_descriptions,
+                total_candidates, scene_frames
             )
             print(f"REASON: {reason}")
 
@@ -349,7 +466,7 @@ def main():
                 previous_descriptions.append(optimized_clip)
             else:
                 clips_removed += 1
-                print("STATUS: Removed as unnecessary.")
+                print("STATUS: Removed as unnecessary or inaccurate.")
         else:
             final_clips.append(clip)
             previous_descriptions.append(clip)
@@ -368,7 +485,7 @@ def main():
     if not args.no_analyze_necessity:
         print(f"Non-gap visual descriptions evaluated: {total_candidates}")
         print(f"  - Kept and optimized: {clips_kept}")
-        print(f"  - Removed as unnecessary: {clips_removed}")
+        print(f"  - Removed (unnecessary or inaccurate): {clips_removed}")
         if total_candidates > 0:
             print(f"  - Rejection rate: {clips_removed / total_candidates:.0%}")
 
