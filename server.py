@@ -119,7 +119,7 @@ class UnifiedVideoRequest(BaseModel):
     youtube_id: str
     user_id: Optional[str] = None
     ai_user_id: Optional[str] = None
-    data_type: DataType = DataType.GPT
+    data_type: DataType = DataType.GEMINI
 
 async def run_query_script(command):
     process = await asyncio.create_subprocess_exec(
@@ -210,7 +210,7 @@ async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_use
     try:
         logger.info(f"Starting background pipeline processing for {video_id}")
         
-        command = [PYTHON, "test_pipeline.py", "--video_id", video_id]
+        command = [PYTHON, "test_pipeline.py", "--video_id", video_id, "--model", "gemini"]
         process = await asyncio.create_subprocess_exec(
             *command,
             stdout=sys.stdout,

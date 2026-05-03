@@ -6,8 +6,8 @@ import argparse
 import subprocess
 import time
 import torch
-import google as genai
-from google.genai.types import HarmCategory, HarmBlockThreshold
+from google import genai
+from google.genai import types
 import openai
 import base64
 import cv2
@@ -39,6 +39,15 @@ CHARACTER IDENTIFICATION GUIDELINES (for "Visual" events):
 - Use the most specific identification possible based on context.
 """
 
+INSTRUCTIONAL_VOICE_RULE = """
+        ### INSTRUCTIONAL VOICE (this is a how-to/recipe/tutorial video):
+        Use IMPERATIVE voice. Describe each step as the action itself, NOT as "a hand" or "the person" performing it.
+        - BAD: "A hand pours water into the bowl."   GOOD: "Pour water into the bowl."
+        - BAD: "The person whisks the eggs."          GOOD: "Whisk the eggs."
+        - BAD: "Someone places the dough on a tray." GOOD: "Place the dough on a tray."
+        Do not name a generic actor (hand, person, someone, you) when the action alone conveys the step.
+"""
+
 PROMPT_TEMPLATE = """
         Scene Duration: {scene_duration:.2f} seconds
 
@@ -63,21 +72,18 @@ PROMPT_TEMPLATE = """
             - Decorative or ambient text that is part of the set/environment
 
         CRITICAL FILTERING TEST: Before including ANY text event, ask yourself:
-        - "Would a blind viewer miss important information without this?" If NO → exclude it.
-        - "Is this text already conveyed by the audio/narration?" If YES → exclude it.
-        - "Is this background/environmental text?" If YES → exclude it.
+        - "Would a blind viewer miss important information without this?" If NO -> exclude it.
+        - "Is this text already conveyed by the audio/narration?" If YES -> exclude it.
+        - "Is this background/environmental text?" If YES -> exclude it.
 
         If no text passes these filters, return an EMPTY array for text events. Having zero text events is perfectly acceptable and often correct.
-
-        For text that does pass: include the EXACT `start_time` in seconds when the text appears. Combine events that have the same start_time or appear within 2 seconds of each other.
 
         ============================================================
         STEP 2: Visual Events ("type": "Visual")
         ============================================================
         - Provide a precise, context-rich visual description using minimal but impactful words.
-        - Describe each action in this scene in specific detail.
+        - Describe each visual event in this scene in specific details.
         - Focus on key actions, settings, objects that aren't mentioned in previous description.
-        - Include clear start times for each visual event.
         - IMPORTANT: DO NOT repeat any Text on Screen content as a Visual event.
         - DO NOT REPEAT visual events from previous scenes.
 
@@ -85,13 +91,27 @@ PROMPT_TEMPLATE = """
             - STRICTLY PROHIBITED: Never use the real names of actors, celebrities, or public figures, even if you recognize them. Use the character's name from context, never the performer's real name.
             - If character names are provided anywhere in the context above (including in the visual history of previous scenes), you MUST use them.
             - If NO character names are available anywhere in the context, describe people using neutral, descriptive terms based on their appearance.
-
+            
+        {voice_rule}
+        
         ### SELF-CHECK BEFORE RESPONDING
         For each Visual event you wrote, ask yourself: "Is there a character name anywhere in the context — including the visual history from previous scenes — that I could have used here instead of a generic term like 'person', 'man', 'woman', 'cat', 'dog', 'child', 'boy', 'girl'?" If yes, REWRITE that description using the name before returning your answer.
 
+        ============================================================
+        TIMING REQUIREMENTS (CRITICAL — READ CAREFULLY)
+        ============================================================
+        - "timestamp" is in MM:SS format, RELATIVE TO THE START OF THIS SCENE.
+        - The scene starts at 00:00 and ends at approximately {scene_mmss}.
+        - Watch the video carefully and report the precise moment each event BEGINS.
+        - For Visual events: the timestamp is the moment the action or state FIRST becomes visible.
+        - For Text on Screen events: the timestamp is the first frame the text appears.
+        - DO NOT default to 00:00, 00:01, 00:02 sequentially. Give the ACTUAL moment in the video when each event happens.
+        - Use exact seconds (e.g., "00:03", "00:07", "00:14") — observe the video, do not guess.
+        - If two events happen at the same moment, give them the same timestamp.
+
         ### OUTPUT FORMAT (STRICT):
             Return ONLY a JSON object with this EXACT structure:
-            {{"events": [ {{"start_time": <number>, "type": "Visual" or "Text on Screen", "text": "<description>"}}, ... ]}}
+            {{"events": [ {{"timestamp": "MM:SS", "type": "Visual" or "Text on Screen", "text": "<description>"}}, ... ]}}
 
             - The `events` field MUST always be an array, even if there is only one event or zero events.
             - Do NOT return a bare event object. Do NOT return a bare array. Do NOT wrap in markdown fences.
@@ -102,20 +122,10 @@ PROMPT_TEMPLATE = """
 
 MODEL_CONFIGS = {
     MODEL_GEMINI: {
-        "model_name": "gemini-2.5-pro",
-        "system_instruction": f"You are an expert video analysis AI. You describe ONLY what is visibly present in the video. You never invent or infer objects, characters, or actions that are not clearly shown. You ALWAYS use character names from the provided context (including visual history from previous scenes) instead of generic terms like 'man' or 'woman' whenever any name is available.\n{AUDIO_DESCRIPTION_GUIDELINES}",
-        "generation_config": {
-            "temperature": 0.4,
-            "max_output_tokens": 512,
-            "response_mime_type": "application/json",
-        },
-        "safety_settings": {
-            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-        },
-        "max_retries": 2
+        "model_name": "gemini-3-flash-preview",
+        "system_instruction": f"You are an expert audio describer AI describing video content to blind and low vision audiences. You describe ONLY what is clearly visible in the frames. You NEVER invent objects, characters, or actions that are not actually shown. You always use character names rather than bare pronouns.\n{AUDIO_DESCRIPTION_GUIDELINES}",
+        "max_retries": 2,
+        "video_fps": 3.5,  
     },
     MODEL_QWEN: {
         "model_path": "Qwen/Qwen2.5-VL-72B-Instruct",
@@ -144,6 +154,73 @@ MODEL_CONFIGS = {
     }
 }
 
+# Categories that should use instructional voice (no "a hand", "the person", etc.).
+INSTRUCTIONAL_CATEGORIES = {
+    "howto & style", "howto", "education", "science & technology",
+    "recipe", "tutorial", "diy", "cooking",
+}
+
+
+def is_instructional_category(video_category: str) -> bool:
+    """Return True if the video category warrants instructional-voice descriptions."""
+    if not video_category:
+        return False
+    cat_lower = video_category.lower().strip()
+    return any(keyword in cat_lower for keyword in INSTRUCTIONAL_CATEGORIES)
+
+
+# JSON schema for Gemini structured output. Forces consistent shape and types.
+GEMINI_RESPONSE_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "events": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "type": "string",
+                        "description": "Time in MM:SS format relative to start of scene"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": ["Visual", "Text on Screen"]
+                    },
+                    "text": {"type": "string"},
+                },
+                "required": ["timestamp", "type", "text"],
+            },
+        }
+    },
+    "required": ["events"],
+}
+
+
+def seconds_to_mmss(total_seconds: float) -> str:
+    """Convert seconds (float) to MM:SS string."""
+    total_seconds = max(0, int(round(total_seconds)))
+    minutes = total_seconds // 60
+    seconds = total_seconds % 60
+    return f"{minutes:02d}:{seconds:02d}"
+
+
+def mmss_to_seconds(timestamp) -> float:
+    """Convert MM:SS string (or already-numeric value) to float seconds. Returns 0.0 on parse failure."""
+    if isinstance(timestamp, (int, float)):
+        return float(timestamp)
+    if not isinstance(timestamp, str):
+        return 0.0
+    s = timestamp.strip()
+    parts = s.split(":")
+    try:
+        if len(parts) == 2:
+            return int(parts[0]) * 60 + float(parts[1])
+        if len(parts) == 3:
+            return int(parts[0]) * 3600 + int(parts[1]) * 60 + float(parts[2])
+        return float(s)
+    except (ValueError, TypeError):
+        return 0.0
+
 
 def standardize_video_for_processing(input_path: str) -> str:
     input_dir = os.path.dirname(input_path)
@@ -170,7 +247,7 @@ def _coerce_to_event_list(data) -> list:
             if key in data and isinstance(data[key], list):
                 return [e for e in data[key] if isinstance(e, dict)]
 
-        if "text" in data and ("type" in data or "start_time" in data):
+        if "text" in data and ("type" in data or "start_time" in data or "timestamp" in data):
             return [data]
 
         for v in data.values():
@@ -215,6 +292,21 @@ def extract_and_parse_json(response_text: str) -> list:
 
     print(f"Warning: Could not parse JSON from response: {response_text[:200]}...")
     return []
+
+
+def normalize_event_timing(event: dict, scene_duration: float) -> dict:
+    """Convert any timestamp/start_time field to a clamped float `start_time` in seconds."""
+    raw = event.get("timestamp", event.get("start_time", 0))
+    seconds = mmss_to_seconds(raw)
+
+    if scene_duration > 0:
+        seconds = max(0.0, min(seconds, scene_duration))
+    else:
+        seconds = max(0.0, seconds)
+
+    event["start_time"] = round(seconds, 2)
+    event.pop("timestamp", None)
+    return event
 
 
 def prepare_context_block_for_scene(base_context, video_category, current_scene_data, scene_idx):
@@ -329,9 +421,17 @@ def get_scene_events_from_model(chosen_model_type, model_client, scene_data, vid
     scene_number_display = scene_data.get('scene_number', scene_idx + 1)
     context_block = prepare_context_block_for_scene(
         base_context_for_current_scene, video_category, scene_data, scene_idx)
+    scene_mmss = seconds_to_mmss(scene_duration)
+    voice_rule = INSTRUCTIONAL_VOICE_RULE if is_instructional_category(video_category) else ""
     user_prompt = PROMPT_TEMPLATE.format(
-        scene_duration=scene_duration, context_block=context_block)
-
+        scene_duration=scene_duration,
+        scene_mmss=scene_mmss,
+        context_block=context_block,
+        voice_rule=voice_rule,
+    )
+    if is_instructional_category(video_category):
+        print(f"  [voice] Using INSTRUCTIONAL voice for category: {video_category}")
+        
     print(f"\n--- Processing Scene {scene_number_display} with {chosen_model_type.upper()} ---")
     model_specific_config = MODEL_CONFIGS[chosen_model_type]
     max_retries = model_specific_config.get("max_retries", 2)
@@ -340,14 +440,48 @@ def get_scene_events_from_model(chosen_model_type, model_client, scene_data, vid
         try:
             if chosen_model_type == MODEL_GEMINI:
                 with open(video_path, "rb") as video_file:
-                    video_part = {"mime_type": "video/mp4", "data": video_file.read()}
-                response = model_client.generate_content(
-                    [user_prompt, video_part],
-                    generation_config=model_specific_config["generation_config"],
-                    safety_settings=model_specific_config["safety_settings"],
-                    request_options={"timeout": 240}
+                    video_bytes = video_file.read()
+
+                video_fps = model_specific_config.get("video_fps", 1.0)
+                video_part = types.Part(
+                    inline_data=types.Blob(mime_type="video/mp4", data=video_bytes),
+                    video_metadata=types.VideoMetadata(fps=video_fps),
                 )
-                response_text = "".join(part.text for part in response.candidates[0].content.parts if hasattr(part, 'text'))
+
+                response = model_client["client"].models.generate_content(
+                    model=model_client["model_name"],
+                    contents=[video_part, user_prompt],
+                    config=types.GenerateContentConfig(
+                        system_instruction=model_client["system_instruction"],
+                        temperature=0.0,
+                        max_output_tokens=8912,
+                        response_mime_type="application/json",
+                        response_schema=GEMINI_RESPONSE_SCHEMA,
+                        safety_settings=[
+                            types.SafetySetting(category=c, threshold=types.HarmBlockThreshold.BLOCK_NONE)
+                            for c in (
+                                types.HarmCategory.HARM_CATEGORY_HARASSMENT,
+                                types.HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+                                types.HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+                                types.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+                            )
+                        ],
+                    ),
+                )
+                response_text = response.text
+
+                # Diagnostics — useful when things go wrong, harmless when they don't.
+                try:
+                    candidate = response.candidates[0]
+                    finish_reason = getattr(candidate, "finish_reason", "unknown")
+                    print(f"[DEBUG] finish_reason: {finish_reason}")
+                    if response.usage_metadata:
+                        um = response.usage_metadata
+                        print(f"[DEBUG] tokens — prompt: {um.prompt_token_count}, "
+                              f"output: {um.candidates_token_count}, "
+                              f"thoughts: {getattr(um, 'thoughts_token_count', 'n/a')}")
+                except Exception:
+                    pass
 
                 print("\n--- Raw Gemini Response ---")
                 print(response_text)
@@ -385,7 +519,6 @@ def get_scene_events_from_model(chosen_model_type, model_client, scene_data, vid
                 return extract_and_parse_json(response_text)
 
             elif chosen_model_type == MODEL_GPT4:
-                # Frame count scales with scene duration.
                 seconds_per_frame = model_specific_config.get("seconds_per_frame", 1.0)
                 min_frames = model_specific_config.get("min_frames_per_scene", 4)
                 max_frames = model_specific_config.get("max_frames_per_scene", 60)
@@ -462,7 +595,6 @@ def process_video_folder(video_folder_path, model_client, chosen_model_type, out
         scene_list = json.load(f)
     print(f"Processing {len(scene_list)} scenes for video: '{video_title}'...")
 
-    # Initial context for scene 1
     context_for_api_call = f"Video Title: {video_title}"
     if video_description:
         context_for_api_call += f"\nVideo Description: {video_description}"
@@ -473,13 +605,12 @@ def process_video_folder(video_folder_path, model_client, chosen_model_type, out
         for segment in scene_data.get('transcript', []):
             all_transcript_data.append(segment)
 
-    # Accumulate every Visual description from every processed scene.
-    # Each entry: {"scene_number": int, "visuals": [str, ...]}
     all_prior_scene_visuals = []
 
     for i, scene_data in enumerate(scene_list):
         original_scene_path = scene_data.get('scene_path')
         scene_number = scene_data.get('scene_number', i + 1)
+        scene_duration = scene_data.get("duration", 0.0)
 
         if not original_scene_path or not os.path.exists(original_scene_path):
             print(f"Scene {scene_number}: Path missing or file not found. Skipping.")
@@ -500,11 +631,14 @@ def process_video_folder(video_folder_path, model_client, chosen_model_type, out
             current_scene_visual_texts = []
             if isinstance(scene_events_raw, list):
                 for event in scene_events_raw:
-                    if not (isinstance(event, dict) and "start_time" in event and "type" in event and "text" in event): continue
-                    try:
-                        event["start_time"] = float(event["start_time"])
-                    except (ValueError, TypeError):
-                        event["start_time"] = 0.0
+                    if not isinstance(event, dict):
+                        continue
+                    if "type" not in event or "text" not in event:
+                        continue
+                    if "timestamp" not in event and "start_time" not in event:
+                        continue
+
+                    event = normalize_event_timing(event, scene_duration)
 
                     if event["type"] == "Visual":
                         current_scene_visual_texts.append(event["text"].strip())
@@ -515,13 +649,11 @@ def process_video_folder(video_folder_path, model_client, chosen_model_type, out
 
             scene_data['audio_clips'] = sorted(processed_events, key=lambda e: e.get("start_time", 0))
 
-            # Record ALL visuals from this scene so later scenes see them.
             all_prior_scene_visuals.append({
                 "scene_number": scene_number,
                 "visuals": list(current_scene_visual_texts)
             })
 
-            # Rebuild context from scratch with the full history of prior visuals.
             next_base_context = f"Video Title: {video_title}"
             if video_description:
                 next_base_context += f"\nVideo Description: {video_description}"
@@ -579,14 +711,16 @@ def main():
 
     if args.model == MODEL_GEMINI:
         google_api_key = os.getenv("GEMINI_API_KEY")
-        if not google_api_key: raise ValueError("GEMINI_API_KEY environment variable not set.")
-        genai.configure(api_key=google_api_key)
+        if not google_api_key:
+            raise ValueError("GEMINI_API_KEY environment variable not set.")
 
         print(f"Initializing Gemini API for model: {MODEL_CONFIGS[MODEL_GEMINI]['model_name']}")
-        model_client = genai.GenerativeModel(
-            MODEL_CONFIGS[MODEL_GEMINI]['model_name'],
-            system_instruction=MODEL_CONFIGS[MODEL_GEMINI]['system_instruction']
-        )
+        client = genai.Client(api_key=google_api_key)
+        model_client = {
+            "client": client,
+            "model_name": MODEL_CONFIGS[MODEL_GEMINI]["model_name"],
+            "system_instruction": MODEL_CONFIGS[MODEL_GEMINI]["system_instruction"],
+        }
         output_file_suffix = "gemini"
 
     elif args.model == MODEL_QWEN:

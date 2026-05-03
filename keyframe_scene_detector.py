@@ -22,7 +22,7 @@ def get_video_info(video_path):
     fps_output = subprocess.check_output(cmd).decode().strip()
     num, den = fps_output.split('/')
     fps = float(num) / float(den)
-    
+
     cmd2 = [
         "ffprobe", "-v", "error",
         "-select_streams", "v:0",
@@ -53,7 +53,7 @@ def extract_frames_ffmpeg(video_path, output_folder, sample_rate=1):
     except subprocess.CalledProcessError as e:
         print("Error extracting frames:", e.stderr.decode())
         return []
-    
+
     frame_files = sorted(glob.glob(os.path.join(output_folder, "frame_*.jpg")))
     print(f"Extracted {len(frame_files)} frames to {output_folder}")
     return frame_files
@@ -64,7 +64,7 @@ def cosine_similarity(emb1, emb2):
 def detect_keyframes_and_scene_boundaries(embeddings, keyframe_threshold, scene_boundary_threshold):
     if not embeddings:
         return [], []
-    
+
     keyframes = [0]  # Always mark the first frame as candidate keyframe
     scene_boundaries = [0]  # And as a scene boundary
     last_scene_boundary_index = 0
@@ -106,6 +106,7 @@ def extract_video_segment_ffmpeg(video_path, start_time, end_time, output_path):
         print(f"Error extracting segment: {e.stderr.decode()}")
 
 def adjust_scene_segments_target_duration(segments, fps, target_duration):
+    """Merge consecutive short scenes until each is at least target_duration."""
     merged_segments = []
     i = 0
     while i < len(segments):
@@ -120,15 +121,39 @@ def adjust_scene_segments_target_duration(segments, fps, target_duration):
         i += 1
     return merged_segments
 
-def process_video_folder(video_folder, sample_rate, keyframe_threshold, scene_boundary_threshold, 
-                         merge_scenes=False, target_duration=10.0, device="cuda"):
+def split_oversized_scenes(segments, fps, max_duration):
+    """Safety net: split any scene longer than max_duration into evenly-sized
+    chunks of ~max_duration each. Handles cases where the boundary detector
+    misses cuts in long visually-stable stretches (talking heads, B-roll, etc.).
+    Splits are arbitrary timing-wise, but the captioner handles shorter chunks
+    much more reliably than one long chunk."""
+    result = []
+    for start, end in segments:
+        duration = (end - start + 1) / fps
+        if duration <= max_duration:
+            result.append((start, end))
+            continue
+
+        num_pieces = math.ceil(duration / max_duration)
+        frames_per_piece = (end - start + 1) // num_pieces
+        piece_duration = duration / num_pieces
+        print(f"Splitting oversized scene ({duration:.1f}s) into {num_pieces} pieces of ~{piece_duration:.1f}s each.")
+
+        for i in range(num_pieces):
+            piece_start = start + i * frames_per_piece
+            piece_end = (start + (i + 1) * frames_per_piece - 1) if i < num_pieces - 1 else end
+            result.append((piece_start, piece_end))
+
+    return result
+
+def process_video_folder(video_folder, sample_rate, keyframe_threshold, scene_boundary_threshold,
+                         merge_scenes=True, target_duration=9.0, max_duration=30.0, device="cuda"):
     video_id = os.path.basename(os.path.normpath(video_folder))
     video_path = os.path.join(video_folder, f"{video_id}.mp4")
     fps, total_frames = get_video_info(video_path)
     print(f"Processing video: {video_path}")
     print(f"FPS: {fps:.2f}, Total frames: {total_frames}")
-    
-    # --- load metadata if available, but we won't check category anymore ---
+
     metadata_path = os.path.join(video_folder, f"{video_id}.json")
     try:
         with open(metadata_path, 'r') as mf:
@@ -136,7 +161,7 @@ def process_video_folder(video_folder, sample_rate, keyframe_threshold, scene_bo
         print(f"Loaded video metadata")
     except FileNotFoundError:
         video_metadata = {}
-    
+
     # Create a temporary folder for frame extraction.
     temp_folder = os.path.join(video_folder, "frames_temp")
     frame_files = extract_frames_ffmpeg(video_path, temp_folder, sample_rate=sample_rate)
@@ -166,7 +191,7 @@ def process_video_folder(video_folder, sample_rate, keyframe_threshold, scene_bo
     keyframes, scene_boundaries = detect_keyframes_and_scene_boundaries(embeddings, keyframe_threshold, scene_boundary_threshold)
     print(f"Detected {len(keyframes)} candidate keyframes and {len(scene_boundaries)} scene boundaries.")
 
-    # Save candidate keyframe and scene boundary images if requested.
+    # Save candidate keyframe and scene boundary images.
     keyframes_dir = os.path.join(video_folder, "keyframes")
     os.makedirs(keyframes_dir, exist_ok=True)
     keyframe_info = []
@@ -195,34 +220,37 @@ def process_video_folder(video_folder, sample_rate, keyframe_threshold, scene_bo
 
     # Remove temporary folder.
     shutil.rmtree(temp_folder)
-    
-    # natural segmentation
+
+    # Natural segmentation from detected boundaries.
     segments = segment_video_indices(scene_boundaries, total_frames)
     print(f"Natural segmentation → {len(segments)} scenes")
 
-    # Check merge_scenes flag instead of category
+    # Step 1: Optional — merge short scenes up to target_duration.
     if merge_scenes:
-        print(f"Merge scenes flag is set; merging scenes to ~{target_duration}s each")
+        print(f"Merging short scenes to ~{target_duration}s each")
         segments = adjust_scene_segments_target_duration(segments, fps, target_duration)
         print(f"After merging → {len(segments)} scenes")
-    
+
+    # Step 2: Always — split scenes that exceed max_duration (safety net).
+    segments = split_oversized_scenes(segments, fps, max_duration)
+    print(f"After oversized-scene split → {len(segments)} scenes")
+
+    # Step 3: Tiny-scene cleanup. Anything still under 2s gets merged with its
+    # most-similar neighbor (preserves visual continuity better than arbitrary merges).
     i = 0
     while i < len(segments):
         start, end = segments[i]
         seg_duration = (end - start + 1) / fps
 
         if seg_duration < 2.0:
-            # Gather embeddings for this segment
             current_segment_embs = []
             for f in range(start, end + 1):
                 frame_idx = f // sample_rate
                 if frame_idx < len(embeddings):
                     current_segment_embs.append(embeddings[frame_idx])
 
-            # If no embeddings, default to merging with next (or previous if last)
             if not current_segment_embs:
                 if i == len(segments) - 1:
-                    # final tiny segment: merge into previous
                     prev_start, _ = segments[i-1]
                     segments[i-1] = (prev_start, end)
                     segments.pop(i)
@@ -235,10 +263,8 @@ def process_video_folder(video_folder, sample_rate, keyframe_threshold, scene_bo
                     print(f"Default-merged tiny scene ({seg_duration:.2f}s) with next scene.")
                     continue
 
-            # Compute average embedding for current segment
             current_avg_emb = torch.mean(torch.stack(current_segment_embs), dim=0)
 
-            # Compute similarity to previous
             prev_similarity = -1.0
             if i > 0:
                 prev_embs = [
@@ -250,9 +276,7 @@ def process_video_folder(video_folder, sample_rate, keyframe_threshold, scene_bo
                     prev_avg = torch.mean(torch.stack(prev_embs), dim=0)
                     prev_similarity = cosine_similarity(current_avg_emb, prev_avg)
 
-            # Compute similarity to next (or handle as final)
             if i == len(segments) - 1:
-                # final tiny segment: merge into previous
                 prev_start, _ = segments[i-1]
                 segments[i-1] = (prev_start, end)
                 segments.pop(i)
@@ -269,42 +293,39 @@ def process_video_folder(video_folder, sample_rate, keyframe_threshold, scene_bo
                     if next_embs else -1.0
                 )
 
-            # Merge with whichever neighbour is more similar
             if prev_similarity > next_similarity and i > 0:
                 prev_start, _ = segments[i-1]
                 segments[i-1] = (prev_start, end)
                 segments.pop(i)
                 print(f"Merged scene {i+1} ({seg_duration:.2f}s) with previous (sim {prev_similarity:.3f}).")
-                i -= 1  # re-check this newly merged segment
+                i -= 1
             else:
                 next_start, next_end = segments[i+1]
                 segments[i] = (start, next_end)
                 segments.pop(i+1)
                 print(f"Merged scene {i+1} ({seg_duration:.2f}s) with next (sim {next_similarity:.3f}).")
-                # i stays the same to re-check
         else:
             i += 1
 
-    
+
     print(f"Final scene segmentation: {len(segments)} segments")
 
     # Create a folder to store scene segments.
     scenes_dir = os.path.join(video_folder, f"{video_id}_scenes")
     os.makedirs(scenes_dir, exist_ok=True)
-    
+
     # Extract each scene using ffmpeg.
     scene_info = []
     for i, (start_frame, end_frame) in enumerate(segments):
         start_time = start_frame / fps
-        # For the last scene, extract until the end of the video.
         end_time = (end_frame / fps) if i < len(segments) - 1 else (total_frames / fps)
         duration = end_time - start_time
         scene_filename = f"scene_{i+1:03d}.mp4"
         scene_path = os.path.join(scenes_dir, scene_filename)
-        
+
         print(f"\nScene {i+1}: frames {start_frame} to {end_frame}, time {start_time:.2f}s to {end_time:.2f}s (duration: {duration:.2f}s)")
         extract_video_segment_ffmpeg(video_path, start_time, end_time, scene_path)
-        
+
         scene_dict = {
             "scene_number": i + 1,
             "start_frame": start_frame,
@@ -315,7 +336,7 @@ def process_video_folder(video_folder, sample_rate, keyframe_threshold, scene_bo
             "scene_path": scene_path
         }
         scene_info.append(scene_dict)
-    
+
     # Save scene segmentation info to JSON.
     scenes_json_path = os.path.join(scenes_dir, "scene_info.json")
     with open(scenes_json_path, "w") as jf:
@@ -329,21 +350,27 @@ if __name__ == "__main__":
         description="Threshold Keyframe and Scene Boundary Detection with Video Segmentation using CLIP.\n")
     parser.add_argument("video_folder", type=str, help="Path to the video folder (e.g., videos/video_id)")
     parser.add_argument("--sample_rate", type=int, default=1, help="Extract every nth frame (default: 1)")
-    parser.add_argument("--keyframe_threshold", type=float, default=0.95, help="Cosine similarity threshold for candidate keyframes (default: 0.95)")
-    parser.add_argument("--scene_boundary_threshold", type=float, default=0.85, help="Cosine similarity threshold for scene boundaries (default: 0.85)")
+    parser.add_argument("--keyframe_threshold", type=float, default=0.95,
+                        help="Cosine similarity threshold for candidate keyframes (default: 0.95)")
+    parser.add_argument("--scene_boundary_threshold", type=float, default=0.88,
+                        help="Cosine similarity threshold for scene boundaries (default: 0.88)")
     parser.add_argument("--device", type=str, default="cuda", help="Device to run CLIP (default: cuda)")
-    # Add new arguments for scene merging
-    parser.add_argument("--merge_scenes", action="store_true", default=False, help="Enable scene merging to target duration")
-    parser.add_argument("--target_duration", type=float, default=10.0, help="Target duration for merged scenes in seconds (default: 10.0)")
+    parser.add_argument("--merge_scenes", action="store_true", default=False,
+                        help="Enable scene merging to target duration (default: off)")
+    parser.add_argument("--target_duration", type=float, default=9.0,
+                        help="Merge short scenes up to this size in seconds (default: 9.0)")
+    parser.add_argument("--max_duration", type=float, default=30.0,
+                        help="Force-split scenes longer than this many seconds. Acts as a safety net "
+                             "when boundary detection misses cuts in long static content. (default: 30.0)")
     args = parser.parse_args()
-    
-    # Pass the merge_scenes and target_duration arguments to the process_video_folder function
+
     result = process_video_folder(
-        args.video_folder, 
-        args.sample_rate, 
-        args.keyframe_threshold, 
+        args.video_folder,
+        args.sample_rate,
+        args.keyframe_threshold,
         args.scene_boundary_threshold,
         merge_scenes=args.merge_scenes,
         target_duration=args.target_duration,
+        max_duration=args.max_duration,
         device=args.device
     )
