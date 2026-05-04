@@ -210,7 +210,7 @@ async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_use
     try:
         logger.info(f"Starting background pipeline processing for {video_id}")
         
-        command = [PYTHON, "test_pipeline.py", "--video_id", video_id, "--model", "gemini"]
+        command = [PYTHON, "test_pipeline.py", "--video_id", video_id, "--model", data_type.value,]
         process = await asyncio.create_subprocess_exec(
             *command,
             stdout=sys.stdout,

@@ -26,7 +26,7 @@ load_dotenv()
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
 # Constants
-WHISPER_MODEL = "base"
+WHISPER_MODEL = "large-v3-turbo"
 
 # Load English dictionary for garbage detection
 try:
@@ -180,114 +180,95 @@ def is_garbage(text: str) -> bool:
     return False
 
 
-def verify_transcriptions(whisper_transcripts, google_transcripts, wer_threshold=0.30, confidence_threshold=0.90):
-    verified = []
+def verify_transcriptions(whisper_transcripts, google_transcripts, wer_threshold=0.35, confidence_threshold=0.80):
+    """
+    Decide which Whisper segments to keep, using Google as a sanity check.
 
-    # If no Google transcript is available, filter Whisper by confidence
+    Strategy:
+      1. Drop garbage Whisper segments (repetition / non-words).
+      2. If Google agrees with Whisper globally (WER <= threshold), keep all surviving Whisper segments.
+      3. Otherwise, fall back to keeping only high-confidence Whisper segments.
+    """
+    # Step 1: filter garbage from Whisper up front
+    clean_whisper = []
+    for w in whisper_transcripts:
+        raw_w = w.get("text", "").strip()
+        if not raw_w:
+            continue
+        if is_garbage(raw_w):
+            print(f"Discarded Whisper (not real speech): \"{raw_w[:80]}\"")
+            continue
+        clean_whisper.append(w)
+
+    if not clean_whisper:
+        print("No usable Whisper segments after garbage filter.")
+        return []
+
+    def to_segment(w):
+        return {
+            "text":  w.get("text", "").strip(),
+            "start": w.get("start"),
+            "end":   w.get("end"),
+        }
+
+    # Step 2: no Google -> fall back to confidence filter on Whisper alone
     if not google_transcripts:
-        for w in whisper_transcripts:
-            raw_w = w.get("text", "").strip()
-            if not raw_w:
-                continue
-
-            if is_garbage(raw_w):
-                print(f"Discarded Whisper (not real speech): \"{raw_w[:80]}\"")
-                continue
-
+        verified = []
+        for w in clean_whisper:
             conf = w.get("confidence", 0)
             if conf >= confidence_threshold:
-                segment = {
-                    "text":  raw_w,
-                    "start": w.get("start"),
-                    "end":   w.get("end")
-                }
-                verified.append(segment)
-                print(f"Added WHISPER_HIGH_CONFIDENCE: \"{segment['text']}\" "
-                      f"({segment['start']}–{segment['end']}) conf={conf:.2f}")
+                seg = to_segment(w)
+                verified.append(seg)
+                print(f"Added WHISPER_HIGH_CONFIDENCE: \"{seg['text']}\" "
+                      f"({seg['start']}–{seg['end']}) conf={conf:.2f}")
             else:
-                print(f"Discarded Whisper (conf {conf:.2f} < {confidence_threshold}): \"{raw_w}\"")
+                print(f"Discarded Whisper (no Google, conf {conf:.2f} < {confidence_threshold}): \"{w.get('text','').strip()}\"")
         verified.sort(key=lambda s: s.get("start", 0))
         return verified
 
-    whisper_combined = " ".join([w.get("text", "").strip() for w in whisper_transcripts if w.get("text", "").strip()])
-    norm_whisper_combined = normalize(whisper_combined)
-    print(f'NORM WHISPER, {norm_whisper_combined}')
+    # Step 3: compare Whisper and Google globally
+    whisper_combined = " ".join(w.get("text", "").strip() for w in clean_whisper)
+    google_combined  = " ".join(g.get("text", "").strip() for g in google_transcripts if g.get("text", "").strip())
 
-    google_combined = " ".join([g.get("text", "").strip() for g in google_transcripts if g.get("text", "").strip()])
-    norm_google_combined = normalize(google_combined)
-    print(f'NORM GOOGLE, {norm_google_combined}')
+    norm_whisper = normalize(whisper_combined)
+    norm_google  = normalize(google_combined)
+    print(f"NORM WHISPER, {norm_whisper}")
+    print(f"NORM GOOGLE,  {norm_google}")
 
-    overall_wer = wer(norm_google_combined, norm_whisper_combined)
+    if not norm_google:
+        print("Google transcript empty after normalization; falling back to confidence filter.")
+        verified = []
+        for w in clean_whisper:
+            conf = w.get("confidence", 0)
+            if conf >= confidence_threshold:
+                verified.append(to_segment(w))
+        verified.sort(key=lambda s: s.get("start", 0))
+        return verified
+
+    overall_wer = wer(norm_google, norm_whisper)
     print(f"Overall WER between combined transcripts: {overall_wer:.4f}")
 
+    verified = []
+
     if overall_wer <= wer_threshold:
-        print(f"Combined transcripts are similar (WER={overall_wer:.4f} <= {wer_threshold})")
-        print(f"Using all Whisper segments (verified)")
-
-        for w in whisper_transcripts:
-            raw_w = w.get("text", "").strip()
-            if not raw_w:
-                continue
-
-            if is_garbage(raw_w):
-                print(f"Discarded Whisper (not real speech): \"{raw_w[:80]}\"")
-                continue
-
-            segment = {
-                "text": raw_w,
-                "start": w.get("start"),
-                "end": w.get("end")
-            }
-            verified.append(segment)
-            print(f"Added VERIFIED_WHISPER: \"{segment['text']}\" "
-                  f"({segment['start']}–{segment['end']})")
+        # Whisper and Google substantially agree -> trust all surviving Whisper segments
+        print(f"Transcripts agree (WER={overall_wer:.4f} <= {wer_threshold}); keeping all Whisper segments.")
+        for w in clean_whisper:
+            seg = to_segment(w)
+            verified.append(seg)
+            print(f"Added VERIFIED_WHISPER: \"{seg['text']}\" ({seg['start']}–{seg['end']})")
     else:
-        print(f"Combined transcripts differ significantly (WER={overall_wer:.4f} > {wer_threshold})")
-        print(f"Checking individual segments")
-
-        for w in whisper_transcripts:
-            raw_w = w.get("text", "").strip()
-            if not raw_w:
-                continue
-
-            if is_garbage(raw_w):
-                print(f"Discarded Whisper (not real speech): \"{raw_w[:80]}\"")
-                continue
-
-            conf_w = w.get("confidence", 0)
-            w_start = w.get("start", 0)
-            w_end = w.get("end", 0)
-
-            matching_g = next((g for g in google_transcripts if w_start <= g.get("start", 0) < w_end), None)
-
-            if matching_g:
-                # Also reject if Google's segment is itself garbage (e.g. just "la")
-                if is_garbage(matching_g["text"]):
-                    print(f"Discarded segment (Google segment also non-speech): \"{matching_g['text']}\"")
-                    continue
-
-                seg_wer = wer(normalize(matching_g["text"]), normalize(raw_w))
-                if seg_wer <= wer_threshold:
-                    segment = {
-                        "text": raw_w,
-                        "start": w_start,
-                        "end": w_end
-                    }
-                    verified.append(segment)
-                    print(f"Added WHISPER (agrees with Google, seg_wer={seg_wer:.2f}): \"{segment['text']}\" "
-                          f"({segment['start']}–{segment['end']}) conf={conf_w:.2f}")
-                else:
-                    segment = {
-                        "text": matching_g["text"].strip(),
-                        "start": matching_g["start"],
-                        "end": matching_g["end"]
-                    }
-                    verified.append(segment)
-                    print(f"Added GOOGLE (disagrees with Whisper, seg_wer={seg_wer:.2f}): \"{segment['text']}\" "
-                          f"({segment['start']}–{segment['end']})")
+        # Disagreement -> only trust Whisper where the model is itself confident
+        print(f"Transcripts disagree (WER={overall_wer:.4f} > {wer_threshold}); keeping only high-confidence Whisper.")
+        for w in clean_whisper:
+            conf = w.get("confidence", 0)
+            if conf >= confidence_threshold:
+                seg = to_segment(w)
+                verified.append(seg)
+                print(f"Added WHISPER_HIGH_CONFIDENCE: \"{seg['text']}\" "
+                      f"({seg['start']}–{seg['end']}) conf={conf:.2f}")
             else:
-                print(f"Discarded Whisper (no Google overlap, likely hallucination): \"{raw_w[:80]}\" "
-                      f"({w_start}–{w_end}) conf={conf_w:.2f}")
+                print(f"Discarded Whisper (low conf {conf:.2f} amid disagreement): \"{w.get('text','').strip()}\"")
 
     verified.sort(key=lambda s: s.get("start", 0))
     print(f"Verification complete: {len(verified)} segments added.")

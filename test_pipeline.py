@@ -137,7 +137,7 @@ def run_pipeline(video_id: str, model: str) -> bool:
             "check": lambda: check_youtube_downloaded(video_id),
         },
         {
-            "command": f"{PYTHON} keyframe_scene_detector.py videos/{video_id} --merge_scenes --target_duration 9.0 --max_duration 15.0 {device_flag}",
+            "command": f"{PYTHON} keyframe_scene_detector.py videos/{video_id} --merge_scenes --target_duration 9.0 --max_duration 20.0 {device_flag}",
             "check": lambda: check_keyframe_scene_detector(video_id),
         },
         {
