@@ -19,7 +19,7 @@ MODEL_GEMINI = "gemini"
 MODEL_GPT = "gpt"
 
 # Match the captioner's video sampling rate.
-SCENE_SAMPLING_FPS = 3.5
+SCENE_SAMPLING_FPS = 4.0
 MAX_FRAMES_FOR_IMAGE_BACKEND = 60
 VERIFICATION_IMAGE_DETAIL = "low"
 
