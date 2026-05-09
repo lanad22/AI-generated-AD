@@ -74,6 +74,16 @@ def check_video_caption(video_id: str, model: str) -> bool:
         return False
 
 
+def check_clip_dedup(video_id: str, model: str) -> bool:
+    """clip_dedup.py outputs scene_info_{model}_deduped.json."""
+    deduped_path = os.path.join(
+        "videos", video_id, f"{video_id}_scenes", f"scene_info_{model}_deduped.json"
+    )
+    result = os.path.exists(deduped_path)
+    logger.debug(f"Check clip_dedup for {video_id}: {result}")
+    return result
+
+
 def check_clip_analyze(video_id: str, model: str) -> bool:
     """clip_analyze.py outputs scene_info_{model}_filtered.json."""
     filtered_path = os.path.join("videos", video_id, f"{video_id}_scenes", f"scene_info_{model}_filtered.json")
@@ -128,9 +138,10 @@ def run_pipeline(video_id: str, model: str) -> bool:
     # 2. keyframe_scene_detector    → split into scenes
     # 3. transcribe_scenes          → per-scene transcript
     # 4. video_caption              → AI-generated descriptions per scene
-    # 5. clip_analyze               → filter for accuracy + necessity
-    # 6. description_optimize_inline → place + merge on the timeline
-    # 7. prepare_final_data         → produce final_data_{model}.json
+    # 5. clip_dedup                 → resolve same-start-time redundancy (one survivor per cluster)
+    # 6. clip_analyze               → filter for accuracy + necessity
+    # 7. description_optimize_inline → place + merge on the timeline
+    # 8. prepare_final_data         → produce final_data_{model}.json
     pipeline_steps = [
         {
             "command": f"{PYTHON} fetch_video.py {video_id}",
@@ -147,6 +158,10 @@ def run_pipeline(video_id: str, model: str) -> bool:
         {
             "command": f"{PYTHON} video_caption.py videos/{video_id} --model {model}",
             "check": lambda: check_video_caption(video_id, model),
+        },
+        {
+            "command": f"{PYTHON} clip_dedup.py videos/{video_id} --model {model}",
+            "check": lambda: check_clip_dedup(video_id, model),
         },
         {
             "command": f"{PYTHON} clip_analyze.py videos/{video_id} --model {model}",

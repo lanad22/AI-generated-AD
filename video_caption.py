@@ -54,68 +54,57 @@ PROMPT_TEMPLATE = """
         CONTEXT FOR CURRENT SCENE ANALYSIS:
         {context_block}
 
-        You are analyzing a video scene. Identify specific characters, locations, and any important elements mentioned in the context.
+        You are analyzing a video scene for a blind and low-vision audience. Identify specific characters, locations, and any important elements mentioned in the context.
 
         ============================================================
         STEP 1: Text on Screen Events ("type": "Text on Screen")
         ============================================================
-        Capture ONLY on-screen text that meets ALL of the following criteria:
-        1. It is clearly visible, intentional overlay text (titles, headings, names, dates, locations, informational text).
-        2. It is NOT already spoken in the transcript above. If the narrator reads the text aloud — even approximately or paraphrased — DO NOT include it.
-        3. It is NOT any of the following (ALWAYS EXCLUDE these):
-            - Brand logos, channel logos, or watermarks (even stylized or semi-transparent ones)
-            - Network logos or station identifiers
-            - Social media handles, URLs, or hashtags
-            - Copyright notices or legal text
-            - Subtitles or closed captions
-            - Incidental background text (signs, posters, book spines, labels on objects) UNLESS the text is clearly the focal point of the scene
-            - Decorative or ambient text that is part of the set/environment
-
-        CRITICAL FILTERING TEST: Before including ANY text event, ask yourself:
-        - "Would a blind viewer miss important information without this?" If NO -> exclude it.
-        - "Is this text already conveyed by the audio/narration?" If YES -> exclude it.
-        - "Is this background/environmental text?" If YES -> exclude it.
-
-        If no text passes these filters, return an EMPTY array for text events. Having zero text events is perfectly acceptable and often correct.
+        **ACCESSIBILITY PRIORITY:** You MUST transcribe ALL major text that appears on screen, including narrative text blocks, slide titles, bullet points, and checklists. This text is NOT in the audio, so blind viewers rely on your transcription to understand the story.
+        
+        Capture text that meets these criteria:
+        1. It is clearly visible narrative text.
+        2. It is a heading, name, date, or informational list.
+        
+        ONLY EXCLUDE:
+        - Brand/Network logos or watermarks.
+        - Social media handles, URLs, or copyright fine print.
+        - Decorative background text that has no narrative value.
 
         ============================================================
         STEP 2: Visual Events ("type": "Visual")
         ============================================================
         - Provide a precise, context-rich visual description using minimal but impactful words.
         - Describe each visual event in this scene in specific details.
-        - Focus on key actions, settings, objects that aren't mentioned in previous description.
-        - IMPORTANT: DO NOT repeat any Text on Screen content as a Visual event.
+        - Focus on key actions, settings, and objects that aren't mentioned in previous descriptions.
+        - IMPORTANT: DO NOT repeat the "Text on Screen" content within a "Visual" event description.
         - DO NOT REPEAT visual events from previous scenes.
 
         ### RULES FOR DESCRIBING PEOPLE:
-            - STRICTLY PROHIBITED: Never use the real names of actors, celebrities, or public figures, even if you recognize them. Use the character's name from context, never the performer's real name.
-            - If character names are provided anywhere in the context above (including in the visual history of previous scenes), you MUST use them.
-            - If NO character names are available anywhere in the context, describe people using neutral, descriptive terms based on their appearance.
+            - STRICTLY PROHIBITED: Never use the real names of actors or celebrities. Use character names from context.
+            - If character names are provided (e.g., Jane), you MUST use them.
+            - If NO names are available, use neutral descriptive terms.
             
         {voice_rule}
         
         ### SELF-CHECK BEFORE RESPONDING
-        For each Visual event you wrote, ask yourself: "Is there a character name anywhere in the context — including the visual history from previous scenes — that I could have used here instead of a generic term like 'person', 'man', 'woman', 'cat', 'dog', 'child', 'boy', 'girl'?" If yes, REWRITE that description using the name before returning your answer.
+        1. "Did I transcribe the checklists and narrative text blocks as 'Text on Screen' events?" (REQUIRED)
+        2. "Did I use character names from the history for every 'Visual' event?" (REQUIRED)
 
         ============================================================
-        TIMING REQUIREMENTS (CRITICAL — READ CAREFULLY)
+        TIMING REQUIREMENTS (CRITICAL)
         ============================================================
         - "timestamp" is in MM:SS format, RELATIVE TO THE START OF THIS SCENE.
         - The scene starts at 00:00 and ends at approximately {scene_mmss}.
-        - Watch the video carefully and report the precise moment each event BEGINS.
-        - For Visual events: the timestamp is the moment the action or state FIRST becomes visible.
-        - For Text on Screen events: the timestamp is the first frame the text appears.
-        - DO NOT default to 00:00, 00:01, 00:02 sequentially. Give the ACTUAL moment in the video when each event happens.
-        - Use exact seconds (e.g., "00:03", "00:07", "00:14") — observe the video, do not guess.
-        - If two events happen at the same moment, give them the same timestamp.
+        - Report the precise moment each event BEGINS. 
+        - Observe the video; do not guess or default to sequential seconds.
 
         ### OUTPUT FORMAT (STRICT):
             Return ONLY a JSON object with this EXACT structure:
             {{"events": [ {{"timestamp": "MM:SS", "type": "Visual" or "Text on Screen", "text": "<description>"}}, ... ]}}
 
-            - The `events` field MUST always be an array, even if there is only one event or zero events.
-            - Do NOT return a bare event object. Do NOT return a bare array. Do NOT wrap in markdown fences.
-            - If there are no events at all, return: {{"events": []}}
+            - The `events` field MUST always be an array.
+            - Do NOT wrap in markdown fences (no ```json).
+            - If there are no events, return: {{"events": []}}.
 
             Now generate the JSON for this scene.
         """
@@ -125,7 +114,7 @@ MODEL_CONFIGS = {
         "model_name": "gemini-3-flash-preview",
         "system_instruction": f"You are an expert audio describer AI describing video content to blind and low vision audiences. You describe ONLY what is clearly visible in the frames. You NEVER invent objects, characters, or actions that are not actually shown. You always use character names rather than bare pronouns.\n{AUDIO_DESCRIPTION_GUIDELINES}",
         "max_retries": 2,
-        "video_fps": 3.5,  
+        "video_fps": 4.5,  
     },
     MODEL_QWEN: {
         "model_path": "Qwen/Qwen2.5-VL-72B-Instruct",
@@ -455,6 +444,7 @@ def get_scene_events_from_model(chosen_model_type, model_client, scene_data, vid
                         system_instruction=model_client["system_instruction"],
                         temperature=0.0,
                         max_output_tokens=8912,
+                        thinking_config=types.ThinkingConfig(thinking_budget=512),
                         response_mime_type="application/json",
                         response_schema=GEMINI_RESPONSE_SCHEMA,
                         safety_settings=[

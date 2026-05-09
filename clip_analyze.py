@@ -19,7 +19,7 @@ MODEL_GEMINI = "gemini"
 MODEL_GPT = "gpt"
 
 # Match the captioner's video sampling rate.
-SCENE_SAMPLING_FPS = 4.0
+SCENE_SAMPLING_FPS = 3.0
 MAX_FRAMES_FOR_IMAGE_BACKEND = 60
 VERIFICATION_IMAGE_DETAIL = "low"
 
@@ -140,10 +140,9 @@ KEEP only if you can answer YES to ALL THREE of these questions:
 If you cannot answer YES to all three, the verdict is "drop".
 
 EVALUATING "Text on Screen" CLIPS:
-Text on screen requires careful evaluation. Use placement, prominence, and creator intent as your guide:
 
-- INTENTIONAL & PROMINENT (Bias to KEEP): If the text is placed prominently front-and-center on the screen, takes up significant space, or is presented as a title card, chapter heading, or large location/time stamp, the creator explicitly intended for the audience to read it. These are inherently important. KEEP these clips, provided they are not just literal subtitles of spoken dialogue.
-- INCIDENTAL & UNNECESSARY (Bias to DROP): Text is unnecessary when the information it conveys is NOT IMPORTANT to understanding the scene, or can be INFERRED from the audio. Examples that fail this test and must be DROPPED:
+- INTENTIONAL & PROMINENT (KEEP): If the text is placed prominently front-and-center on the screen, takes up significant space, or is presented as a title card, chapter heading, or large location/time stamp, the creator explicitly intended for the audience to read it. These are inherently important. KEEP these clips, provided they are not just literal subtitles of spoken dialogue.
+- INCIDENTAL & UNNECESSARY (DROP): Text is unnecessary when the information it conveys is NOT IMPORTANT to understanding the scene, or can be INFERRED from the audio. Examples that fail this test and must be DROPPED:
   - Logos, watermarks, channel branding, or copyright notices.
   - Names on screen (including lower-thirds, name tags, or names printed on objects like folders, desks, or doors) when the character's identity or involvement in the scene is already obvious from the context.
   - Decorative or environmental text (signs, posters, labels on objects) that doesn't drive the scene.
@@ -159,11 +158,6 @@ DROP categories (these patterns generally fail at least one of the three questio
 - Incidental movement (walking, standing, sitting) that doesn't change the situation.
 - Mood, expression, or intent that the dialogue or voice conveys.
 - On-screen text that is decorative or whose information is inferable from audio.
-- Text that merely confirms ownership of an object (e.g., a name on a file or locker) when the scene's current focus already makes it entirely obvious whose object it is.
-
-When in doubt, DROP. The cost of one missing description is small. The cost of cluttered, interrupting descriptions is large.
-
-If the text passes all three questions (or meets the "Intentional & Prominent" criteria for text), the verdict is "keep_original" (if STEP 2 was accurate) or "keep_corrected" (if you wrote a correction in STEP 3).
 
 ### CORRECTION GUIDELINES (only when verdict is "keep_corrected")
 - Match the length and style of the original (one short sentence).
@@ -218,7 +212,7 @@ def evaluate_clip(client, model_name, clip_text, clip_type, clip_start,
                 contents=contents,
                 config=types.GenerateContentConfig(
                     temperature=0.0,
-                    max_output_tokens=4096,
+                    max_output_tokens=8192,
                     response_mime_type="application/json",
                     safety_settings=[
                         types.SafetySetting(category=c, threshold=types.HarmBlockThreshold.BLOCK_NONE)
@@ -373,10 +367,10 @@ def main():
 
     video_id = os.path.basename(os.path.normpath(args.video_folder))
     scenes_folder = os.path.join(args.video_folder, f"{video_id}_scenes")
-    input_path = os.path.join(scenes_folder, f"scene_info_{args.model}.json")
+    input_path = os.path.join(scenes_folder, f"scene_info_{args.model}_deduped.json")
 
     if not os.path.exists(input_path):
-        fallback = os.path.join(scenes_folder, "scene_info.json")
+        fallback = os.path.join(scenes_folder, f"scene_info_{args.model}.json")
         if os.path.exists(fallback):
             input_path = fallback
         else:
@@ -412,7 +406,11 @@ def main():
         ).strip()
 
         # Evaluate everything in original order so cumulative kept_descriptions is built correctly.
-        clips_to_evaluate = [c for c in audio_clips if c.get("type") in ("Visual", "Text on Screen")]
+        ALLOWED_CLIP_KEYS = {"type", "text", "start_time"}
+        clips_to_evaluate = [
+            {k: v for k, v in c.items() if k in ALLOWED_CLIP_KEYS}
+            for c in audio_clips if c.get("type") in ("Visual", "Text on Screen")
+        ]
         clips_to_evaluate.sort(key=lambda c: c.get("start_time", 0))
 
         if not clips_to_evaluate:

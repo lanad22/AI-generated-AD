@@ -1,541 +1,682 @@
-import json
-import tempfile
-import subprocess
-import os
 import argparse
+import json
+import os
+import re
 import time
-from typing import List, Dict
-import torch
+from typing import Callable, Dict, List, Optional
+
 import openai
+import torch
+from dotenv import load_dotenv
 from google import genai
 from google.genai import types
-from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor, BitsAndBytesConfig
+from transformers import (
+    AutoProcessor,
+    BitsAndBytesConfig,
+    Qwen2_5_VLForConditionalGeneration,
+)
 
-from dotenv import load_dotenv
 load_dotenv()
 
-MODEL_QWEN = "qwen"
-MODEL_GEMINI = "gemini"
-MODEL_GPT4 = "gpt"
+MODEL_QWEN, MODEL_GEMINI, MODEL_GPT4 = "qwen", "gemini", "gpt"
+
+# Beats whose original start_times fall within this window narrate at the
+# same wall time and are merged into one description.
+MERGE_WINDOW = 1.0
+
+# Single-clip Visual compression sanity gates: only call the LLM compressor
+# when there's enough room to write a coherent sentence AND the clip is
+# meaningfully over budget. Otherwise we'd produce telegraphic fragments.
+MIN_AVAILABLE_TO_COMPRESS = 2.0
+MIN_OVERFLOW_RATIO = 1.25
+
+# Strip leading "Text:", "Caption:", "On screen:", etc. that LLMs sometimes
+# prepend despite being told not to.
+_LABEL_PREFIX_RE = re.compile(
+    r'^\s*(?:on[\s-]?screen\s*text|on[\s-]?screen\s*reads|on[\s-]?screen'
+    r'|title\s*card|screen\s*reads|screen|caption|subtitle|text)'
+    r'\s*[:\-–—]\s*',
+    re.IGNORECASE,
+)
+
+
+# ---------------------------------------------------------------------------
+# Pure helpers
+# ---------------------------------------------------------------------------
+
+def strip_label_prefix(text: str) -> str:
+    if not text:
+        return text
+    cleaned = _LABEL_PREFIX_RE.sub('', text, count=1)
+    if cleaned != text and cleaned and cleaned[0].islower():
+        cleaned = cleaned[0].upper() + cleaned[1:]
+    return cleaned.strip()
 
 
 def get_tts_duration(text: str, speaking_rate: float = 1.25) -> float:
+    """Approximate TTS speaking duration. ~150 wpm * speaking_rate."""
     if not text or text.isspace():
         return 0.0
     words = len(text.split())
-    # Google TTS speaks ~150 words per minute at normal speed; at 1.25x = 187.5 wpm.
-    words_per_minute = 150 * speaking_rate
-    duration = (words / words_per_minute) * 60
-    return max(0.5, duration)
+    return max(0.5, (words / (150 * speaking_rate)) * 60)
 
+
+def make_clip(scene_number, text: str, clip_type: str, fits_in_gap: bool,
+              duration: Optional[float] = None, **extra) -> Dict:
+    """Build a placed-clip dict. start_time/end_time are filled in by the placer."""
+    if duration is None:
+        duration = get_tts_duration(text)
+    return {
+        'scene_number': scene_number,
+        'text': text,
+        'type': clip_type,
+        'duration': duration,
+        'fits_in_gap': fits_in_gap,
+        **extra,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Scene parsing
+# ---------------------------------------------------------------------------
 
 def get_scene_clips(scene: Dict) -> List[Dict]:
-    clips = []
-    for clip_data in scene.get('audio_clips', []):
-        text = clip_data.get('text')
-        if not text:
+    """Sorted list of (Visual + Text on Screen) clips with TTS durations."""
+    out = []
+    for c in scene.get('audio_clips', []):
+        text = c.get('text')
+        if not text or c.get('type') not in ('Visual', 'Text on Screen'):
             continue
-        duration = get_tts_duration(text)
-        clips.append({
-            'start_time': clip_data.get('start_time', 0),
-            'text': text,
-            'type': clip_data['type'],
+        st = c.get('start_time', 0)
+        dur = get_tts_duration(text)
+        out.append({
+            'start_time': st, 'text': text, 'type': c['type'],
             'scene_number': scene.get('scene_number', 'N/A'),
-            'duration': duration,
-            'end_time': clip_data.get('start_time', 0) + duration,
+            'duration': dur, 'end_time': st + dur,
         })
-    clips.sort(key=lambda x: x['start_time'])
-    return clips
+    out.sort(key=lambda x: x['start_time'])
+    return out
 
 
-def separate_clip_types(clips: List[Dict]) -> tuple[List[Dict], List[Dict]]:
-    text_clips = [c for c in clips if c['type'] == 'Text on Screen']
-    visual_clips = [c for c in clips if c['type'] == 'Visual']
-    return text_clips, visual_clips
-
-
-def find_gaps_around_text_clips(scene: Dict, text_clips: List[Dict], min_gap_duration: float) -> List[Dict]:
-    scene_duration = scene.get('duration', 0)
-    if not scene_duration and 'start_time' in scene and 'end_time' in scene:
-        scene_duration = scene['end_time'] - scene['start_time']
+def find_dialogue_gaps(scene: Dict, min_gap_duration: float) -> List[Dict]:
+    """Return dialogue-free windows >= min_gap_duration. If no transcript, the
+    whole scene is one gap."""
+    scene_duration = scene.get('duration') or (
+        scene['end_time'] - scene['start_time']
+        if 'start_time' in scene and 'end_time' in scene else 0
+    )
     if not scene_duration:
-        print(f"Warning: Scene {scene.get('scene_number')} missing duration for gap calculation.")
+        print(f"Warning: Scene {scene.get('scene_number')} missing duration.")
         return []
 
-    occupied_segments = [{'start': c['start_time'], 'end': c['end_time']} for c in text_clips]
-    if 'transcript' in scene and scene['transcript']:
-        for segment in scene['transcript']:
-            occupied_segments.append({'start': segment.get('start', 0), 'end': segment.get('end', 0)})
+    segs = sorted(
+        [{'start': s.get('start', 0), 'end': s.get('end', 0)}
+         for s in (scene.get('transcript') or [])],
+        key=lambda x: x['start'],
+    )
+    # Merge overlapping dialogue.
+    merged = []
+    for s in segs:
+        if merged and s['start'] <= merged[-1]['end']:
+            merged[-1]['end'] = max(merged[-1]['end'], s['end'])
+        else:
+            merged.append(dict(s))
 
-    occupied_segments.sort(key=lambda x: x['start'])
+    if not merged:
+        return ([{'start_time': 0, 'end_time': scene_duration, 'duration': scene_duration}]
+                if scene_duration >= min_gap_duration else [])
 
-    merged_segments = []
-    if occupied_segments:
-        current = occupied_segments[0].copy()
-        for seg in occupied_segments[1:]:
-            if seg['start'] <= current['end']:
-                current['end'] = max(current['end'], seg['end'])
-            else:
-                merged_segments.append(current)
-                current = seg.copy()
-        merged_segments.append(current)
-
-    eligible_gaps = []
-    cursor = 0.0
-    for seg in merged_segments:
-        if seg['start'] > cursor:
-            gap = seg['start'] - cursor
-            if gap >= min_gap_duration:
-                eligible_gaps.append({'start_time': cursor, 'end_time': seg['start'], 'duration': gap})
-        cursor = max(cursor, seg['end'])
-
-    if cursor < scene_duration:
-        gap = scene_duration - cursor
-        if gap >= min_gap_duration:
-            eligible_gaps.append({'start_time': cursor, 'end_time': scene_duration, 'duration': gap})
-
-    if not merged_segments and scene_duration >= min_gap_duration:
-        eligible_gaps.append({'start_time': 0, 'end_time': scene_duration, 'duration': scene_duration})
-
-    return eligible_gaps
+    gaps, cursor = [], 0.0
+    for s in merged:
+        if s['start'] - cursor >= min_gap_duration:
+            gaps.append({'start_time': cursor, 'end_time': s['start'],
+                         'duration': s['start'] - cursor})
+        cursor = max(cursor, s['end'])
+    if scene_duration - cursor >= min_gap_duration:
+        gaps.append({'start_time': cursor, 'end_time': scene_duration,
+                     'duration': scene_duration - cursor})
+    return gaps
 
 
-def optimize_with_qwen(optimizer_client: Dict, prompt: str) -> str:
-    model = optimizer_client['model']
-    processor = optimizer_client['processor']
-    messages = [
-        {"role": "system", "content": "You are an expert at creating concise audio descriptions that preserve visual details (colors, materials, comparisons) while fitting time constraints."},
-        {"role": "user", "content": prompt},
-    ]
-    text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-    inputs = processor(text=[text], return_tensors="pt").to(model.device)
-    output_ids = model.generate(**inputs, max_new_tokens=150, temperature=0.7, do_sample=True)
-    input_token_len = inputs.input_ids.shape[1]
-    generated_ids = output_ids[:, input_token_len:]
-    return processor.batch_decode(generated_ids, skip_special_tokens=True, clean_up_tokenization_spaces=True)[0].strip()
+def cluster_into_beats(clips: List[Dict], window: float = MERGE_WINDOW) -> List[List[Dict]]:
+    """Group clips whose start_times are within `window` of the beat's first clip."""
+    if not clips:
+        return []
+    beats = [[clips[0]]]
+    anchor = clips[0]['start_time']
+    for c in clips[1:]:
+        if c['start_time'] - anchor <= window:
+            beats[-1].append(c)
+        else:
+            beats.append([c])
+            anchor = c['start_time']
+    return beats
 
 
-def optimize_combined_clips(optimizer_client, optimizer_model_type, clips_to_optimize, available_duration,
-                            gap_start=None, max_retries=3, scene_number_for_logging="N/A"):
+# ---------------------------------------------------------------------------
+# LLM call layer
+# ---------------------------------------------------------------------------
+
+_SYSTEM_MSG = ("You are an expert at creating concise audio descriptions that "
+               "preserve visual details and on-screen text while fitting time constraints.")
+
+
+def _llm_call(client, model_type: str, prompt: str, attempt: int,
+              scene_label: str, max_retries: int) -> Optional[str]:
+    """Single LLM call. Returns text on success, '' to retry, None on hard failure."""
+    try:
+        if model_type == MODEL_QWEN:
+            model, proc = client['model'], client['processor']
+            msgs = [{"role": "system", "content": _SYSTEM_MSG},
+                    {"role": "user", "content": prompt}]
+            text = proc.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True)
+            inputs = proc(text=[text], return_tensors="pt").to(model.device)
+            out = model.generate(**inputs, max_new_tokens=150, temperature=0.7, do_sample=True)
+            gen = out[:, inputs.input_ids.shape[1]:]
+            return proc.batch_decode(gen, skip_special_tokens=True,
+                                     clean_up_tokenization_spaces=True)[0].strip()
+        if model_type == MODEL_GEMINI:
+            cats = (types.HarmCategory.HARM_CATEGORY_HARASSMENT,
+                    types.HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+                    types.HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+                    types.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT)
+            resp = client["client"].models.generate_content(
+                model=client["model_name"], contents=prompt,
+                config=types.GenerateContentConfig(
+                    temperature=0.0, max_output_tokens=4196,
+                    thinking_config=types.ThinkingConfig(thinking_budget=512),
+                    safety_settings=[types.SafetySetting(
+                        category=c, threshold=types.HarmBlockThreshold.BLOCK_NONE) for c in cats],
+                ),
+            )
+            return (resp.text or "").strip()
+        if model_type == MODEL_GPT4:
+            resp = client.chat.completions.create(
+                model="gpt-4o",
+                messages=[{"role": "system", "content": _SYSTEM_MSG},
+                          {"role": "user", "content": prompt}],
+                temperature=0.5 if attempt == 0 else 1.0,
+                max_tokens=200,
+            )
+            return resp.choices[0].message.content.strip()
+        print(f"  - Unknown optimizer model type: {model_type}")
+        return None
+    except Exception as e:
+        print(f"  - Error calling {model_type.upper()} (Scene {scene_label}, "
+              f"Attempt {attempt+1}): {e}")
+        if attempt == max_retries:
+            return None
+        time.sleep(2)
+        return ""
+
+
+def _retry_llm(client, model_type: str, build_prompt: Callable[[int, str], str],
+               accept: Callable[[str], bool], scene_label: str,
+               max_retries: int = 3) -> Optional[str]:
     """
-    Merge all clips into a single description fitting available_duration if possible.
-    If it doesn't fit after retries, return the best attempt as over-budget — DO NOT
-    drop clips. Filtering is the responsibility of clip_analyze.py; this function's
-    job is placement and merging only.
+    Run an LLM call with retries. `build_prompt(attempt, last_text)` produces
+    the prompt for each attempt. `accept(text)` returns True if the response
+    is acceptable. Returns the accepted text, or the last text seen if no
+    attempt was accepted, or None on hard failure.
     """
-    if not clips_to_optimize:
-        return None, False
+    last = ""
+    for attempt in range(max_retries + 1):
+        prompt = build_prompt(attempt, last)
+        result = _llm_call(client, model_type, prompt, attempt, scene_label, max_retries)
+        if result is None:
+            return None
+        if result == "":
+            continue
+        last = result
+        if accept(result):
+            return result
+    return last or None
 
-    result, fits = _attempt_merge(
-        optimizer_client, optimizer_model_type,
-        clips_to_optimize, available_duration, max_retries,
-        scene_number_for_logging,
+
+# ---------------------------------------------------------------------------
+# Single-clip operations: compress (time budget) and polish (verbosity only)
+# ---------------------------------------------------------------------------
+
+_COMPRESS_GUIDANCE = (
+    "This is a VISUAL description. Preserve all concrete visual details "
+    "(colors, materials, shapes, named objects, character actions and their "
+    "order). Drop only filler: vague qualifiers ('very', 'really'), redundant "
+    "phrasing, descriptions of state the action already implies. Do NOT change "
+    "the meaning. Do NOT remove any factual visual detail."
+)
+
+
+def compress_single_clip(client, model_type: str, clip: Dict,
+                         available: float, scene_label: str = "N/A") -> Dict:
+    """Time-budget compression for a single Visual clip. TOS clips are rejected."""
+    if clip['type'] == 'Text on Screen':
+        raise ValueError("compress_single_clip is for Visual clips only.")
+    original = clip['text']
+
+    def build(attempt: int, last: str) -> str:
+        if attempt == 0:
+            return (
+                f'You are tightening an audio description for blind viewers so it fits a '
+                f'narration window.\n\nORIGINAL TEXT: "{original}"\n\n{_COMPRESS_GUIDANCE}\n\n'
+                f'AVAILABLE TIME: {available:.2f} seconds\n'
+                f'TASK: Rewrite to fit in {available:.2f}s of speech '
+                f'(~{available * 3:.0f} words at ~3 wps), without changing meaning.\n'
+                f'GUIDELINES:\n- Result must be complete, grammatical sentence(s).\n'
+                f'- Keep the same subject(s) and action(s).\n'
+                f'- If already concise enough, return unchanged.\n'
+                f'OUTPUT: Only the narration text. No explanations or markdown.'
+            )
+        return (
+            f'Your previous attempt was still too long.\n\nORIGINAL TEXT: "{original}"\n'
+            f'PREVIOUS ATTEMPT ({get_tts_duration(last):.2f}s): "{last}"\n\n'
+            f'{_COMPRESS_GUIDANCE}\n\nAVAILABLE TIME: {available:.2f} seconds.\n'
+            f'TASK: Tighter version that fits, still preserving meaning and detail. '
+            f'Result must be a complete sentence.\nOUTPUT: One complete sentence.'
+        )
+
+    orig_words = len(original.split())
+    min_words = max(3, int(orig_words * 0.3))
+
+    def accept(text: str) -> bool:
+        dur = get_tts_duration(text)
+        wc = len(text.split())
+        coherent = wc >= min_words and text.rstrip().endswith(('.', '!', '?', '"'))
+        print(f"  - Scene {scene_label}, single-clip compress: "
+              f"'{text[:60]}...' Dur: {dur:.2f}s (Target: {available:.2f}s, "
+              f"Words: {wc}, Coherent: {coherent})")
+        return dur <= available and coherent
+
+    result = _retry_llm(client, model_type, build, accept, scene_label)
+
+    if result and accept(result):
+        return make_clip(clip['scene_number'], result, 'Visual', True,
+                         duration=get_tts_duration(result))
+
+    print(f"  - Scene {scene_label}: compression couldn't fit in {available:.2f}s. "
+          f"Keeping as extended clip.")
+    # Use the LLM's last attempt if it's at least minimally coherent; otherwise original.
+    fallback = result if (result and len(result.split()) >= min_words) else original
+    return make_clip(clip['scene_number'], fallback, 'Visual', False)
+
+
+def polish_single_clip(client, model_type: str, clip: Dict,
+                       scene_label: str = "N/A") -> Dict:
+    """
+    Two-step verbosity polish for orphan Visual clips. No time target.
+    Step 1: ask if verbose (YES/NO). Step 2: rewrite only if YES.
+    """
+    if clip['type'] == 'Text on Screen':
+        return make_clip(clip['scene_number'], clip['text'], clip['type'],
+                         False, duration=clip['duration'])
+
+    original = clip['text']
+
+    # Step 1: verbosity check.
+    verdict_prompt = (
+        f'Is this audio description verbose? Reply with one word: YES or NO.\n\n'
+        f'"{original}"'
+    )
+    verdict = _llm_call(client, model_type, verdict_prompt, 0, scene_label, max_retries=0)
+    is_verbose = bool(verdict and verdict.strip().upper().startswith('YES'))
+
+    if not is_verbose:
+        print(f"  - Scene {scene_label}, polish: not verbose, kept as-is.")
+        return make_clip(clip['scene_number'], original, 'Visual', False)
+
+    # Step 2: rewrite.
+    rewrite_prompt = (
+        f'Rewrite this audio description more concisely. Keep the same meaning '
+        f'and all visual details. Reply with only the rewritten sentence.\n\n'
+        f'"{original}"'
+    )
+    result = _llm_call(client, model_type, rewrite_prompt, 0, scene_label, max_retries=0)
+
+    polished = original
+    if result:
+        cand = result.strip().strip('"').strip("'").strip()
+        if cand:
+            polished = cand
+
+    if polished != original:
+        print(f"  - Scene {scene_label}, polish: '{original[:50]}...' -> '{polished[:50]}...'")
+    else:
+        print(f"  - Scene {scene_label}, polish: verbose but rewrite empty; kept original.")
+    return make_clip(clip['scene_number'], polished, 'Visual', False)
+
+
+# ---------------------------------------------------------------------------
+# Multi-clip merging (mixed Visual+TOS, or pure Visual)
+# ---------------------------------------------------------------------------
+
+_MIXED_GUIDANCE = (
+    "Some items are ON-SCREEN TEXT (verbatim quotes of what literally appears on "
+    "screen) and some are VISUAL descriptions. ON-SCREEN TEXT MUST be reproduced "
+    "verbatim, character-for-character — do NOT paraphrase, abbreviate, or drop "
+    "any of it, and do NOT add narrative wrappers like 'a title card reads'. "
+    "VISUAL portions MAY be tightened (drop filler, condense phrasing) while "
+    "keeping key visual details. Combine items naturally into one or two sentences. "
+    "Do NOT prefix output with labels like 'Text:', 'Caption:', or 'On screen:'."
+)
+_VISUAL_GUIDANCE = "All items are VISUAL descriptions; merge them into a flowing narration."
+
+
+def merge_clips(client, model_type: str, clips: List[Dict],
+                available: float, scene_label: str = "N/A") -> Dict:
+    """Merge multi-clip beats. Pure-TOS beats are handled in _build_beat (no LLM)."""
+    has_tos = any(c['type'] == 'Text on Screen' for c in clips)
+    result_type = 'Text on Screen' if has_tos else 'Visual'
+    sn = clips[0]['scene_number']
+    originals = [c['text'] for c in clips]
+    flat = " ".join(originals)
+    guidance = _MIXED_GUIDANCE if has_tos else _VISUAL_GUIDANCE
+
+    parts = "\n".join(
+        f'[ON-SCREEN TEXT]: "{c["text"]}"' if c['type'] == 'Text on Screen'
+        else f'[VISUAL]: {c["text"]}'
+        for c in clips
     )
 
-    if fits:
-        return result, True
-
-    # Didn't fit cleanly, but we don't drop curated clips. Return the best attempt
-    # marked as over-budget so downstream tools know.
-    print(f"  - Scene {scene_number_for_logging}: {len(clips_to_optimize)}-clip merge "
-          f"didn't fit in {available_duration:.2f}s. Keeping over-budget — clip_analyze "
-          f"already decided these are necessary.")
-    return result, False
-
-
-def _attempt_merge(optimizer_client, optimizer_model_type, clips_to_optimize, available_duration,
-                   max_retries, scene_number_for_logging):
-    combined_text = " ".join([c['text'] for c in clips_to_optimize])
-    optimized_text = ""
-    tts_duration = float('inf')
-
-    original_tts_duration = get_tts_duration(combined_text)
-    if available_duration < original_tts_duration * 0.4:
-        print(f"  - Scene {scene_number_for_logging}: {len(clips_to_optimize)} clips need "
-              f"~{original_tts_duration:.2f}s but only {available_duration:.2f}s available. "
-              f"Skipping merge attempt.")
-        return {
-            'scene_number': clips_to_optimize[0]['scene_number'],
-            'text': combined_text, 'type': 'Visual',
-            'duration': original_tts_duration,
-            'fits_in_gap': False,
-            'original_texts': [c['text'] for c in clips_to_optimize],
-        }, False
-
-    for attempt in range(max_retries + 1):
+    def build(attempt: int, last: str) -> str:
         if attempt == 0:
-            prompt = (f'You are merging visual descriptions for an audio description track for blind viewers.\n'
-                      f'ORIGINAL DESCRIPTIONS: "{combined_text}"\n'
-                      f'AVAILABLE TIME: {available_duration:.2f} seconds\n'
-                      f'TASK: Combine these descriptions into ONE flowing sentence (or two if needed) '
-                      f'that fits in {available_duration:.2f} seconds of speech.\n'
-                      f'GUIDELINES:\n'
-                      f'- Mention ALL key actions in their original order.\n'
-                      f'- KEEP visual details that a blind viewer cannot otherwise perceive — colors, '
-                      f'materials, shapes, comparisons (e.g., "like dominoes", "chain-link", "red"). '
-                      f'These details ARE the description for a blind viewer.\n'
-                      f'- Drop only filler — articles where they can be omitted, vague qualifiers '
-                      f'("very", "really"), and descriptions of state that the action already implies '
-                      f'(e.g., "parked bicycles" can become "bicycles" if the action is kicking them).\n'
-                      f'- Use conjunctions like "then", "before", "as", "while" to chain actions.\n'
-                      f'- Use strong verbs that pack meaning ("hurled" rather than "threw hard").\n'
-                      f'- The result MUST be a complete, grammatical sentence.\n'
-                      f'- Speaking rate: ~3 words per second.\n'
-                      f'OUTPUT FORMAT: Provide only the optimized description text. '
-                      f'No explanations, no preamble, no markdown.')
+            return (
+                f'You are merging audio descriptions for blind viewers.\n\n'
+                f'INPUT ITEMS (in time order):\n{parts}\n\n{guidance}\n\n'
+                f'AVAILABLE TIME: {available:.2f} seconds\n'
+                f'TASK: Combine into ONE flowing narration (1-2 sentences) fitting '
+                f'in {available:.2f}s of speech.\nGUIDELINES:\n'
+                f'- Preserve on-screen text verbatim.\n'
+                f'- Mention visual actions in original order.\n'
+                f'- Keep visual details (colors, materials, shapes).\n'
+                f'- Drop only filler.\n- Use conjunctions to chain ("as", "while", "then").\n'
+                f'- ~3 words/second.\n- Complete grammatical sentence(s).\n'
+                f'OUTPUT: Only the narration text. No explanations or markdown.'
+            )
+        return (
+            f'Your previous attempt was slightly too long.\n\nPREVIOUS ATTEMPT '
+            f'({get_tts_duration(last):.2f}s): "{last}"\n\nINPUT ITEMS:\n{parts}\n\n'
+            f'{guidance}\n\nAVAILABLE TIME: {available:.2f}s.\n'
+            f'TASK: Tighter version that fits, preserving on-screen text verbatim '
+            f'and the key visual actions. Complete sentence(s) only.'
+        )
+
+    orig_words = len(flat.split())
+    min_words = max(4, int(orig_words * 0.3))
+
+    def accept(text: str) -> bool:
+        text = strip_label_prefix(text) if has_tos else text
+        # Hard verbatim check for TOS.
+        if has_tos:
+            missing = [c['text'] for c in clips
+                       if c['type'] == 'Text on Screen' and c['text'] not in text]
+            if missing:
+                print(f"  - Scene {scene_label} merge: TOS altered/dropped "
+                      f"{[m[:40]+'...' for m in missing]}. Retrying.")
+                return False
+        dur = get_tts_duration(text)
+        wc = len(text.split())
+        coherent = wc >= min_words and text.rstrip().endswith(('.', '!', '?', '"'))
+        print(f"  - Scene {scene_label} merge ({result_type}): '{text[:60]}...' "
+              f"Dur: {dur:.2f}s (Target: {available:.2f}s, Words: {wc}, "
+              f"Coherent: {coherent})")
+        return dur <= available and coherent
+
+    result = _retry_llm(client, model_type, build, accept, scene_label)
+    if result:
+        result = strip_label_prefix(result) if has_tos else result
+    if result and accept(result):
+        return make_clip(sn, result, result_type, True,
+                         duration=get_tts_duration(result),
+                         original_texts=originals)
+
+    # Fallback. For TOS-involved beats we MUST emit verbatim originals — the
+    # LLM may have altered the on-screen text, so we can't trust its output.
+    print(f"  - Scene {scene_label}: merge fallback to verbatim concatenation.")
+    fallback = flat if has_tos else (result or flat)
+    return make_clip(sn, fallback, result_type, False,
+                     duration=get_tts_duration(fallback),
+                     original_texts=originals)
+
+
+# ---------------------------------------------------------------------------
+# Beat dispatcher
+# ---------------------------------------------------------------------------
+
+def _build_beat(beat: List[Dict], client, model_type: str,
+                available: float, scene_number) -> Dict:
+    """
+    Render a beat (1+ clips) as one placed-clip dict. Behavior by beat type:
+      - Single Visual: keep if fits; compress only if overflowing AND budget
+        is reasonable AND overflow is meaningful. Else verbatim extended.
+      - Single TOS: always verbatim.
+      - Multi pure-TOS: concatenate originals. No LLM, no framing.
+      - Multi pure-Visual / mixed: merge via LLM (TOS portions verbatim).
+    """
+    types_in_beat = {c['type'] for c in beat}
+
+    # Single-clip beats.
+    if len(beat) == 1:
+        c = beat[0]
+        if c['type'] == 'Text on Screen':
+            fits = c['duration'] <= available
+            if not fits:
+                print(f"  - Scene {scene_number}: single TOS clip overflows window "
+                      f"({c['duration']:.2f}s > {available:.2f}s); keeping verbatim.")
+            return make_clip(scene_number, c['text'], c['type'], fits,
+                             duration=c['duration'])
+
+        if c['duration'] <= available:
+            return make_clip(scene_number, c['text'], 'Visual', True,
+                             duration=c['duration'])
+
+        # Visual overflow — decide whether to compress.
+        ratio = c['duration'] / available if available > 0 else float('inf')
+        if available < MIN_AVAILABLE_TO_COMPRESS:
+            print(f"  - Scene {scene_number}: window {available:.2f}s "
+                  f"< {MIN_AVAILABLE_TO_COMPRESS}s; emitting verbatim as extended.")
+            return make_clip(scene_number, c['text'], 'Visual', False,
+                             duration=c['duration'])
+        if ratio < MIN_OVERFLOW_RATIO:
+            print(f"  - Scene {scene_number}: only {(ratio - 1) * 100:.0f}% over "
+                  f"budget; nothing to cut. Emitting verbatim as extended.")
+            return make_clip(scene_number, c['text'], 'Visual', False,
+                             duration=c['duration'])
+        return compress_single_clip(client, model_type, c, available,
+                                    scene_label=str(scene_number))
+
+    # Multi-clip beats.
+    if types_in_beat == {'Text on Screen'}:
+        text = " ".join(c['text'] for c in beat)
+        dur = get_tts_duration(text)
+        print(f"  - Scene {scene_number}: pure-TOS multi-clip beat "
+              f"({len(beat)} clips); concatenating verbatim ({dur:.2f}s, "
+              f"available {available:.2f}s).")
+        return make_clip(scene_number, text, 'Text on Screen', dur <= available,
+                         duration=dur, original_texts=[c['text'] for c in beat])
+
+    return merge_clips(client, model_type, beat, available, str(scene_number))
+
+
+# ---------------------------------------------------------------------------
+# Beat placement
+# ---------------------------------------------------------------------------
+
+def place_beats_at_targets(beats: List[List[Dict]], boundary_rel: float,
+                           scene_start_abs: float, client, model_type: str,
+                           scene_number, in_dialogue: bool = False) -> List[Dict]:
+    """
+    Place each beat at its intended start time. The "available" budget for a
+    beat is the time until the next beat's target (or `boundary_rel` for the
+    last beat). Start times are not adjusted; an over-budget beat just runs
+    extended (fits_in_gap=False).
+
+    Orphan beats (in_dialogue=True) skip the time-budget compressor entirely
+    — for single Visual clips they go through polish_single_clip; for TOS
+    clips they're emitted verbatim.
+    """
+    placed = []
+    for i, beat in enumerate(beats):
+        target = beat[0]['start_time']
+        next_target = (beats[i + 1][0]['start_time']
+                       if i + 1 < len(beats) else boundary_rel)
+        available = max(0.0, next_target - target)
+
+        if in_dialogue and len(beat) == 1:
+            c = beat[0]
+            if c['type'] == 'Text on Screen':
+                bc = make_clip(scene_number, c['text'], c['type'], False,
+                               duration=c['duration'])
+            else:
+                bc = polish_single_clip(client, model_type, c, str(scene_number))
         else:
-            prompt = (f'Your previous attempt was slightly too long.\n'
-                      f'PREVIOUS ATTEMPT (spoken duration {tts_duration:.2f}s): "{optimized_text}"\n'
-                      f'ORIGINAL DESCRIPTIONS: "{combined_text}"\n'
-                      f'AVAILABLE TIME: {available_duration:.2f} seconds.\n'
-                      f'TASK: Produce a tighter version that fits in {available_duration:.2f} seconds, '
-                      f'while still mentioning ALL the key actions and remaining a complete sentence.\n'
-                      f'GUIDELINES: Combine actions with conjunctions. Drop filler, articles, and vague '
-                      f'qualifiers — but KEEP visual details that carry the look of the scene (colors, '
-                      f'materials, comparisons like "like dominoes", "chain-link"). Do NOT drop entire '
-                      f'actions or visually distinctive details. Do NOT produce sentence fragments.\n'
-                      f'OUTPUT FORMAT: One or two complete sentences. No explanations.')
+            bc = _build_beat(beat, client, model_type, available, scene_number)
 
-        try:
-            if optimizer_model_type == MODEL_QWEN:
-                optimized_text = optimize_with_qwen(optimizer_client, prompt)
+        bc['start_time'] = target + scene_start_abs
+        bc['end_time'] = bc['start_time'] + bc['duration']
+        # Orphans always overlap dialogue regardless of TTS length.
+        bc['fits_in_gap'] = False if in_dialogue else (bc['duration'] <= available)
+        placed.append(bc)
+    return placed
 
-            elif optimizer_model_type == MODEL_GEMINI:
-                response = optimizer_client["client"].models.generate_content(
-                    model=optimizer_client["model_name"],
-                    contents=prompt,
-                    config=types.GenerateContentConfig(
-                        temperature=0.0,
-                        max_output_tokens=2048,
-                        thinking_config=types.ThinkingConfig(thinking_budget=512),
-                        safety_settings=[
-                            types.SafetySetting(category=c, threshold=types.HarmBlockThreshold.BLOCK_NONE)
-                            for c in (
-                                types.HarmCategory.HARM_CATEGORY_HARASSMENT,
-                                types.HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-                                types.HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-                                types.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-                            )
-                        ],
-                    ),
-                )
-                optimized_text = response.text.strip()
 
-            elif optimizer_model_type == MODEL_GPT4:
-                response = optimizer_client.chat.completions.create(
-                    model="gpt-4o",
-                    messages=[
-                        {"role": "system", "content": "You are an expert at creating concise audio descriptions that preserve visual details (colors, materials, comparisons) while fitting time constraints."},
-                        {"role": "user", "content": prompt},
-                    ],
-                    temperature=0.5 if attempt == 0 else 1.0,
-                    max_tokens=150,
-                )
-                optimized_text = response.choices[0].message.content.strip()
+# ---------------------------------------------------------------------------
+# Scene processing
+# ---------------------------------------------------------------------------
 
-            else:
-                print(f"  - Unknown optimizer model type: {optimizer_model_type}")
-                return None, False
+def process_scene(scene: Dict, client, model_type: str, min_gap: float) -> List[Dict]:
+    sn = scene.get('scene_number', 'N/A')
+    scene_start = scene.get('start_time', 0)
+    scene_end_rel = ((scene.get('end_time', 0) - scene_start)
+                     if scene.get('end_time') else scene.get('duration', 0))
 
-        except Exception as e:
-            print(f"  - Error calling {optimizer_model_type.upper()} (Scene {scene_number_for_logging}, Attempt {attempt+1}): {e}")
-            if attempt == max_retries:
-                return None, False
-            time.sleep(2)
+    print(f"\n\n===== PROCESSING SCENE {sn} ({model_type.upper()}) =====")
+
+    clips = get_scene_clips(scene)
+    if not clips:
+        print(f"-- Scene {sn}: no Visual or Text on Screen clips. Skipping.")
+        return []
+
+    vis = sum(1 for c in clips if c['type'] == 'Visual')
+    tos = sum(1 for c in clips if c['type'] == 'Text on Screen')
+    print(f"-- Scene {sn}: {vis} Visual + {tos} Text on Screen clips.")
+
+    gaps = find_dialogue_gaps(scene, min_gap)
+    print(f"-- Scene {sn}: {len(gaps)} dialogue-free gap(s) >= {min_gap}s")
+    for i, g in enumerate(gaps, 1):
+        print(f"     gap {i}: {g['start_time']:.2f}s..{g['end_time']:.2f}s "
+              f"({g['duration']:.2f}s)")
+
+    # Bucket clips into gaps; everything else is an orphan (during dialogue).
+    buckets = [[] for _ in gaps]
+    orphans = []
+    for c in clips:
+        for gi, g in enumerate(gaps):
+            if g['start_time'] <= c['start_time'] < g['end_time']:
+                buckets[gi].append(c)
+                break
+        else:
+            orphans.append(c)
+
+    placed = []
+    for gi, (gap, bucket) in enumerate(zip(gaps, buckets), 1):
+        if not bucket:
             continue
+        print(f"\n  Gap {gi}: {len(bucket)} clip(s) to place.")
+        beats = cluster_into_beats(bucket)
+        print(f"    -> {len(beats)} beat(s) (within {MERGE_WINDOW}s)")
+        placed.extend(place_beats_at_targets(
+            beats, gap['end_time'], scene_start, client, model_type, sn,
+            in_dialogue=False,
+        ))
 
-        tts_duration = get_tts_duration(optimized_text)
+    if orphans:
+        print(f"\n  Orphans: {len(orphans)} clip(s) during dialogue.")
+        placed.extend(place_beats_at_targets(
+            cluster_into_beats(orphans), scene_end_rel, scene_start,
+            client, model_type, sn, in_dialogue=True,
+        ))
 
-        word_count = len(optimized_text.split())
-        ends_cleanly = optimized_text.rstrip().endswith(('.', '!', '?'))
-        original_word_count = len(combined_text.split())
-        min_acceptable_words = max(4, int(original_word_count * 0.3))
-        looks_coherent = word_count >= min_acceptable_words and ends_cleanly
-
-        print(f"  - Scene {scene_number_for_logging}, {len(clips_to_optimize)}-clip merge, "
-              f"Attempt {attempt+1}: Text='{optimized_text[:60]}...', "
-              f"Dur: {tts_duration:.2f}s (Target: {available_duration:.2f}s, "
-              f"Words: {word_count}, Coherent: {looks_coherent})")
-
-        if tts_duration <= available_duration and optimized_text and looks_coherent:
-            print(f"  - Success! {len(clips_to_optimize)}-clip merge fits and is coherent.")
-            return {
-                'scene_number': clips_to_optimize[0]['scene_number'],
-                'text': optimized_text, 'type': 'Visual', 'duration': tts_duration,
-                'fits_in_gap': True, 'original_texts': [c['text'] for c in clips_to_optimize],
-            }, True
-
-    print(f"  - Scene {scene_number_for_logging}: Retries exhausted for {len(clips_to_optimize)}-clip merge.")
-    return {
-        'scene_number': clips_to_optimize[0]['scene_number'],
-        'text': optimized_text if optimized_text else combined_text, 'type': 'Visual',
-        'duration': tts_duration if optimized_text else original_tts_duration,
-        'fits_in_gap': False,
-        'original_texts': [c['text'] for c in clips_to_optimize],
-    }, False
+    placed.sort(key=lambda x: x['start_time'])
+    extended = sum(1 for c in placed if not c.get('fits_in_gap', True))
+    if extended:
+        print(f"  [info] Scene {sn}: {extended} extended clip(s).")
+    return placed
 
 
-def process_scene(scene: Dict, optimizer_client, optimizer_model_type: str, min_gap_duration: float):
-    scene_number = scene.get('scene_number', 'N/A')
-    scene_start_abs = scene.get('start_time', 0)
+# ---------------------------------------------------------------------------
+# Client init + main
+# ---------------------------------------------------------------------------
 
-    print(f"\n\n===== PROCESSING SCENE {scene_number} (OPTIMIZED PLACEMENT with {optimizer_model_type.upper()}) =====")
-
-    clips_from_scene = get_scene_clips(scene)
-    text_clips, visual_clips = separate_clip_types(clips_from_scene)
-    print(f"\n-- Scene {scene_number}: Found {len(text_clips)} text clips and {len(visual_clips)} visual clips")
-
-    placed_clips = [{'scene_number': c['scene_number'], 'start_time': c['start_time'] + scene_start_abs,
-                     'end_time': c['end_time'] + scene_start_abs, 'duration': c['duration'],
-                     'type': 'Text on Screen', 'text': c['text']} for c in text_clips]
-
-    eligible_gaps = find_gaps_around_text_clips(scene, text_clips, min_gap_duration)
-    print(f"\n-- Scene {scene_number}: Found {len(eligible_gaps)} eligible gaps >= {min_gap_duration}s")
-
-    processed_clip_ids = set()
-
-    for gap_idx, gap in enumerate(eligible_gaps):
-        clips_in_gap_timeframe = [
-            c for c in visual_clips
-            if id(c) not in processed_clip_ids
-            and gap['start_time'] - 1.5 <= c['start_time'] < gap['end_time']
-        ]
-        clips_in_gap_timeframe.sort(key=lambda x: x['start_time'])
-        if not clips_in_gap_timeframe:
-            continue
-
-        print(f"\nProcessing Gap {gap_idx+1} (Duration: {gap['duration']:.2f}s) "
-              f"with {len(clips_in_gap_timeframe)} associated clips.")
-
-        gap_start_abs = gap['start_time'] + scene_start_abs
-        gap_end_abs = gap['end_time'] + scene_start_abs
-
-        # Sub-cluster within the gap by proximity. Only clips at essentially the
-        # same moment (within MERGE_WINDOW of the cluster's first clip) get merged.
-        # Clips that happen at distinctly different moments stay separate beats.
-        MERGE_WINDOW = 1.0
-        sub_clusters = []
-        current_cluster = [clips_in_gap_timeframe[0]]
-        for clip in clips_in_gap_timeframe[1:]:
-            if clip['start_time'] - current_cluster[0]['start_time'] <= MERGE_WINDOW:
-                current_cluster.append(clip)
-            else:
-                sub_clusters.append(current_cluster)
-                current_cluster = [clip]
-        sub_clusters.append(current_cluster)
-
-        # For each sub-cluster, merge if it has multiple clips, otherwise place as-is.
-        # Each sub-cluster gets placed at its own original timestamp within the gap.
-        for sub_cluster in sub_clusters:
-            cluster_start_rel = sub_cluster[0]['start_time']
-            cluster_start_abs = cluster_start_rel + scene_start_abs
-
-            if len(sub_cluster) == 1:
-                clip = sub_cluster[0]
-                placed_clips.append({
-                    'scene_number': scene_number,
-                    'start_time': cluster_start_abs,
-                    'end_time': cluster_start_abs + clip['duration'],
-                    'duration': clip['duration'],
-                    'type': 'Visual',
-                    'text': clip['text'],
-                    'fits_in_gap': cluster_start_abs + clip['duration'] <= gap_end_abs,
-                })
-                processed_clip_ids.add(id(clip))
-                continue
-
-            # Multi-clip sub-cluster: merge into one description.
-            # Available duration = how much room until either the next sub-cluster or the gap end.
-            sub_idx = sub_clusters.index(sub_cluster)
-            if sub_idx + 1 < len(sub_clusters):
-                next_start_rel = sub_clusters[sub_idx + 1][0]['start_time']
-                available = next_start_rel - cluster_start_rel
-            else:
-                available = gap['end_time'] - cluster_start_rel
-
-            optimized_clip_data, fits = optimize_combined_clips(
-                optimizer_client, optimizer_model_type,
-                sub_cluster, available,
-                gap_start=cluster_start_rel,
-                scene_number_for_logging=scene_number,
-            )
-
-            if optimized_clip_data:
-                optimized_clip_data['start_time'] = cluster_start_abs
-                optimized_clip_data['end_time'] = cluster_start_abs + optimized_clip_data['duration']
-                if optimized_clip_data['end_time'] > gap_end_abs:
-                    optimized_clip_data['fits_in_gap'] = False
-
-                placed_clips.append(optimized_clip_data)
-                for clip in sub_cluster:
-                    processed_clip_ids.add(id(clip))
-
-    # Orphan clips: didn't land in any eligible gap.
-    remaining_visual_clips = [c for c in visual_clips if id(c) not in processed_clip_ids]
-
-    if remaining_visual_clips:
-        print(f"\n-- Scene {scene_number}: {len(remaining_visual_clips)} orphan clips. "
-              f"Clustering near-simultaneous ones.")
-
-        MERGE_WINDOW = 1.0
-        remaining_visual_clips.sort(key=lambda x: x['start_time'])
-
-        clusters = []
-        current_cluster = [remaining_visual_clips[0]]
-        for clip in remaining_visual_clips[1:]:
-            if clip['start_time'] - current_cluster[0]['start_time'] <= MERGE_WINDOW:
-                current_cluster.append(clip)
-            else:
-                clusters.append(current_cluster)
-                current_cluster = [clip]
-        clusters.append(current_cluster)
-
-        for cluster in clusters:
-            cluster_start_abs = cluster[0]['start_time'] + scene_start_abs
-
-            if len(cluster) == 1:
-                clip = cluster[0]
-                placed_clips.append({
-                    'scene_number': scene_number,
-                    'start_time': cluster_start_abs,
-                    'end_time': cluster_start_abs + clip['duration'],
-                    'duration': clip['duration'],
-                    'type': 'Visual',
-                    'text': clip['text'],
-                    'fits_in_gap': False,
-                })
-                continue
-
-            cluster_span = cluster[-1]['start_time'] - cluster[0]['start_time']
-            target_duration = max(cluster_span, MERGE_WINDOW)
-
-            print(f"  - Merging cluster of {len(cluster)} orphan clips at {cluster_start_abs:.2f}s "
-                  f"(target {target_duration:.2f}s)")
-            merged, _fits = optimize_combined_clips(
-                optimizer_client, optimizer_model_type,
-                cluster, target_duration,
-                gap_start=cluster[0]['start_time'],
-                scene_number_for_logging=scene_number,
-            )
-
-            if merged:
-                placed_clips.append({
-                    'scene_number': scene_number,
-                    'start_time': cluster_start_abs,
-                    'end_time': cluster_start_abs + merged['duration'],
-                    'duration': merged['duration'],
-                    'type': 'Visual',
-                    'text': merged['text'],
-                    'fits_in_gap': False,
-                    'original_texts': merged.get('original_texts', []),
-                })
-            else:
-                for clip in cluster:
-                    clip_start = clip['start_time'] + scene_start_abs
-                    placed_clips.append({
-                        'scene_number': scene_number,
-                        'start_time': clip_start,
-                        'end_time': clip_start + clip['duration'],
-                        'duration': clip['duration'],
-                        'type': 'Visual',
-                        'text': clip['text'],
-                        'fits_in_gap': False,
-                    })
-
-    placed_clips.sort(key=lambda x: x['start_time'])
-
-    start_times = [c['start_time'] for c in placed_clips]
-    if len(start_times) != len(set(start_times)):
-        print(f"NOTE: Scene {scene_number} has clips with identical start times.")
-
-    return placed_clips
+def _init_client(model_type: str):
+    if model_type == MODEL_QWEN:
+        print("Initializing LOCAL Qwen model with 4-bit quantization...")
+        os.environ["TOKENIZERS_PARALLELISM"] = "false"
+        qcfg = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4",
+                                  bnb_4bit_compute_dtype=torch.bfloat16)
+        model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
+            "Qwen/Qwen2.5-VL-72B-Instruct", torch_dtype=torch.bfloat16,
+            attn_implementation="flash_attention_2", device_map="auto",
+            quantization_config=qcfg, cache_dir="../.cache",
+        )
+        proc = AutoProcessor.from_pretrained("Qwen/Qwen2.5-VL-72B-Instruct")
+        return {'model': model, 'processor': proc}
+    if model_type == MODEL_GEMINI:
+        key = os.getenv("GEMINI_API_KEY")
+        if not key:
+            print("Error: GEMINI_API_KEY not set."); return None
+        print("Initializing Gemini API client...")
+        return {"client": genai.Client(api_key=key), "model_name": "gemini-3-flash-preview"}
+    if model_type == MODEL_GPT4:
+        key = os.getenv("OPENAI_API_KEY")
+        if not key:
+            print("Error: OPENAI_API_KEY not set."); return None
+        print("Initializing OpenAI API client...")
+        return openai.OpenAI(api_key=key)
+    return None
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Place and merge audio descriptions on the scene timeline.")
-    parser.add_argument("video_folder", help="Path to the video folder")
-    parser.add_argument("--output", help="Output JSON file name", required=True)
-    parser.add_argument("--optimizer_model", type=str, choices=[MODEL_GEMINI, MODEL_QWEN, MODEL_GPT4],
-                        default=MODEL_GPT4,
-                        help="Choose the model for merging descriptions: 'gemini', 'qwen', or 'gpt'.")
-    parser.add_argument("--min_gap", type=float, default=2.0,
-                        help="Minimum gap duration in seconds to consider for placing descriptions.")
-    args = parser.parse_args()
+    p = argparse.ArgumentParser(description="Place and merge audio descriptions.")
+    p.add_argument("video_folder")
+    p.add_argument("--output", required=True)
+    p.add_argument("--optimizer_model", choices=[MODEL_GEMINI, MODEL_QWEN, MODEL_GPT4],
+                   default=MODEL_GPT4)
+    p.add_argument("--min_gap", type=float, default=2.0)
+    args = p.parse_args()
 
     video_id = os.path.basename(os.path.normpath(args.video_folder))
     scenes_folder = os.path.join(args.video_folder, f"{video_id}_scenes")
-
-    # Prefer the FILTERED file from clip_analyze.py (production pipeline).
-    # Fall back to the unfiltered scene_info as a convenience for ad-hoc runs.
-    candidate_paths = [
+    candidates = [
         os.path.join(scenes_folder, f"scene_info_{args.optimizer_model}_filtered.json"),
         os.path.join(scenes_folder, f"scene_info_{args.optimizer_model}.json"),
         os.path.join(scenes_folder, "scene_info.json"),
     ]
-
-    scenes_path = next((p for p in candidate_paths if os.path.exists(p)), None)
+    scenes_path = next((c for c in candidates if os.path.exists(c)), None)
     if not scenes_path:
-        print(f"Error: No scene_info file found in {scenes_folder}.")
-        print("  Looked for (in order):")
-        for p in candidate_paths:
-            print(f"    - {os.path.basename(p)}")
+        print(f"Error: No scene_info file in {scenes_folder}.")
+        for c in candidates:
+            print(f"    - {os.path.basename(c)}")
         return
 
     print(f"Using input scene file: {scenes_path}")
     if not scenes_path.endswith("_filtered.json"):
-        print("WARNING: Reading an UNFILTERED scene_info file. For production quality, "
-              "run clip_analyze.py first to filter out hallucinated/unnecessary clips.")
+        print("WARNING: UNFILTERED scene_info. Run clip_analyze.py first.")
 
-    with open(scenes_path, "r", encoding="utf-8") as f:
+    with open(scenes_path, encoding="utf-8") as f:
         scenes = json.load(f)
 
-    optimizer_client = None
-    if args.optimizer_model == MODEL_QWEN:
-        print("Initializing LOCAL Qwen model with 4-bit quantization...")
-        os.environ["TOKENIZERS_PARALLELISM"] = "false"
-        quantization_config = BitsAndBytesConfig(
-            load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.bfloat16
-        )
-        model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
-            "Qwen/Qwen2.5-VL-72B-Instruct",
-            torch_dtype=torch.bfloat16,
-            attn_implementation="flash_attention_2",
-            device_map="auto",
-            quantization_config=quantization_config,
-            cache_dir="../.cache",
-        )
-        processor = AutoProcessor.from_pretrained("Qwen/Qwen2.5-VL-72B-Instruct")
-        optimizer_client = {'model': model, 'processor': processor}
-    elif args.optimizer_model == MODEL_GEMINI:
-        gemini_api_key = os.getenv("GEMINI_API_KEY")
-        if not gemini_api_key:
-            print("Error: GEMINI_API_KEY environment variable not set.")
-            return
-        print("Initializing Gemini API client...")
-        client = genai.Client(api_key=gemini_api_key)
-        optimizer_client = {"client": client, "model_name": "gemini-3-flash-preview"}
-    elif args.optimizer_model == MODEL_GPT4:
-        openai_api_key = os.getenv("OPENAI_API_KEY")
-        if not openai_api_key:
-            print("Error: OPENAI_API_KEY environment variable not set.")
-            return
-        print("Initializing OpenAI API client...")
-        optimizer_client = openai.OpenAI(api_key=openai_api_key)
-
-    if not optimizer_client:
-        print("Error: Optimizer client could not be initialized.")
+    client = _init_client(args.optimizer_model)
+    if not client:
         return
 
     all_clips = []
     for scene in scenes:
-        scene_clips = process_scene(scene, optimizer_client, args.optimizer_model, args.min_gap)
-        all_clips.extend(scene_clips)
+        all_clips.extend(process_scene(scene, client, args.optimizer_model, args.min_gap))
 
-    output_file_path = os.path.join(scenes_folder, args.output)
-    with open(output_file_path, 'w', encoding="utf-8") as f:
+    out_path = os.path.join(scenes_folder, args.output)
+    with open(out_path, 'w', encoding="utf-8") as f:
         json.dump(all_clips, f, indent=2)
 
-    print(f"\nResults saved to: {output_file_path}")
+    print(f"\nResults saved to: {out_path}")
     print(f"Total audio clips generated: {len(all_clips)}")
 
 
