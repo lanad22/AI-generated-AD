@@ -24,12 +24,6 @@ MODEL_QWEN, MODEL_GEMINI, MODEL_GPT4 = "qwen", "gemini", "gpt"
 # same wall time and are merged into one description.
 MERGE_WINDOW = 1.0
 
-# Single-clip Visual compression sanity gates: only call the LLM compressor
-# when there's enough room to write a coherent sentence AND the clip is
-# meaningfully over budget. Otherwise we'd produce telegraphic fragments.
-MIN_AVAILABLE_TO_COMPRESS = 2.0
-MIN_OVERFLOW_RATIO = 1.25
-
 # Strip leading "Text:", "Caption:", "On screen:", etc. that LLMs sometimes
 # prepend despite being told not to.
 _LABEL_PREFIX_RE = re.compile(
@@ -183,7 +177,8 @@ def _llm_call(client, model_type: str, prompt: str, attempt: int,
             resp = client["client"].models.generate_content(
                 model=client["model_name"], contents=prompt,
                 config=types.GenerateContentConfig(
-                    temperature=0.0, max_output_tokens=4196,
+                    temperature=0.0 if attempt == 0 else 0.7,
+                    max_output_tokens=4196,
                     thinking_config=types.ThinkingConfig(thinking_budget=512),
                     safety_settings=[types.SafetySetting(
                         category=c, threshold=types.HarmBlockThreshold.BLOCK_NONE) for c in cats],
@@ -248,10 +243,12 @@ _COMPRESS_GUIDANCE = (
 
 def compress_single_clip(client, model_type: str, clip: Dict,
                          available: float, scene_label: str = "N/A") -> Dict:
-    """Time-budget compression for a single Visual clip. TOS clips are rejected."""
+    """Time-budget compression for a single Visual clip. Returns the shortest
+    coherent attempt — if it fits, fits_in_gap=True; otherwise extended."""
     if clip['type'] == 'Text on Screen':
         raise ValueError("compress_single_clip is for Visual clips only.")
     original = clip['text']
+    original_dur = get_tts_duration(original)
 
     def build(attempt: int, last: str) -> str:
         if attempt == 0:
@@ -276,27 +273,35 @@ def compress_single_clip(client, model_type: str, clip: Dict,
 
     orig_words = len(original.split())
     min_words = max(3, int(orig_words * 0.3))
+    best = {'text': None, 'dur': float('inf')}
 
     def accept(text: str) -> bool:
         dur = get_tts_duration(text)
         wc = len(text.split())
         coherent = wc >= min_words and text.rstrip().endswith(('.', '!', '?', '"'))
-        print(f"  - Scene {scene_label}, single-clip compress: "
-              f"'{text[:60]}...' Dur: {dur:.2f}s (Target: {available:.2f}s, "
-              f"Words: {wc}, Coherent: {coherent})")
+        print(f"  - Scene {scene_label}, compress: '{text[:60]}...' "
+              f"Dur: {dur:.2f}s (Target: {available:.2f}s, Words: {wc}, "
+              f"Coherent: {coherent})")
+        if coherent and dur < best['dur']:
+            best['text'], best['dur'] = text, dur
         return dur <= available and coherent
 
-    result = _retry_llm(client, model_type, build, accept, scene_label)
+    _retry_llm(client, model_type, build, accept, scene_label)
 
-    if result and accept(result):
-        return make_clip(clip['scene_number'], result, 'Visual', True,
-                         duration=get_tts_duration(result))
+    if best['text'] is None:
+        print(f"  - Scene {scene_label}: no coherent attempt; keeping original "
+              f"({original_dur:.2f}s) as extended.")
+        return make_clip(clip['scene_number'], original, 'Visual', False,
+                         duration=original_dur)
 
-    print(f"  - Scene {scene_label}: compression couldn't fit in {available:.2f}s. "
-          f"Keeping as extended clip.")
-    # Use the LLM's last attempt if it's at least minimally coherent; otherwise original.
-    fallback = result if (result and len(result.split()) >= min_words) else original
-    return make_clip(clip['scene_number'], fallback, 'Visual', False)
+    fits = best['dur'] <= available
+    if fits:
+        print(f"  - Scene {scene_label}: compressed to {best['dur']:.2f}s, fits.")
+    else:
+        print(f"  - Scene {scene_label}: shortened {original_dur:.2f}s → "
+              f"{best['dur']:.2f}s but still over {available:.2f}s; extended.")
+    return make_clip(clip['scene_number'], best['text'], 'Visual', fits,
+                     duration=best['dur'])
 
 
 def polish_single_clip(client, model_type: str, clip: Dict,
@@ -364,7 +369,7 @@ def merge_clips(client, model_type: str, clips: List[Dict],
                 available: float, scene_label: str = "N/A") -> Dict:
     """Merge multi-clip beats. Pure-TOS beats are handled in _build_beat (no LLM)."""
     has_tos = any(c['type'] == 'Text on Screen' for c in clips)
-    result_type = 'Text on Screen' if has_tos else 'Visual'
+    result_type = 'Visual'
     sn = clips[0]['scene_number']
     originals = [c['text'] for c in clips]
     flat = " ".join(originals)
@@ -444,47 +449,27 @@ def merge_clips(client, model_type: str, clips: List[Dict],
 def _build_beat(beat: List[Dict], client, model_type: str,
                 available: float, scene_number) -> Dict:
     """
-    Render a beat (1+ clips) as one placed-clip dict. Behavior by beat type:
-      - Single Visual: keep if fits; compress only if overflowing AND budget
-        is reasonable AND overflow is meaningful. Else verbatim extended.
-      - Single TOS: always verbatim.
-      - Multi pure-TOS: concatenate originals. No LLM, no framing.
-      - Multi pure-Visual / mixed: merge via LLM (TOS portions verbatim).
+    Render a beat as one placed-clip dict.
+      - Single TOS: verbatim (never compressed).
+      - Single Visual fitting: verbatim.
+      - Single Visual overflowing: compress via LLM (best attempt wins).
+      - Multi pure-TOS: concatenate verbatim.
+      - Multi mixed / pure-Visual: merge via LLM.
     """
-    types_in_beat = {c['type'] for c in beat}
-
     # Single-clip beats.
     if len(beat) == 1:
         c = beat[0]
         if c['type'] == 'Text on Screen':
-            fits = c['duration'] <= available
-            if not fits:
-                print(f"  - Scene {scene_number}: single TOS clip overflows window "
-                      f"({c['duration']:.2f}s > {available:.2f}s); keeping verbatim.")
-            return make_clip(scene_number, c['text'], c['type'], fits,
-                             duration=c['duration'])
-
+            return make_clip(scene_number, c['text'], c['type'],
+                             c['duration'] <= available, duration=c['duration'])
         if c['duration'] <= available:
             return make_clip(scene_number, c['text'], 'Visual', True,
-                             duration=c['duration'])
-
-        # Visual overflow — decide whether to compress.
-        ratio = c['duration'] / available if available > 0 else float('inf')
-        if available < MIN_AVAILABLE_TO_COMPRESS:
-            print(f"  - Scene {scene_number}: window {available:.2f}s "
-                  f"< {MIN_AVAILABLE_TO_COMPRESS}s; emitting verbatim as extended.")
-            return make_clip(scene_number, c['text'], 'Visual', False,
-                             duration=c['duration'])
-        if ratio < MIN_OVERFLOW_RATIO:
-            print(f"  - Scene {scene_number}: only {(ratio - 1) * 100:.0f}% over "
-                  f"budget; nothing to cut. Emitting verbatim as extended.")
-            return make_clip(scene_number, c['text'], 'Visual', False,
                              duration=c['duration'])
         return compress_single_clip(client, model_type, c, available,
                                     scene_label=str(scene_number))
 
     # Multi-clip beats.
-    if types_in_beat == {'Text on Screen'}:
+    if {c['type'] for c in beat} == {'Text on Screen'}:
         text = " ".join(c['text'] for c in beat)
         dur = get_tts_duration(text)
         print(f"  - Scene {scene_number}: pure-TOS multi-clip beat "
@@ -504,14 +489,13 @@ def place_beats_at_targets(beats: List[List[Dict]], boundary_rel: float,
                            scene_start_abs: float, client, model_type: str,
                            scene_number, in_dialogue: bool = False) -> List[Dict]:
     """
-    Place each beat at its intended start time. The "available" budget for a
-    beat is the time until the next beat's target (or `boundary_rel` for the
-    last beat). Start times are not adjusted; an over-budget beat just runs
-    extended (fits_in_gap=False).
+    Place each beat at its target start time. Each beat's budget is the time
+    until the next beat's target (or `boundary_rel` for the last beat).
+    Overflowing beats are emitted extended at their target time and may overlap
+    the next beat. Start times are never adjusted.
 
     Orphan beats (in_dialogue=True) skip the time-budget compressor entirely
-    — for single Visual clips they go through polish_single_clip; for TOS
-    clips they're emitted verbatim.
+    — single Visual clips go through polish_single_clip; TOS clips emit verbatim.
     """
     placed = []
     for i, beat in enumerate(beats):
@@ -522,17 +506,15 @@ def place_beats_at_targets(beats: List[List[Dict]], boundary_rel: float,
 
         if in_dialogue and len(beat) == 1:
             c = beat[0]
-            if c['type'] == 'Text on Screen':
-                bc = make_clip(scene_number, c['text'], c['type'], False,
-                               duration=c['duration'])
-            else:
-                bc = polish_single_clip(client, model_type, c, str(scene_number))
+            bc = (make_clip(scene_number, c['text'], c['type'], False,
+                            duration=c['duration'])
+                  if c['type'] == 'Text on Screen'
+                  else polish_single_clip(client, model_type, c, str(scene_number)))
         else:
             bc = _build_beat(beat, client, model_type, available, scene_number)
 
         bc['start_time'] = target + scene_start_abs
         bc['end_time'] = bc['start_time'] + bc['duration']
-        # Orphans always overlap dialogue regardless of TTS length.
         bc['fits_in_gap'] = False if in_dialogue else (bc['duration'] <= available)
         placed.append(bc)
     return placed

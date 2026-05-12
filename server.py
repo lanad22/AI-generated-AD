@@ -220,7 +220,11 @@ async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_use
         await process.wait()
 
         if process.returncode != 0:
-            logger.error(f"Pipeline failed for {video_id} (exit code {process.returncode})")
+            reason = f"Pipeline exited with code {process.returncode}"
+            logger.error(f"Pipeline failed for {video_id}: {reason}")
+            await notify_pipeline_failure(video_id, reason, user_id, ai_user_id)
+            if CLEANUP_AFTER_PROCESSING:
+                cleanup_video_dir(video_id)
             return
         
         logger.info(f"Pipeline completed successfully for {video_id}")
@@ -241,7 +245,14 @@ async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_use
             data_type=data_type
         )
         
-        await safe_forward(forward_request)
+        try:
+            await forward_final_data(forward_request)
+            logger.info(f"Forward succeeded for {video_id}")
+        except Exception as e:
+            reason = f"Forward to YDX failed: {str(e)}"
+            logger.error(f"{reason} for {video_id}")
+            await notify_pipeline_failure(video_id, reason, user_id, ai_user_id)
+            return
 
         if CLEANUP_AFTER_PROCESSING:
             logger.info(f"Cleaning up local files for {video_id}...")
@@ -293,7 +304,25 @@ async def narration_bot(data: UnifiedVideoRequest):
         "status": "processing",
         "message": f"Pipeline started in background for {video_id}"
     }
-        
+
+async def notify_pipeline_failure(video_id: str, reason: str, user_id: Optional[str] = None, ai_user_id: Optional[str] = None):
+    """Notify YDX backend that pipeline failed so it can update status, email user, and clean up."""
+    target_url = f"{YDX_API_URL}/api/audio-descriptions/aidescription-failure"
+    payload = {
+        "youtube_id": video_id,
+        "reason": reason,
+        "user_id": user_id,
+        "ai_user_id": ai_user_id,
+    }
+    try:
+        response = await asyncio.to_thread(
+            requests.post, target_url, json=payload, headers={"Content-Type": "application/json"}, timeout=30
+        )
+        response.raise_for_status()
+        logger.info(f"Failure notification sent for {video_id}")
+    except Exception as e:
+        logger.error(f"Failed to notify YDX of failure for {video_id}: {e}")
+                
 @app.post("/api/newaidescription")
 async def forward_final_data(data: UnifiedVideoRequest):
     """

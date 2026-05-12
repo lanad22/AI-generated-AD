@@ -131,33 +131,39 @@ GUIDING PRINCIPLE: LESS IS MORE.
 
 Audio descriptions interrupt the natural pacing of the video. Every clip kept is an interruption. A sparse, well-chosen set of descriptions is far better than a dense one. The default verdict is DROP. The bar for keeping a clip is high.
 
-KEEP only if you can answer YES to ALL THREE of these questions:
+KEEP only if you can answer YES to ALL THREE of these questions, IN ORDER:
 
 1. Without this description, would a blind viewer be CONFUSED about what is happening — not just missing detail, but unable to follow the scene?
+
 2. Is this information UNAVAILABLE and IMPOSSIBLE TO INFER from any other source — dialogue, sound effects, audible reactions, character voices, music, surrounding scene context, or descriptions already kept (only items in DESCRIPTIONS ALREADY KEPT count — your own evidence does NOT count)?
+
+   This is the redundancy check. Check it FIRST and check it carefully. Scan DESCRIPTIONS ALREADY KEPT for:
+   - An identical or near-identical string (especially for Text on Screen clips — the same text card often recurs across scene boundaries).
+   - A description that conveys the same instruction, action, or fact in different words.
+   - A description whose meaning subsumes this one (e.g., a kept clip describes a sequence that includes this moment).
+
+   If ANY of the above apply, this clip fails question 2. The verdict is drop. Quote the matching kept item in your reason.
+
 3. Does this clip describe something that MATTERS — the core action of the scene, or a fact (name, date, place) that affects understanding?
 
 If you cannot answer YES to all three, the verdict is "drop".
 
-EVALUATING "Text on Screen" CLIPS:
+APPLYING QUESTION 3 TO "Text on Screen" CLIPS:
 
-- INTENTIONAL & PROMINENT (KEEP): If the text is placed prominently front-and-center on the screen, takes up significant space, or is presented as a title card, chapter heading, or large location/time stamp, the creator explicitly intended for the audience to read it. These are inherently important. KEEP these clips, provided they are not just literal subtitles of spoken dialogue.
-- INCIDENTAL & UNNECESSARY (DROP): Text is unnecessary when the information it conveys is NOT IMPORTANT to understanding the scene, or can be INFERRED from the audio. Examples that fail this test and must be DROPPED:
-  - Logos, watermarks, channel branding, or copyright notices.
-  - Names on screen (including lower-thirds, name tags, or names printed on objects like folders, desks, or doors) when the character's identity or involvement in the scene is already obvious from the context.
-  - Decorative or environmental text (signs, posters, labels on objects) that doesn't drive the scene.
-  - Subtitles or captions of the dialogue itself.
+Use prominence to judge whether on-screen text matters — but ONLY after question 2 has been satisfied. Question 2 always comes first; a duplicate prominent title card is still a duplicate.
 
-Keep incidental on-screen text only when it conveys information that is genuinely important AND cannot be inferred from audio.
+- MATTERS (passes Q3): Text placed prominently front-and-center, taking up significant space, or presented as a title card, chapter heading, or large location/time/instruction stamp. The creator explicitly intended the audience to read it.
+- DOES NOT MATTER (fails Q3): Logos, watermarks, channel branding, copyright notices; names on screen (lower-thirds, name tags, names printed on folders/desks/doors) when the character's identity is already obvious from context; decorative or environmental text (signs, posters, object labels) that doesn't drive the scene; subtitles or captions of the dialogue itself.
 
-DROP categories (these patterns generally fail at least one of the three questions):
-- The windup or setup of an action when a separate clip describes the action itself or its payoff.
+A prominent text clip that has already been narrated in DESCRIPTIONS ALREADY KEPT must still be dropped. Prominence is not a redundancy override.
+
+APPLYING QUESTION 3 TO "Visual" CLIPS — common DROP patterns:
+- The windup or setup of an action when a separate clip describes the action itself or its payoff. EXCEPTION: in instructional or procedural content (recipes, tutorials, how-tos), each sequential step is itself the content — do not drop a step as "inferable from a previous step."
 - A character preparing, picking up, or moving toward something — when the consequential action is what matters.
-- Audible behaviors (laughing, crying, screaming, sighing) that the viewer can already hear.
+- Audible behaviors (laughing, crying, screaming, sighing) when the clip describes ONLY the behavior itself. If the clip also identifies WHO is doing it, HOW MANY are doing it, where they are, or what they are reacting to — and that information is not otherwise established — that visual context is the contribution and the clip should be kept.
 - Background characters or framing details that aren't the focus of the scene's action.
 - Incidental movement (walking, standing, sitting) that doesn't change the situation.
 - Mood, expression, or intent that the dialogue or voice conveys.
-- On-screen text that is decorative or whose information is inferable from audio.
 
 ### CORRECTION GUIDELINES (only when verdict is "keep_corrected")
 - Match the length and style of the original (one short sentence).
@@ -173,7 +179,7 @@ Return ONLY a JSON object with this exact structure:
   "accurate": <true if the description matches what you see (always true for Text on Screen), false if not>,
   "verdict": "keep_original" | "keep_corrected" | "drop",
   "corrected_text": "<the corrected description, only when verdict is 'keep_corrected'; otherwise empty string>",
-  "reason": "<one or two sentences explaining the keep/drop decision. If you claim redundancy, QUOTE the matching item from DESCRIPTIONS ALREADY KEPT.>"
+  "reason": "<one or two sentences. If verdict is 'drop' for redundancy, QUOTE the matching item from DESCRIPTIONS ALREADY KEPT. If verdict is 'keep_original' or 'keep_corrected', briefly confirm why this is NOT redundant with the kept list (e.g., 'no similar item in kept list' or 'kept list covers X but not this Y').>"
 }}
 
 The "evidence" field is REQUIRED for every clip. Do not skip it.
