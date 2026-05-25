@@ -24,6 +24,78 @@ MAX_FRAMES_FOR_IMAGE_BACKEND = 60
 VERIFICATION_IMAGE_DETAIL = "low"
 
 
+# ============================================================
+# GENRE-AWARE FILTERING STRATEGIES
+# ============================================================
+# Adjust the necessity bar in keep/drop decisions based on video genre.
+# Injected into the evaluation prompt to modify Question 3 (MATTERS).
+
+HOWTO_CATEGORIES = {
+    "howto", "how-to", "howto & style", "recipe", "tutorial", "diy", "cooking",
+}
+EDUCATION_CATEGORIES = {
+    "education", "science & technology", "informational", "informative",
+    "documentary", "news & politics", "news",
+}
+PETS_ANIMALS_CATEGORIES = {
+    "pets & animals", "pets", "animals",
+}
+ENTERTAINMENT_CATEGORIES = {
+    "film & animation", "entertainment", "comedy", "shows", "movies",
+    "trailers", "drama", "gaming",
+}
+
+FILTER_STRATEGIES = {
+    "howto": """
+        ### GENRE ADJUSTMENTS — HOW-TO / TUTORIAL
+        Each procedural step IS the content. Do NOT drop steps as "windup" or "inferable from previous."
+        Keep: tool choice, material state, technique, cues for doneness.
+        Drop: actor's body with no action attached.
+    """,
+    "education": """
+        ### GENRE ADJUSTMENTS — EDUCATIONAL / DOCUMENTARY
+        Narration carries the information. Drop bias is HIGH; redundancy with transcript wins.
+        Drop: clips whose content the narrator is already explaining.
+        Keep: what's pointed to / highlighted / animated when narrator doesn't name the change;
+              prominent text for names, dates, places not spoken; lower-third name captions on first appearance.
+    """,
+    "pets_animals": """
+        ### GENRE ADJUSTMENTS — PETS & ANIMALS
+        Body language and reactions ARE the story; they are NOT incidental.
+        Keep: the animal's body language, expression, reactions, and interactions.
+        Drop: generic locomotion with no payoff; descriptions of audible sounds with no added context.
+    """,
+    "entertainment": """
+        ### GENRE ADJUSTMENTS — ENTERTAINMENT / NARRATIVE
+        Drop bias is strongest here.
+        Drop: windup/setup, incidental movement, mood already conveyed by voice, background framing.
+        Keep: silent story beats (a meaningful look, hidden gesture, visual reveal), sight gags,
+              clips that identify WHO is reacting when audio doesn't make it clear.
+    """,
+}
+
+
+def get_genre_label(video_category: str) -> str:
+    """Return one of: 'howto', 'education', 'pets_animals', 'entertainment', or 'none'."""
+    if not video_category:
+        return "none"
+    cat_lower = video_category.lower().strip()
+    if any(k in cat_lower for k in HOWTO_CATEGORIES):
+        return "howto"
+    if any(k in cat_lower for k in EDUCATION_CATEGORIES):
+        return "education"
+    if any(k in cat_lower for k in PETS_ANIMALS_CATEGORIES):
+        return "pets_animals"
+    if any(k in cat_lower for k in ENTERTAINMENT_CATEGORIES):
+        return "entertainment"
+    return "none"
+
+
+def get_filter_strategy(video_category: str) -> str:
+    """Return the genre-specific necessity-adjustment block, or '' if no match."""
+    return FILTER_STRATEGIES.get(get_genre_label(video_category), "")
+
+
 def extract_scene_frames_at_fps(video_path: str, target_fps: float = SCENE_SAMPLING_FPS,
                                 max_frames: int = MAX_FRAMES_FOR_IMAGE_BACKEND) -> List[str]:
     if not video_path or not os.path.exists(video_path):
@@ -84,10 +156,30 @@ def _generate_with_qwen(client, prompt, max_tokens, temperature):
 
 
 def _build_evaluation_prompt(clip_text, clip_type, clip_start, scene_transcript,
-                             cumulative_transcript, kept_descriptions_text):
+                             cumulative_transcript, kept_descriptions_text,
+                             genre_strategy=""):
+    scene_has_transcript = bool(scene_transcript and scene_transcript.strip())
+    if scene_has_transcript:
+        strictness_banner = (
+            "### STRICTNESS MODE: STRICT\n"
+            "This scene HAS spoken dialogue. Audio descriptions will interrupt the narration "
+            "every time they fire. The bar to keep is HIGH — keep only what is essential to "
+            "understanding. When in doubt, DROP."
+        )
+    else:
+        strictness_banner = (
+            "### STRICTNESS MODE: PERMISSIVE\n"
+            "This scene has NO spoken dialogue. Audio description is the ONLY source of "
+            "information for blind viewers during this scene. The bar to keep is LOWER — "
+            "keep descriptions that convey what is happening, even if they would be borderline "
+            "in a scene with dialogue. Without descriptions, the viewer experiences silence."
+        )
+
     return f"""You are an accessibility expert filtering descriptions for an audio description track for blind viewers.
 
 You are watching the scene this description was generated for. Use it to verify accuracy AND decide whether to keep, correct, or drop the description.
+
+{strictness_banner}
 
 ### CONTEXT
 CURRENT SCENE TRANSCRIPT:
@@ -107,88 +199,61 @@ CANDIDATE TO EVALUATE:
 A "Visual" clip describes something happening in the scene (an action, a moment).
 A "Text on Screen" clip is a literal transcription of overlay text shown on screen (a name caption, title card, date stamp, etc.).
 
-### DECISION PROCESS — FOLLOW THESE STEPS IN ORDER
+### DECISION PROCESS
 
-STEP 1 — EVIDENCE
-Write one sentence describing what you actually see in the video at this moment, in your own words. Required for every clip. Your evidence is what YOU observe — it is NOT a previously-narrated description. Only items in "DESCRIPTIONS ALREADY KEPT" count as previously narrated.
+STEP 1 — EVIDENCE (required for every clip)
+One sentence describing what YOU see in the video at this moment, in your own words. This is not the same as the candidate description. Only items in DESCRIPTIONS ALREADY KEPT count as "previously narrated."
 
-STEP 2 — ACCURACY CHECK
-Compare your evidence to the candidate description. Are the objects, characters, actions, AND text in the description ACTUALLY present and correctly transcribed?
-- Visual clips: check that actions and objects match the video.
-- Text on Screen clips: check that the text reads as the candidate claims.
+STEP 2 — ACCURACY
+Does the candidate match your evidence (objects, characters, actions for Visual; text content for Text on Screen)?
+- Yes → accurate=true, go to STEP 4.
+- No → accurate=false, go to STEP 3.
 
-If accurate: set accurate=true, go to STEP 4.
-If not: set accurate=false, go to STEP 3.
+STEP 3 — CORRECTION (Visual clips only)
+If you can confidently describe what's actually happening, write a corrected version and go to STEP 4 with that text. Otherwise verdict=drop.
 
-STEP 3 — CORRECTION ATTEMPT (only for inaccurate Visual clips)
-Can you confidently describe what is actually happening based on your evidence?
-- If YES: write the corrected description and continue to STEP 4 with the corrected text.
-- If NO: verdict is "drop". Stop here.
+STEP 4 — NECESSITY
 
-STEP 4 — NECESSITY CHECK (only on accurate text — original or corrected)
+GUIDING PRINCIPLE: LESS IS MORE. Every clip interrupts the video; the default is DROP. Apply the strictness mode from the banner above: STRICT scenes (with dialogue) need a high bar; PERMISSIVE scenes (no dialogue) need a lower bar because description is the only signal.
 
-GUIDING PRINCIPLE: LESS IS MORE.
+KEEP only if YES to all three:
 
-Audio descriptions interrupt the natural pacing of the video. Every clip kept is an interruption. A sparse, well-chosen set of descriptions is far better than a dense one. The default verdict is DROP. The bar for keeping a clip is high.
+1. Without this, would a blind viewer be unable to comprehend or engage with the video content? In STRICT mode, "missing some detail" is NOT enough — the viewer must be genuinely unable to follow the scene. In PERMISSIVE mode, any meaningful contribution to understanding what is happening qualifies.
 
-KEEP only if you can answer YES to ALL THREE of these questions, IN ORDER:
+2. Is this UNAVAILABLE from any other source — dialogue, sound, voice, music, scene context, or DESCRIPTIONS ALREADY KEPT? Check the kept list for: near-identical strings, same idea in different words, descriptions that subsume this one. If any match, drop and quote the match in your reason. (Your own evidence does NOT count as "already narrated.")
 
-1. Without this description, would a blind viewer be CONFUSED about what is happening — not just missing detail, but unable to follow the scene?
+3. Does this MATTER — core action, or a fact like name/date/place that affects understanding?
 
-2. Is this information UNAVAILABLE and IMPOSSIBLE TO INFER from any other source — dialogue, sound effects, audible reactions, character voices, music, surrounding scene context, or descriptions already kept (only items in DESCRIPTIONS ALREADY KEPT count — your own evidence does NOT count)?
+For "Text on Screen": MATTERS = prominent title cards, headings, location/time stamps, key info not spoken. DOES NOT MATTER = logos, watermarks, lower-third names when identity is already clear, decorative or environmental text, subtitles. (Prominence does NOT override redundancy — a duplicate title card is still a duplicate.)
 
-   This is the redundancy check. Check it FIRST and check it carefully. Scan DESCRIPTIONS ALREADY KEPT for:
-   - An identical or near-identical string (especially for Text on Screen clips — the same text card often recurs across scene boundaries).
-   - A description that conveys the same instruction, action, or fact in different words.
-   - A description whose meaning subsumes this one (e.g., a kept clip describes a sequence that includes this moment).
+For "Visual" — common DROP patterns:
+- Windup/setup when a separate clip covers the payoff.
+- Audible behaviors (laughing, crying) described WITHOUT added context (who, how many, what they're reacting to). With added context, keep.
+- Background/framing details, incidental movement, mood the voice already conveys.
 
-   If ANY of the above apply, this clip fails question 2. The verdict is drop. Quote the matching kept item in your reason.
+{genre_strategy}
 
-3. Does this clip describe something that MATTERS — the core action of the scene, or a fact (name, date, place) that affects understanding?
-
-If you cannot answer YES to all three, the verdict is "drop".
-
-APPLYING QUESTION 3 TO "Text on Screen" CLIPS:
-
-Use prominence to judge whether on-screen text matters — but ONLY after question 2 has been satisfied. Question 2 always comes first; a duplicate prominent title card is still a duplicate.
-
-- MATTERS (passes Q3): Text placed prominently front-and-center, taking up significant space, or presented as a title card, chapter heading, or large location/time/instruction stamp. The creator explicitly intended the audience to read it.
-- DOES NOT MATTER (fails Q3): Logos, watermarks, channel branding, copyright notices; names on screen (lower-thirds, name tags, names printed on folders/desks/doors) when the character's identity is already obvious from context; decorative or environmental text (signs, posters, object labels) that doesn't drive the scene; subtitles or captions of the dialogue itself.
-
-A prominent text clip that has already been narrated in DESCRIPTIONS ALREADY KEPT must still be dropped. Prominence is not a redundancy override.
-
-APPLYING QUESTION 3 TO "Visual" CLIPS — common DROP patterns:
-- The windup or setup of an action when a separate clip describes the action itself or its payoff. EXCEPTION: in instructional or procedural content (recipes, tutorials, how-tos), each sequential step is itself the content — do not drop a step as "inferable from a previous step."
-- A character preparing, picking up, or moving toward something — when the consequential action is what matters.
-- Audible behaviors (laughing, crying, screaming, sighing) when the clip describes ONLY the behavior itself. If the clip also identifies WHO is doing it, HOW MANY are doing it, where they are, or what they are reacting to — and that information is not otherwise established — that visual context is the contribution and the clip should be kept.
-- Background characters or framing details that aren't the focus of the scene's action.
-- Incidental movement (walking, standing, sitting) that doesn't change the situation.
-- Mood, expression, or intent that the dialogue or voice conveys.
-
-### CORRECTION GUIDELINES (only when verdict is "keep_corrected")
-- Match the length and style of the original (one short sentence).
-- Describe what is actually visible — be specific about objects and actions.
-- Use any character names from the prior descriptions/transcript.
-- Do NOT add information beyond what the scene shows.
-- Corrections only apply to "Visual" clips, never "Text on Screen" clips.
+### CORRECTION RULES (only when verdict="keep_corrected")
+One short sentence, same style as the original. Describe only what's visible. Use known character names. Visual clips only — never Text on Screen.
 
 ### OUTPUT FORMAT
-Return ONLY a JSON object with this exact structure:
+Return ONLY this JSON object:
 {{
-  "evidence": "<one short sentence describing what you actually see in the video at this moment, in your own words. Mention if text is front-and-center.>",
-  "accurate": <true if the description matches what you see (always true for Text on Screen), false if not>,
+  "evidence": "<one sentence: what you see at this moment, in your own words. Note if text is front-and-center.>",
+  "accurate": <true/false; always true for Text on Screen if the text matches>,
   "verdict": "keep_original" | "keep_corrected" | "drop",
-  "corrected_text": "<the corrected description, only when verdict is 'keep_corrected'; otherwise empty string>",
-  "reason": "<one or two sentences. If verdict is 'drop' for redundancy, QUOTE the matching item from DESCRIPTIONS ALREADY KEPT. If verdict is 'keep_original' or 'keep_corrected', briefly confirm why this is NOT redundant with the kept list (e.g., 'no similar item in kept list' or 'kept list covers X but not this Y').>"
+  "corrected_text": "<corrected description if keep_corrected, else empty string>",
+  "reason": "<1-2 sentences. If dropping for redundancy, QUOTE the matching item from DESCRIPTIONS ALREADY KEPT. If keeping, briefly say why it isn't redundant.>"
 }}
 
-The "evidence" field is REQUIRED for every clip. Do not skip it.
+"evidence" is REQUIRED.
 """
 
 def evaluate_clip(client, model_name, clip_text, clip_type, clip_start,
                   scene_transcript_text, cumulative_transcript_text,
                   kept_descriptions_text,
-                  scene_video_bytes=None, scene_frames=None):
+                  scene_video_bytes=None, scene_frames=None,
+                  genre_strategy=""):
     """
     Unified evaluator for Visual and Text on Screen clips.
     Returns dict: {verdict, corrected_text, reason, accurate, evidence}.
@@ -196,6 +261,7 @@ def evaluate_clip(client, model_name, clip_text, clip_type, clip_start,
     prompt = _build_evaluation_prompt(
         clip_text, clip_type, clip_start, scene_transcript_text,
         cumulative_transcript_text, kept_descriptions_text,
+        genre_strategy=genre_strategy,
     )
 
     try:
@@ -219,6 +285,7 @@ def evaluate_clip(client, model_name, clip_text, clip_type, clip_start,
                 config=types.GenerateContentConfig(
                     temperature=0.0,
                     max_output_tokens=8192,
+                    thinking_config=types.ThinkingConfig(thinking_budget=2048),
                     response_mime_type="application/json",
                     safety_settings=[
                         types.SafetySetting(category=c, threshold=types.HarmBlockThreshold.BLOCK_NONE)
@@ -385,6 +452,26 @@ def main():
 
     output_path = os.path.join(scenes_folder, f"scene_info_{args.model}_filtered.json")
 
+    # Load video metadata to determine genre.
+    metadata_path = os.path.join(args.video_folder, f"{video_id}.json")
+    video_category = "Other"
+    if os.path.exists(metadata_path):
+        try:
+            with open(metadata_path, "r", encoding="utf-8") as f:
+                video_metadata = json.load(f)
+            video_category = video_metadata.get("category", "Other")
+        except Exception as e:
+            print(f"  [warn] Could not read metadata {metadata_path}: {e}. Defaulting category to 'Other'.")
+    else:
+        print(f"  [warn] Metadata file {metadata_path} not found. Defaulting category to 'Other'.")
+
+    genre_strategy = get_filter_strategy(video_category)
+    genre_label = get_genre_label(video_category)
+    if genre_strategy:
+        print(f"\n[genre] Applying '{genre_label}' filter strategy for category: {video_category}")
+    else:
+        print(f"\n[genre] No genre-specific filter strategy for category: {video_category}")
+
     print(f"\nReading: {input_path}")
     print(f"Writing: {output_path}\n")
 
@@ -425,7 +512,8 @@ def main():
 
         visual_count = sum(1 for c in clips_to_evaluate if c.get("type") == "Visual")
         text_count = sum(1 for c in clips_to_evaluate if c.get("type") == "Text on Screen")
-        print(f"\n===== SCENE {scene_number}: {visual_count} Visual + {text_count} Text on Screen =====")
+        mode = "STRICT" if scene_transcript_text else "PERMISSIVE"
+        print(f"\n===== SCENE {scene_number} [{mode}]: {visual_count} Visual + {text_count} Text on Screen =====")
 
         # Load video evidence once per scene (used for all clips, regardless of type).
         scene_video_bytes = None
@@ -469,6 +557,7 @@ def main():
                 kept_descriptions_text,
                 scene_video_bytes=scene_video_bytes,
                 scene_frames=scene_frames,
+                genre_strategy=genre_strategy,
             )
 
             verdict = decision['verdict']

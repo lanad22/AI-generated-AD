@@ -26,7 +26,7 @@ VERIFICATION_IMAGE_DETAIL = "low"
 # Cluster window (seconds). A clip joins the current cluster if its start_time
 # is within this window of the previous clip in the cluster.
 CLUSTER_WINDOW_VISUAL = 0.5    # Visual + Visual: only exact same start time
-CLUSTER_WINDOW_TOS = 1.0 
+CLUSTER_WINDOW_TOS = 1.0
 
 
 # -------------------------------------------------------------------------
@@ -165,21 +165,22 @@ CUMULATIVE TRANSCRIPT FROM EARLIER IN THE VIDEO:
 CANDIDATES (numbered 1..{n}, in time order):
 {cluster_text}
 
-### STEP 1: IS THE ON-SCREEN TEXT PROMINENT OR DECORATIVE?
-Look at the video and decide which category the on-screen text falls into:
+### STEP 1: CLASSIFY THE ON-SCREEN TEXT
+- PROMINENT: title cards, captions, name tags, lower-thirds, on-screen questions or statements, dates/locations stamped on screen, intertitles, slide text in an explainer video. The creator put it on screen to communicate something.
+- DECORATIVE: background signage, store names in a street scene, t-shirt logos, book titles on a shelf, brand labels on props, graffiti, license plates, background posters. It exists in the world the camera is filming, but it's not what the shot is about.
 
-- PROMINENT: title cards, captions, name tags, lower-thirds, on-screen questions or statements, dates/locations stamped on screen, intertitles, slide text in an explainer video. The creator put it on screen to communicate something to the viewer; it's a primary signal.
-- DECORATIVE: background signage, store names visible in a street scene, t-shirt logos, book titles on a shelf, brand labels on props, graffiti, license plates, background posters. It exists in the world the camera is filming, but it's not what the shot is about.
+If unsure, default to PROMINENT.
 
-If you're unsure, default to PROMINENT.
+### STEP 2: IS THE ON-SCREEN TEXT ALREADY NARRATED?
+Only relevant if a transcript is present. Check whether the on-screen text content is already spoken in RELEVANT SCENE TRANSCRIPT(S) or CUMULATIVE TRANSCRIPT. A match counts if the narrator reads the text aloud, or the name/fact/quote already appears in dialogue. Minor wording differences still count.
 
-### STEP 2: PICK THE WINNER
+### STEP 3: PICK THE WINNER
 
-If the text is PROMINENT:
-  Pick the Text on Screen candidate. The ONLY exception: pick a Visual if it BOTH (a) quotes the on-screen text verbatim, AND (b) adds info the text alone doesn't (who's on screen, action, setting). "More informative" or "different fact" is NOT enough.
+Apply the rules in order:
 
-If the text is DECORATIVE:
-  Pick the most informative Visual. The Text on Screen loses unless no Visual meaningfully describes the moment.
+- If Text on Screen is DECORATIVE → pick the most informative Visual.
+- Else if a transcript exists AND it already narrates the on-screen text → pick the most informative Visual (the text is redundant with audio).
+- Else (PROMINENT and not already in audio, OR no transcript at all) → pick the Text on Screen candidate. ONLY exception: pick a Visual if it BOTH (a) quotes the on-screen text verbatim, AND (b) adds info the text alone doesn't (who's on screen, action, setting).
 
 You are ONLY resolving redundancy, not judging necessity - a downstream step handles that.
 
@@ -188,9 +189,10 @@ Return ONLY this JSON:
 {{
   "evidence": "<one sentence on what you see at this moment>",
   "text_role": "<'prominent' or 'decorative'>",
-  "verbatim_check": "<if text_role is 'prominent', quote the on-screen text and state whether any Visual contains it verbatim. Otherwise: 'n/a'>",
+  "text_in_transcript": "<'yes' (quote the matching phrase), 'no', or 'no_transcript' if there is no transcript context>",
+  "verbatim_check": "<if you picked a Visual because it quotes prominent text verbatim, state which one and quote the match. Otherwise: 'n/a'>",
   "winner_index": <1 to {n}>,
-  "reason": "<one sentence citing the rule used>"
+  "reason": "<one sentence citing which rule applied>"
 }}
 """
 
@@ -244,7 +246,9 @@ def pick_best_in_cluster(client, model_name, cluster, scene_transcript_text,
                          cumulative_transcript_text,
                          scene_video_bytes=None, scene_frames=None):
     n = len(cluster)
-    fallback = {'winner_index': 1, 'reason': 'fallback: picker failed', 'evidence': '', 'verbatim_check': ''}
+    fallback = {'winner_index': 1, 'reason': 'fallback: picker failed',
+                'evidence': '', 'verbatim_check': '',
+                'text_in_transcript': '', 'text_role': ''}
 
     prompt = _build_picker_prompt(cluster, scene_transcript_text, cumulative_transcript_text)
 
@@ -333,6 +337,8 @@ def pick_best_in_cluster(client, model_name, cluster, scene_transcript_text,
             'reason': analysis.get('reason', "No reason provided"),
             'evidence': (analysis.get('evidence') or "").strip(),
             'verbatim_check': (analysis.get('verbatim_check') or "").strip(),
+            'text_in_transcript': (analysis.get('text_in_transcript') or "").strip(),
+            'text_role': (analysis.get('text_role') or "").strip(),
         }
 
     except json.JSONDecodeError:
@@ -436,10 +442,10 @@ def main():
                         help=f"Cluster window when the anchor is a Text on Screen, in seconds "
                              f"(default: {CLUSTER_WINDOW_TOS}).")
     args = parser.parse_args()
- 
+
     client = None
     model_to_use = ""
- 
+
     if args.model == MODEL_GEMINI:
         model_to_use = "gemini-3-flash-preview"
         print(f"\nSetting up Google Gemini client for model: {model_to_use}...")
@@ -449,7 +455,7 @@ def main():
             return
         gemini_client = genai.Client(api_key=api_key)
         client = {"client": gemini_client, "model_name": model_to_use}
- 
+
     elif args.model == MODEL_QWEN:
         model_to_use = "local_qwen"
         print("\nSetting up LOCAL Qwen model...")
@@ -467,7 +473,7 @@ def main():
         )
         processor = AutoProcessor.from_pretrained("Qwen/Qwen2.5-VL-72B-Instruct")
         client = {"model": model, "processor": processor}
- 
+
     elif args.model == MODEL_GPT:
         model_to_use = "gpt-4o"
         print(f"\nSetting up OpenAI GPT client for model: {model_to_use}...")
@@ -476,15 +482,15 @@ def main():
             print("Error: OPENAI_API_KEY environment variable not set.")
             return
         client = openai.OpenAI(api_key=api_key)
- 
+
     if not client:
         print("Client setup failed. Exiting.")
         return
- 
+
     video_id = os.path.basename(os.path.normpath(args.video_folder))
     scenes_folder = os.path.join(args.video_folder, f"{video_id}_scenes")
     input_path = os.path.join(scenes_folder, f"scene_info_{args.model}.json")
- 
+
     if not os.path.exists(input_path):
         fallback = os.path.join(scenes_folder, "scene_info.json")
         if os.path.exists(fallback):
@@ -492,17 +498,17 @@ def main():
         else:
             print(f"Error: No scene_info file found in {scenes_folder}.")
             return
- 
+
     output_path = os.path.join(scenes_folder, f"scene_info_{args.model}_deduped.json")
- 
+
     print(f"\nReading: {input_path}")
     print(f"Writing: {output_path}")
     print(f"Cluster windows: Visual+Visual={args.window_visual}s, "
           f"ToS+Visual={args.window_tos}s GLOBAL (anchor-based, ToS-vs-ToS not deduped)\n")
- 
+
     with open(input_path, "r", encoding="utf-8") as f:
         scenes = json.load(f)
- 
+
     # ---------------------------------------------------------------------
     # 1. Build a global, time-ordered list of clusterable clips. Each clip
     #    gets `_scene_number`, `_scene_index`, and `global_start_time` tags
@@ -512,19 +518,19 @@ def main():
     cumulative_transcript_segments_by_scene_idx = []  # parallel to scenes
     all_clusterable = []
     passthrough_by_scene_idx = [[] for _ in scenes]
- 
+
     running_transcript = []
     for s_idx, scene in enumerate(scenes):
         scene_number = scene.get("scene_number", s_idx)
         scenes_by_number[scene_number] = scene
         offset = _scene_offset(scene)
- 
+
         # Save the cumulative transcript *before* this scene for later prompt context.
         cumulative_transcript_segments_by_scene_idx.append(list(running_transcript))
- 
+
         scene_transcript_segments = scene.get("transcript", []) or []
         running_transcript.extend(scene_transcript_segments)
- 
+
         for clip in scene.get("audio_clips", []):
             ctype = clip.get("type")
             try:
@@ -532,7 +538,7 @@ def main():
             except (TypeError, ValueError):
                 local_start = 0.0
             global_start = offset + local_start
- 
+
             if ctype in ("Visual", "Text on Screen"):
                 tagged = dict(clip)
                 tagged["_scene_number"] = scene_number
@@ -541,10 +547,10 @@ def main():
                 all_clusterable.append(tagged)
             else:
                 passthrough_by_scene_idx[s_idx].append(clip)
- 
+
     all_clusterable.sort(key=lambda c: c["global_start_time"])
     total_input_clips = len(all_clusterable)
- 
+
     # ---------------------------------------------------------------------
     # 2. Cluster globally.
     # ---------------------------------------------------------------------
@@ -555,30 +561,30 @@ def main():
     multi_clusters = [c for c in clusters if len(c) > 1]
     singleton_clusters = [c for c in clusters if len(c) == 1]
     total_singletons = len(singleton_clusters)
- 
+
     print(f"\n===== GLOBAL: {total_input_clips} clips -> {len(clusters)} clusters "
           f"({len(multi_clusters)} multi, {len(singleton_clusters)} singleton) =====")
- 
+
     # ---------------------------------------------------------------------
     # 3. Resolve each multi-clip cluster.
     # ---------------------------------------------------------------------
     evidence_cache = SceneEvidenceCache(model_to_use, scenes_by_number)
- 
+
     survivors = []  # list of (scene_idx, clip)
     picker_log = []
     total_clusters_resolved = 0
     total_clips_dropped_by_picker = 0
- 
+
     for cluster in clusters:
         if len(cluster) == 1:
             clip = cluster[0]
             survivors.append((clip["_scene_index"], clip))
             continue
- 
+
         total_clusters_resolved += 1
         scene_nums_in_cluster = sorted({c["_scene_number"] for c in cluster})
         spans_scenes = len(scene_nums_in_cluster) > 1
- 
+
         print(f"\n  --- Cluster of {len(cluster)} clips "
               f"@ {cluster[0]['global_start_time']:.2f}s "
               f"(scenes: {scene_nums_in_cluster}{' SPANS' if spans_scenes else ''}) ---")
@@ -588,7 +594,7 @@ def main():
             ctext = (clip.get("text", "") or "").strip()
             print(f'    {i}. [{ctype} @ {cstart:.2f}s | scene {clip["_scene_number"]}] '
                   f'"{ctext[:80]}"')
- 
+
         # Build the transcript context for this cluster: union of transcripts
         # from every scene the cluster touches.
         scene_transcript_text_parts = []
@@ -599,39 +605,47 @@ def main():
             if text:
                 scene_transcript_text_parts.append(f"[scene {sn}] {text}")
         scene_transcript_text = "\n".join(scene_transcript_text_parts)
- 
+
         # Cumulative transcript = everything before the earliest scene in the cluster.
         earliest_scene_idx = min(c["_scene_index"] for c in cluster)
         cumulative_transcript_text = " ".join(
             seg.get("text", "")
             for seg in cumulative_transcript_segments_by_scene_idx[earliest_scene_idx]
         ).strip()
- 
+
         scene_video_bytes, scene_frames = evidence_cache.evidence_for_cluster(cluster)
         if not scene_video_bytes and not scene_frames:
             print(f"  [warn] No video evidence available; using text-only picker.")
- 
+
         decision = pick_best_in_cluster(
             client, model_to_use, cluster,
             scene_transcript_text, cumulative_transcript_text,
             scene_video_bytes=scene_video_bytes,
             scene_frames=scene_frames,
         )
- 
+
         winner_idx = decision['winner_index']
         winner = cluster[winner_idx - 1]
         losers = [c for j, c in enumerate(cluster, start=1) if j != winner_idx]
- 
-        print(f"     evidence: {decision.get('evidence', '')}")
+
+        print(f"     evidence:      {decision.get('evidence', '')}")
+        if decision.get('text_role'):
+            print(f"     text_role:     {decision.get('text_role', '')}")
+        if decision.get('text_in_transcript'):
+            print(f"     in_transcript: {decision.get('text_in_transcript', '')}")
         if decision.get('verbatim_check'):
-            print(f"     verbatim: {decision.get('verbatim_check', '')}")
-        print(f"     WINNER:   #{winner_idx} [{winner.get('type')} @ "
+            print(f"     verbatim:      {decision.get('verbatim_check', '')}")
+        print(f"     WINNER:        #{winner_idx} [{winner.get('type')} @ "
               f"{float(winner.get('global_start_time', 0)):.2f}s | scene {winner['_scene_number']}]")
-        print(f"     reason:   {decision.get('reason', '')}")
- 
+        print(f"     reason:        {decision.get('reason', '')}")
+
         winner_clip = dict(winner)
         winner_clip['cluster_size'] = len(cluster)
         winner_clip['cluster_spans_scenes'] = spans_scenes
+        if decision.get('text_role'):
+            winner_clip['cluster_text_role'] = decision['text_role']
+        if decision.get('text_in_transcript'):
+            winner_clip['cluster_text_in_transcript'] = decision['text_in_transcript']
         if decision.get('verbatim_check'):
             winner_clip['cluster_verbatim_check'] = decision['verbatim_check']
         winner_clip['cluster_competitors'] = [
@@ -645,10 +659,10 @@ def main():
             for c in losers
         ]
         winner_clip['cluster_pick_reason'] = decision.get('reason', '')
- 
+
         survivors.append((winner['_scene_index'], winner_clip))
         total_clips_dropped_by_picker += len(losers)
- 
+
         picker_log.append({
             'cluster_global_start': float(cluster[0]['global_start_time']),
             'cluster_global_end': float(cluster[-1]['global_start_time']),
@@ -658,15 +672,17 @@ def main():
             'winner_index': winner_idx,
             'winner_scene': winner['_scene_number'],
             'winner_text': winner.get('text', ''),
+            'text_role': decision.get('text_role', ''),
+            'text_in_transcript': decision.get('text_in_transcript', ''),
             'dropped': [
                 {'scene': c['_scene_number'], 'text': c.get('text', '')}
                 for c in losers
             ],
             'reason': decision.get('reason', ''),
         })
- 
+
     total_output_clips = len(survivors)
- 
+
     # ---------------------------------------------------------------------
     # 4. Re-attach surviving clips to their original scenes, strip internal
     #    bookkeeping fields, and write output.
@@ -677,14 +693,14 @@ def main():
         clean = {k: v for k, v in clip.items()
                  if k not in ("_scene_number", "_scene_index", "global_start_time")}
         survivors_by_scene_idx[s_idx].append(clean)
- 
+
     for s_idx, scene in enumerate(scenes):
         merged = survivors_by_scene_idx[s_idx] + passthrough_by_scene_idx[s_idx]
         scene["audio_clips"] = sorted(merged, key=lambda c: c.get("start_time", 0))
- 
+
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(scenes, f, indent=2)
- 
+
     print("\n" + "=" * 60)
     print("CLIP DEDUP SUMMARY (GLOBAL)")
     print("=" * 60)
@@ -700,7 +716,7 @@ def main():
     print(f"Total clips out:          {total_output_clips}")
     if total_input_clips > 0:
         print(f"Reduction:                {total_clips_dropped_by_picker / total_input_clips:.0%}")
- 
+
     if picker_log:
         print("\n" + "=" * 60)
         print(f"PICKER DECISIONS ({len(picker_log)} clusters resolved)")
@@ -712,8 +728,11 @@ def main():
             print(f"  WINNER (scene {entry['winner_scene']}) : {entry['winner_text']}")
             for dropped in entry['dropped']:
                 print(f"  dropped (scene {dropped['scene']}): {dropped['text']}")
+            if entry.get('text_role') or entry.get('text_in_transcript'):
+                print(f"  text_role={entry.get('text_role', 'n/a')}, "
+                      f"in_transcript={entry.get('text_in_transcript', 'n/a')}")
             print(f"  reason : {entry['reason']}")
- 
- 
+
+
 if __name__ == "__main__":
     main()

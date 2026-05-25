@@ -34,19 +34,90 @@ AUDIO DESCRIPTION GUIDELINES (for "Visual" events):
 - Do not describe camera movements.
 
 CHARACTER IDENTIFICATION GUIDELINES (for "Visual" events):
-- When you recognize a character from the context, ALWAYS use their specific name.
-- Before describing a scene, carefully review any provided context to identify all named characters.
-- Use the most specific identification possible based on context.
+- Use a character name ONLY when you are confident the person on screen matches a name explicitly provided in the context.
+- If you are unsure which named character a person is, do NOT guess. Use a neutral descriptor instead.
+- It is far better to use a neutral descriptor than to attach the wrong name to someone.
 """
 
-INSTRUCTIONAL_VOICE_RULE = """
-        ### INSTRUCTIONAL VOICE (this is a how-to/recipe/tutorial video):
-        Use IMPERATIVE voice. Describe each step as the action itself, NOT as "a hand" or "the person" performing it.
+# Genre-specific strategy blocks injected into the prompt.
+GENRE_STRATEGIES = {
+    "howto": """
+        ### GENRE: HOW-TO / TUTORIAL
+        The viewer's goal is to RECREATE the process. Prioritize describing:
+        - Exact actions, techniques, tools, and quantities shown visually.
+        - Hand positions, motions, and the state of materials (e.g., "until golden brown", "dough doubles in size").
+        - Visual results at each step that confirm correctness.
+        Use IMPERATIVE voice — describe the action itself, not the actor:
         - BAD: "A hand pours water into the bowl."   GOOD: "Pour water into the bowl."
-        - BAD: "The person whisks the eggs."          GOOD: "Whisk the eggs."
-        - BAD: "Someone places the dough on a tray." GOOD: "Place the dough on a tray."
+        - BAD: "The person whisks the eggs."         GOOD: "Whisk the eggs until frothy."
         Do not name a generic actor (hand, person, someone, you) when the action alone conveys the step.
-"""
+    """,
+    "education": """
+        ### GENRE: EDUCATIONAL / INFORMATIONAL / DOCUMENTARY
+        The narration carries most of the information. Your job is to describe the VISUAL CONTENT that supplements it:
+        - Diagrams, charts, graphs, equations, illustrations, maps, on-screen labels.
+        - Archival footage, B-roll, photographs, or reenactments shown to illustrate the narration.
+        - What is being pointed to, highlighted, animated, or revealed.
+        - Spatial relationships in diagrams (e.g., "an arrow connects the sun to Earth").
+        - Interview subjects' identities (via lower-third name captions) and settings, when shown.
+        CRITICAL: Do NOT paraphrase or repeat what the narrator is saying — the blind viewer hears that already.
+        Only describe visual elements that ADD information beyond the audio.
+        If a visual is on screen for a long time but the narration discusses it, describe it ONCE when it appears, not repeatedly.
+    """,
+    "entertainment": """
+        ### GENRE: ENTERTAINMENT / NARRATIVE
+        The goal is to keep blind viewers ENGAGED with the story. Prioritize:
+        - Character actions, expressions, and reactions that convey emotion or advance the plot.
+        - Setting, atmosphere, and mood (lighting, weather, time of day) when they affect the story.
+        - Visual jokes, sight gags, or silent story beats that the audio alone would miss.
+        Match the tone of the scene — tense, playful, somber. Avoid clinical descriptions.
+        Do not spoil upcoming reveals; describe what is visible NOW.
+    """,
+}
+
+# Category keyword sets used to dispatch genre strategies.
+HOWTO_CATEGORIES = {
+    "howto", "how-to", "howto & style", "recipe", "tutorial", "diy", "cooking", 
+}
+EDUCATION_CATEGORIES = {
+    "education", "science & technology", "informational", "informative",
+    "documentary", "news & politics", "news", "people & blogs",
+}
+ENTERTAINMENT_CATEGORIES = {
+    "film & animation", "entertainment", "comedy", "shows", "movies",
+    "trailers", "drama", "gaming", 
+    "pets & animals", "pets", "animals",
+}
+
+
+def get_genre_strategy(video_category: str) -> str:
+    """Return the genre-specific strategy block for the prompt, or '' if no match."""
+    if not video_category:
+        return ""
+    cat_lower = video_category.lower().strip()
+
+    if any(k in cat_lower for k in HOWTO_CATEGORIES):
+        return GENRE_STRATEGIES["howto"]
+    if any(k in cat_lower for k in EDUCATION_CATEGORIES):
+        return GENRE_STRATEGIES["education"]
+    if any(k in cat_lower for k in ENTERTAINMENT_CATEGORIES):
+        return GENRE_STRATEGIES["entertainment"]
+    return ""
+
+
+def get_genre_label(video_category: str) -> str:
+    """Short label for logging which genre branch fired."""
+    if not video_category:
+        return "none"
+    cat_lower = video_category.lower().strip()
+    if any(k in cat_lower for k in HOWTO_CATEGORIES):
+        return "howto"
+    if any(k in cat_lower for k in EDUCATION_CATEGORIES):
+        return "education"
+    if any(k in cat_lower for k in ENTERTAINMENT_CATEGORIES):
+        return "entertainment"
+    return "none"
+
 
 PROMPT_TEMPLATE = """
         Scene Duration: {scene_duration:.2f} seconds
@@ -60,11 +131,11 @@ PROMPT_TEMPLATE = """
         STEP 1: Text on Screen Events ("type": "Text on Screen")
         ============================================================
         **ACCESSIBILITY PRIORITY:** You MUST transcribe ALL major text that appears on screen, including narrative text blocks, slide titles, bullet points, and checklists. This text is NOT in the audio, so blind viewers rely on your transcription to understand the story.
-        
+
         Capture text that meets these criteria:
         1. It is clearly visible narrative text.
         2. It is a heading, name, date, or informational list.
-        
+
         ONLY EXCLUDE:
         - Brand/Network logos or watermarks.
         - Social media handles, URLs, or copyright fine print.
@@ -80,22 +151,22 @@ PROMPT_TEMPLATE = """
         - DO NOT REPEAT visual events from previous scenes.
 
         ### RULES FOR DESCRIBING PEOPLE:
-            - STRICTLY PROHIBITED: Never use the real names of actors or celebrities. Use character names from context.
-            - If character names are provided (e.g., Jane), you MUST use them.
-            - If NO names are available, use neutral descriptive terms.
-            
-        {voice_rule}
-        
-        ### SELF-CHECK BEFORE RESPONDING
-        1. "Did I transcribe the checklists and narrative text blocks as 'Text on Screen' events?" (REQUIRED)
-        2. "Did I use character names from the history for every 'Visual' event?" (REQUIRED)
+            - STRICTLY PROHIBITED: Never use the real names of actors or celebrities.
+            - Use a character name ONLY when you are confident the person on screen matches a name
+              explicitly provided in the context (title, description, transcript, captions, or visual history).
+              Confidence requires a clear signal — e.g., the name was just spoken, a caption labels them,
+              or the visual history already established this character's appearance.
+            - If you are UNSURE which named character a person is, do NOT guess. Use a neutral descriptor
+              (e.g., "a woman in a red jacket", "the chef", "a young boy") instead.
+            - It is far better to use a neutral descriptor than to attach the wrong name to someone.
 
+        {voice_rule}
         ============================================================
         TIMING REQUIREMENTS (CRITICAL)
         ============================================================
         - "timestamp" is in MM:SS format, RELATIVE TO THE START OF THIS SCENE.
         - The scene starts at 00:00 and ends at approximately {scene_mmss}.
-        - Report the precise moment each event BEGINS. 
+        - Report the precise moment each event BEGINS.
         - Observe the video; do not guess or default to sequential seconds.
 
         ### OUTPUT FORMAT (STRICT):
@@ -112,9 +183,9 @@ PROMPT_TEMPLATE = """
 MODEL_CONFIGS = {
     MODEL_GEMINI: {
         "model_name": "gemini-3-flash-preview",
-        "system_instruction": f"You are an expert audio describer AI describing video content to blind and low vision audiences. You describe ONLY what is clearly visible in the frames. You NEVER invent objects, characters, or actions that are not actually shown. You always use character names rather than bare pronouns.\n{AUDIO_DESCRIPTION_GUIDELINES}",
+        "system_instruction": f"You are an expert audio describer AI describing video content to blind and low vision audiences. You describe ONLY what is clearly visible in the frames. You NEVER invent objects, characters, or actions that are not actually shown. You use character names from context ONLY when you are confident about which person on screen matches which name; when uncertain, you use neutral descriptors rather than guessing.\n{AUDIO_DESCRIPTION_GUIDELINES}",
         "max_retries": 2,
-        "video_fps": 4.5,  
+        "video_fps": 4.5,
     },
     MODEL_QWEN: {
         "model_path": "Qwen/Qwen2.5-VL-72B-Instruct",
@@ -128,7 +199,7 @@ MODEL_CONFIGS = {
     },
     MODEL_GPT4: {
         "model_name": "gpt-4o",
-        "system_instruction": f"You are an expert video analysis AI. You describe ONLY what is clearly visible in the frames. You NEVER invent objects, characters, or actions that are not actually shown — hallucinating content is the worst possible failure. You ALWAYS use character names from the provided context (including visual history from previous scenes) instead of generic terms like 'man' or 'woman' whenever any name is available. You are also VERY selective about Text on Screen events — most visible text in videos is NOT worth describing. Only include text that a blind viewer absolutely needs to know and that is not already in the audio.\n{AUDIO_DESCRIPTION_GUIDELINES}",
+        "system_instruction": f"You are an expert video analysis AI. You describe ONLY what is clearly visible in the frames. You NEVER invent objects, characters, or actions that are not actually shown — hallucinating content is the worst possible failure. You use character names from context ONLY when you are confident about which person on screen matches which name; when uncertain, you use neutral descriptors (e.g., 'a woman in a red jacket') rather than guessing. You are also VERY selective about Text on Screen events — most visible text in videos is NOT worth describing. Only include text that a blind viewer absolutely needs to know and that is not already in the audio.\n{AUDIO_DESCRIPTION_GUIDELINES}",
         "max_retries": 2,
         "generation_config": {
             "max_tokens": 512,
@@ -142,20 +213,6 @@ MODEL_CONFIGS = {
         "max_frames_per_scene": 60
     }
 }
-
-# Categories that should use instructional voice (no "a hand", "the person", etc.).
-INSTRUCTIONAL_CATEGORIES = {
-    "howto & style", "howto", "education", "science & technology",
-    "recipe", "tutorial", "diy", "cooking",
-}
-
-
-def is_instructional_category(video_category: str) -> bool:
-    """Return True if the video category warrants instructional-voice descriptions."""
-    if not video_category:
-        return False
-    cat_lower = video_category.lower().strip()
-    return any(keyword in cat_lower for keyword in INSTRUCTIONAL_CATEGORIES)
 
 
 # JSON schema for Gemini structured output. Forces consistent shape and types.
@@ -346,64 +403,6 @@ def extract_video_frames(video_path: str, seconds_per_frame: float = 1.0, max_fr
     return base64_frames
 
 
-def post_filter_text_events(events: list, transcript_data: list) -> list:
-    """Post-processing filter to remove Text on Screen events that overlap with transcript content."""
-    if not events:
-        return events
-
-    all_transcript_text = " ".join(
-        seg.get('text', '') for seg in transcript_data
-    ).lower()
-
-    filtered_events = []
-    for event in events:
-        if event.get('type') != 'Text on Screen':
-            filtered_events.append(event)
-            continue
-
-        text_content = event.get('text', '').strip().lower()
-        if not text_content:
-            continue
-
-        words = text_content.split()
-        if len(words) <= 2:
-            if text_content in all_transcript_text:
-                print(f"  [POST-FILTER] Removed Text on Screen (in transcript): \"{event['text']}\"")
-                continue
-        else:
-            matching_words = sum(1 for w in words if w in all_transcript_text)
-            overlap_ratio = matching_words / len(words)
-            if overlap_ratio >= 0.6:
-                print(f"  [POST-FILTER] Removed Text on Screen (60%+ word overlap with transcript): \"{event['text']}\"")
-                continue
-
-        skip_patterns = [
-            r'^https?://',
-            r'^@',
-            r'^#',
-            r'©|®|™',
-            r'subscribe',
-            r'follow\s+(me|us)',
-            r'like\s+and\s+share',
-            r'\.(com|org|net|io)',
-        ]
-        should_skip = False
-        for pattern in skip_patterns:
-            if re.search(pattern, text_content, re.IGNORECASE):
-                print(f"  [POST-FILTER] Removed Text on Screen (matches skip pattern): \"{event['text']}\"")
-                should_skip = True
-                break
-
-        if not should_skip:
-            filtered_events.append(event)
-
-    removed_count = len(events) - len(filtered_events)
-    if removed_count > 0:
-        print(f"  [POST-FILTER] Removed {removed_count} Text on Screen events total")
-
-    return filtered_events
-
-
 def get_scene_events_from_model(chosen_model_type, model_client, scene_data, video_path,
                                 scene_idx, base_context_for_current_scene, video_category):
     scene_duration = scene_data.get("duration", 0.0)
@@ -411,16 +410,21 @@ def get_scene_events_from_model(chosen_model_type, model_client, scene_data, vid
     context_block = prepare_context_block_for_scene(
         base_context_for_current_scene, video_category, scene_data, scene_idx)
     scene_mmss = seconds_to_mmss(scene_duration)
-    voice_rule = INSTRUCTIONAL_VOICE_RULE if is_instructional_category(video_category) else ""
+
+    genre_strategy = get_genre_strategy(video_category)
+    genre_label = get_genre_label(video_category)
+
     user_prompt = PROMPT_TEMPLATE.format(
         scene_duration=scene_duration,
         scene_mmss=scene_mmss,
         context_block=context_block,
-        voice_rule=voice_rule,
+        voice_rule=genre_strategy,
     )
-    if is_instructional_category(video_category):
-        print(f"  [voice] Using INSTRUCTIONAL voice for category: {video_category}")
-        
+    if genre_strategy:
+        print(f"  [genre] Applying '{genre_label}' strategy for category: {video_category}")
+    else:
+        print(f"  [genre] No genre-specific strategy for category: {video_category}")
+
     print(f"\n--- Processing Scene {scene_number_display} with {chosen_model_type.upper()} ---")
     model_specific_config = MODEL_CONFIGS[chosen_model_type]
     max_retries = model_specific_config.get("max_retries", 2)
@@ -595,7 +599,8 @@ def process_video_folder(video_folder_path, model_client, chosen_model_type, out
         for segment in scene_data.get('transcript', []):
             all_transcript_data.append(segment)
 
-    all_prior_scene_visuals = []
+    # Accumulates ALL descriptions (both Visual and Text on Screen) across prior scenes.
+    all_prior_scene_descriptions = []
 
     for i, scene_data in enumerate(scene_list):
         original_scene_path = scene_data.get('scene_path')
@@ -618,7 +623,8 @@ def process_video_folder(video_folder_path, model_client, chosen_model_type, out
             )
 
             processed_events = []
-            current_scene_visual_texts = []
+            # Collect ALL descriptions (Visual + Text on Screen) for the history block.
+            current_scene_descriptions = []
             if isinstance(scene_events_raw, list):
                 for event in scene_events_raw:
                     if not isinstance(event, dict):
@@ -630,18 +636,20 @@ def process_video_folder(video_folder_path, model_client, chosen_model_type, out
 
                     event = normalize_event_timing(event, scene_duration)
 
-                    if event["type"] == "Visual":
-                        current_scene_visual_texts.append(event["text"].strip())
+                    text = event["text"].strip()
+                    if text:
+                        current_scene_descriptions.append({
+                            "type": event["type"],
+                            "text": text,
+                        })
                     processed_events.append(event)
 
             scene_transcript = scene_data.get('transcript', [])
-            processed_events = post_filter_text_events(processed_events, scene_transcript + all_transcript_data)
-
             scene_data['audio_clips'] = sorted(processed_events, key=lambda e: e.get("start_time", 0))
 
-            all_prior_scene_visuals.append({
+            all_prior_scene_descriptions.append({
                 "scene_number": scene_number,
-                "visuals": list(current_scene_visual_texts)
+                "descriptions": list(current_scene_descriptions),
             })
 
             next_base_context = f"Video Title: {video_title}"
@@ -649,21 +657,26 @@ def process_video_folder(video_folder_path, model_client, chosen_model_type, out
                 next_base_context += f"\nVideo Description: {video_description}"
 
             history_lines = []
-            for entry in all_prior_scene_visuals:
-                if not entry["visuals"]:
+            for entry in all_prior_scene_descriptions:
+                if not entry["descriptions"]:
                     continue
-                for v in entry["visuals"]:
-                    history_lines.append(f"[Scene {entry['scene_number']}] {v}")
+                for d in entry["descriptions"]:
+                    # Tag the type so the model knows whether a name came from on-screen text or visual description.
+                    history_lines.append(
+                        f"[Scene {entry['scene_number']} | {d['type']}] {d['text']}"
+                    )
 
             if history_lines:
                 history_block = "\n".join(history_lines)
                 next_base_context += (
-                    "\n\nPREVIOUS SCENES — VISUAL HISTORY "
-                    "(use character names that appear here whenever those characters reappear):\n"
+                    "\n\nPREVIOUS SCENES — DESCRIPTION HISTORY "
+                    "(includes both visual descriptions and on-screen text from prior scenes; "
+                    "use character names that appear here whenever those characters reappear, "
+                    "but only when you are confident about the match):\n"
                     f"{history_block}"
                 )
             else:
-                next_base_context += "\n\nPREVIOUS SCENE INFORMATION: No prior visuals recorded yet."
+                next_base_context += "\n\nPREVIOUS SCENE INFORMATION: No prior descriptions recorded yet."
 
             context_for_api_call = next_base_context
 

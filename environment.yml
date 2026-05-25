@@ -31,6 +31,7 @@ dependencies:
     - youtube-transcript-api
     - bitsandbytes
     - git+https://github.com/huggingface/transformers
+    - git+https://github.com/openai/CLIP.git
     - soundfile
     - librosa
     - pydub
@@ -38,3 +39,4 @@ dependencies:
     - jiwer
     - google-genai
     - qwen-vl-utils[decord]
+    - nltk
