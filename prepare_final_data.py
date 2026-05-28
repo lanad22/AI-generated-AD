@@ -2,6 +2,7 @@ import json
 import os
 import argparse
 
+
 def prepare_dialogue(scenes):
     dialogue = []
     sequence_counter = 1
@@ -58,20 +59,37 @@ def check_interference(clip_start, clip_end, existing_intervals):
             return True
     return False
 
-def prepare_audio_clips(scene_number, all_clips, dialogue_timestamps):
+
+def get_clip_end_time(clip):
+    if "end_time" in clip and clip["end_time"] is not None:
+        return clip["end_time"]
+    return clip["tts_duration"] + clip["start_time"]
+
+
+def normalize_video_length(video_length):
+    if video_length in (None, ""):
+        return None
+    try:
+        numeric_length = float(video_length)
+    except (TypeError, ValueError):
+        return None
+    return numeric_length if numeric_length > 0 else None
+
+
+def prepare_audio_clips(scene_number, all_clips, dialogue_timestamps, video_length=None):
     prepared_clips = []
     scene_clips = [clip for clip in all_clips if clip.get("scene_number") == scene_number]
     scene_clips.sort(key=lambda x: x["start_time"])
+    video_length_limit = normalize_video_length(video_length)
 
     for i, clip in enumerate(scene_clips):
         clip_start = clip["start_time"]
-        if "end_time" in clip and clip["end_time"]:
-            clip_end = clip["end_time"]
-        else:
-            clip_end = clip["tts_duration"] + clip_start
+        clip_end = get_clip_end_time(clip)
 
         track_type = "inline"
-        if check_interference(clip_start, clip_end, dialogue_timestamps):
+        if video_length_limit is not None and clip_end > video_length_limit:
+            track_type = "extended"
+        elif check_interference(clip_start, clip_end, dialogue_timestamps):
             track_type = "extended"
         
         other_clips_in_scene = [
@@ -106,12 +124,12 @@ def compile_final_data(video_id, model_choice):
         audio_clips_filename = "audio_clips_optimized_gemini.json"
         output_path = os.path.join(base_dir, "final_data_gemini.json")
     elif model_choice == "qwen":
-        ai_user_id = "650506db3ff1c2140ea10ece"
+        ai_user_id = "68798f57c48a173631902319"
         audio_clips_filename = "audio_clips_optimized_qwen.json"
         output_path = os.path.join(base_dir, "final_data_qwen.json")
         
     elif model_choice == "gpt":
-        ai_user_id = "68798f57c48a173631902319"
+        ai_user_id = "650506db3ff1c2140ea10ece"
         audio_clips_filename = "audio_clips_optimized_gpt.json"
         output_path = os.path.join(base_dir, "final_data_gpt.json")
         
@@ -133,12 +151,20 @@ def compile_final_data(video_id, model_choice):
 
     with open(metadata_path, "r") as f:
         metadata = json.load(f)
+    video_length = metadata.get("video_length", 0)
 
     dialogue_timestamps = prepare_dialogue(scenes)
     
     audio_clips = []
     for scene in scenes:
-        audio_clips.extend(prepare_audio_clips(scene.get("scene_number"), all_audio_clips, dialogue_timestamps))
+        audio_clips.extend(
+            prepare_audio_clips(
+                scene.get("scene_number"),
+                all_audio_clips,
+                dialogue_timestamps,
+                video_length=video_length,
+            )
+        )
 
     final_data = {
         "dialogue_timestamps": dialogue_timestamps,
@@ -157,7 +183,7 @@ def compile_final_data(video_id, model_choice):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Compile dialogue timestamps and audio clips into final_data.json")
     parser.add_argument("video_id", help="YouTube video ID (e.g., dQw4w9WgXcQ)")
-    parser.add_argument("--model", type=str, choices=["gemini", "qwen", "gpt"], required=True, 
+    parser.add_argument("--model", type=str, choices=["gemini", "qwen", "gpt"], default="gpt",
                         help="The model used to generate the audio clips, which determines the input file and AI User ID.")
     args = parser.parse_args()
 
