@@ -6,3 +6,7 @@ __pycache__/
 *.txt
 !requirements.txt
 google_credentials.json
+sa_speech_to_text.json
+videos/
+.idea/
+.DS_Store
