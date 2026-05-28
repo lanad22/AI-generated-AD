@@ -87,23 +87,25 @@ def transcribe_whisper(model, wav_path):
             beam_size=5,
             temperature=(0.0, 0.2, 0.4, 0.6, 0.8)
         )
+        detected_lang = result.get("language", "en")
         transcripts = []
         for segment in result["segments"]:
             transcripts.append({
                 "text": segment["text"].strip(),
                 "start": segment["start"],
                 "end": segment["end"],
-                "confidence": segment["confidence"]
+                "confidence": segment["confidence"],
+                "language": detected_lang,
             })
-        print(f"Whisper transcription complete: {len(transcripts)} segments")
+        print(f"Whisper transcription complete: {len(transcripts)} segments (lang={detected_lang})")
         return transcripts
     except Exception as e:
         print(f"Error transcribing with Whisper: {str(e)}")
         return []
 
 
-def transcribe_google_speech(client, wav_path):
-    print(f"Transcribing with Google Speech-to-Text on audio: {wav_path}")
+def transcribe_google_speech(client, wav_path, language_code="en-US"):
+    print(f"Transcribing with Google Speech-to-Text on audio: {wav_path} (lang={language_code})")
     try:
         with open(wav_path, "rb") as audio_file:
             audio_content = audio_file.read()
@@ -113,7 +115,7 @@ def transcribe_google_speech(client, wav_path):
         config = speech.RecognitionConfig(
             encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
             sample_rate_hertz=16000,
-            language_code="en-US",
+            language_code=language_code,
             enable_word_time_offsets=True,
             enable_automatic_punctuation=True,
             model="video",
@@ -143,6 +145,41 @@ def transcribe_google_speech(client, wav_path):
         return []
 
 
+# Map Whisper's ISO-639-1 language codes to Google Speech BCP-47 codes.
+# Falls back to "{lang}-XX" pattern handled in resolve_google_language_code.
+_WHISPER_TO_GOOGLE_LANG = {
+    "en": "en-US",
+    "vi": "vi-VN",
+    "zh": "zh",       # Mandarin (simplified) – Google accepts "zh" / "cmn-Hans-CN"
+    "es": "es-ES",
+    "fr": "fr-FR",
+    "de": "de-DE",
+    "ja": "ja-JP",
+    "ko": "ko-KR",
+    "it": "it-IT",
+    "pt": "pt-PT",
+    "ru": "ru-RU",
+    "ar": "ar-XA",
+    "hi": "hi-IN",
+    "th": "th-TH",
+    "id": "id-ID",
+    "nl": "nl-NL",
+}
+
+
+def resolve_google_language_code(whisper_lang: str) -> str:
+    """Translate Whisper's detected language code into a Google Speech language_code."""
+    if not whisper_lang:
+        return "en-US"
+    code = _WHISPER_TO_GOOGLE_LANG.get(whisper_lang.lower())
+    if code:
+        return code
+    # Unknown language: default to English so the WER sanity check still runs,
+    # though it will likely disagree and push to confidence-only filtering.
+    print(f"  [lang] No Google mapping for Whisper lang '{whisper_lang}', defaulting to en-US")
+    return "en-US"
+
+
 def normalize(text: str) -> str:
     text = text.lower().strip()
     text = re.sub(r"[^\w\s]", "", text)
@@ -150,17 +187,25 @@ def normalize(text: str) -> str:
     return text
 
 
-def is_garbage(text: str) -> bool:
-    """Reject Whisper output that isn't real speech (repetition, non-word syllables, etc.)."""
+def is_garbage(text: str, language: str = "en") -> bool:
+    """Reject Whisper output that isn't real speech (repetition, non-word syllables, etc.).
+
+    The repetition check is language-agnostic and always applies — it catches
+    Whisper's most common failure mode (hallucinated repeated tokens on music or
+    silence). The English-dictionary check is ENGLISH ONLY: applying it to other
+    languages would falsely flag perfectly good speech, since none of those tokens
+    appear in the English wordlist. For non-English segments we skip it and rely on
+    the repetition check plus Whisper's own confidence score downstream.
+    """
     norm = normalize(text)
     tokens = norm.split()
-    print(f"  [is_garbage] {len(tokens)} tokens, first 5: {tokens[:5]}, text snippet: \"{text[:60]}\"")
+    print(f"  [is_garbage] lang={language}, {len(tokens)} tokens, first 5: {tokens[:5]}, text snippet: \"{text[:60]}\"")
 
     if not tokens:
         print(f"  [is_garbage] -> True (empty)")
         return True
 
-    # Heavy repetition: one token dominates the segment
+    # Heavy repetition: one token dominates the segment (language-agnostic)
     if len(tokens) >= 6:
         most_common_count = Counter(tokens).most_common(1)[0][1]
         ratio = most_common_count / len(tokens)
@@ -169,12 +214,15 @@ def is_garbage(text: str) -> bool:
             print(f"  [is_garbage] -> True (repetition)")
             return True
 
-    # Dictionary check: most tokens should be real English words
-    real_word_ratio = sum(1 for t in tokens if t in _ENGLISH_WORDS) / len(tokens)
-    print(f"  [is_garbage] real word ratio: {real_word_ratio:.2f}")
-    if real_word_ratio < 0.5:
-        print(f"  [is_garbage] -> True (low real-word ratio)")
-        return True
+    # Dictionary check: ENGLISH ONLY. Skip for other languages.
+    if language == "en":
+        real_word_ratio = sum(1 for t in tokens if t in _ENGLISH_WORDS) / len(tokens)
+        print(f"  [is_garbage] real word ratio: {real_word_ratio:.2f}")
+        if real_word_ratio < 0.5:
+            print(f"  [is_garbage] -> True (low real-word ratio)")
+            return True
+    else:
+        print(f"  [is_garbage] skipping dictionary check (non-English: {language})")
 
     print(f"  [is_garbage] -> False")
     return False
@@ -195,7 +243,7 @@ def verify_transcriptions(whisper_transcripts, google_transcripts, wer_threshold
         raw_w = w.get("text", "").strip()
         if not raw_w:
             continue
-        if is_garbage(raw_w):
+        if is_garbage(raw_w, w.get("language", "en")):
             print(f"Discarded Whisper (not real speech): \"{raw_w[:80]}\"")
             continue
         clean_whisper.append(w)
@@ -321,9 +369,13 @@ def update_scene_transcripts(video_folder, device="cuda", global_caption_thresho
             updated_scenes.append(scene)
             continue
 
-        # Transcribe with both models
+        # Transcribe with Whisper first so we know the detected language,
+        # then run Google Speech with a matching language_code.
         whisper_trans = transcribe_whisper(whisper_model, audio_path)
-        google_trans = transcribe_google_speech(google_client, audio_path)
+
+        detected_lang = whisper_trans[0].get("language", "en") if whisper_trans else "en"
+        google_lang_code = resolve_google_language_code(detected_lang)
+        google_trans = transcribe_google_speech(google_client, audio_path, language_code=google_lang_code)
 
         # Verify and combine transcriptions
         scene["transcript"] = verify_transcriptions(whisper_trans, google_trans)
