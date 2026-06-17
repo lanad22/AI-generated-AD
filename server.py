@@ -1,6 +1,7 @@
 from typing import Optional
 from enum import Enum
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import shutil
 import json
@@ -34,6 +35,11 @@ YDX_API_URL = os.getenv("YDX_API_URL", "http://localhost:4001")
 
 S3_VIDEO_BUCKET = os.getenv("S3_VIDEO_BUCKET", "youdescribe-downloaded-youtube-videos")
 AWS_REGION = os.getenv("AWS_REGION", "us-west-1")
+
+# Concurrency cap (defense-in-depth — the api is the primary scheduler).
+# Default 2 matches AI_PIPELINE_CONCURRENCY on the api side for m5.large.
+MAX_CONCURRENT_PIPELINES = int(os.getenv("MAX_CONCURRENT_PIPELINES", "2"))
+pipeline_semaphore = asyncio.Semaphore(MAX_CONCURRENT_PIPELINES)
 
 s3_client = boto3.client(
     "s3",
@@ -260,6 +266,9 @@ async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_use
 
     except Exception as e:
         logger.error(f"Error in background pipeline processing for {video_id}: {str(e)}")
+    finally:
+        pipeline_semaphore.release()
+        logger.info(f"Released pipeline slot for {video_id}")
 
 @app.get("/health")
 async def health_check():
@@ -296,10 +305,25 @@ async def narration_bot(data: UnifiedVideoRequest):
         }
 
     logger.info(f"No existing data found for {video_id}. Starting pipeline.")
+
+    # Try to acquire a pipeline slot without blocking the request.
+    # 50ms timeout: long enough to give asyncio.Semaphore.acquire() an event-loop turn
+    # to complete when a slot is free, short enough to be effectively non-blocking when
+    # at capacity. Works on Python 3.10+ (avoids the wait_for(timeout=0) bug on 3.13).
+    try:
+        await asyncio.wait_for(pipeline_semaphore.acquire(), timeout=0.05)
+    except asyncio.TimeoutError:
+        logger.warning(f"Pipeline at capacity ({MAX_CONCURRENT_PIPELINES}); rejecting {video_id} with 503")
+        return JSONResponse(
+            status_code=503,
+            content={"status": "busy", "message": "AI pipeline at capacity. Please retry."},
+        )
+
+    # Slot acquired — schedule the pipeline. The worker releases the slot in its finally block.
     asyncio.create_task(
         run_pipeline_and_forward(video_id, data.user_id, data.ai_user_id, data.data_type)
     )
-    
+
     return {
         "status": "processing",
         "message": f"Pipeline started in background for {video_id}"
