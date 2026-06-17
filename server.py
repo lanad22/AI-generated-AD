@@ -96,6 +96,23 @@ async def preload_models():
         except Exception as e:
             logger.error(f"CLIP pre-warm failed (pipelines will retry lazily): {e}")
 
+        try:
+            # transcribe_scenes.py loads nltk.corpus.words and calls nltk.download('words')
+            # on LookupError. Two concurrent pipelines doing this on a cold cache race on
+            # the ~/nltk_data/corpora/words.zip file. Pre-warm once here so the corpus
+            # is on disk before any pipeline subprocess runs.
+            logger.info("Pre-warming NLTK 'words' corpus...")
+            import nltk
+            from nltk.corpus import words as _nltk_words
+            try:
+                _nltk_words.fileids()
+            except LookupError:
+                nltk.download('words', quiet=True)
+                _nltk_words.fileids()
+            logger.info("NLTK 'words' corpus warmed.")
+        except Exception as e:
+            logger.error(f"NLTK pre-warm failed (pipelines will retry lazily): {e}")
+
     # Schedule the warm in a worker thread without awaiting — server startup returns
     # immediately so /health responds and the deploy health-check passes.
     asyncio.create_task(asyncio.to_thread(_warm))
