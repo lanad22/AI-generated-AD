@@ -58,18 +58,24 @@ CLIP_MODEL_NAME = os.getenv("CLIP_MODEL", "ViT-B/32")
 
 @app.on_event("startup")
 async def preload_models():
-    """Populate the Whisper and CLIP disk caches once at startup.
+    """Populate the Whisper and CLIP disk caches once at startup, in the background.
 
     Pipeline subprocesses (test_pipeline.py → transcribe_scenes.py / keyframe_scene_detector.py)
     call load_model()/clip.load() which read from ~/.cache/whisper and ~/.cache/clip.
     Concurrent pipelines on a cold cache race and corrupt the download (SHA256 mismatch).
-    We pre-warm in this single server process so the cache files exist before pipelines run.
-    Failures are logged but do not block server startup — pipelines will fall back to lazy
-    load with the original (racy) behavior if the cache is still cold.
+    We warm those caches once in this server process so subsequent pipeline subprocesses
+    find the files on disk and skip the download.
+
+    Important: the warm runs as a fire-and-forget asyncio task so it does NOT block uvicorn
+    from accepting connections. Blocking startup would fail the deploy's health-check window.
+    On a warm-cache production EC2 the load completes in a few seconds; on a true cold start
+    nothing is dispatching requests yet, so the warm has time to finish before the first
+    pipeline. Failures are logged; pipelines will fall back to lazy load if the cache is
+    somehow still cold when they run (original behavior).
     """
-    import gc
 
     def _warm():
+        import gc
         try:
             logger.info(f"Pre-warming Whisper cache (model={WHISPER_MODEL_NAME})...")
             import whisper_timestamped
@@ -90,8 +96,9 @@ async def preload_models():
         except Exception as e:
             logger.error(f"CLIP pre-warm failed (pipelines will retry lazily): {e}")
 
-    # Run in a worker thread so the FastAPI event loop isn't blocked during the download.
-    await asyncio.to_thread(_warm)
+    # Schedule the warm in a worker thread without awaiting — server startup returns
+    # immediately so /health responds and the deploy health-check passes.
+    asyncio.create_task(asyncio.to_thread(_warm))
 
 
 def download_results_from_s3(video_id: str) -> bool:
