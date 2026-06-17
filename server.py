@@ -49,6 +49,51 @@ s3_client = boto3.client(
 )
 
 
+# Models that pipeline subprocesses lazy-load from disk cache. If the cache is missing,
+# each subprocess would download the same file in parallel and corrupt each other's cache
+# (TOCTOU race). Pre-warm here so the cache exists before any concurrent pipeline starts.
+WHISPER_MODEL_NAME = os.getenv("WHISPER_MODEL", "large-v3-turbo")
+CLIP_MODEL_NAME = os.getenv("CLIP_MODEL", "ViT-B/32")
+
+
+@app.on_event("startup")
+async def preload_models():
+    """Populate the Whisper and CLIP disk caches once at startup.
+
+    Pipeline subprocesses (test_pipeline.py → transcribe_scenes.py / keyframe_scene_detector.py)
+    call load_model()/clip.load() which read from ~/.cache/whisper and ~/.cache/clip.
+    Concurrent pipelines on a cold cache race and corrupt the download (SHA256 mismatch).
+    We pre-warm in this single server process so the cache files exist before pipelines run.
+    Failures are logged but do not block server startup — pipelines will fall back to lazy
+    load with the original (racy) behavior if the cache is still cold.
+    """
+    import gc
+
+    def _warm():
+        try:
+            logger.info(f"Pre-warming Whisper cache (model={WHISPER_MODEL_NAME})...")
+            import whisper_timestamped
+            _m = whisper_timestamped.load_model(WHISPER_MODEL_NAME, device="cpu")
+            del _m
+            gc.collect()
+            logger.info("Whisper cache warmed.")
+        except Exception as e:
+            logger.error(f"Whisper pre-warm failed (pipelines will retry lazily): {e}")
+
+        try:
+            logger.info(f"Pre-warming CLIP cache (model={CLIP_MODEL_NAME})...")
+            import clip
+            _m, _p = clip.load(CLIP_MODEL_NAME, device="cpu")
+            del _m, _p
+            gc.collect()
+            logger.info("CLIP cache warmed.")
+        except Exception as e:
+            logger.error(f"CLIP pre-warm failed (pipelines will retry lazily): {e}")
+
+    # Run in a worker thread so the FastAPI event loop isn't blocked during the download.
+    await asyncio.to_thread(_warm)
+
+
 def download_results_from_s3(video_id: str) -> bool:
     s3_prefix = f"results/{video_id}/"
     local_base = os.path.join("videos", video_id)
