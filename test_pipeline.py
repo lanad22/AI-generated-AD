@@ -144,7 +144,9 @@ def run_pipeline(video_id: str, model: str) -> bool:
     # 8. prepare_final_data         → produce final_data_{model}.json
     pipeline_steps = [
         {
-            "command": f"{PYTHON} fetch_video.py {video_id}",
+            # `--` separator so video_ids starting with a dash (e.g. -ar_x2wl-RI)
+            # aren't interpreted as flags by fetch_video.py's argparse.
+            "command": f"{PYTHON} fetch_video.py -- {video_id}",
             "check": lambda: check_youtube_downloaded(video_id),
         },
         {
@@ -175,7 +177,9 @@ def run_pipeline(video_id: str, model: str) -> bool:
             "check": lambda: check_description_optimize_inline(video_id, model),
         },
         {
-            "command": f"{PYTHON} prepare_final_data.py {video_id} --model {model}",
+            # Reordered so --model is parsed first, then `--` switches argparse to
+            # positional-only, so leading-dash video_ids work.
+            "command": f"{PYTHON} prepare_final_data.py --model {model} -- {video_id}",
             "check": lambda: check_final_data(video_id, model) is not None,
         },
     ]

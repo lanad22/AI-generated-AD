@@ -285,7 +285,9 @@ async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_use
     try:
         logger.info(f"Starting background pipeline processing for {video_id}")
         
-        command = [PYTHON, "test_pipeline.py", "--video_id", video_id, "--model", data_type.value,]
+        # `--video_id=...` syntax so video_ids starting with a dash (e.g. -ar_x2wl-RI)
+        # aren't interpreted as flags by test_pipeline.py's argparse (which exits 2).
+        command = [PYTHON, "test_pipeline.py", f"--video_id={video_id}", f"--model={data_type.value}"]
         process = await asyncio.create_subprocess_exec(
             *command,
             stdout=sys.stdout,
