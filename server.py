@@ -1,6 +1,7 @@
 from typing import Optional
 from enum import Enum
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import shutil
 import json
@@ -35,12 +36,86 @@ YDX_API_URL = os.getenv("YDX_API_URL", "http://localhost:4001")
 S3_VIDEO_BUCKET = os.getenv("S3_VIDEO_BUCKET", "youdescribe-downloaded-youtube-videos")
 AWS_REGION = os.getenv("AWS_REGION", "us-west-1")
 
+# Concurrency cap (defense-in-depth — the api is the primary scheduler).
+# Default 2 matches AI_PIPELINE_CONCURRENCY on the api side for m5.large.
+MAX_CONCURRENT_PIPELINES = int(os.getenv("MAX_CONCURRENT_PIPELINES", "2"))
+pipeline_semaphore = asyncio.Semaphore(MAX_CONCURRENT_PIPELINES)
+
 s3_client = boto3.client(
     "s3",
     region_name=AWS_REGION,
     aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
 )
+
+
+# Models that pipeline subprocesses lazy-load from disk cache. If the cache is missing,
+# each subprocess would download the same file in parallel and corrupt each other's cache
+# (TOCTOU race). Pre-warm here so the cache exists before any concurrent pipeline starts.
+WHISPER_MODEL_NAME = os.getenv("WHISPER_MODEL", "large-v3-turbo")
+CLIP_MODEL_NAME = os.getenv("CLIP_MODEL", "ViT-B/32")
+
+
+@app.on_event("startup")
+async def preload_models():
+    """Populate the Whisper and CLIP disk caches once at startup, in the background.
+
+    Pipeline subprocesses (test_pipeline.py → transcribe_scenes.py / keyframe_scene_detector.py)
+    call load_model()/clip.load() which read from ~/.cache/whisper and ~/.cache/clip.
+    Concurrent pipelines on a cold cache race and corrupt the download (SHA256 mismatch).
+    We warm those caches once in this server process so subsequent pipeline subprocesses
+    find the files on disk and skip the download.
+
+    Important: the warm runs as a fire-and-forget asyncio task so it does NOT block uvicorn
+    from accepting connections. Blocking startup would fail the deploy's health-check window.
+    On a warm-cache production EC2 the load completes in a few seconds; on a true cold start
+    nothing is dispatching requests yet, so the warm has time to finish before the first
+    pipeline. Failures are logged; pipelines will fall back to lazy load if the cache is
+    somehow still cold when they run (original behavior).
+    """
+
+    def _warm():
+        import gc
+        try:
+            logger.info(f"Pre-warming Whisper cache (model={WHISPER_MODEL_NAME})...")
+            import whisper_timestamped
+            _m = whisper_timestamped.load_model(WHISPER_MODEL_NAME, device="cpu")
+            del _m
+            gc.collect()
+            logger.info("Whisper cache warmed.")
+        except Exception as e:
+            logger.error(f"Whisper pre-warm failed (pipelines will retry lazily): {e}")
+
+        try:
+            logger.info(f"Pre-warming CLIP cache (model={CLIP_MODEL_NAME})...")
+            import clip
+            _m, _p = clip.load(CLIP_MODEL_NAME, device="cpu")
+            del _m, _p
+            gc.collect()
+            logger.info("CLIP cache warmed.")
+        except Exception as e:
+            logger.error(f"CLIP pre-warm failed (pipelines will retry lazily): {e}")
+
+        try:
+            # transcribe_scenes.py loads nltk.corpus.words and calls nltk.download('words')
+            # on LookupError. Two concurrent pipelines doing this on a cold cache race on
+            # the ~/nltk_data/corpora/words.zip file. Pre-warm once here so the corpus
+            # is on disk before any pipeline subprocess runs.
+            logger.info("Pre-warming NLTK 'words' corpus...")
+            import nltk
+            from nltk.corpus import words as _nltk_words
+            try:
+                _nltk_words.fileids()
+            except LookupError:
+                nltk.download('words', quiet=True)
+                _nltk_words.fileids()
+            logger.info("NLTK 'words' corpus warmed.")
+        except Exception as e:
+            logger.error(f"NLTK pre-warm failed (pipelines will retry lazily): {e}")
+
+    # Schedule the warm in a worker thread without awaiting — server startup returns
+    # immediately so /health responds and the deploy health-check passes.
+    asyncio.create_task(asyncio.to_thread(_warm))
 
 
 def download_results_from_s3(video_id: str) -> bool:
@@ -210,7 +285,9 @@ async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_use
     try:
         logger.info(f"Starting background pipeline processing for {video_id}")
         
-        command = [PYTHON, "test_pipeline.py", "--video_id", video_id, "--model", data_type.value,]
+        # `--video_id=...` syntax so video_ids starting with a dash (e.g. -ar_x2wl-RI)
+        # aren't interpreted as flags by test_pipeline.py's argparse (which exits 2).
+        command = [PYTHON, "test_pipeline.py", f"--video_id={video_id}", f"--model={data_type.value}"]
         process = await asyncio.create_subprocess_exec(
             *command,
             stdout=sys.stdout,
@@ -260,6 +337,9 @@ async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_use
 
     except Exception as e:
         logger.error(f"Error in background pipeline processing for {video_id}: {str(e)}")
+    finally:
+        pipeline_semaphore.release()
+        logger.info(f"Released pipeline slot for {video_id}")
 
 @app.get("/health")
 async def health_check():
@@ -296,10 +376,25 @@ async def narration_bot(data: UnifiedVideoRequest):
         }
 
     logger.info(f"No existing data found for {video_id}. Starting pipeline.")
+
+    # Try to acquire a pipeline slot without blocking the request.
+    # 50ms timeout: long enough to give asyncio.Semaphore.acquire() an event-loop turn
+    # to complete when a slot is free, short enough to be effectively non-blocking when
+    # at capacity. Works on Python 3.10+ (avoids the wait_for(timeout=0) bug on 3.13).
+    try:
+        await asyncio.wait_for(pipeline_semaphore.acquire(), timeout=0.05)
+    except asyncio.TimeoutError:
+        logger.warning(f"Pipeline at capacity ({MAX_CONCURRENT_PIPELINES}); rejecting {video_id} with 503")
+        return JSONResponse(
+            status_code=503,
+            content={"status": "busy", "message": "AI pipeline at capacity. Please retry."},
+        )
+
+    # Slot acquired — schedule the pipeline. The worker releases the slot in its finally block.
     asyncio.create_task(
         run_pipeline_and_forward(video_id, data.user_id, data.ai_user_id, data.data_type)
     )
-    
+
     return {
         "status": "processing",
         "message": f"Pipeline started in background for {video_id}"
