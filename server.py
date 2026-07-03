@@ -177,6 +177,68 @@ def cleanup_video_dir(video_id: str):
         shutil.rmtree(video_dir)
         logger.info(f"Cleaned up local directory: {video_dir}")
 
+
+def _extract_video_id_from_argv(argv):
+    """Return the video_id if `argv` is a real `python test_pipeline.py --video_id=X`
+    invocation, else None.
+
+    We match structurally on the argv list (not a substring of the joined command
+    line): a real pipeline is launched by run_pipeline_and_forward as
+    [PYTHON, "test_pipeline.py", "--video_id=X", "--model=..."]. Requiring argv[0]
+    to be a python interpreter and argv[1] to be test_pipeline.py rejects unrelated
+    processes that merely *mention* these tokens in their arguments — e.g. a
+    `grep --video_id=x test_pipeline.py`, an editor, or the scanner's own shell —
+    which a naive substring match would wrongly count as an active pipeline.
+    """
+    if len(argv) < 2:
+        return None
+    if not os.path.basename(argv[0]).startswith("python"):
+        return None
+    if os.path.basename(argv[1]) != "test_pipeline.py":
+        return None
+    for arg in argv[2:]:
+        if arg.startswith("--video_id="):
+            return arg.split("=", 1)[1]
+    return None
+
+
+def get_active_video_ids():
+    """List the video_ids currently being processed, read from real OS processes.
+
+    Source of truth is the running `test_pipeline.py --video_id=X` processes, NOT the
+    in-memory pipeline_semaphore. Those subprocesses are launched by
+    run_pipeline_and_forward and OUTLIVE a server.py restart (a deploy kills only
+    server.py; the children reparent to init and keep running), whereas the semaphore
+    resets to full on restart. Reading /proc therefore stays correct across restarts
+    and still reports orphaned pipelines the semaphore has forgotten.
+    """
+    try:
+        entries = os.listdir("/proc")
+    except FileNotFoundError:
+        # No /proc (e.g. non-Linux local dev) — nothing we can introspect.
+        return []
+
+    own_pid = os.getpid()
+    active = []
+    for entry in entries:
+        if not entry.isdigit():
+            continue
+        pid = int(entry)
+        if pid == own_pid:  # never count the scanner itself
+            continue
+        try:
+            with open(f"/proc/{pid}/cmdline", "rb") as f:
+                raw = f.read()
+        except (FileNotFoundError, ProcessLookupError, PermissionError):
+            continue  # process vanished mid-scan or isn't readable
+        # /proc cmdline is NUL-separated argv; parse it as a list, not a joined string.
+        argv = [part.decode("utf-8", "replace") for part in raw.split(b"\0") if part]
+        video_id = _extract_video_id_from_argv(argv)
+        if video_id and video_id not in active:
+            active.append(video_id)
+    return active
+
+
 class QueryModel(BaseModel):
     question: Optional[str] = None
     current_time: str
@@ -351,7 +413,24 @@ async def health_check():
         "service": "Lana GenAD API",
         "message": "Service is running"
     }
-    
+
+
+@app.get("/status")
+async def pipeline_status():
+    """Report which video pipelines are actively running, from real OS processes.
+
+    Sibling to /health: /health answers "am I alive?", /status answers "what am I
+    working on right now?". The api uses this to tell a still-running job apart from a
+    genuinely dead one before reclaiming (failing) it, instead of guessing by a timeout.
+    """
+    active = get_active_video_ids()
+    return {
+        "active": active,
+        "count": len(active),
+        "capacity": MAX_CONCURRENT_PIPELINES,
+    }
+
+
 @app.post("/api/generate-ai-description")
 async def narration_bot(data: UnifiedVideoRequest):
     logger.info(f"Received narration bot request: {data}")
