@@ -112,31 +112,39 @@ def prepare_audio_clips(scene_number, all_clips, dialogue_timestamps, video_leng
         })
     return prepared_clips
 
-def compile_final_data(video_id, model_choice):
+def compile_final_data(video_id, model_choice, audio_clips_path=None, output_path=None,
+                       ai_user_id=None):
     base_dir = os.path.join("videos", video_id)
     scene_dir = os.path.join(base_dir, f"{video_id}_scenes")
     scene_info_path = os.path.join(scene_dir, "scene_info.json")
     metadata_path = os.path.join(base_dir, f"{video_id}.json")
-    output_path = ""
 
     if model_choice == "gemini":
-        ai_user_id = "6845e4375506faa0752b8d62"
+        default_ai_user_id = "6845e4375506faa0752b8d62"
         audio_clips_filename = "audio_clips_optimized_gemini.json"
-        output_path = os.path.join(base_dir, "final_data_gemini.json")
+        default_output_path = os.path.join(base_dir, "final_data_gemini.json")
     elif model_choice == "qwen":
-        ai_user_id = "68798f57c48a173631902319"
+        default_ai_user_id = "68798f57c48a173631902319"
         audio_clips_filename = "audio_clips_optimized_qwen.json"
-        output_path = os.path.join(base_dir, "final_data_qwen.json")
-        
+        default_output_path = os.path.join(base_dir, "final_data_qwen.json")
+
     elif model_choice == "gpt":
-        ai_user_id = "650506db3ff1c2140ea10ece"
+        default_ai_user_id = "650506db3ff1c2140ea10ece"
         audio_clips_filename = "audio_clips_optimized_gpt.json"
-        output_path = os.path.join(base_dir, "final_data_gpt.json")
-        
+        default_output_path = os.path.join(base_dir, "final_data_gpt.json")
+
     else:
         raise ValueError("Invalid model choice provided.")
 
-    audio_clips_path = os.path.join(scene_dir, audio_clips_filename)
+    # Optional overrides let the bad pipeline supply its own clip file, a
+    # bad-prefixed output path, and a dedicated aiUserId without overwriting or
+    # colliding with the good pipeline's files/identity.
+    if audio_clips_path is None:
+        audio_clips_path = os.path.join(scene_dir, audio_clips_filename)
+    if output_path is None:
+        output_path = default_output_path
+    if ai_user_id is None:
+        ai_user_id = default_ai_user_id
     for path in [scene_info_path, audio_clips_path, metadata_path]:
         if not os.path.exists(path):
             print(f"Error: Required file not found at {path}")
@@ -185,6 +193,18 @@ if __name__ == "__main__":
     parser.add_argument("video_id", help="YouTube video ID (e.g., dQw4w9WgXcQ)")
     parser.add_argument("--model", type=str, choices=["gemini", "qwen", "gpt"], default="gpt",
                         help="The model used to generate the audio clips, which determines the input file and AI User ID.")
+    parser.add_argument("--audio_clips_path", type=str, default=None,
+                        help="Optional explicit path to the flat audio clips JSON "
+                             "(overrides audio_clips_optimized_{model}.json; used by the bad pipeline).")
+    parser.add_argument("--output_path", type=str, default=None,
+                        help="Optional explicit output path (overrides final_data_{model}.json; "
+                             "used by the bad pipeline).")
+    parser.add_argument("--ai_user_id", type=str, default=None,
+                        help="Optional aiUserId to bake into final_data (overrides the "
+                             "model's default id; used by the bad pipeline).")
     args = parser.parse_args()
 
-    compile_final_data(args.video_id, args.model)
+    compile_final_data(args.video_id, args.model,
+                       audio_clips_path=args.audio_clips_path,
+                       output_path=args.output_path,
+                       ai_user_id=args.ai_user_id)

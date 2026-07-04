@@ -234,9 +234,23 @@ if __name__ == "__main__":
         choices=["gemini", "gpt", "qwen"],
         help=f"Captioner/filter/optimizer model to use (default: {DEFAULT_MODEL})",
     )
+    parser.add_argument(
+        "--bad",
+        action="store_true",
+        help="Run the INTENTIONALLY-BAD pipeline variant (see test_pipeline_bad.py). "
+             "Writes bad-prefixed outputs; never overwrites the normal pipeline's files.",
+    )
     args = parser.parse_args()
 
-    if run_pipeline(args.video_id, args.model):
+    if args.bad:
+        # Lazy import so the normal path has no dependency on the bad variant.
+        from test_pipeline_bad import run_pipeline as run_bad_pipeline
+        logger.info("Running the INTENTIONALLY-BAD pipeline variant (bad-prefixed outputs).")
+        succeeded = run_bad_pipeline(args.video_id, args.model)
+    else:
+        succeeded = run_pipeline(args.video_id, args.model)
+
+    if succeeded:
         print("Pipeline executed successfully.")
     else:
         print("Pipeline execution failed. Check logs for details.")

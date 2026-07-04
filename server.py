@@ -189,6 +189,19 @@ class DataType(str, Enum):
     GPT = "gpt"
     BAD = "bad"
 
+# The intentionally-bad description track is a variant of the gemini base model.
+# It runs test_pipeline.py with --bad and produces final_data_gemini_bad.json.
+BAD_BASE_MODEL = "gemini"
+
+
+def final_data_filename(data_type: DataType) -> str:
+    """Filename that prepare_final_data / the bad pipeline writes for a data_type.
+
+    Bad resolves to final_data_bad.json (the model-independent default pattern),
+    even though the bad track runs on the gemini base model.
+    """
+    return f"final_data_{data_type.value}.json"
+
 # Unified request model for both endpoints
 class UnifiedVideoRequest(BaseModel):
     youtube_id: str
@@ -287,7 +300,12 @@ async def run_pipeline_and_forward(video_id: str, user_id: Optional[str], ai_use
         
         # `--video_id=...` syntax so video_ids starting with a dash (e.g. -ar_x2wl-RI)
         # aren't interpreted as flags by test_pipeline.py's argparse (which exits 2).
-        command = [PYTHON, "test_pipeline.py", f"--video_id={video_id}", f"--model={data_type.value}"]
+        if data_type == DataType.BAD:
+            # Intentionally-bad variant: gemini base model + --bad flag.
+            command = [PYTHON, "test_pipeline.py", f"--video_id={video_id}",
+                       f"--model={BAD_BASE_MODEL}", "--bad"]
+        else:
+            command = [PYTHON, "test_pipeline.py", f"--video_id={video_id}", f"--model={data_type.value}"]
         process = await asyncio.create_subprocess_exec(
             *command,
             stdout=sys.stdout,
@@ -357,23 +375,36 @@ async def narration_bot(data: UnifiedVideoRequest):
     logger.info(f"Received narration bot request: {data}")
     
     video_id = data.youtube_id
-    pattern = os.path.join("videos", video_id, "final_data*.json")
 
-    if glob.glob(pattern):
-        logger.info(f"Final data exists locally for {video_id}. Skipping pipeline and forwarding.")
-        asyncio.create_task(safe_forward(data))
-        return {
-            "status": "already_exists",
-            "message": "Video found. Forwarding existing data now."
-        }
+    if data.data_type == DataType.BAD:
+        # The bad track has its own file and is never uploaded to S3, so a good
+        # final_data must not satisfy a bad request. Check only the bad file locally.
+        bad_path = os.path.join("videos", video_id, final_data_filename(data.data_type))
+        if os.path.exists(bad_path):
+            logger.info(f"Bad final data exists locally for {video_id}. Skipping pipeline and forwarding.")
+            asyncio.create_task(safe_forward(data))
+            return {
+                "status": "already_exists",
+                "message": "Bad data found. Forwarding existing data now."
+            }
+    else:
+        pattern = os.path.join("videos", video_id, "final_data*.json")
 
-    if check_and_download_final_data_from_s3(video_id) and glob.glob(pattern):
-        logger.info(f"Final data found in S3 for {video_id}. Skipping pipeline and forwarding.")
-        asyncio.create_task(safe_forward(data))
-        return {
-            "status": "already_exists",
-            "message": "Video found in S3. Forwarding existing data now."
-        }
+        if glob.glob(pattern):
+            logger.info(f"Final data exists locally for {video_id}. Skipping pipeline and forwarding.")
+            asyncio.create_task(safe_forward(data))
+            return {
+                "status": "already_exists",
+                "message": "Video found. Forwarding existing data now."
+            }
+
+        if check_and_download_final_data_from_s3(video_id) and glob.glob(pattern):
+            logger.info(f"Final data found in S3 for {video_id}. Skipping pipeline and forwarding.")
+            asyncio.create_task(safe_forward(data))
+            return {
+                "status": "already_exists",
+                "message": "Video found in S3. Forwarding existing data now."
+            }
 
     logger.info(f"No existing data found for {video_id}. Starting pipeline.")
 
@@ -433,7 +464,7 @@ async def forward_final_data(data: UnifiedVideoRequest):
     logger.info(f"Received request to forward final_data_{data.data_type.value}.json for YouTube ID: {data.youtube_id}")
     
     try:
-        filename = f"final_data_{data.data_type.value}.json"
+        filename = final_data_filename(data.data_type)
         final_data_path = os.path.join("videos", data.youtube_id, filename)
         
         if not os.path.exists(final_data_path):
