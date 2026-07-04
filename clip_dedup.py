@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import difflib
 import base64
 import argparse
 import cv2
@@ -27,6 +28,11 @@ VERIFICATION_IMAGE_DETAIL = "low"
 # is within this window of the previous clip in the cluster.
 CLUSTER_WINDOW_VISUAL = 0.5    # Visual + Visual: only exact same start time
 CLUSTER_WINDOW_TOS = 1.0
+
+# Two Text on Screen clips are normally never deduped against each other, EXCEPT
+# when their text is (near-)identical — a caption that persists across a scene
+# cut. Normalized texts at or above this similarity ratio count as duplicates.
+TOS_DUPLICATE_SIMILARITY = 0.90
 
 
 # -------------------------------------------------------------------------
@@ -96,6 +102,30 @@ def _generate_with_qwen(client, prompt, max_tokens, temperature):
 # Clustering
 # -------------------------------------------------------------------------
 
+def _normalize_tos_text(text: str) -> str:
+    """Lowercase, drop leading list/bullet markers, collapse whitespace, and
+    strip surrounding punctuation so two transcriptions of the same overlay
+    text compare equal despite cosmetic differences."""
+    if not text:
+        return ""
+    t = text.strip().lower()
+    t = re.sub(r'^[\s\*\-•·—–]+', '', t)   # leading bullets/markers
+    t = re.sub(r'\s+', ' ', t)             # collapse internal whitespace
+    return t.strip(" .,:;!?\"'")
+
+
+def tos_texts_are_duplicate(a: str, b: str,
+                            threshold: float = TOS_DUPLICATE_SIMILARITY) -> bool:
+    """True if two Text on Screen strings are (near-)identical after
+    normalization — i.e. the same caption, not two distinct ones."""
+    na, nb = _normalize_tos_text(a), _normalize_tos_text(b)
+    if not na or not nb:
+        return False
+    if na == nb:
+        return True
+    return difflib.SequenceMatcher(None, na, nb).ratio() >= threshold
+
+
 def cluster_clips_by_time(clips,
                           window_visual: float = CLUSTER_WINDOW_VISUAL,
                           window_tos: float = CLUSTER_WINDOW_TOS,
@@ -119,10 +149,21 @@ def cluster_clips_by_time(clips,
 
         in_window = (curr_start - anchor_start) <= window
 
-        # Never dedup ToS vs ToS: if this clip is a ToS and the current
-        # cluster already contains a ToS, force a new cluster.
+        # ToS vs ToS is normally never deduped — nearby but DIFFERENT captions
+        # (e.g. sequential checklist bullets) are usually both meaningful. The
+        # one exception: a (near-)identical caption that persists across a cut is
+        # a true duplicate, so allow it to cluster (and be dropped downstream).
         cluster_has_tos = any(c.get("type") == "Text on Screen" for c in clusters[-1])
-        tos_conflict = clip_is_tos and cluster_has_tos
+        if clip_is_tos and cluster_has_tos:
+            clip_text = clip.get("text", "")
+            duplicates_existing_tos = any(
+                c.get("type") == "Text on Screen"
+                and tos_texts_are_duplicate(clip_text, c.get("text", ""))
+                for c in clusters[-1]
+            )
+            tos_conflict = not duplicates_existing_tos
+        else:
+            tos_conflict = False
 
         if in_window and not tos_conflict:
             clipped_in = True
@@ -441,6 +482,12 @@ def main():
     parser.add_argument("--window-tos", type=float, default=CLUSTER_WINDOW_TOS,
                         help=f"Cluster window when the anchor is a Text on Screen, in seconds "
                              f"(default: {CLUSTER_WINDOW_TOS}).")
+    parser.add_argument("--input", type=str, default=None,
+                        help="Optional explicit input scene_info path. Overrides the "
+                             "default scene_info_{model}.json (used by the bad pipeline).")
+    parser.add_argument("--output", type=str, default=None,
+                        help="Optional explicit output path. Overrides the default "
+                             "scene_info_{model}_deduped.json (used by the bad pipeline).")
     args = parser.parse_args()
 
     client = None
@@ -489,17 +536,24 @@ def main():
 
     video_id = os.path.basename(os.path.normpath(args.video_folder))
     scenes_folder = os.path.join(args.video_folder, f"{video_id}_scenes")
-    input_path = os.path.join(scenes_folder, f"scene_info_{args.model}.json")
 
-    if not os.path.exists(input_path):
-        fallback = os.path.join(scenes_folder, "scene_info.json")
-        if os.path.exists(fallback):
-            input_path = fallback
-        else:
-            print(f"Error: No scene_info file found in {scenes_folder}.")
+    if args.input:
+        input_path = args.input
+        if not os.path.exists(input_path):
+            print(f"Error: --input file not found: {input_path}")
             return
+    else:
+        input_path = os.path.join(scenes_folder, f"scene_info_{args.model}.json")
+        if not os.path.exists(input_path):
+            fallback = os.path.join(scenes_folder, "scene_info.json")
+            if os.path.exists(fallback):
+                input_path = fallback
+            else:
+                print(f"Error: No scene_info file found in {scenes_folder}.")
+                return
 
-    output_path = os.path.join(scenes_folder, f"scene_info_{args.model}_deduped.json")
+    output_path = args.output or os.path.join(
+        scenes_folder, f"scene_info_{args.model}_deduped.json")
 
     print(f"\nReading: {input_path}")
     print(f"Writing: {output_path}")
@@ -613,16 +667,30 @@ def main():
             for seg in cumulative_transcript_segments_by_scene_idx[earliest_scene_idx]
         ).strip()
 
-        scene_video_bytes, scene_frames = evidence_cache.evidence_for_cluster(cluster)
-        if not scene_video_bytes and not scene_frames:
-            print(f"  [warn] No video evidence available; using text-only picker.")
+        # An all-ToS cluster only forms when its captions are (near-)identical
+        # duplicates (see cluster_clips_by_time). Keep the earliest and drop the
+        # rest deterministically — no model call, and the picker's mixed prompt
+        # (built for ToS-vs-Visual) doesn't apply here.
+        if all(c.get("type") == "Text on Screen" for c in cluster):
+            print(f"  [dup-tos] All-ToS duplicate cluster; keeping earliest, "
+                  f"dropping {len(cluster) - 1}.")
+            decision = {
+                'winner_index': 1,
+                'reason': 'duplicate on-screen text (kept earliest occurrence)',
+                'evidence': '', 'verbatim_check': '',
+                'text_in_transcript': '', 'text_role': '',
+            }
+        else:
+            scene_video_bytes, scene_frames = evidence_cache.evidence_for_cluster(cluster)
+            if not scene_video_bytes and not scene_frames:
+                print(f"  [warn] No video evidence available; using text-only picker.")
 
-        decision = pick_best_in_cluster(
-            client, model_to_use, cluster,
-            scene_transcript_text, cumulative_transcript_text,
-            scene_video_bytes=scene_video_bytes,
-            scene_frames=scene_frames,
-        )
+            decision = pick_best_in_cluster(
+                client, model_to_use, cluster,
+                scene_transcript_text, cumulative_transcript_text,
+                scene_video_bytes=scene_video_bytes,
+                scene_frames=scene_frames,
+            )
 
         winner_idx = decision['winner_index']
         winner = cluster[winner_idx - 1]
