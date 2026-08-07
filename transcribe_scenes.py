@@ -34,7 +34,42 @@ try:
 except LookupError:
     nltk.download('words', quiet=True)
     _ENGLISH_WORDS = set(w.lower() for w in nltk_words.words())
+
+# The NLTK words corpus is a lemma-only dictionary: it has no contractions,
+# speech fillers, or inflected forms, all of which dominate real dialogue.
+# normalize() strips apostrophes, so contractions are matched in their
+# apostrophe-less form ("I'm" -> "im").
+_ENGLISH_WORDS.update({
+    # contractions (apostrophes already stripped by normalize)
+    "im", "ive", "ill", "id", "youre", "youve", "youll", "youd",
+    "hes", "shes", "weve", "theyre", "theyve", "theyll", "theyd",
+    "isnt", "arent", "wasnt", "werent", "dont", "doesnt", "didnt",
+    "cant", "couldnt", "wont", "wouldnt", "shouldnt", "hasnt",
+    "havent", "hadnt", "thats", "whats", "whos", "wheres", "theres",
+    "heres", "lets", "aint",
+    # informal speech / fillers
+    "gonna", "wanna", "gotta", "kinda", "sorta", "cmon", "yall",
+    "uh", "um", "hmm", "hm", "mhm", "huh", "ooh", "whoa", "yeah",
+    "yep", "yup", "nah", "nope", "ok", "okay", "alright", "hey",
+    "bye", "oops", "ugh", "eh", "er", "erm",
+})
 print(f"[INIT] Loaded {len(_ENGLISH_WORDS)} English words for garbage detection")
+
+
+def _is_english_word(token: str) -> bool:
+    """Dictionary lookup with a fallback for inflected forms, which the
+    lemma-only NLTK corpus lacks ("wanted"/"asked"/"looking" are not in it)."""
+    if token in _ENGLISH_WORDS:
+        return True
+    for suffix in ("ing", "ed", "es", "s", "d"):
+        if token.endswith(suffix) and len(token) - len(suffix) >= 3:
+            stem = token[: len(token) - len(suffix)]
+            # want-ed, ask-ed, look-ing; mak-ing -> make; stopp-ed -> stop
+            if stem in _ENGLISH_WORDS or stem + "e" in _ENGLISH_WORDS:
+                return True
+            if stem[-1] == stem[-2] and stem[:-1] in _ENGLISH_WORDS:
+                return True
+    return False
 
 
 def match_captions(scene_start, scene_end, scene_duration, captions):
@@ -180,9 +215,18 @@ def resolve_google_language_code(whisper_lang: str) -> str:
     return "en-US"
 
 
+_DIGIT_WORDS = {
+    "0": "zero", "1": "one", "2": "two", "3": "three", "4": "four",
+    "5": "five", "6": "six", "7": "seven", "8": "eight", "9": "nine",
+}
+
+
 def normalize(text: str) -> str:
     text = text.lower().strip()
     text = re.sub(r"[^\w\s]", "", text)
+    # Google STT writes digits ("1") where Whisper writes words ("one");
+    # unify so the comparison doesn't count formatting as disagreement.
+    text = re.sub(r"\b\d\b", lambda m: _DIGIT_WORDS[m.group()], text)
     text = re.sub(r"\s+", " ", text)
     return text
 
@@ -215,12 +259,16 @@ def is_garbage(text: str, language: str = "en") -> bool:
             return True
 
     # Dictionary check: ENGLISH ONLY. Skip for other languages.
-    if language == "en":
-        real_word_ratio = sum(1 for t in tokens if t in _ENGLISH_WORDS) / len(tokens)
+    # Also skip very short segments — with few tokens the ratio is too noisy
+    # to distinguish clipped-but-real speech from hallucination.
+    if language == "en" and len(tokens) >= 6:
+        real_word_ratio = sum(1 for t in tokens if _is_english_word(t)) / len(tokens)
         print(f"  [is_garbage] real word ratio: {real_word_ratio:.2f}")
-        if real_word_ratio < 0.5:
+        if real_word_ratio < 0.4:
             print(f"  [is_garbage] -> True (low real-word ratio)")
             return True
+    elif language == "en":
+        print(f"  [is_garbage] skipping dictionary check (short segment: {len(tokens)} tokens)")
     else:
         print(f"  [is_garbage] skipping dictionary check (non-English: {language})")
 
@@ -228,13 +276,26 @@ def is_garbage(text: str, language: str = "en") -> bool:
     return False
 
 
-def verify_transcriptions(whisper_transcripts, google_transcripts, wer_threshold=0.35, confidence_threshold=0.80):
+def verify_transcriptions(whisper_transcripts, google_transcripts, wer_threshold=0.35,
+                          confidence_threshold=0.80, char_sim_threshold=0.70,
+                          containment_threshold=0.85):
     """
     Decide which Whisper segments to keep, using Google as a sanity check.
 
     Strategy:
       1. Drop garbage Whisper segments (repetition / non-words).
-      2. If Google agrees with Whisper globally (WER <= threshold), keep all surviving Whisper segments.
+      2. If Google agrees with Whisper globally, keep all surviving Whisper segments.
+         Agreement is any of:
+           - WER <= wer_threshold
+           - character similarity >= char_sim_threshold: WER counts variant forms
+             ("turn round" vs "turn around") and dropped filler words as full errors,
+             so on short conversational clips it can read as "disagreement" when both
+             engines heard the same speech.
+           - containment >= containment_threshold: the shorter transcript is
+             essentially a substring of the longer one. Google routinely transcribes
+             only part of the audio (it silently drops quiet/overlapping speech), which
+             makes symmetric metrics explode even though everything Google DID hear
+             matches Whisper. A contained transcript is corroboration, not conflict.
       3. Otherwise, fall back to keeping only high-confidence Whisper segments.
     """
     # Step 1: filter garbage from Whisper up front
@@ -294,20 +355,31 @@ def verify_transcriptions(whisper_transcripts, google_transcripts, wer_threshold
         return verified
 
     overall_wer = wer(norm_google, norm_whisper)
-    print(f"Overall WER between combined transcripts: {overall_wer:.4f}")
+    char_sim = difflib.SequenceMatcher(None, norm_google, norm_whisper).ratio()
+
+    # How much of the shorter transcript is found (in order) inside the longer one.
+    shorter, longer = sorted([norm_google, norm_whisper], key=len)
+    sm = difflib.SequenceMatcher(None, shorter, longer)
+    containment = sum(b.size for b in sm.get_matching_blocks()) / len(shorter)
+    print(f"Overall WER between combined transcripts: {overall_wer:.4f}, "
+          f"char similarity: {char_sim:.4f}, containment: {containment:.4f}")
 
     verified = []
 
-    if overall_wer <= wer_threshold:
+    if (overall_wer <= wer_threshold or char_sim >= char_sim_threshold
+            or containment >= containment_threshold):
         # Whisper and Google substantially agree -> trust all surviving Whisper segments
-        print(f"Transcripts agree (WER={overall_wer:.4f} <= {wer_threshold}); keeping all Whisper segments.")
+        print(f"Transcripts agree (WER={overall_wer:.4f}, char_sim={char_sim:.4f}, "
+              f"containment={containment:.4f}); keeping all Whisper segments.")
         for w in clean_whisper:
             seg = to_segment(w)
             verified.append(seg)
             print(f"Added VERIFIED_WHISPER: \"{seg['text']}\" ({seg['start']}–{seg['end']})")
     else:
         # Disagreement -> only trust Whisper where the model is itself confident
-        print(f"Transcripts disagree (WER={overall_wer:.4f} > {wer_threshold}); keeping only high-confidence Whisper.")
+        print(f"Transcripts disagree (WER={overall_wer:.4f} > {wer_threshold}, "
+              f"char_sim={char_sim:.4f} < {char_sim_threshold}, "
+              f"containment={containment:.4f} < {containment_threshold}); keeping only high-confidence Whisper.")
         for w in clean_whisper:
             conf = w.get("confidence", 0)
             if conf >= confidence_threshold:
