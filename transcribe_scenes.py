@@ -4,7 +4,10 @@ from jiwer import wer
 import re
 import subprocess
 import argparse
-import whisper_timestamped
+import fcntl
+import math
+import time
+from faster_whisper import WhisperModel
 import os
 import onnxruntime
 from collections import Counter
@@ -115,21 +118,29 @@ def extract_audio(scene_video_path, output_audio_path):
 def transcribe_whisper(model, wav_path):
     print(f"Transcribing with Whisper on audio: {wav_path}")
     try:
-        result = whisper_timestamped.transcribe(
-            model,
+        segments, info = model.transcribe(
             wav_path,
-            vad=True,
+            vad_filter=True,
             beam_size=5,
-            temperature=(0.0, 0.2, 0.4, 0.6, 0.8)
+            temperature=(0.0, 0.2, 0.4, 0.6, 0.8),
+            word_timestamps=True,
         )
-        detected_lang = result.get("language", "en")
+        detected_lang = info.language or "en"
         transcripts = []
-        for segment in result["segments"]:
+        # segments is a generator; iterating it runs the actual transcription.
+        for segment in segments:
+            # Segment confidence in the same 0-1 shape whisper_timestamped
+            # produced: mean word probability, falling back to exp(avg_logprob)
+            # for segments where word timing failed.
+            if segment.words:
+                confidence = sum(w.probability for w in segment.words) / len(segment.words)
+            else:
+                confidence = math.exp(min(segment.avg_logprob, 0.0))
             transcripts.append({
-                "text": segment["text"].strip(),
-                "start": segment["start"],
-                "end": segment["end"],
-                "confidence": segment["confidence"],
+                "text": segment.text.strip(),
+                "start": float(segment.start),
+                "end": float(segment.end),
+                "confidence": float(confidence),
                 "language": detected_lang,
             })
         print(f"Whisper transcription complete: {len(transcripts)} segments (lang={detected_lang})")
@@ -401,6 +412,38 @@ def should_discard_captions(global_transcript_text, global_caption_text, thresho
     return similarity >= threshold
 
 
+# Cross-process cap on simultaneous Whisper transcriptions. MAX_CONCURRENT_PIPELINES
+# slots (default 2) are represented as flock()ed files: with faster-whisper int8 two
+# models fit in an m5.large's 8 GiB, but a third — possible when pipelines orphaned by
+# a server restart overlap newly launched ones — would OOM the box. flock is released
+# by the kernel when the holding process dies, so a crashed/killed pipeline can never
+# leave a slot stuck.
+_WHISPER_SLOTS = int(os.getenv("MAX_CONCURRENT_PIPELINES", "2"))
+
+
+def _acquire_whisper_slot(slots=_WHISPER_SLOTS, poll_seconds=15):
+    handles = [open(f"/tmp/whisper_stage_{i}.lock", "w") for i in range(slots)]
+    while True:
+        for fh in handles:
+            try:
+                fcntl.flock(fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except OSError:
+                continue
+            for other in handles:
+                if other is not fh:
+                    other.close()
+            return fh
+        print(f"All {slots} Whisper slots busy; waiting {poll_seconds}s...")
+        time.sleep(poll_seconds)
+
+
+def _release_whisper_slot(fh):
+    try:
+        fcntl.flock(fh, fcntl.LOCK_UN)
+    finally:
+        fh.close()
+
+
 def update_scene_transcripts(video_folder, device="cuda", global_caption_threshold=0.8):
     video_id = os.path.basename(os.path.normpath(video_folder))
     scene_json_path = os.path.join(video_folder, f"{video_id}_scenes", "scene_info.json")
@@ -412,52 +455,63 @@ def update_scene_transcripts(video_folder, device="cuda", global_caption_thresho
     with open(scene_json_path, "r") as f:
         scenes = json.load(f)
 
-    # Load models once for all scenes
-    print("Loading Whisper model...")
-    whisper_model = whisper_timestamped.load_model(WHISPER_MODEL, device=device)
-    print("Initializing Google Speech client...")
-    google_client = speech.SpeechClient()
+    # Hold a slot for the whole model-in-memory section (load through last scene)
+    # so at most _WHISPER_SLOTS processes have a model resident at once.
+    whisper_slot = _acquire_whisper_slot()
+    try:
+        # Load models once for all scenes. int8 on CPU keeps the model around
+        # ~1 GiB (vs ~4-6 GiB fp32), which is what allows two concurrent
+        # transcriptions on an 8 GiB instance.
+        compute_type = "float16" if device == "cuda" else "int8"
+        print(f"Loading Whisper model ({WHISPER_MODEL}, {device}, {compute_type})...")
+        whisper_model = WhisperModel(WHISPER_MODEL, device=device, compute_type=compute_type)
+        print("Initializing Google Speech client...")
+        google_client = speech.SpeechClient()
 
-    # Process scenes sequentially
-    updated_scenes = []
-    for i, scene in enumerate(scenes):
-        scene_number = scene.get('scene_number', i+1)
-        print(f"\n{'='*50}")
-        print(f"Processing scene {scene_number} ({i+1}/{len(scenes)})...")
-        print(f"{'='*50}")
+        # Process scenes sequentially
+        updated_scenes = []
+        for i, scene in enumerate(scenes):
+            scene_number = scene.get('scene_number', i+1)
+            print(f"\n{'='*50}")
+            print(f"Processing scene {scene_number} ({i+1}/{len(scenes)})...")
+            print(f"{'='*50}")
 
-        scene_path = scene.get("scene_path")
-        if not scene_path or not os.path.exists(scene_path):
-            print(f"Scene path not found, skipping: {scene_path}")
+            scene_path = scene.get("scene_path")
+            if not scene_path or not os.path.exists(scene_path):
+                print(f"Scene path not found, skipping: {scene_path}")
+                updated_scenes.append(scene)
+                continue
+
+            audio_path = scene_path.replace(".mp4", ".wav")
+            extract_audio(scene_path, audio_path)
+
+            if not os.path.exists(audio_path):
+                print(f"Audio file not created, skipping transcription")
+                scene["transcript"] = []
+                updated_scenes.append(scene)
+                continue
+
+            # Transcribe with Whisper first so we know the detected language,
+            # then run Google Speech with a matching language_code.
+            whisper_trans = transcribe_whisper(whisper_model, audio_path)
+
+            detected_lang = whisper_trans[0].get("language", "en") if whisper_trans else "en"
+            google_lang_code = resolve_google_language_code(detected_lang)
+            google_trans = transcribe_google_speech(google_client, audio_path, language_code=google_lang_code)
+
+            # Verify and combine transcriptions
+            scene["transcript"] = verify_transcriptions(whisper_trans, google_trans)
+
+            # Clean up audio file
+            if os.path.exists(audio_path):
+                os.remove(audio_path)
+                print(f"Cleaned up audio file: {audio_path}")
+
             updated_scenes.append(scene)
-            continue
 
-        audio_path = scene_path.replace(".mp4", ".wav")
-        extract_audio(scene_path, audio_path)
-
-        if not os.path.exists(audio_path):
-            print(f"Audio file not created, skipping transcription")
-            scene["transcript"] = []
-            updated_scenes.append(scene)
-            continue
-
-        # Transcribe with Whisper first so we know the detected language,
-        # then run Google Speech with a matching language_code.
-        whisper_trans = transcribe_whisper(whisper_model, audio_path)
-
-        detected_lang = whisper_trans[0].get("language", "en") if whisper_trans else "en"
-        google_lang_code = resolve_google_language_code(detected_lang)
-        google_trans = transcribe_google_speech(google_client, audio_path, language_code=google_lang_code)
-
-        # Verify and combine transcriptions
-        scene["transcript"] = verify_transcriptions(whisper_trans, google_trans)
-
-        # Clean up audio file
-        if os.path.exists(audio_path):
-            os.remove(audio_path)
-            print(f"Cleaned up audio file: {audio_path}")
-
-        updated_scenes.append(scene)
+        del whisper_model
+    finally:
+        _release_whisper_slot(whisper_slot)
 
     # Combine all transcripts for global comparison
     global_transcript_text = " ".join(
