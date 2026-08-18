@@ -18,7 +18,7 @@ dependencies:
     - ftfy
     - regex
     - tqdm
-    - whisper-timestamped
+    - faster-whisper
     - onnxruntime
     - google-cloud-speech
     - openai

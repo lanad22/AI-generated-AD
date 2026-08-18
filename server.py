@@ -72,27 +72,42 @@ async def preload_models():
     nothing is dispatching requests yet, so the warm has time to finish before the first
     pipeline. Failures are logged; pipelines will fall back to lazy load if the cache is
     somehow still cold when they run (original behavior).
+
+    Memory: this must only DOWNLOAD checkpoint files, never deserialize them. An earlier
+    version called load_model()/clip.load() here, which put full fp32 model weights on
+    the server's heap; del + gc.collect() releases the Python objects but glibc does not
+    return that heap to the OS, so the server's RSS stayed multi-GiB permanently and every
+    restart re-paid it — on an 8 GiB m5.large that OOM'd alongside running pipelines.
+    faster_whisper.download_model / clip._download fetch the files with only a streaming
+    buffer in memory, which is all a cache warm needs.
     """
 
     def _warm():
-        import gc
         try:
             logger.info(f"Pre-warming Whisper cache (model={WHISPER_MODEL_NAME})...")
-            import whisper_timestamped
-            _m = whisper_timestamped.load_model(WHISPER_MODEL_NAME, device="cpu")
-            del _m
-            gc.collect()
+            # transcribe_scenes.py uses faster-whisper, which resolves model names
+            # through the HuggingFace hub cache — warm that cache, download-only.
+            from faster_whisper import download_model
+            download_model(WHISPER_MODEL_NAME)
             logger.info("Whisper cache warmed.")
         except Exception as e:
             logger.error(f"Whisper pre-warm failed (pipelines will retry lazily): {e}")
 
         try:
             logger.info(f"Pre-warming CLIP cache (model={CLIP_MODEL_NAME})...")
-            import clip
-            _m, _p = clip.load(CLIP_MODEL_NAME, device="cpu")
-            del _m, _p
-            gc.collect()
-            logger.info("CLIP cache warmed.")
+            from clip import clip as _clip_module
+            if CLIP_MODEL_NAME in _clip_module._MODELS:
+                # Same default root as clip.load(download_root=None); download-only.
+                _clip_module._download(
+                    _clip_module._MODELS[CLIP_MODEL_NAME],
+                    os.path.expanduser("~/.cache/clip"),
+                )
+                logger.info("CLIP cache warmed.")
+            else:
+                logger.warning(
+                    f"CLIP_MODEL={CLIP_MODEL_NAME} is not a known model name; "
+                    "skipping pre-warm (pipelines will load it lazily)."
+                )
         except Exception as e:
             logger.error(f"CLIP pre-warm failed (pipelines will retry lazily): {e}")
 
@@ -455,6 +470,22 @@ async def narration_bot(data: UnifiedVideoRequest):
         }
 
     logger.info(f"No existing data found for {video_id}. Starting pipeline.")
+
+    # Count REAL running pipeline processes, not just the semaphore. Pipeline
+    # subprocesses outlive a server restart (they reparent to init), but the
+    # semaphore resets to full on restart — without this check a restarted
+    # server would launch new pipelines on top of orphaned ones still holding
+    # several GiB each, which OOMs the instance.
+    active = get_active_video_ids()
+    if len(active) >= MAX_CONCURRENT_PIPELINES:
+        logger.warning(
+            f"{len(active)} pipeline process(es) already running ({active}); "
+            f"rejecting {video_id} with 503"
+        )
+        return JSONResponse(
+            status_code=503,
+            content={"status": "busy", "message": "AI pipeline at capacity. Please retry."},
+        )
 
     # Try to acquire a pipeline slot without blocking the request.
     # 50ms timeout: long enough to give asyncio.Semaphore.acquire() an event-loop turn
