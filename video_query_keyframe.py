@@ -5,8 +5,8 @@ import cv2
 import shutil
 # Removed base64 and openai
 from dotenv import load_dotenv
-# Added google.generativeai and Pillow
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 from PIL import Image
 import subprocess
 
@@ -149,7 +149,7 @@ def query_frames_with_api(keyframe_path, exact_frame_path, scene, scene_info, sc
     google_api_key = os.getenv("GEMINI_API_KEY")
     if not google_api_key:
         return "Error: GEMINI_API_KEY environment variable not set."
-    genai.configure(api_key=google_api_key)
+    client = genai.Client(api_key=google_api_key)
 
     transcript = get_transcript_for_timestamp(scene, exact_time, video_id)
     accumulated_audio_clips = get_accumulated_audio_clips(scene_info, scene_idx)
@@ -199,13 +199,12 @@ def query_frames_with_api(keyframe_path, exact_frame_path, scene, scene_info, sc
         keyframe_img = Image.open(keyframe_path)
         exact_frame_img = Image.open(exact_frame_path)
 
-        model = genai.GenerativeModel(
-            model_name='gemini-2.5-pro',
-            system_instruction="You analyze frames extracted from a video and provide answers to user queries based on the provided context."
-        )
-
-        response = model.generate_content(
-            [prompt, keyframe_img, exact_frame_img]
+        response = client.models.generate_content(
+            model="gemini-2.5-pro",
+            contents=[prompt, keyframe_img, exact_frame_img],
+            config=types.GenerateContentConfig(
+                system_instruction="You analyze frames extracted from a video and provide answers to user queries based on the provided context."
+            ),
         )
 
         return response.text
