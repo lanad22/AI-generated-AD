@@ -68,19 +68,25 @@ jobs:
 
             pip install boto3 python-dotenv requests fastapi uvicorn pydantic 2>/dev/null || true
 
+            # server.py runs under supervisor (program "ad-pipeline"), which also
+            # restarts it after a crash or reboot. Stop it, clear any copy started
+            # outside supervisor by older deploys, then let supervisor start it.
+            sudo supervisorctl stop ad-pipeline
             pgrep -f "python server\.py" | grep -v $$ | xargs -r kill || true
             sleep 2
+            sudo supervisorctl start ad-pipeline
 
-            setsid nohup python server.py > server.log 2>&1 &
-            sleep 5
-
-            if curl -sf http://localhost:8000/health > /dev/null; then
-              echo "Server started successfully"
-            else
-              echo "ERROR: Server health check failed."
-              tail -n 50 server.log
-              exit 1
-            fi
+            for i in $(seq 1 12); do
+              if curl -sf http://localhost:8000/health > /dev/null; then
+                echo "Server started successfully"
+                exit 0
+              fi
+              sleep 5
+            done
+            echo "ERROR: Server health check failed."
+            sudo supervisorctl status ad-pipeline
+            sudo tail -n 50 /var/log/ad-pipeline.err.log
+            exit 1
 
   deploy-prod:
     if: github.ref == 'refs/heads/main'
@@ -143,16 +149,22 @@ jobs:
 
             pip install boto3 python-dotenv requests fastapi uvicorn pydantic 2>/dev/null || true
 
+            # server.py runs under supervisor (program "ad-pipeline"), which also
+            # restarts it after a crash or reboot. Stop it, clear any copy started
+            # outside supervisor by older deploys, then let supervisor start it.
+            sudo supervisorctl stop ad-pipeline
             pgrep -f "python server\.py" | grep -v $$ | xargs -r kill || true
             sleep 2
+            sudo supervisorctl start ad-pipeline
 
-            setsid nohup python server.py > server.log 2>&1 &
-            sleep 5
-
-            if curl -sf http://localhost:8000/health > /dev/null; then
-              echo "Server started successfully"
-            else
-              echo "ERROR: Server health check failed."
-              tail -n 50 server.log
-              exit 1
-            fi
+            for i in $(seq 1 12); do
+              if curl -sf http://localhost:8000/health > /dev/null; then
+                echo "Server started successfully"
+                exit 0
+              fi
+              sleep 5
+            done
+            echo "ERROR: Server health check failed."
+            sudo supervisorctl status ad-pipeline
+            sudo tail -n 50 /var/log/ad-pipeline.err.log
+            exit 1
