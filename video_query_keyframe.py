@@ -7,6 +7,7 @@ import shutil
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+from gemini_client import get_gemini_client
 from PIL import Image
 import subprocess
 
@@ -146,10 +147,10 @@ def query_frames_with_api(keyframe_path, exact_frame_path, scene, scene_info, sc
     if not exact_frame_path or not os.path.exists(exact_frame_path):
         return "Exact frame not found."
 
-    google_api_key = os.getenv("GEMINI_API_KEY")
-    if not google_api_key:
-        return "Error: GEMINI_API_KEY environment variable not set."
-    client = genai.Client(api_key=google_api_key)
+    try:
+        client = get_gemini_client()
+    except RuntimeError as e:
+        return f"Error: {e}"
 
     transcript = get_transcript_for_timestamp(scene, exact_time, video_id)
     accumulated_audio_clips = get_accumulated_audio_clips(scene_info, scene_idx)
@@ -200,7 +201,7 @@ def query_frames_with_api(keyframe_path, exact_frame_path, scene, scene_info, sc
         exact_frame_img = Image.open(exact_frame_path)
 
         response = client.models.generate_content(
-            model="gemini-2.5-pro",
+            model="gemini-3-flash-preview",
             contents=[prompt, keyframe_img, exact_frame_img],
             config=types.GenerateContentConfig(
                 system_instruction="You analyze frames extracted from a video and provide answers to user queries based on the provided context."
