@@ -11,6 +11,7 @@ import torch
 from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor, BitsAndBytesConfig
 from google import genai
 from google.genai import types
+from gemini_client import get_gemini_client
 import openai
 
 load_dotenv()
@@ -496,11 +497,11 @@ def main():
     if args.model == MODEL_GEMINI:
         model_to_use = "gemini-3-flash-preview"
         print(f"\nSetting up Google Gemini client for model: {model_to_use}...")
-        api_key = os.getenv("GEMINI_API_KEY")
-        if not api_key:
-            print("Error: GEMINI_API_KEY environment variable not set.")
+        try:
+            gemini_client = get_gemini_client()
+        except RuntimeError as e:
+            print(f"Error: {e}")
             return
-        gemini_client = genai.Client(api_key=api_key)
         client = {"client": gemini_client, "model_name": model_to_use}
 
     elif args.model == MODEL_QWEN:

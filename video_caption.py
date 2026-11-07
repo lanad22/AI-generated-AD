@@ -8,6 +8,7 @@ import time
 import torch
 from google import genai
 from google.genai import types
+from gemini_client import get_gemini_client
 import openai
 import base64
 import cv2
@@ -713,12 +714,8 @@ def main():
     output_file_suffix = ""
 
     if args.model == MODEL_GEMINI:
-        google_api_key = os.getenv("GEMINI_API_KEY")
-        if not google_api_key:
-            raise ValueError("GEMINI_API_KEY environment variable not set.")
-
-        print(f"Initializing Gemini API for model: {MODEL_CONFIGS[MODEL_GEMINI]['model_name']}")
-        client = genai.Client(api_key=google_api_key)
+        print(f"Initializing Gemini (Vertex AI) for model: {MODEL_CONFIGS[MODEL_GEMINI]['model_name']}")
+        client = get_gemini_client()
         model_client = {
             "client": client,
             "model_name": MODEL_CONFIGS[MODEL_GEMINI]["model_name"],

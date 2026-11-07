@@ -10,6 +10,7 @@ import torch
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+from gemini_client import get_gemini_client
 from transformers import (
     AutoProcessor,
     BitsAndBytesConfig,
@@ -602,11 +603,12 @@ def _init_client(model_type: str):
         proc = AutoProcessor.from_pretrained("Qwen/Qwen2.5-VL-72B-Instruct")
         return {'model': model, 'processor': proc}
     if model_type == MODEL_GEMINI:
-        key = os.getenv("GEMINI_API_KEY")
-        if not key:
-            print("Error: GEMINI_API_KEY not set."); return None
-        print("Initializing Gemini API client...")
-        return {"client": genai.Client(api_key=key), "model_name": "gemini-3-flash-preview"}
+        print("Initializing Gemini (Vertex AI) client...")
+        try:
+            client = get_gemini_client()
+        except RuntimeError as e:
+            print(f"Error: {e}"); return None
+        return {"client": client, "model_name": "gemini-3-flash-preview"}
     if model_type == MODEL_GPT4:
         key = os.getenv("OPENAI_API_KEY")
         if not key:
