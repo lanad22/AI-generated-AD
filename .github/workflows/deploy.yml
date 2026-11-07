@@ -20,8 +20,8 @@ jobs:
           OPENAI_API_KEY: ${{ vars.OPENAI_API_KEY }}
           S3_VIDEO_BUCKET: ${{ vars.S3_VIDEO_BUCKET }}
           AWS_REGION: ${{ vars.AWS_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ vars.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           YOUTUBE_DOWNLOADER_URL: ${{ vars.YOUTUBE_DOWNLOADER_URL }}
           YDX_API_URL: ${{ vars.YDX_API_URL_DEV }}
           CLEANUP_AFTER_PROCESSING: ${{ vars.CLEANUP_AFTER_PROCESSING }}
@@ -95,8 +95,8 @@ jobs:
           OPENAI_API_KEY: ${{ vars.OPENAI_API_KEY }}
           S3_VIDEO_BUCKET: ${{ vars.S3_VIDEO_BUCKET }}
           AWS_REGION: ${{ vars.AWS_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ vars.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           YOUTUBE_DOWNLOADER_URL: ${{ vars.YOUTUBE_DOWNLOADER_URL }}
           YDX_API_URL: ${{ vars.YDX_API_URL_PROD }}
           CLEANUP_AFTER_PROCESSING: ${{ vars.CLEANUP_AFTER_PROCESSING }}
