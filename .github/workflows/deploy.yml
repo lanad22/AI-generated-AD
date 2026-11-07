@@ -16,7 +16,7 @@ jobs:
         env:
           API_KEY: ${{ vars.API_KEY }}
           GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY_DEV }}
           OPENAI_API_KEY: ${{ vars.OPENAI_API_KEY }}
           S3_VIDEO_BUCKET: ${{ vars.S3_VIDEO_BUCKET }}
           AWS_REGION: ${{ vars.AWS_REGION }}
@@ -97,7 +97,7 @@ jobs:
         env:
           API_KEY: ${{ vars.API_KEY }}
           GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY_PROD }}
           OPENAI_API_KEY: ${{ vars.OPENAI_API_KEY }}
           S3_VIDEO_BUCKET: ${{ vars.S3_VIDEO_BUCKET }}
           AWS_REGION: ${{ vars.AWS_REGION }}
